@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE generatorConfiguration
+        PUBLIC "-//mybatis.org//DTD MyBatis Generator Configuration 1.0//EN"
+        "http://mybatis.org/dtd/mybatis-generator-config_1_0.dtd">
+<generatorConfiguration>
+
+    <!--数据库驱动,必须的配置选项,这里面的顺序不能调整,不然不能运行;不建议使用了
+    因为不能生成service,controller,分页都不支持,推荐使用mybatis-plus插件代替-->
+    <classPathEntry location="C:\Users\huangjufei\IdeaProjects\springboot-template\src\main\resources\mysql-connector-java-5.1.46.jar"/>
+
+    <context id="DB2Tables" targetRuntime="MyBatis3">
+
+        <commentGenerator>
+            <property name="suppressDate" value="true"/>
+            <property name="suppressAllComments" value="true"/>
+        </commentGenerator>
+
+        <!--数据库链接地址账号密码-->
+        <jdbcConnection driverClass="com.mysql.jdbc.Driver"
+                        connectionURL="jdbc:mysql://127.0.0.1:3306/sso?useSSL=false"
+                        userId="root" password="hjf,.123">
+            <!--开启读取数据库注释：为了把注释写到相对应的注解里面-->
+            <property name="remarksReporting" value="true"></property>
+        </jdbcConnection>
+
+        <javaTypeResolver>
+            <property name="forceBigDecimals" value="false"/>
+        </javaTypeResolver>
+
+        <!--生成Model类存放位置-->
+        <javaModelGenerator targetPackage="com.hjf.entity" targetProject="C:\Users\huangjufei\IdeaProjects\springboot-template\src\main\java">
+            <property name="enableSubPackages" value="true"/>
+            <property name="trimStrings" value="true"/>
+        </javaModelGenerator>
+
+        <!--生成映射文件存放位置-->
+        <sqlMapGenerator targetPackage="mapper" targetProject="C:\Users\huangjufei\IdeaProjects\springboot-template\src\main\resources">
+            <property name="enableSubPackages" value="true"/>
+        </sqlMapGenerator>
+
+        <!--生成Dao类存放位置-->
+        <javaClientGenerator type="XMLMAPPER" targetPackage="com.hjf.dao" targetProject="C:\Users\huangjufei\IdeaProjects\springboot-template\src\main\java">
+            <property name="enableSubPackages" value="true"/>
+        </javaClientGenerator>
+
+
+
+        <!--生成sso数据库下面的所有表,下面的几个参数不要删除-->
+        <table tableName="%" schema="sso"
+               enableCountByExample="false" enableUpdateByExample="false"
+               enableDeleteByExample="false" enableSelectByExample="false" selectByExampleQueryId="false"></table>
+    </context>
+</generatorConfiguration>

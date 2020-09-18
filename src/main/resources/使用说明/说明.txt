@@ -1,0 +1,51 @@
+一,项目简介
+该项目是一个springboot项目,基于2.0后版本;搭建时使用的idea编译器
+1,集成阿里连接池,
+2,mybatis(不推荐,推荐使用plus)
+3,分页插件,需要导入pagehelper-spring-boot-starter,jar注意它和plus会冲突
+4,事务
+5,日志(slf4j,logback没有额外导入jar包,只是引入了配置文件)
+日志使用门面slf4j引入日志,不要引入logback或Log4j
+推荐占位符方式输出日志:logger.info("传入参数:{},{}",pageNum,pageSize);
+6,properties 参数读取这里使用的@ConfigurationProperties
+7,aop 切面编程;需导入spring-boot-starter-aop,jar包;
+另aop结合注解编程功能更为酷
+8,controller层添加了参数效验,@Valid+BindingResult
+9,controller层添加了统一返回Result类,add方法上
+10,统一异常捕获,可以自定义异常
+11,定时器(多种)
+12,支持热部署,需要导入一个spring-boot-devtools,jar包(idea需要配置2个位置)
+https://www.cnblogs.com/liu2-/p/9118393.html
+
+13,
+集成代码生成器(因为mybatis-generator插件不支持service,controller,分页都不支持,推荐使用mybatis-plus插件代替)
+依赖2个jar包(mysql-connnector和mybatis-generator-core)和一个配置文件
+另需要配置文件和2个jar在同一层目录,
+如何使用?
+①,修改配置文件
+②,运行java -jar mybatis-generator-core-1.3.2.jar -configfile generatorConfig.xml -overwrite
+③,切记自动生成代码会覆盖原来名字代码,所有最好是不要实际项目中有自动生成代码,或手动添加代码用另一个文件
+参考:
+http://mybatis.org/generator/quickstart.html
+https://www.cnblogs.com/smileberry/p/4145872.html
+;https://blog.csdn.net/isea533/article/details/42102297
+
+14,集成mybatis-plus代码生成器(推荐),可能有jar包冲突,需要解决后才可以运行项目
+如何使用?
+1,引入2个jar包即可,配置就是一个main方法中
+运行这个文件即可 utils\generator\mybatis\plus\MysqlGenerator.java
+https://baomidou.oschina.io/mybatis-plus-doc/#/generate-code
+2,需要注意的是plus 在当前项目不能同时和项目启动一起使用,开启plus依赖就启动不了项目
+
+15,添加apache的httpClient和CommonHttpClient(支持后端多文件上传)
+16,utils.springLifeCycle包下有spring,初始化bean生命周期的例子,对于理解spring加载bean流程相当重要
+参考:https://www.iteye.com/blog/uule-2094609
+
+17,集成swagger在工具包中
+
+二,该项目搭建流程
+1, 数据库连接池,mybatis,加分页插件为初始项目时加入,查考的下面链接
+   https://blog.csdn.net/qq_38977097/article/details/80778004
+
+2,事务只需要在方法上添加@Transactional,事务就生效了;不需要添加额外jar
+

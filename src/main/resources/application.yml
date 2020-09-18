@@ -1,0 +1,81 @@
+# Tomcat
+server:
+  tomcat:
+    uri-encoding: UTF-8
+    max-threads: 1000
+    min-spare-threads: 30
+  port: 8080
+  servlet:
+    context-path: /
+
+
+#slf4j log管理
+logging:
+  config: classpath:logback-spring.xml
+
+
+spring:
+  autoconfigure:
+    #自动化配置 例外处理
+    exclude: com.alibaba.druid.spring.boot.autoconfigure.DruidDataSourceAutoConfigure
+  datasource:
+    type: com.alibaba.druid.pool.DruidDataSource
+    druid:
+      #druid 监控配置
+      stat-view-servlet:
+        login-username: admin
+        login-password: 134095
+    #多数据源配置
+    dynamic:
+      primary: master
+      datasource:
+        # master 主数据库配置
+        master:
+          driver-class-name: com.mysql.jdbc.Driver
+          url: jdbc:mysql://localhost:3306/sso?useSSL=false&characterEncoding=utf8
+          username: root
+          password: hjf,.123
+        # slave_1 从库1 配置
+        slave_1:
+          driver-class-name: com.mysql.jdbc.Driver
+          url: jdbc:mysql://localhost:3306/sso?useSSL=false&characterEncoding=utf8
+          username: root
+          password: hjf,.123
+      #dynamic - 公共配置
+      druid:
+        initial-size: 10
+        max-active: 100
+        min-idle: 10
+        max-wait: 60000
+        pool-prepared-statements: true
+        max-pool-prepared-statement-per-connection-size: 20
+        time-between-eviction-runs-millis: 60000
+        min-evictable-idle-time-millis: 300000
+        validation-query: SELECT 'x' from dual
+        test-while-idle: true
+        test-on-borrow: false
+        test-on-return: false
+#MybatisPlus 配置
+mybatis-plus:
+  mapper-locations: classpath:/mapper/**/*.xml
+  type-aliases-package: com.hjf.**.entity
+  configuration:
+    #开启驼峰命名转换
+    map-underscore-to-camel-case: true
+    #配置JdbcTypeForNull, oracle数据库必须配置
+    jdbc-type-for-null: 'null'
+    #关闭缓存
+    cache-enabled: false
+    #指定当结果集中值为 null 的时候是否调用映射对象的 Setter（Map 对象时为 put）方法，通常运用于有 Map.keySet() 依赖或 null 值初始化的情况。
+    #通俗的讲，即 MyBatis 在使用 resultMap 来映射查询结果中的列，如果查询结果中包含空值的列，则 MyBatis 在映射的时候，不会映射这个字段，这就导致在调用到该字段的时候由于没有映射，取不到而报空指针异常。
+    #当您遇到类似的情况，请针对该属性进行相关配置以解决以上问题。
+    call-setters-on-nulls: true
+  global-config:
+    db-config:
+      #主键类型  AUTO:"数据库ID自增", INPUT:"用户输入ID",ID_WORKER:"全局唯一ID (数字类型唯一ID)", UUID:"全局唯一ID UUID";
+      id-type: INPUT
+      #字段策略 IGNORED:"忽略判断",NOT_NULL:"非 NULL 判断"),NOT_EMPTY:"非空判断"
+      field-strategy: NOT_NULL
+      #数据库大写下划线转换
+      capital-mode: true
+

@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>  
+   
+<beans xmlns="http://www.springframework.org/schema/beans"  
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"  
+    xmlns:aop="http://www.springframework.org/schema/aop" xmlns:tx="http://www.springframework.org/schema/tx"  
+    xsi:schemaLocation="  
+            http://www.springframework.org/schema/beans   
+            http://www.springframework.org/schema/beans/spring-beans-3.2.xsd">  
+   
+    <bean id="beanPostProcessor" class="com.hjf.utils.springLifeCycle.MyBeanPostProcessor"></bean>
+   
+    <bean id="instantiationAwareBeanPostProcessor" class="com.hjf.utils.springLifeCycle.MyInstantiationAwareBeanPostProcessor"></bean>
+   
+    <bean id="beanFactoryPostProcessor" class="com.hjf.utils.springLifeCycle.MyBeanFactoryPostProcessor">
+    </bean>  
+      
+    <bean id="person" class="com.hjf.utils.springLifeCycle.Person" init-method="myInit" destroy-method="myDestory"
+     scope="singleton" p:name="张三" p:phone="232" p:address="广州"  />
+
+    <!-- 如果有几个bean ,11会被调几次
+    <bean id="student" class="com.hjf.utils.springLifeCycle.Student" p:classes="58" />-->
+
+</beans>  
