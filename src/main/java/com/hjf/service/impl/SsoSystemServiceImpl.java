@@ -4,7 +4,10 @@ import com.hjf.entity.SsoSystem;
 import com.hjf.dao.SsoSystemMapper;
 import com.hjf.service.SsoSystemService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 /**
  * <p>
@@ -16,5 +19,20 @@ import org.springframework.stereotype.Service;
  */
 @Service
 public class SsoSystemServiceImpl extends ServiceImpl<SsoSystemMapper, SsoSystem> implements SsoSystemService {
+
+
+    @Autowired
+    private SsoSystemMapper ssoSystemMapper;
+
+    /**
+     * 通过在xml中写sql来查询,动态性最高
+     * @param roleCode
+     * @return
+     */
+    @Override
+    public List<SsoSystem> getSsoSystemByRoleCode(String roleCode){
+       List<SsoSystem> list = ssoSystemMapper.getSsoSystemByRoleCode(roleCode);
+       return list;
+    }
 
 }

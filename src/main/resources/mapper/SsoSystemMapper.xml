@@ -4,20 +4,41 @@
 
     <!-- 通用查询映射结果 -->
     <resultMap id="BaseResultMap" type="com.hjf.entity.SsoSystem">
-        <id column="system_code" property="systemCode" />
-        <result column="system_name" property="systemName" />
-        <result column="address" property="address" />
-        <result column="status" property="status" />
-        <result column="description" property="description" />
-        <result column="create_by" property="createBy" />
-        <result column="create_date" property="createDate" />
-        <result column="update_dy" property="updateDy" />
-        <result column="update_date" property="updateDate" />
+        <id column="system_code" property="systemCode"/>
+        <result column="system_name" property="systemName"/>
+        <result column="address" property="address"/>
+        <result column="status" property="status"/>
+        <result column="description" property="description"/>
+        <result column="create_by" property="createBy"/>
+        <result column="create_date" property="createDate"/>
+        <result column="update_dy" property="updateDy"/>
+        <result column="update_date" property="updateDate"/>
     </resultMap>
 
     <!-- 通用查询结果列 -->
     <sql id="Base_Column_List">
-        system_code, system_name, address, status, description, create_by, create_date, update_dy, update_date
+        ss.system_code, ss.system_name, ss.address, ss.status, ss.description, ss.create_by, ss.create_date, ss.update_dy, ss.update_date
     </sql>
+
+
+    <!--
+    如何写动态sql
+    https://www.w3cschool.cn/mybatis/l5cx1ilz.html
+    根据角色code 得到system表;
+    注意:
+    如果roleCode传入空会把右表数据全部查出,然后带出左表数据
+    -->
+    <select id="getSsoSystemByRoleCode" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"></include>
+        from sso_system ss
+        right join sso_system_role ssr
+        on ss.system_code = ssr.system_code
+        <where>
+            <if test="roleCode != null and roleCode != ''">
+                ssr.role_code = #{roleCode}
+            </if>
+        </where>
+    </select>
 
 </mapper>
