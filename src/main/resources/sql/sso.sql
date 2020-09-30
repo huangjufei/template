@@ -157,3 +157,8 @@ CREATE TABLE `sso_user_detail` (
   PRIMARY KEY (`user_code`),
   UNIQUE KEY `unique_name` (`username`) USING BTREE COMMENT '唯一名称'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin COMMENT='用户详情表';
+
+
+INSERT INTO `sso_system` VALUES ('2', 'hu', 's', '0', NULL, 'sd', '2020-09-17 17:20:11', NULL, NULL);
+INSERT INTO `sso_system` VALUES ('3', 'an', 's', '0', NULL, 's', '2020-09-30 10:38:56', NULL, NULL);
+INSERT INTO `sso_system` VALUES ('4', 'huang', 's', '0', NULL, 'huagn', '2020-09-17 17:18:51', NULL, NULL);
