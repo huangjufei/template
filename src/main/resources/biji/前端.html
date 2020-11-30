@@ -1,0 +1,2134 @@
+
+HTML (Hyper Text Markup Language)超文本标记语言
+描述网页的一种标记语言,不算是一门编程语言
+超文本的基本特征就是可以超链接的文档(可以跳转);它可以指向本地的一个其他文档,
+也可以是因特网上的任何位置中的文档.
+
+  html语言就是一堆标签组成的,所以又叫标记语言且还支持跳转
+  ********************
+
+  在范围中可以定义两部分内容,一部分是头,一部分是体
+  <html>
+       <head></head>
+        <boay>
+			这里就是需要显示的数据
+       </boay>
+  </html>
+  
+head:网页的一些属性信息.比如:标题.
+bady:网页显示的数据
+
+标签特点:
+对于数据进行封装,那么就有开始标签和结束标签
+但是也有一些标签只体现单一功能,就不需要结束标签
+这种的标签我们在内部结束.如:
+<br/> <hr/> <img /> <input />
+
+标签格式:
+第一种方式:<标签名 属性名="属性值" >数据</标签名>
+第二种方式:<标签名 属性名="属性值" />
+--------------------------
+常见标签:
+1,字体:<font>
+<font size="7" color="#ffffff">数据</font>
+特殊部分:
+如果要在网页显示一些特殊 符号,需要进行转义.
+< : &lt; 
+> : &gt;
+& : &amp;
+空格: &nbsp;
+" : quot;
+---------------------------------
+2,列表标签:
+上层项目:<dt>
+下次项目:<dd> 有自动缩进
+项目符号标签:
+<ul>符号标签(...)
+<ol>数字标签(a A 1 i I)
+这两个标签中的列表项都有<li>标签封装.
+----------------------
+需求: 输出下面样式:
+1.游戏名称
+         a.星际
+		 b.红警
+2.游戏内容
+         a.攻略
+         b.秘籍		 
+----------------------
+<body>
+  <ol>
+     <li>游戏名称</li>
+        <ul type="disc">
+           <li>红警</li>
+           <li>星际</li>
+        </ul>
+          
+      <li>游戏内容</li>
+        <ol type="a">
+          <li>秘籍</li>
+          <li>攻略</li>   
+        </ol>    
+  </ol>
+</body>
+----------------------------------------------
+3,图像标签:<img>
+<img src="图片路径" alt="图像文字说明" 这里还可以加图片大小/>
+----------------------------------
+4,表格标签:<table>
+表格式最常见的标签,用于对数据进行格式化.
+表格由行<tr>所组成,行由单元格<td>组成.
+表格中默认都有一个tbody标签.
+标题标签:<caption>
+--------------------------
+<table border="1" boedercolor="#ff0000" width="60%" cellpadding="10" cellspacing="0">
+<caption>我是标题</caption>
+     <tr>
+	     <th colspan="2"> <!--站x坐标2单元格-->
+         第一行
+		 </th>	 
+	 </tr>
+	 <tr>
+	     <td>
+         第二行第一个
+		 </td>      
+        <td align="center"> <!--居中-->
+        <b> 第二行二个</b> <!--b是加粗-->
+		 </td>
+	 
+	 </tr>
+        <td rowspan="2">第三行第一个</td>  <!--站y坐标2行-->
+         <td>第三行第二个</td>
+	 </tr>
+     
+	 <tr>  
+	     <td >第4行 </td>
+	 </tr>  
+</table>
+
+--------------------------
+5,超链接:<a>
+主要用于列表展示.主题,
+<a href="http:www.hao123.com" target="_blank" title="对hao123进行文字描述">hao123</a>
+当被点击后,会启动引擎对应解析程序.找本地hosts文件,如果没有找到对应的ip去公网找DNS服务器.
+
+
+超链接另一个作用,跳转标记(也叫锚):
+<a name="top" >标记点</a>
+....
+这里是很多的内容
+....
+<a href="#top" >跳转</a>
+
+去除超链接下拉线
+a:link,a:visited{
+	text-decoration:none;	
+}
+--------------------------------------
+6,表单标签<form>
+ 该标签是可以和服务器端进行交互的.
+表单中的元素:
+<input>:该标签因为type属性的值的不同,所对应的组件也不一样.
+type属性:
+1,text:文本框,输入文本(可见).
+2,password:密码框,输入文本(不可见)
+3,radio:单选框,注意,要被选中,必须要给单选框定义一个属性name.
+当多个单选框,如性别,只选一个时,那么这些单选框name的值必选相同.
+4,checkbox:复选框,对多个数据进行同时选中.
+5,file:附件
+6,hidden:隐藏组件,该组件不会再页面上显示,但是其定义的name个value可以提交服务器
+7,button:按钮默认是没有任何效果的,可以通过注册事件并加入自定义效果.
+8,reset:重置按钮,将组建中被操作的效果还原到初始状态
+9,submit:提交按钮,将组件中添加的数据提交到指定的目的地.
+10,image:图像组件,为了避免提交按钮的难看,可以通过image的src属性连接一个好看的
+图片按钮完成提交.
+------------------
+下拉菜单:<select>
+每一个下拉菜单项都由option进行封装.
+文本区域:<textarea>
+表单组件通常都需要定义name和value属性,因为要将数据发送给服务端.
+服务端只有知道了该name的值才可以对提交的数据进行分别获取.
+form标签中的常见属性:
+action:指定数据提交的目的地>
+method:提交的方式.get,post .get为默认
+
+
+get和post的区别:
+get:会将提交的数据显示在地址栏上,不安全
+post:不会显示在地址栏,安全
+
+get:提交的数据体积受地址栏的限制
+post:可以提交大体积的数据
+
+get:会将提交的信息封装在请求行,也就是http消息头之前.
+post:会将提交的信息封装在数据体中,也就是http消息头之后的空行后.
+
+--------------------------
+通过div布局,十分重要;老式使用table布局
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+<!DOCTYPE html>
+<html>
+<head>
+<meta?charset="utf-8">
+<title>菜鸟教程(runoob.com)</title>
+</head>
+	<body>
+		<!-- 可以看见一个导航页面,其实就是一个布局-->
+		<div id="container" style="width:500px">
+
+			<div id="header" style="background-color:#FFA500;">
+				<h1 style="margin-bottom:0;">主要的网页标题</h1>
+			</div>
+			<div id="menu" style="background-color:#FFD700;height:200px;width:100px;float:left;">
+				<b>菜单</b><br>
+				HTML<br>
+				CSS<br>
+				JavaScript
+			</div>
+			<div id="content" style="background-color:#EEEEEE;height:200px;width:400px;float:left;">内容在这里</div>
+			<div id="footer" style="background-color:#FFA500;clear:both;text-align:center;">版权 ? runoob.com</div>
+		</div>
+	</body>
+</html>
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+CSS
+
+css是层叠样式表,用来定于网页的是现实效果,可以解决html代码对样式定义的重复,提高了
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+后期样式代码的可维护性;css将网页显示样式和内容分离,并提高了显示功能.
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+每一个条样式都由2部分构成(选择器和声明):
+selector{proprty : value}//选择符selector 属性property 和属性值value
+如:p{color:red;font:20px;} 多个declaration(声明)使用分号结束上一个
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+css 样式导入方式有3种:
+1,行内样式:<p style="color:red"; font-size:20px;>这样就是行内样式<p>
+
+2,内嵌样式(在本身html页面):
+<hrad>
+	<style type="text/css">
+		p {color:red;font-size:12px;}
+	</style>
+</hrad>
+
+3,链接样式(推荐)
+<link href="css.css" rel="stylesheet" type="text/css" />
+-------第3种方式的扩展-------------
+<title>无标题文档</title>
+<link rel="stylesheet" href="5.css" type="text/css">
+<!--连接5.css ,5.css中包含3个文件的css.这是第4种方式rel 是样式属性-->
+</head>
+<body>
+<div>没有特殊意义</div>
+<!--多属性用;号分开 属性和属性值用:连接-->
+<div>没有特殊意div2</div>
+<span>没有特殊意</span>
+<p>p标签标示一个段落</p>
+</body>
+---这是5.css文件----------
+@charset "utf-8";
+/* CSS Document */
+@import url(1.css);
+@import url(2.css);
+@import url(3.css);
+--下面这是1.css配置(其他2个和这个一样)
+@charset "utf-8";
+/* CSS Document */
+span{background-color:#f0f}
+---------------------------
+css 选择器:
+1,标记选择器 如:body, p, td, tr, th, div,blockquote,dl,ul,ol
+2,类选择器 如: .rd{color:red} 
+3,id选择器 如:#fontstyle{ color:red}
+4,全局选择器 如: *{color:red}
+5,组合选择器 p.rd{color:red} 
+---------------------------------------------
+组合选择器:
+<!--div:hover:这句是指向div就会触发红色.-->
+<title>无标题文档</title>
+
+<style>
+
+b{ background-color:#0FF; color:#FFF}
+#qq,div.haha{ background-color:#0FF; color:#639}
+.haha ,span.haha{ background-color:#F30; color:#FFF}	
+div:hover{background-color:#F00}
+	
+</style>
+</head>
+<body>
+    <div class="haha">没有<b>特殊意</b>义</div><!--haha b,span.haha覆盖了 -->
+    <div class="haha">div2</div><!--div.haha -->
+    <span class="haha" >没意</span><!--.haha ,span.haha-->
+    <span id="qq" >没有特殊意</span><!--span#qq-->
+</body>
+--------------------------------------
+伪元素选择器
+如:超链接
+<title>无标题文档</title>
+<style>
+<!--a:link访问前-->
+a:link{ 
+     background-color:#0FF; color:#FFF;
+	 text-decoration:none; <!--text-decoration:none;去掉下划线-->
+	 font-size:16px;<!--font-size字的大小默认一般16-->
+}
+<!--a:hover鼠标悬停-->
+a:hover{
+     background-color:#000; 
+	 font-size:24px; 
+}
+<!--active点击时-->
+a:active{
+     background-color:#FFF; 
+	 color:#000;
+	 font-size:36px; 
+}
+<!--a:visited点击后-->
+a:visited{
+     background-color:#FFF; 
+	 color:#000; text-decoration:line-through;
+}
+</style>
+</head>
+<body>
+<hr/><!--水平线-->
+<a href="hao123.com">好123主页</a>
+<hr/>
+</body>
+-------------------------------------------------
+//框模型(盒子模型),css定位(相对,绝对,如何浮动)都和这个链接有关
+https://www.w3school.com.cn/css/css_positioning.asp
+//css样式优先级
+https://www.runoob.com/w3cnote/css-style-priority.html
+盒子模型
+边框:border
+上border-top
+右border-right
+下border-bottom
+左border-left
+内边框:pappding
+外边框:margin
+-----下面显示了这个3种样式,复制出来,修改每个属性值看看作用-----------
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<!--
+solid是实体的边框线
+dashed 虚线边框线
+-->
+<title>无标题文档</title>
+<style type="text/css">
+body{ 
+	margin:5px;<!--设置网页左上角无缝连接-->
+}
+div{ 
+	border:#00F solid 2px;
+	height:150px;
+	width:150px
+}
+	
+#qq1{
+	border-bottom:#F69 2px dashed; background-color:#0CF;
+	padding:5px;
+	padding-right:20px;
+	padding-bottom:40px;
+	padding-left:80px;
+}	
+#qq2{	
+	background-color:#93F;
+	padding:15px 10px 20px 40px;<!--简写形式顺序是上右下左(钟表一样)-->	
+}	
+#qq3{
+	background-color:#FFC; margin:20px;
+}
+.qq4{
+	background-color:#FFC;
+}	
+</style>
+</head>
+<body>
+    <div id="qq1">我是测试边框1</div>
+	<div id="qq2">我是测试边框2</div>
+	<div id="qq3">我是测试边框3</div>
+    <div class="qq4">我是测试边框4</div>
+</body>
+------------------------------
+漂浮:float
+clear:right这句加上表示右边不能有标签.
+<title>无标题文档</title>
+<style type="text/css">
+body{ margin:0px;<!--设置网页左上角无缝连接-->
+	}
+div{ 
+	border:#0FF solid 1px;
+	height:150px;
+	width:150px
+	}	
+#qq1{
+	border-bottom:#F69 2px dashed; background-color:#0CF;
+	float:right
+	}	
+#qq2{	
+	background-color:#93F;
+	float:right	
+	}
+#qq3{	
+	background-color:#600;
+	float:left
+	}
+	
+.qq4{
+	background-color:#F6C;
+	float:right
+}		
+</style>
+</head>
+<body>
+    <div id="qq1">我是测试边框1</div>
+	<div id="qq2">我是测试边框2</div>
+    <div id="qq3">我是测试边框3</div>
+    <div class="qq4">我是测试边框4</div>
+
+</body>
+------------------------------
+定位移动:position
+<title>无标题文档</title>
+<style type="text/css">
+#qq{ 	
+	background-color:#CCC ;
+	height:500px;/*自身高*/
+	width:300px;/*自身宽*/
+	position:absolute;/*绝对位置*/
+	top:100px;/*和顶部距离*/
+	left:200px;/*和左边距离*/
+}	
+div{ 
+	border:#00F solid 3px;
+	height:150px;
+	width:200px
+}	
+#qq1{
+	background-color:#0CF;	
+}		 
+#qq2{	
+	background-color:#93F;
+	position:absolute;/*我绝对于qq容器的*/
+	top:20px; 
+	left:80px;	
+}
+#qq3{	
+	background-color:#600;/*qq3不自动在qq2的后面,具体相对于谁需要看文档
+	https://www.w3school.com.cn/css/css_boxmodel.asp
+	*/
+}		
+</style>
+</head>
+<body>
+ <div id="qq">我是容器标签
+    <div id="qq1">我是测试边框1</div>
+	<div id="qq2">我是测试边框2</div>
+    <div id="qq3">我是测试边框3</div>
+ </div>
+-------------------------
+css之图片和文字的单独封装:
+-------------------
+<title>无标题文档</title>
+<style type="text/css">
+
+#imgtext{ 
+	border:#0F9 solid 1px; 
+	width:200px;
+	
+	}
+#img{
+	float:left
+	}
+#text{ 
+	color:#F69; 
+	font-family:Verdana, Geneva, sans-serif	
+	}	
+			
+</style>
+</head>
+<body>
+
+<div id="imgtext">
+    <div id="img"> 
+    	<img src="c:\\2.jpg" />
+    </div>
+    <div  id="text"> 
+    	三百剩1000等于30E
+        三百剩1000等于30E
+        三百剩1000等于30E
+        三百剩1000等于30E
+    </div>
+</div>
+</body>
+-------------------------------
+文字加到图片中,并跟图片一起移动
+
+<title>无标题文档</title>
+<style type="text/css">
+/*imgtext的div包含了#text*/
+#imgtext{ 
+	border:#0F9 solid 2px; 
+	height:300px;
+	width:300px;
+	position:absolute;
+	top:100px;
+	left:100px;	
+}
+#text{ 
+	color:#F69; 
+	font-family:Verdana, Geneva, sans-serif; 
+	position:absolute;
+	top:15px;
+	left:15px;
+}			
+</style>
+</head>
+	<body>
+		<div id="imgtext">
+			<div id="img"> 
+				<img src="c:\\1.jpg" height="300" width="300" />
+			</div>
+			<div id="text"> 
+				女儿
+			</div>
+		</div>
+	</body>
+</head>
+++++++++++++++++++++++++++++++++++++++++++++++++++++++
+++++++++++++++++++++++++++++++++++++++++++++++++++++++
+++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+DOM(document Object model)
+
+文档对象模型,DOM可以以一种独立于平台和语言的方式访问和修改一个文档的内容和结构.
+换句话说,这是处理一个HTML或XML文档的常用方法.
+HTML DOM 定义了访问和操作 HTML 文档的标准方法。
+DOM 以树结构表达 HTML 文档。
+
+文档对象模型
+其实就是将一些标记型文档以及文档中的内容当成对象.
+
+为什么要将这些文档以及其中的标签封装成对象呢?
+因为可以在对象中定义其属性和行为,可以方便操作这些对象.
+Dom在封装标记文档时,有三层模型.
+Dom1:针对html文档.
+dom2:针对xml文档
+dom3:针对xml文档
+html, xhtml, xml:这些都是标记型文档.
+
+dhtml:是多个技术的统合体,叫做动态的html
+	html:负责将数据进行标签的封装
+	css:负责标签的样式.
+	dom:负责将标签以及标签中的的数据封装成对象.
+	javascript:负责通过程序设计方式来操作这些对象.
+
+标签之间存在层次关系(树结构):
+window(系统)
+|--
+...
+document(DOM)
+|--
+...
+html
+	|--head(提供了关于文档的无序信息集合)
+		|--title(包含文档的标题)
+		|--base(指定一个而显示的url,用于解析对于外部源的连接和引用)
+		|--link(允许当前文档和外部文档之间建立连接)
+		|--meta(传达关于文档的隐藏信息)
+		|--style(指定页面的样式表)
+		|--script(为脚本指定脚本引擎解释的脚本)
+	|--body(文档主体的开始)
+		|--div(html的容器)
+		|--form(表单标签)
+			|--input(表单输入控件)
+			|--select(列表框或下拉框)
+		|--span(指定内嵌文本容器)
+		|--a(超链接)
+		|--table(表格标签)
+			|--tbody(不写也会有这个节点)
+				|--tr(指定表格的一行)
+					|--td(一个单元格)
+					|--th(指定标题列,加粗居中)
+		|--dl(引起定义列表)
+			|--dt(在定义列表中表明定义术语)
+			|--dd(缩进的列表)
+
+当标记型文档加载进内存后就是一棵dom树.这些标签以及标签的数据都是这棵树上的节点.
+------------------
+ nodeName 获取特定结点类型的名称. 
+ nodeType 获取所需结点的类型. 
+ nodeValue 设置或获取结点的值
+-----------------------
+注意:标签之间存在空行时,会出现一个空白的文本节点,在获取节点时,一定要注意.
+节点的关系:
+父节点:parentNode
+子节点:childNodes:直接子节点.返回时一个节点对象的集合.(在div集合中)
+兄弟节点
+	上一个兄弟节点previousSibling
+	下一个兄弟节点nextSibling
+获取可以通过节点的层次关系完成.
+也可以通过document对象完成.
+************
+getElementById:
+通过id属性值对应的节点对象,如果有多个id值相同.
+获取的是第一个对象ID,尽量保证ID的唯一性.返回一个对象.
+
+getElementsByName:
+通过标签的name属性值获取对象,返回对象数组
+
+getElementsByTagName :
+既没有id 也没有mane 时返回的是对象数组
+-----------------------
+
+Dom 事件
+
+1,事件冒泡：事件最开始由最具体的元素（文档中嵌套层次最深的那个节点）接收，然后逐级向上传播至最不具体的那个节点（文档）。
+
+点一个按钮，浏览器会认为你点按钮的同时，也点击了包含按钮的这个容器，也点击了整个HTML，点了整个document
+click事件会逐级网上冒，一直冒到document
+
+2,事件捕获：不太具体的节点应该更早接收到事件，而最具体的节点最后接收到事件(推荐事件冒泡)
+--------------------
+使用事件处理程序方式有：
+1,HTML事件处理程序；//直接在元素标签内写时间
+2,DOM0级事件处理程序：可以添加多个事件处理程序
+3,DOM2级事件处理程序：2级事件定义了两个方法addEventListener()和removeEventListener()，有三个参数：要处理的事件名（不加on）、事件处理程序的函数、布尔值（true表示捕获false表示冒泡）；可以添加多个事件处理程序，按顺序执行多个，删除要指定添加时相同的参数
+---------------------
+HTML事件处理程序(现在不建议使用了):事件直接加在HTML代码中
+缺点：HTML和js代码高耦合，如果修改，就要修改两个地方--HTML元素内和script函数。
+---------------------
+DOM0级事件处理程序 （用得比较多）：先把元素取出来，然后为其属性添加一个事件的方法叫DOM0级处理程序。
+DOM0级事件处理程序：
+var y=document.getElementById('btn2');  取得btn2按钮对象。
+y.onclick=function(){
+    alert('这是通过DOM0级添加的事件！')
+}
+y.onclick=null;    删除onclick属性
+-------------------
+DOM2级事件定义了两个方法：
+用于处理指定和删除事件程序的操作，addEventListener（）和removeEventListener（）。
+这两个方法都需要接收三个参数：
+	- 要处理的事件名//不要on
+	- 作为事件处理程序的函数
+	- 布尔值（true：捕获法，false：冒泡法）。
+------------------
+IE 事件处理程序:
+attachEvent() 添加事件
+detachEvent() 删除事件
+接收相同的两个参数：事件处理程序的名称和事件处理程序的函数
+不使用第三参数的原因：IE8 以及更早的浏览器版本只支持事件冒泡！
+--------------------
+跨浏览器的事件处理程序:
+var eventUtil={
+    //添加句柄
+    addHandler:function(element,type,handler//){
+        if(element.addEventListener){
+            element.addEventListener(type,handler,false);
+        }else if(element.attachEvent){
+            element.attachEvent//('on'+type,handler);
+        }else{
+            element['on'+type]=handler;//DOM0级事件处理程序判断,注意不能直接写btn2.onclick;
+        }
+    },
+    //删除句柄
+    removeHandler:function(element,type,handler){
+        if(element.removeEventListener){
+            element.removeEventListener(type,handler,false);
+        }else if(element.detachEvent){
+            element.detachEvent//('on'+type,handler);
+        }else{
+            element['on'+type]=null;//DOM0级事件处理程序判断,注意不能直接写btn2.onclick
+        }
+    }
+}
+eventUtil.addHandler(btn3,'click',showMes);
+eventUtil.removeHandler(btn3,'click',showMes);
+-----------------------
+Event 对象(就是onClick事件触发时就会产生一个event对象)
+Event 对象代表事件的状态，比如事件在其中发生的元素、键盘按键的状态、鼠标的位置、鼠标按钮的状态。
+事件通常与函数结合使用，函数不会在事件发生前被执行！
+
+https://www.w3school.com.cn/jsref/dom_obj_event.asp
+这个对象对于网页游戏工作室有用
+事件对象（event）：在触发 DOM 上的事件时都会产生一个对象
+比如说鼠标event就有当前坐标或左右键信息,键盘就有当前按下的是什么键的信息
+DOM 中的事件对象
+type 属性：用于获取事件类型(判断是键盘还是鼠标就可以通过它)
+target 属性：用于获取事件目标
+stopPropagation() 方法，阻止时间冒泡
+preventDefault() 方法，阻止事件的默认行为；比如让链接不再跳转
+举例:
+<html>
+<head
+<script type="text/javascript">
+function coordinates(event){
+	x=event.screenX
+	y=event.screenY
+	alert("X=" + x + " Y=" + y)
+}
+</script>
+</head>
+<!-- 传值这里的event不能简写-->
+<body onmousedown="coordinates(event)">
+<p>
+在文档中点击某个位置。消息框会提示出指针相对于屏幕的 x 和 y 坐标。
+</p>
+</body>
+</html>
+----------------------
+ie 中的事件对象
+1 type属性用于获取事件类型
+2 srcElement属性 用于获取事件的目标
+3 cancelBubble属性 用于阻止事件冒泡 设置为true表示阻止冒泡 设置为false表示不阻止冒泡
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+
+JavaScript:
+  简称JS
+     是Netscape公司语言,基于对象和事件驱动.
+和java的不同之处:
+1,所属公司不一样,java是sun公司,现在是Orcale公司.
+2,js是由浏览器解释并执行,java是有jvm解释并执行.
+3,js是基于对象,java是面向对象
+4,js是弱类型的语言,java是强类型的语言
+5,js是非严谨的,java是严谨的.
+js运行在客服端.
+
+JavaScript需要被浏览器所解释执行,就必须要将代码和html相结合.
+两种方式:
+1,通过定义<script>标签将js代码写入其中.并指定type属性,方便与浏览器启动指定
+的解析引擎.
+2,可以通过<script>标签,使用src属性连接一个指定js文件进来.常用
+
+-----------------------------------------------------------------------
+<title>一般情况下script写在title下面</title> 
+
+//当整个html文档完全加载成功后触发window.onload事件 这样可以保证能获取到html的任何元素
+//事件触发时,执行后面function里面的函数体
+window.onload=function(){
+	//2,获取所有的button节点,并取得第一元素
+	var but = document.getElementByTagName("button")[0];
+	//3.为button添加onclick 事件:当点击button时,执行函数体	
+	but.onclick = function(){
+		//4,弹出helloworld
+		alert("hello world");
+	}	
+}
+
+还有第二种方法:
+//html 和jsp 代码耦合在一起,数量少的的时候才用
+<button onclick="alert('hello world');">clickMe</button>
+----------------------------------------------------------------------
+1. 节点及其类型:
+	1). 元素节点
+	2). 属性节点: 元素的属性, 可以直接通过属性的方式来操作. 
+	3). 文本节点: 是元素节点的子节点, 其内容为文本. 
+	
+2. 在 html 文档的什么位置编写 js 代码?
+	
+	0). 直接在 html 页面中书写代码.
+		<button id="button" onclick="alert('hello world');">Click Me!</button>
+		缺点: 
+			①. js 和 html 强耦合, 不利用代码的维护
+			②. 若 click 相应函数是比较复杂的, 则需要先定义一个函数, 然后再在 onclick 属性中完成对函数的引用, 比较麻烦
+
+	1). 一般地, 不能在 body 节点之前来直接获取 body 内的节点, 因为此时 html 文档树还没有加载完成, 
+	    获取不到指定的节点:
+	
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+		<title>Untitled Document</title>
+		<script type="text/javascript">
+			var cityNode = document.getElementById("city");
+			//打印结果为 null.
+			alert(cityNode);
+		</script>
+	</head>
+	<body>
+	......
+	
+	2). 可以在整个 html 文档的最后编写类似代码, 但这不符合习惯
+	
+	3). 一般地, 在 body 节点之前编写 js 代码, 但需要利用 window.onload 事件,　
+	    该事件在当前文档完全加载之后被触发, 所以其中的代码可以获取到当前文档的任何节点.
+	    
+	    <head>
+			<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+			<title>Untitled Document</title>
+			<script type="text/javascript">
+				window.onload = function(){
+					var cityNode = document.getElementById("city");
+					alert(cityNode);
+				};
+			</script>
+		</head>
+		<body>
+		......
+
+3. 如何来获取元素节点:
+
+	1). **document.getElementById: 根据 id 属性获取对应的单个节点
+
+	2). **document.getElementsByTagName: 
+	根据标签名获取指定节点名字的数组, 数组对象 length 属性可以获取数组的长度
+
+	3). document.getElementsByName: 
+	根据节点的 name 属性获取符合条件的节点数组, 
+	但 ie 的实现方式和 W3C 标准有差别: 
+	在 html 文档中若某节点(li)没有 name 属性,　
+	则 ie 使用 getElementsByName 不能获取到节点数组, 但火狐可以. 
+
+	4). 其它的两个方法,　ie 根本就不支持, 所以不建议使用  
+	
+4. 获取属性节点:
+	1). **可以直接通过 cityNode.id 这样的方式来获取和设置属性节点的值
+
+	2). 通过元素节点的 getAttributeNode 方法来获取属性节点,
+	         然后在通过 nodeValue 来读写属性值 
+	
+5. 获取元素节点的子节点(**只有元素节点才有子节点!!):
+	1). childNodes 属性获取全部的子节点, 但该方法不实用. 因为如果要获取指定的节点
+	的指定子节点的集合, 可以直接调用元素节点的 getElementsByTagName() 方法来获取. 
+	2). firstChild 属性获取第一个子节点
+	3). lastChild  属性获取最后一个子节点		
+	
+6. 获取文本节点:
+	1). 步骤: 元素节点 --> 获取元素节点的子节点
+	2). 若元素节点只有文本节点一个子节点, 
+	例如 <li id="bj" name="BeiJing">北京</li>, <p>你喜欢哪个城市?</p>, 
+	可以先获取到指定的元素节点 eleNode, 
+	然后利用 eleNode.firstChild.nodeValue 的方法来读写其文本节点的值		
+
+
+
+7. 节点的属性:
+	1). nodeName: 代表当前节点的名字. 只读属性. 
+	**如果给定节点是一个文本节点, nodeName 属性将返回内容为 #text 的字符串
+	2). nodeType:返回一个整数, 这个数值代表着给定节点的类型. 
+	只读属性. 1 -- 元素节点, 2 -- 属性节点, 3 -- 文本节点
+  **3). nodeValue:返回给定节点的当前值(字符串). 可读写的属性
+		①. 元素节点, 返回值是 null.
+		②. 属性节点: 返回值是这个属性的值
+		③. 文本节点: 返回值是这个文本节点的内容	
+		
+	    
+8. 创建一个元素节点:
+	1). createElement(): 按照给定的标签名创建一个新的元素节点. 方法只有一个参数:被创建的元素节点的名字, 是一个字符串.
+	                     方法的返回值:是一个指向新建节点的引用指针. 返回值是一个元素节点, 所以它的 nodeType 属性值等于 1.
+                           **新元素节点不会自动添加到文档里, 它只是一个存在于 JavaScript 上下文的对象.
+                         
+9. 创建一个文本节点:
+	1). createTextNode(): 创建一个包含着给定文本的新文本节点. 这个方法的返回值是一个指向新建文本节点引用指针. 它是一个文本节点, 所以它的 nodeType 属性等于 3.
+	                         方法只有一个参数:新建文本节点所包含的文本字符串. 新元素节点不会自动添加到文档里
+	                         
+10. 为元素节点添加子节点:
+	1). appendChild(): var reference = element.appendChild(newChild): 给定子节点 newChild 将成为给定元素节点 element 的最后一个子节点.
+	                      方法的返回值是一个指向新增子节点的引用指针.		    
+	                      
+11. 节点的替换:
+	1). replaceChild(): 把一个给定父元素里的一个子节点替换为另外一个子节点
+			var reference = element.replaceChild(newChild,oldChild);
+			返回值是一个指向已被替换的那个子节点的引用指针
+	2). 该节点除了替换功能以外还有移动的功能.  
+	3). 该方法只能完成单向替换, 若需要使用双向替换, 需要自定义函数:
+	/**
+	 * 互换 aNode 和 bNode
+	 * @param {Object} aNode
+	 * @param {Object} bNode
+	 */
+	function replaceEach(aNode, bNode){
+		
+		if(aNode == bNode){
+			return;
+		}
+		
+		var aParentNode = aNode.parentNode;
+		//若 aNode 有父节点
+		if(aParentNode){
+			var bParentNode = bNode.parentNode;
+			
+			//若 bNode 有父节点	
+			if(bParentNode){
+				var tempNode = aNode.cloneNode(true);
+				bParentNode.replaceChild(tempNode, bNode);
+				aParentNode.replaceChild(bNode, aNode);	
+			}
+		}
+
+	}   
+	
+12. 插入节点:
+	1). insertBefore(): 把一个给定节点插入到一个给定元素节点的给定子节点的前面
+  			var reference =  element.insertBefore(newNode,targetNode);
+         节点 newNode 将被插入到元素节点 element 中并出现在节点 targetNode 的前面. 节点 targetNode 必须是 element 元素的一个子节点.	 
+
+    2). 自定义 insertAfter() 方法     
+       /**
+	 * 将 newChild 插入到 refChild 的后边
+	 * @param {Object} newChild
+	 * @param {Object} refChild
+	 */
+	function insertAfter(newChild, refChild){
+		var refParentNode = refChild.parentNode;
+		
+		//判断 refChild 是否存在父节点
+		if(refParentNode){
+			//判断 refChild 节点是否为其父节点的最后一个子节点
+			if(refChild == refParentNode.lastChild){
+				refParentNode.appendChild(newChild);
+			}else{
+				refParentNode.insertBefore(newChild, refChild.nextSibling);
+			}	
+		}
+	}
+    
+    
+13. 删除节点:
+	1). removeChild(): 从一个给定元素里删除一个子节点
+   			var reference = element.removeChild(node);
+		返回值是一个指向已被删除的子节点的引用指针. 某个节点被 removeChild() 方法删除时, 这个节点所包含的所有子节点将同时被删除. 
+		如果想删除某个节点, 但不知道它的父节点是哪一个, parentNode 属性可以帮忙.    
+		
+14. innerHTML属性:
+	1). 浏览器几乎都支持该属性, 但不是 DOM 标准的组成部分. innerHTML 属性可以用来读, 写某给定元素里的 HTML 内容	
+	
+15. 其它属性, 参看 API: nsextSibling, 	previousSibling 等	          
+
+-----------------------------------------------------------------------
+JavaScript的基本语法:
+一,变量
+	通过var关键字定义变量,该变量可以赋予不同类型的常量.
+	var x = 3;
+	x = "asd";
+二,语句.
+		if,switch,while,do while,for
+		使用逻辑运算符进行布尔;表达式连接的时候,需要是短路与和短路或
+		&&  ||        因为在js中非0即true, 非null为true.
+		
+		
+		js特有的语句:
+		with(对象){}:可以确定对象所使用的范围.在范围内,可以直接使用指定对象
+		的属性和行为,而不用,对象.的形式调用.简化了对象的操作.
+		for(变量 in 对象):可以对对象的属性及行为进行遍历.
+
+三,数组
+			对于js的数组特点在于,该数组的长度是可变的,相对java中的集合.
+			该数组中可以存放不同类型的元素.
+	定义格式:
+		var arr = [3,true,"abc"];
+		var arr =  new Array();//不确定长度时这样定义.
+		var arr = [];
+		var arr =[[2,1,3],[2,3]];//大的套小的
+		操作形式和java一样,都是通过for进行遍历,同时也使用指针思想.
+	
+四,函数
+	通过function关键字定义函数.
+	
+	1,一般函数.
+	格式:
+	function 函数名(形式参数....){
+		执行语句;
+		return 返回值;//js对传入参数类型和返回参数类型没有强制要求
+	}
+	通常为了提高代码的复用性将代码封装成函数.
+
+2,动态函数
+	使用的Function对象.
+	var show = new Function("x","y","return x+y;");
+	动态函数的特点:可以将参数列表,和方法作为参数传递.
+3,匿名函数
+	匿名函数通常可以用于事件的处理的
+	如:
+	window.onload = function(){alert("onload over");}
+	在函数使用时需要注意的部分:
+	function show(){
+		return "over";
+	}
+	var method = show();
+	var method = show;
+	两句代码都是正确的.
+	第一句代码表示:show方法运行后的结果赋值给method变量.
+	第二句表示:将show指向的对象地址赋值给method.那么method也指向了该对象.
+	那么就可以通过method()的形式调用这个show方法
+------------------------
+ js可以通过对象形式将数据进行封装
+ 
+首先对对象进行描述,通过函数来完成.
+	//相当于java构造函数,最好首字母大写
+	function Person(name,age){
+		this.name = name;
+		this.age = age;
+		
+	}
+	var p = new Person("lishi",12);
+	alert(p["name"]+"  "+p.age);//两种方式
+	p.show = function(){//匿名的方式建立方法
+		alert("相当于类中方法");
+	}
+		
+Javascrip中已经定义好了一些对象如:
+String,Math,Date,Array,Function		
+这些对象都有一个属性叫做prototype原型.
+prototype可以获取指定的对象引用.
+可以通过该引用,给已有的对象赋予一些新的功能
+那么在使用该对象时,可以直接调用定义好的新功能.
+function getMax(){
+	var max = 0;
+	for(var x=1;x<this.length;x++){
+		if (this[x]>this[max])
+			max=x;
+	}
+	return this[max];
+}
+var arr =[13,3,4,6,9];
+arr.sort();//直接调用Array对象的sort方法对数组进行排序.
+那么可不可以调用sort方法一样调用getMax方法?
+就需要将getMax方法添加到Array对象中.
+Array.prototype.getMax = getMax;
+var x = arr.getMax();
+alert(x);
+//下面模拟字符串
+var str ="abc";
+str.subString(1,2);
+str.bold();//<b>str</b>
+function mycolor(color){
+	return "<font color='"+color+"'>"+this+"</font>";
+}
+String.prototype.color = mycolor;
+str.color("red");
+-------------------------
+常见的全局方法:
+parseInt(numstr,[radix]);//将数字格式的字符串转成整数.
+	如果指定了基数,那么numstr,就会按照执行基数进行转换.
+var num = parseInt("110",2);//表示"110"这个字符串会按照二进制转换
+alert(num);//打印6
+
+var x=6;
+alert(x.toString(2));//打印110获取对应6的二进制表现形式.
+
+
+字符串转为int数组
+//strList 就是这字符串
+	String[] s;
+	s = strList.split(",");
+	int len = s.length;
+	int[] ids = new int[len];
+	//将字符串转为int类型 的数组
+	for (int j = 0; j < len; j++) {
+		ids[j] = Integer.parseInt((s[j]).trim());
+	}
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+JQUERY 是JavaScript的一个函数库,非常方便,非常主流
+//各种选择器
+https://www.w3school.com.cn/jquery/jquery_ref_selectors.asp
+
+DOM 文档对象模型 : 它把html的各种标签都看做节点,全部节点看成一棵树,各个节点之间通过父亲,兄弟,子节点连接起来
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+我们可以看到在Javascript 中我们使用document.getElementById(); 把整个页面看成了文档;在文档中获取自己想要的如
+								  ~~~~~~~~~
+返回的一个节点 常常也叫元素.然后我们可以在node.nodeType();.nodeName();.nodeValue();	
+具体操作,需要的什么功能就去查api就Ok					  
+								  
+jquery 和 DOM (DOM并不专属于JavaScript)对象的如何转换?
+1,jquery,dom都不能相互使用对方对象的属性和方法.但可以转换后使用
+2,jquery对象是一个dom数组对象,所以可以使用下标的方式转为dom对象
+
+1. jQuery -->  DOM
+jQuery提供了两种方法：[index]和get(index)
+jQuery对象是一个类似数组的对象，可以通过[index]方法得到相应的DOM对象
+let $students = $("#students");//jQuery对象,常用$符号加前面,提示开发这是一个jquery对象
+let student = $students[0];//DOM对象
+另一种方法是jQuery本身提供的，通过get(index)方法得到相应的DOM对象
+
+2. DOM -->  jQuery
+只需用$()把DOM对象包起来即可
+let student = document.getElementById("student");//DOM对象
+let $student = $(student);//jQuery对象
+
+jquery 对象的几个方法:
+val():获取或设置表单元素的value 属性值,空时为获取值,有值为设置值
+text():获取或设置元素节点文本子节点的值
+attr():获取或设置属性节点的值
+each():遍历 jquery对象 ,其参数为function,函数内部this为dom对象
+find(): 查找字节点,返回值为子节点的Jquery对象. Jqeruy对象调用jquery提供的方法的返回值
+如果是一个对象的话那么这个对象一定是一个jquery对象
+is(): 判断某个给定的jquery对象是否符合指定的选择器. 符合返回 true
+
+++++++++++++++++++++++++++++++++++++++++++++++++
+
+//判断jQuery是否导入 ,$表示jQuery
+
+if(typeof jQuery == 'undefined'){
+    window.alert("没有jquery");
+}
+ 或
+if(typeof $ == 'undefined'){
+	alert('没有jquery');
+}
+<script src="http://ajax.aspnetcdn.com/ajax/jQuery/jquery-1.8.0.js">//microsoftCND
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.0/jquery.min.js">//googleCND
+------------------------------
+前端
+
+判断 radio是否被选中:
+<input type="radio"  name="sex" value="男" />男
+<input type="radio" name="sex" value="女" />女
+var val=$('input:radio[name="sex"]:checked').val();
+if(val==null){
+	alert("什么也没选中!");
+	return false;
+}else{
+	alert(val);
+}
+---------------------------------
+//Ajax提交from表单并接收返回值,但上传会ClassCaseException转换错误
+$.ajax({
+	type:"post",
+	dataType : "json",  
+	url : "<%=basepath%>UserInformation/saveUserInformation.do",
+	data :{
+		'nickname':nickname,
+		'sex':sex,
+		'country':branchThree,
+		'fileBase64':fileBase64,
+		'street':street},
+	success : function(data){          	
+		alert(data.message);
+		//跳转到显示信息页面
+		window.location.href="<%=basepath%>UserInformation/selectUserInformationById.do";	
+	} 
+});
+--------------------------------
+//性别回显,始终只会显示一组
+ <c:if test="${driver.driverSex == 1}">		        
+	<input type="radio" name="sex" value="1"  checked="checked"> 男
+	<input type="radio" name="sex" value="2" > 女	
+</c:if>
+   <c:if test="${driver.driverSex == 2}">
+	<input type="radio" name="sex" value="1" > 男   
+	<input type="radio" name="sex" value="2" checked="checked"> 女
+</c:if>
+
+
+//通过下面判断最后被选中的
+var val=$('input:radio[name="sex"]:checked').val();
+if(val == null){
+	alert("请选择性别!");
+	return false;
+}
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+Node 
+
+Node 算是后端语言,只是和语法和js差不多,所有前端同学一般使用它来模拟和后端交互,
+也可以当作前端和后端的中间层;
+
+npm:包管理工具，方便管理引用的第三方插件，库，模块等。
+
+初始化：npm init / npm init -y     生成package.json文件
+安装包：npm install xxxx / npm i xxxx 
+删除包：npm uninstall xxxx / npm un xxxx
+更新包：npm update xxxx
+npm install（可简写为：npm i）: 将配置文件package.json里面的依赖包都装一遍。
+-----------
+三大模块
+1,全局模块
+2,系统模块 require引入
+3,自定义模块 module.export 引入
+
+-----------
+//下面常常模拟请求后端java的接口,当然也可以直接当作前端的后端;前端还是通过axjx来和node通信
+let http=require('http');//http 模块引入
+let fs=require('fs');//读写模块引入
+http.createServer((request,response)=>{
+   console.log(request.url);   //监听请求的路径
+   fs.readFile(`./${request.url}`,(err,data)=>{ //读取文件（路径，回调）
+  if(err){
+   response.write(err);
+  }else{
+   response.end(data);
+  }
+   }) 
+}).listen(8888)
+---------
+思路：引入querystring模块，创建数组获取buffer多段数据并用concat拼接，querystring.parse(data)获取json
+let http = require('http')
+let querystring = require('querystring') //引入querystring模块
+
+
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+Vue
+-------------
+v-bind attribute 被称为指令。指令带有前缀 v-，以表示它们是 Vue 提供的特殊 attribute
+,还有如v-if(判断),v-for(循环),v-on(监听一个事件),v-model 表单输入和应用状态之间(显示)的双向绑定。
+-----------------
+组件
+
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+</head>
+<body>
+ 
+  <div id="app-7">
+    <ol>
+       <!-- 
+         1,这里的todo-item和 Vue.component('todo-item')对应
+         2,这里的todo和component的props['todo']对应 
+         3,循环 v-bind:todo="item" 对象item 传给 props: ['todo']的todo,然后到
+         template模板进行渲染
+        -->
+      <todo-item
+        v-for="item in groceryList"      
+        v-bind:todo="item"
+        v-bind:key="item.id"
+      ></todo-item>
+    </ol>
+  </div>
+
+</body>
+<script>
+
+//创建一个组件,名字叫todo-item,接收参数是props: ['todo']
+Vue.component('todo-item', {
+  //这里的todo和component的props['todo']对应
+  props: ['todo'],
+  //下面的{{ todo.id }}又和props['todo']对应
+  template: '<li>{{ todo.id }}-----{{ todo.text }}</li>'
+})
+
+var app7 = new Vue({
+  el: '#app-7',
+  data: {
+    groceryList: [
+      { id: 0, text: '蔬菜' },
+      { id: 1, text: '奶酪' },
+      { id: 2, text: '随便其它什么人吃的东西' }
+    ]
+  }
+})
+</script>
+</html>
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+XML
+Extensible markup Language 可扩展标记语言.
+
+XML 被设计用来传输和存储数据。HTML 被设计用来显示数据。
+对 XML 最好的描述是：
+XML 是独立于软件和硬件的信息传输工具。
+
+XML 标签没有被预定义.您需要自行定义标签.
+XML 使用文件类型声明(DTD)或者 XML Schema 来描述数据.
+带有 DTD 或者 XML Schema 的 XML 被设计为具有自我描述性.
+----------------------------------
+对于一些单个字符,若想显示原始样式,可以使用转义的形式处理:
+特殊字符: 代替符号:
+&           &amp;
+<           &lt;
+>           &gt;
+""          &quot;   
+''          &apos; 
+-----------------------------
+处理指令,简称pI(processing instruction) 处理指令用来指挥解析引擎如何解析xml
+文档内容.如在:
+xml文档中可以使用xml-stylesheet指令,通过xml解析引擎,应用css文件显示xml文档内容
+<?xml-stylesheet type="text/css" href="1.css"?>
+处理指令必须以<?开头以?结束>xml声明语句就是最常见的一种处理指令.
+--------------------------------------
+下面是xml 套用下面css 用引擎打开 
+------------------------------------------------
+xml约束:
+在xml技术里可以编写一个文档约束一个xml文档的书写规范,这称为xml约束.
+为什么需要xml约束?
+常用的xml约束:
+xml DTD
+xml Schema
+----------------------------------
+必须 :DTD文本中如果出现中文一定另存UTF-8或 Ulid..,的模式. 对应的xml文件中也要UTF-8,
+
+ie5以上的浏览器内置了xml解析工具:microsort.XMLDOM,开发人员可以编写javascript代码,
+利用解析工具装载xml文件,并对xml进行DTD的验证.
+DTD有两种出现形式:
+一种是单独用DTd文件出现,一种直接出现在xml文件中.
+
+//我们为了看一个xml是否遵守dtd语法,可以用eclipse加载2个文件,看xml中报错没如下面的例子拷进eclipse
+--------------------------------
+<!ELEMENT 书架 (书+)>  //元素 根 是书架 里面有书,书+标示可以出现多个
+   <!ELEMENT 书 (书名,作者,售价)> //元素书里有3个属性
+   <!ELEMENT 书名 (#PCDATA)>//PCDATA标示是类型是字符串
+   <!ELEMENT 作者 (#PCDATA)>
+   <!ELEMENT 售价 (#PCDATA)>//必须另存UTF-8或 Ulid..
+-------------------
+<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
+<!DOCTYPE 书架 SYSTEM "1.dtd">
+<书架>
+     <书>
+	      <书名>java就业</书名>
+	      <作者>张孝祥</作者>
+              <售价>39.00元</售价>
+
+     </书>
+     <书>
+	      <书名>java</书名>
+	      <作者>张孝</作者>
+              <售价>32.00元</售价>	     
+     </书>
+</书架>
+-------------------------------------
+xml文件使用DOCTYOE声明语句来指明它所遵循的DTD文件,有两种形式:
+1,当引用文件在本地时:
+#<!DOCTYPE 书架 SYSTEM "1.dtd">
+//上面一句话的意思是声明 书架里的所有元素都要遵循 本地系统 1.dtd这个格式.
+2,当引用文件是一个公共的文件时,采用如下方式:
+<!DOCTYPE 文档根结点 PUBLIC "DTD名称" "DTD文件的路径">
+//上面一句话的意思是声明 一个结点的所有元素都要遵循 网上的地址 dtd这个格式.
+----------------------------
+DTD语法细节:
+元素定义
+属性定于
+实体定义
+
+在DTD文档中使用ELEMENT声明一个元素,语法格式如下:
+#<!ELEMENT 元素名称 元素类型>
+元素类型可以是元素内容或类型.
+如:
+<!ELEMENT 书架(书名,作者,售价)>
+<!ELEMENT 书架(#PCDATA)>
+如为元素类型则直接书写,DTD规范了如下几种类型:
+#EMPTY :定义空元素.如:<br/><hr/>
+#ANY:表示元素内容为任意类型. 
+<!ELEMENT 书架 (书+)> //这样只可以放书 类型
+如:<!ELEMENT 书架 ANY>  //这样书架里就可以放任意类型
+----------------------------
+标签内容格式:
+用逗号分割,表示内容的出现顺序必须与声明时一致.
+<!ELEMENT 书架 (书,小说,光盘)> 
+用分割,表示选其一,即多个只能出现一个
+<!ELEMENT 书架 (书|小说|光盘)> 
+在元素内容中可以使用+  * ? 等符号表示元素出现的次数:
++:一次或多次(书+)
+?:零次或一次(书?)
+*:零次或多次(书*)
+也可以使用括号()批量设置.例:
+<!ELEMENT 书架 ((书*,小说?,光盘)*|帽子)> //里面的括号中可以出席那零次或多次
+-------------------------------------------------
+属性定义:
+xml文档中标签属性通过ATTLIST为其设置属性
+语法格式:
+<!ATTLIST 元素名//元素名就是标签
+    属性名1 属性值类型 设置说明
+	属性名2 属性值类型 设置说明
+.....
+>
+举例:
+<!ATTLIST 商品
+    类别 CDATA #REQUIRED//必须写的
+	颜色 CDATA #IMPLIED//CDATA标示字符串类型.
+>
+对应xml文件:
+<商品 类别="服装" 颜色="黄色">...</商品>
+<商品 类别="服装">...</商品>//颜色是可写可不写IMPLIED
+--------------------
+设置说明:
+#REQUIRED:必须设置该属性.
+#IMPLIED:可以设置也可以不设置
+#FIXED :说明该属性的取值固定位一个值,在XML文件中不能为该属性设置其他值,
+但需要为该属性提供属性提供值
+直接使用默认值:在XML中可以设置该值可以不设置该属性值.若没设置则使用默认值.
+-------------------------
+常用属性值类型:
+#CDATA: 标示属性值为普通文本字符串类型
+#ENUMERATED :枚举.(选择列出的一个)
+#ID:标示属性设置值为唯一值.只能由字母,下划线开始,不能出现空白字符.
+#ENTITY(变量名 "需要被变量名取代的字符串") //用它来定义实体
+实体用于为一段内容创建一个别名(变量).以后XML文档中就可以使用别名引用这段内容.
+在DTD定义中,一条<!ENTITY...>语句用于定义一个实体.
+实体可分为两种类型:引用实体和参数实体
+区别:
+引用实体没有%号,被 xml 用  <!ENTITY 引用实体 "实体内容">
+//注意看清楚字
+参数实体加%号,被 DTD 用 <!ENTITY %实体名称 "实体内容">
+
+上面都是在DTD设置,然后在xml调用(我测试用&加变量;导入失败)
+-------------------------------------------------
+xml解析方式分为四种:dom和sax,dom4j,jdom
+Dom和sax的区别;
+1,Dom解析的优点是对文档crud比较方便,缺点占用内存比较大,不适合大数据
+2,sax解析的优点是速度快,占用内存少,缺点只适合做文档读取,不适合增删改.(基本就是没人这样做)
+Dom是全部加载到内存在CRUD操作
+sax 是按从上到下在CRUD操作,所以很慢
+----------------------------------------
+/*dom编程思路:
+1,定义界面
+通过html的标签将数据进行封装
+2,定义一些静态的样式
+通过css
+3,需要动态的完成的和用户的交互
+a,先明确事件源
+b,将事件注册到事件源上
+c,通过javascript的函数对对象进行处理
+d,在处理过程需要明确被处理的区域*/
+--------------------------------------------------------
+修改JVM的内存大小:
+在文件上右键中RunAS 中的OPO Run Dlolog中Arguments 中设置-Xmx值m;
+在包设置对包下全部文件有效
+------------------
+XML解析开发包:
+jaxp(sun),Jdom,dom4j(最强)
+--------
+
+jaxp开发包是j2se一部分,它由javax.xml;org.w3c.dom;org.xml.sax包及子包组成.
+//javax.xml.parsers 直接去找这个包就可以找到怎么解析xml文件
+
+----------------
+演示Dom解析方式: crud
+package cn.linshui2;
+import java.io.FileOutputStream;
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.parsers.ParserConfigurationException;
+import javax.xml.transform.Transformer;
+import javax.xml.transform.TransformerFactory;
+import javax.xml.transform.dom.DOMSource;
+import javax.xml.transform.stream.StreamResult;
+import org.junit.Test;
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
+
+public class dom1 {
+	@Test//查xml其中一个标签的值
+	public void read1() throws Exception{
+		//创建工厂
+		DocumentBuilderFactory factory= DocumentBuilderFactory.newInstance();
+		//得到Dom解析器
+		DocumentBuilder builder = factory.newDocumentBuilder(); 
+		//解析xml文档,得到文档的document(对象)
+		Document document = builder.parse("src/MyXml.xml");
+		/////上面3句要熟
+		//返回书名所有标签
+		NodeList list = document.getElementsByTagName("书名");
+		//制定返回那一个标签
+		Node node = list.item(1);
+		//得到标签的值
+		String content = node.getTextContent();
+		System.out.println(content);			
+	}	
+	@Test//递归遍历所有文件下的标签
+	public void read2() throws Exception{
+		//创建工厂
+		DocumentBuilderFactory factory= DocumentBuilderFactory.newInstance();
+		//得到Dom解析器
+		DocumentBuilder builder = factory.newDocumentBuilder(); 
+		//解析xml文档,得到文档的document(对象)
+		Document document = builder.parse("src/MyXml.xml");
+		//得到根节点
+		Node root = document.getElementsByTagName("书架").item(0);
+		//调用递归		
+	   list(root);			
+	}
+	private void list(Node node){
+		//判断node是否是标签
+		if(node instanceof Element){
+			//打印所有的孩子
+			System.out.println(node.getNodeName());
+		}		
+		NodeList list = node.getChildNodes();
+		for(int i=0; i<list.getLength();i++){
+			Node child = list.item(i);
+			list (child);
+		}	
+	}
+
+		@Test// <书名 name="xxx">java就业</书名>
+		//讀出標籤里的屬性
+		public void read3() throws Exception{
+			//创建工厂
+			DocumentBuilderFactory factory= DocumentBuilderFactory.newInstance();
+			//得到Dom解析器
+			DocumentBuilder builder = factory.newDocumentBuilder(); 
+			//解析xml文档,得到文档的document(对象)
+			Document document = builder.parse("src/MyXml.xml");
+			//這裡用到了強轉讓下面的操作更為簡單.
+			Element name = (Element)document.getElementsByTagName("书名").item(0);
+			String value = name.getAttribute("name");
+			System.out.println(value);
+				
+		}
+/////////////////////////下面是增的部分/////////////////////	
+		
+		@Test//  向xml文档中添加节点;<售价>59.00元</售价>
+		public void read4() throws Exception {
+			//创建工厂
+			DocumentBuilderFactory factory= DocumentBuilderFactory.newInstance();
+			//得到Dom解析器
+			DocumentBuilder builder = factory.newDocumentBuilder(); 
+			//解析xml文档,得到文档的document(对象)
+			Document document = builder.parse("src/MyXml.xml");
+			//创建节点
+			Element price = document.createElement("售价");
+			price.setTextContent("59.00元");
+			//把创建的节点挂到第一本书上
+			Element book = (Element) document.getElementsByTagName("书").item(0);
+			book.appendChild(price);
+			//把更新后内存写到xml文档
+			TransformerFactory tffactory = TransformerFactory.newInstance();
+			Transformer tf = tffactory.newTransformer();
+			tf.transform(new DOMSource(document), new StreamResult(new FileOutputStream("src/MyXml.xml")));		
+				
+		}
+	
+		@Test//  向xml文档指定位置添加节点;<售价>59.00元</售价>
+		public void read5() throws Exception {
+			//创建工厂
+			DocumentBuilderFactory factory= DocumentBuilderFactory.newInstance();
+			//得到Dom解析器
+			DocumentBuilder builder = factory.newDocumentBuilder(); 
+			//解析xml文档,得到文档的document(对象)
+			Document document = builder.parse("src/MyXml.xml");
+			//创建节点
+			Element price = document.createElement("售价");
+			price.setTextContent("59.00元");
+			//得到参考节点
+			Element refNode = (Element) document.getElementsByTagName("售价").item(0);
+			//得到要挂崽的节点
+			Element book = (Element) document.getElementsByTagName("书").item(0);
+			//往book及诶到哪的指定位置插崽
+			book.insertBefore(price, refNode);
+			
+			//把更新后内存写到xml文档
+			TransformerFactory tffactory = TransformerFactory.newInstance();
+			Transformer tf = tffactory.newTransformer();
+			tf.transform(new DOMSource(document), new StreamResult(new FileOutputStream("src/MyXml.xml")));
+		
+				
+		}
+		@Test//  向xml文档书名里添加name="xxxx"
+		public void read6() throws Exception {
+			//创建工厂
+			DocumentBuilderFactory factory= DocumentBuilderFactory.newInstance();
+			//得到Dom解析器
+			DocumentBuilder builder = factory.newDocumentBuilder(); 
+			//解析xml文档,得到文档的document(对象)
+			Document document = builder.parse("src/MyXml.xml");
+			
+			Element bookname = (Element) document.getElementsByTagName("书名").item(0);
+			bookname.setAttribute("name", "xxxx");	
+			//把更新后内存写到xml文档
+			TransformerFactory tffactory = TransformerFactory.newInstance();
+			Transformer tf = tffactory.newTransformer();
+			tf.transform(new DOMSource(document), new StreamResult(new FileOutputStream("src/MyXml.xml")));
+		
+				
+		}
+	/******************************************************
+	总结:其实这里就是2段话必须写:
+	1,就是把文件加载到内存
+	
+	2,就是把操作后的内存数据写回文件.
+	
+	那么我前期就封装2个函数调用就OK.
+***********************************************************************************/
+
+
+		////////////////////////////////下面是delete 删除
+		@Test//  向xml文档书名里 删除<售价>59.00元</售价>
+		public void read7() throws Exception {
+			//创建工厂
+			DocumentBuilderFactory factory= DocumentBuilderFactory.newInstance();
+			//得到Dom解析器
+			DocumentBuilder builder = factory.newDocumentBuilder(); 
+			//解析xml文档,得到文档的document(对象)
+			Document document = builder.parse("src/MyXml.xml");
+			//得到要删除的节点
+			Element bookname = (Element) document.getElementsByTagName("售价").item(0);
+			//找到要删除节点的爸爸
+			//Element book = (Element) document.getElementsByTagName("书").item(0);
+			//book.removeChild(bookname);
+			//上面2句还可以用下面一句话代替:通过getpaerntNode()的到父辈的节点.	
+			bookname.getParentNode().removeChild(bookname);
+			//删除爸爸的爸爸
+			//bookname.getParentNode().getParentNode().removeChild(bookname.getParentNode());
+			//删除爸爸的爸爸的爸爸.可以一直找下去
+			//bookname.getParentNode().getParentNode().getParentNode().removeChild(bookname.getParentNode().getParentNode());
+
+			//把更新后内存写到xml文档
+			TransformerFactory tffactory = TransformerFactory.newInstance();
+			Transformer tf = tffactory.newTransformer();
+			tf.transform(new DOMSource(document), new StreamResult(new FileOutputStream("src/MyXml.xml")));
+		
+				
+		}
+		
+		////////////////////////////////下面是改
+		@Test//  向xml文档书名里 删除<售价>59.00元</售价>
+		public void read8() throws Exception {
+			//创建工厂
+			DocumentBuilderFactory factory= DocumentBuilderFactory.newInstance();
+			//得到Dom解析器
+			DocumentBuilder builder = factory.newDocumentBuilder(); 
+			//解析xml文档,得到文档的document(对象)
+			Document document = builder.parse("src/MyXml.xml");
+			//得到要删除的节点
+			Element bookname = (Element) document.getElementsByTagName("售价").item(0);
+			bookname.setTextContent("109");
+			//把更新后内存写到xml文档
+			TransformerFactory tffactory = TransformerFactory.newInstance();
+			Transformer tf = tffactory.newTransformer();
+			tf.transform(new DOMSource(document), new StreamResult(new FileOutputStream("src/MyXml.xml")));					
+		}
+}
+
+*************总结:上面都是jaxp对dom的解析**************
+----------------------------------------------------
+SAX解析:
+sax采用事件处理的方式解析xml文件,利用sax解析xml文档,涉及两个部分:
+解析器和事件处理器.
+解析器:
+可以使用jaxp的api创建,常见出sax解析器后 ,就可以指定解析器去解析某个xml文档
+解析器采用sax方式在解析某个xml文档时,它之哟啊解析到xml文档的一个组成部分,都会
+去调用事件处理器的一个方法,解析器在调用事件处理器的方法时,会把当前解析到的
+xml文件内容作为方法参数传递给事件处理器.
+
+事件处理器由程序员编写,程序员通过事件处理器中方法的参数,就可以很轻松得到sax解析器
+到的数据,从而可以决定如何对数据进行处理.
+package suibian;
+
+import javax.xml.parsers.SAXParser;
+import javax.xml.parsers.SAXParserFactory;
+import org.xml.sax.Attributes;
+import org.xml.sax.ContentHandler;
+import org.xml.sax.Locator;
+import org.xml.sax.SAXException;
+import org.xml.sax.XMLReader;
+
+import com.sun.org.apache.xalan.internal.xsltc.trax.SAX2DOM;
+
+public class xml对象 {
+
+	/**
+	                   SAX 解析 xml 
+	 */
+	public static void main(String[] args) throws Exception {
+		// TODO Auto-generated method stub
+	
+		//创建工厂
+		SAXParserFactory factory = SAXParserFactory.newInstance();
+		//得到解析器
+		SAXParser sp = factory.newSAXParser();
+		//de得到读取器
+		XMLReader reader = sp.getXMLReader();
+		//设置内容处理器,这里自定义内容
+		reader.setContentHandler(new ListHandler());
+		//读取xml文档内容
+		reader.parse("src/suibian/MyXml.xml");
+	}
+}
+/***********************************************************************
+//实际开发不会这样去现实这个接口,太麻烦,API中有个DefaultHandler
+//已经实现了这个接口
+//我们只需要继承DefaultHandler,就可以使用那个方法用那个方法
+重点是把解析的内容封装到对象内,在用集合保存全部对象.
+ ************************************************************/
+class ListHandler implements ContentHandler{
+
+	public void characters(char[] ch, int start, int length)
+			throws SAXException {
+		
+		System.out.println(new String(ch,start,length));
+		
+	}
+
+	public void endDocument() throws SAXException {
+		// TODO Auto-generated method stub
+		
+	}
+
+	public void endElement(String uri, String localName, String name)
+			throws SAXException {
+		System.out.println("< /"+ name +" >");
+		
+		
+	}
+
+	public void endPrefixMapping(String prefix) throws SAXException {
+		// TODO Auto-generated method stub
+		
+	}
+
+	public void ignorableWhitespace(char[] ch, int start, int length)
+			throws SAXException {
+		// TODO Auto-generated method stub
+		
+	}
+
+	public void processingInstruction(String target, String data)
+			throws SAXException {
+		// TODO Auto-generated method stub
+		
+	}
+
+	public void setDocumentLocator(Locator locator) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	public void skippedEntity(String name) throws SAXException {
+		// TODO Auto-generated method stub
+		
+	}
+
+	public void startDocument() throws SAXException {
+		// TODO Auto-generated method stub
+		
+	}
+
+	public void startElement(String uri, String localName, String name,
+			Attributes atts) throws SAXException {
+		// TODO Auto-generated method stub
+		System.out.println("<"+ name +" >");
+	}
+
+	public void startPrefixMapping(String prefix, String uri)
+			throws SAXException {
+		// TODO Auto-generated method stub
+		
+	}
+	
+}
+---------------------------------------------------------------------------------
+真正我们对xml的解析.实际开发中我们用dom4j开发,只需按着dom4j的帮助文档,抄就OK
+***********************************************************************************************
+*************************************************************************************
+
+XPath 也是更为强大的解析xml的工具,具体看api(中文) ,超简单;使用XPath要在dom4j中多导一个架包.
+
+package suibian;
+import java.io.File;
+import org.dom4j.Document;
+import org.dom4j.Node;
+import org.dom4j.io.SAXReader;
+
+public class xml对象 {
+
+	/**
+	                   Xpath 解析 xml 
+	 */
+	public static void main(String[] args) throws Exception {
+	
+		String username = "bbb";
+		String password = "32";
+			
+		SAXReader reader = new SAXReader();
+		Document document = reader.read(new File("src/suibian/123.xml"));
+		Node node = document.selectSingleNode("//user[@username='"+ username+ "'and @password='"+ password+ "' ]" );
+	
+		if(node==null){
+			System.out.print("用户名不存在");	
+		}
+		else{
+			System.out.println("恭喜");
+		}		
+	}
+}
+
+
+
+Xml 可扩展的标记语言,作用很多,现在主要作用用于配置文件 比如web,struts很多参数都配置在xml文件中.这样提高了扩展性.
+Html即超文本标记语言或超文本链接标示语言 主要功能就是显示数据,网页的基础就是html
+Dom文档对象模型(Document Object Model,简称DOM),是W3C组织推荐的处理可扩展标志语言的标准编程接口
+Dom 的世界里万物都是节点:元素节点,属性节点,文本节点.都按节点对象操作这些节点.
+
+
+------------------------------------------------------------------------------
+
+
+						
+解析一共有四种:
+1,dom 2,sax,3,dom4j,4,jdom
+dom 解析与平台无关,也是官方的,dom树比较清楚,缺点就是费内存,大数据会溢出
+sax 数度快,也是官方的,但操作复杂
+jdom :只能在java中使用
+dom4j:什么优点都有,就是不是官方的只能在java中使用
+
+生成xml文件方式对比
+dom 基于树,会驻留在内存里,做什么都很快,但文件大了就会溢出
+sax 基于事件,没有状态可言,不能走回头路.优势就是数度快
+jdom和dom4j都是基于底层api的
+
+
+
+dom方式解析xml步骤:
+1,准备工作
+1,1 创建一个DocumentBuilderFactory 的工厂实例
+DocumentBuilderFactory dbf=DocumentBuilderFactory.newInstance();
+1,2 用工厂对象创建一个DocumentBUilder的对象
+DocumentBuilder db=dbf.newDocumentBuilder();
+1,3 用DocumentBuilder对象的parse("xml的路径")方法来解析Xml文件
+Document d=db.parse("books.xml");
+1,4,用元素标签名字得到元素标签节点结合
+NodeList bookList = document.getElementsByTagName("book");
+1,5 如果需要就得book节点的属性
+NamedNodeMap attrs = book.getAttributes();
+1,6 遍历book节点下的孩子节点.
+NodeList childNodes = book.getChildNodes();
+-------------------------------------------------
+
+import java.io.IOException;
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.parsers.ParserConfigurationException;
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+import org.w3c.dom.NamedNodeMap;
+import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
+import org.xml.sax.SAXException;
+
+public class Dom2Xml {
+
+	public static void main(String[] args) {
+			// 1,创建一个dom工厂实例
+		DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
+		try {
+			// 2,用工厂对象创建一个DocumentBUilder
+			DocumentBuilder db = dbf.newDocumentBuilder();
+			// 3,w3c包,解析xml文件
+			Document document = db.parse("books.xml");
+			// 4,用元素标签名字得到元素标签节点结合
+			NodeList bookList = document.getElementsByTagName("book");		
+			for (int i = 0; i < bookList.getLength(); i++) {		
+				//通过 item(i)方法 获取一个book节点,nodelist的索引值从0开始,第一次循环得到第一本书节点
+				//5,得到每一个书的节点
+				Node book = bookList.item(i);				
+//				6,如果要获取book节点的所有属性集合
+				NamedNodeMap attrs = book.getAttributes();
+				
+//				遍历book的属性			
+				for (int j = 0; j < attrs.getLength(); j++) {				
+					//通过item(index)方法获取book节点的某一个属性			
+					Node attr = attrs.item(j);			
+					//获取属性名获取属性值
+					System.out.println();
+					System.out.println("属性名:"+attr.getNodeName()+"-属性值" + attr.getNodeValue());
+				}						
+				//前提:已经知道book节点有且只能有1个id属性
+				//将book节点进行强制类型转换,转换成Element类型
+				//Element book2 = (Element) bookList.item(i);
+				//通过getAttribute("id")方法获取属性值
+				//String attrValue = book2.getAttribute("id");
+				//System.out.println("id属性的属性值为" + attrValue);
+				//System.out.println("*****************************************");						
+				//7,解析每个book节点的孩子节点
+				NodeList childNodes = book.getChildNodes();
+				//遍历childNodes获取每个节点的节点名和节点值		
+				System.out.println("第"+i+"本书共有"+childNodes.getLength()+"个子节点");
+				System.out.println();	
+				for (int k = 0; k < childNodes.getLength(); k++) {
+						//区分出#text类型的node以及element类型的node
+					if (childNodes.item(k).getNodeType() == Node.ELEMENT_NODE) {
+						//获取了element类型节点的节点名
+						System.out.print("第" + (k+1)+"个节点的节点名"+childNodes.item(k).getNodeName());
+//						获取了element类型节点的节点值
+						System.out.println("-节点值是:"+childNodes.item(k).getFirstChild().getNodeValue());
+//						//下面这种方法在这个节点中有多个节点会全部输出值,上面则会null 因需求而用
+						System.out.println("-节点值是:" + childNodes.item(k).getTextContent());
+					}
+				}
+			}
+		} catch (ParserConfigurationException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (SAXException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+}
+-----------------------------------------------------------
+
+
+import java.io.File;
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
+
+import org.dom4j.Attribute;
+import org.dom4j.Document;
+import org.dom4j.DocumentException;
+import org.dom4j.Element;
+import org.dom4j.io.SAXReader;
+/**
+ * dom4J解析xml文件
+ * 加入对象,我没加好
+ * @author Administrator
+ *
+ */
+public class Dom4j2Xml {
+
+	public static void main(String[] args) {
+		//1,SAXReader()对象
+		SAXReader reader=new SAXReader();
+		List<Books> booksList=new ArrayList<Books>();
+		
+		try {
+			//2,通过reader.read来解析xml文件,并得到document对象
+			Document document = reader.read(new File("books.xml"));		
+			//3,得到根节点元素
+			Element rootElement=document.getRootElement();				
+			System.out.println(rootElement.getName());
+			//4,用根节点来查下面集合,用迭代来器方式得到
+			Iterator it=rootElement.elementIterator();
+			//5,循环遍历
+			while(it.hasNext()){
+				Books books=new Books();			
+				//6,这里就是得到book节点的地方,下面就是得到属相和 book 下面的孩子节点
+				Element book=(Element)it.next();			
+				//如果要遍历属性就元素节点book.attributes()
+				List<Attribute> list=book.attributes();		
+				for (Attribute attribute : list) {			
+					System.out.println();
+					System.out.println(attribute.getName()+"--值-- "+attribute.getValue());
+					
+					if (attribute.getName().equals("id")){
+						books.setId(attribute.getValue());				
+					}			
+					System.out.println("************************");
+				}				
+				//如果哟啊遍历book下的孩子元素就book.ElementIterator()
+				Iterator bookList=book.elementIterator();
+				
+				while(bookList.hasNext()){
+						Element bookChild=(Element) bookList.next();
+						
+						System.out.println(bookChild.getName()+"--值--"+bookChild.getStringValue());
+						if (bookChild.getName().equals("name")) {
+							books.setName(bookChild.getStringValue());
+						}
+						else if (bookChild.getName().equals("author")) {
+							books.setAuthor(bookChild.getStringValue());
+						}
+						else if (bookChild.getName().equals("year")) {
+							books.setYear(bookChild.getStringValue());
+						}
+						else if (bookChild.getName().equals("price")) {
+							books.setPrice(bookChild.getStringValue());
+						}
+						else if (bookChild.getName().equals("language")) {
+							books.setLanguage(bookChild.getStringValue());
+						}								
+				}												
+			}								
+		} catch (DocumentException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+}
+---------------------------------------------------------
+package java2xml;
+
+import java.io.File;
+
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.parsers.ParserConfigurationException;
+import javax.xml.transform.OutputKeys;
+import javax.xml.transform.Transformer;
+import javax.xml.transform.TransformerConfigurationException;
+import javax.xml.transform.TransformerException;
+import javax.xml.transform.TransformerFactory;
+import javax.xml.transform.dom.DOMSource;
+import javax.xml.transform.stream.StreamResult;
+
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+
+/**
+ * 
+ * 需求:用dom方式创建xml文档
+ *
+ */
+
+
+public class domToxml {
+
+	public static void main(String[] args) {
+			
+		new domToxml().createXML();
+	}
+
+	public static DocumentBuilder getDocumentBuilder() {
+		// 创建一个DocumentBuilderFactorty
+		DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
+
+		DocumentBuilder db = null;
+		try {
+			db = dbf.newDocumentBuilder();
+
+		} catch (ParserConfigurationException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}	
+		return db;
+	}
+	
+	
+	
+	
+	public void createXML(){
+		DocumentBuilder db=getDocumentBuilder();
+		//建立document对象
+		Document document=db.newDocument();
+		//设置此属性时不对此值进行任何验证,去除掉standalone="no"
+		document.setXmlStandalone(true);
+		
+		//建立根节点
+		Element bookStore=document.createElement("bookStore");
+
+		//建立根的子节点
+		Element book=document.createElement("book");
+		//加入属性
+		book.setAttribute("id","1");
+
+		//建立根的子节点的 子节点
+		Element name=document.createElement("name");
+		//设置内容要用这个,因为Element内容为空
+		name.setTextContent("冰与火之歌");
+		book.appendChild(name);
+		
+		Element author=document.createElement("author");
+		author.setTextContent("乔治马丁");
+		book.appendChild(author);
+		
+		Element year=document.createElement("year");
+		year.setTextContent("2014");
+		book.appendChild(year);
+		
+		Element price=document.createElement("price");
+		price.setTextContent("89");
+		book.appendChild(price);
+	
+		//把子节点加入到父节点里
+		bookStore.appendChild(book);
+
+		//最后记得把根节点加入Document对象中
+		document.appendChild(bookStore);
+		//创建TransformerFactory  工厂
+		TransformerFactory tff=TransformerFactory.newInstance();
+		
+		try {
+			//建立Transformer对象,此抽象类的实例能够将源树转换为结果树
+			Transformer tf=tff.newTransformer();
+			
+			//格式化xml文件
+			tf.setOutputProperty(OutputKeys.INDENT, "yes");
+			
+			tf.transform(new DOMSource(document),new StreamResult(new File("books1.xml")));
+		
+		} catch (TransformerConfigurationException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (TransformerException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+	}
+	
+}
+----------------------------------------
+package java2xml;
+
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.UnsupportedEncodingException;
+
+import org.dom4j.Document;
+import org.dom4j.DocumentHelper;
+import org.dom4j.Element;
+import org.dom4j.io.OutputFormat;
+import org.dom4j.io.XMLWriter;
+
+
+/**
+ * 需求:用dom4j来创建一个xml文档
+ * @author Administrator
+ *
+ */
+public class Dom4jToXml {
+	private void createXMl(){
+		//1,创建document对象,代表整个xml文档
+		Document document=DocumentHelper.createDocument();
+		//2,创建根节点
+		Element rss=document.addElement("rss");
+		//3,向根节点添加属性
+		rss.addAttribute("version","2.0");
+		//4,生成子节点及内容
+		Element channel=rss.addElement("channel");
+		Element title=channel.addElement("title");
+		title.setText("<![CDATA[上海移动互联网产业促进中心正式揭牌]]>");
+		//5,设置生成xml的格式
+		OutputFormat format=OutputFormat.createPrettyPrint();
+		//这项可以不用设置,因为默认是utf-8
+		//format.setEncoding("Gbk");
+		//6,生成xml文件
+		File file = new File("rssnews.xml");
+		XMLWriter writer;
+		try {
+			writer=new XMLWriter(new FileOutputStream(file), format);
+			//设置是否转义,默认值true,代表转义作用就是<>能打印出来
+			//<![CDATA[上海移动互联网产业促进中心正式揭牌]]>
+			writer.setEscapeText(false);	
+			writer.write(document);
+			writer.close();			
+		} catch (UnsupportedEncodingException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}	
+	}
+	public static void main(String[] args) {
+		new Dom4jToXml().createXMl();
+	}
+}
+
+前端end
+
+
+
+
+
