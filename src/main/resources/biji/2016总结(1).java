@@ -5248,111 +5248,6 @@ servlet和struts1及SpingMVC都是线程不安全的,struts2 是线程安全的
 2,使用@Scope("prototype")//每次都会生成一个对象
 3,不使用成员变量(因为就是成员变量会被重新赋值,推荐)
 
-+++++++++++++++++++++++++++++++++++++++++++++++++++++
-+++++++++++++++++++++++++++++++++++++++++++++++++++++
-	
-JSP
-https://www.runoob.com/jsp/jsp-architecture.html
-
-Java Server Page: Java服务器端网页.
-JSP 是简Servlet编写的一种技术, 它将Java代码和HTML 语句混合在同一个文件中编写,
-对网页中的要动态产生的内容采用 Java 代码来编写,而对固定不变的静态内容采用 HTML 方式编写. 
-			
-
-2). helloworld: 
-新建一个 JSP 页面, 在body节点内的<% %> （尖括号加百分号）即可编写Java代码.
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-<body>
-	<% 
-		Date date = new Date();
-		System.out.print(date); 
-	%>
-</body>
-
-
-
-4). JSP的运行原理: JSP 本质上是一个 Servlet,这个对象拥有一系列的方法来处理Http请求
-	~~~~~~~~~~~~~~	~~~~~~~~~~~~~~~~~~~~~~~~~~
-每个JSP 页面在第一次被访问时,JSP引擎将它翻译成一个Servlet源程序, 再把这个Servlet源程序编译成 class 类文件.
-~~~~~~~~~~~~~~~~~~~~~~~~~~~  	~~~~~~~    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-然后再由WEB容器像调用普通Servlet程序一样的方式来装载和解释执行（可以看出好慢）
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-5). JSP 页面的隐含变量: 没有声明就可以使用的对象. JSP页面一共有 9 个隐含对象
-
-①. request: HttpServletRequest 的一个对象. *
-②. response: HttpServletResponse 的一个对象(在 JSP 页面中几乎不会调用 response 的任何方法.因为这个是返回页面信息的)
-③. pageContext: 页面的上下文,是 PageContext的一个对象.可以从该对象中获取到其他8个隐含对象.也可以从中获取到当前
-页面的其他信息. (学习自定义标签时使用它) *
-④. session: 代表浏览器和服务器的一次会话, 是 HttpSession 的一个对象.后面详细学习. *
-⑤. application: 代表当前WEB应用.是ServletContext对象.*
-⑥. config: ServletConfig 对象(几乎不使用).
-⑦. out: JspWriter对象.调用 out.println()可以直接把字符串打印到浏览器上.*
-⑧. page: 指向当前JSP对应的Servlet对象的引用,但为Object类型,只能调用Object类的方法(几乎不使用) 
-⑨:
-errorPage = "错误页面.jsp" 如果想跳转过去,必须在错误页面上申明为:
-<%@ page isErrorPage="true" %>
-所以说:这两个错误声明一对.
-
-全局错误(web.xml文件中设置):
-上面的错误声明是针对一个jsp的,如果要设置全部jsp页面的错误跳转
-
-<error-page>
-	<error-code>404</error-code>
-	<location>/404Error.jsp</location>
-</error-page>
-<error-page>
-	<error-code>500</error-code>
-	<location>/500Error.jsp</location>
-</error-page>
---------------------------
-
-
-7). JSP表达式(expression)提供了将一个 java 变量或表达式的计算结果输出到客户端的简化方式,									~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-如:<%= date %>
-
-8). JSP脚本片断(scriptlet)是指嵌套在<% 和 %>之中的一条或多条Java程序代码. 
-多个脚本片断中的代码可以相互访问
-
-<% 
-	String ageStr = request.getParameter("age");//后面使用EL替换了这种方法
-	Integer age = Integer.parseInt(ageStr);
-	
-	if(age >= 18){
-%>
-		成人...
-<%
-	}else{
-%>
-		未成人...
-<%
-	}
-%>
-
-
-
-10). JSP注释的格式：<%-- JSP 注释 --%>   <!-- HTML 注释 -->
-区别: JSP 注释可以阻止 Java 代码的执行. 且客户看不见注释
-
-------------------------------
-6. 和属性相关的方法:
-
-1). 方法
-
-void setAttribute(String name, Object o): 设置属性  
-Object getAttribute(String name): 获取指定的属性
-
-Enumeration getAttributeNames(): 获取所有的属性的名字组成的 Enumeration 对象
-removeAttribute(String name): 移除指定的属性 
-
-2). pageContext, request, session, application 对象都有这些方法!这四个对象也称之为域对象. 
-pageContext: 属性的作用范围仅限于当前 JSP 页面
-request:  属性的作用范围仅限于同一个请求. 
-session: 属性的作用范围限于一次会话: 浏览器打开直到关闭称之为一次会话(且在此期间会话没失效)
-application: 属性的作用范围限于当前WEB应用.是范围最大的属性作用范围,
-只要在一处设置属性,在其他各处的JSP或Servlet中都可以获取到.
-
-pageContext, request, session, application(对属性的作用域的范围从小到大)
 
 ++++++++++++++++++++++++++++++++++++++++++++++++++
 ++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -5532,19 +5427,6 @@ http://zhidao.baidu.com 就是站点根目录
 在提交时需要比对这个token,成功后先删除这token.然后做后面的逻辑; 如果失败什么都不做
 +++++++++++++++++++++++++++++++++++++++++++++++++++++
 +++++++++++++++++++++++++++++++++++++++++++++++++++++
-SSO 单点登录
-功能: 多个应用一处登录,其他无需再次登录
-好处: 提高了用户的体验,增强公司的形象
-坏处: 存在木桶效应;
-
-分为 3种:同在一个域下;同一父域不同子域;完全不同域;
-
-
-第一种多设置共同父域cookie.setDomain(".helloweenvsfei.com");
-第二种:都去一个地方验证登录;平安就是
-
-+++++++++++++++++++++++++++++++++++++++++++++++++++++
-+++++++++++++++++++++++++++++++++++++++++++++++++++++
 EL表达式 (Expression Language)
 
 
@@ -5552,19 +5434,136 @@ EL表达式 (Expression Language)
 EL 的语法比传统 JSP表达式(<%= ....%>)与
           Jsp中的java代码(<% ....%>)操作属性更为方便简洁  
 且在Jsp页面使用无需导入任何包,直接使用
++++++++++++++++++++++++++++++++++++++++++++++++++++++
++++++++++++++++++++++++++++++++++++++++++++++++++++++
+	
+JSP
+jsp页面会通过http将文件内容传到web服务器上的servlet,转为java文件,处理逻辑后通过response输出
+静态的html展示给用户;这样来完成动态的
+
+https://www.runoob.com/jsp/jsp-architecture.html
+
+Java Server Page: Java服务器端网页.
+JSP 是简Servlet编写的一种技术, 它将Java代码和HTML 语句混合在同一个文件中编写,
+对网页中的要动态产生的内容采用 Java 代码来编写,而对固定不变的静态内容采用 HTML 方式编写. 
+			
+
+2). helloworld: 
+新建一个 JSP 页面, 在body节点内的<% %> （尖括号加百分号）即可编写Java代码.
+不需要服务器解析的代码就不要放在<%%>中
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+<body>
+	<% 
+		Date date = new Date();
+		System.out.print(date); 
+	%>
+</body>
+
+
+
+4). JSP的运行原理: JSP 本质上是一个 Servlet,这个对象拥有一系列的方法来处理Http请求
+	~~~~~~~~~~~~~~	~~~~~~~~~~~~~~~~~~~~~~~~~~
+每个JSP 页面在第一次被访问时,JSP引擎将它翻译成一个Servlet源程序, 再把这个Servlet源程序编译成 class 类文件.
+~~~~~~~~~~~~~~~~~~~~~~~~~~~  	~~~~~~~    
+然后再由WEB容器像调用普通Servlet程序一样的方式来装载和解释执行（可以看出好慢）
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+5). JSP 页面的隐含变量: 没有声明就可以使用的对象. JSP页面一共有 9 个隐含对象
+
+①. request: 实际是HttpServletRequest对象.非常常用;request.getHeaderNames();可以得到大部分主要信息
+②. response: 实际是HttpServletResponse 对象(在 JSP 页面中几乎不会调用 response 的任何方法.因为这个是返回页面信息的)
+③. pageContext: 页面的上下文,是 PageContext的一个对象.可以从该对象中获取到其他8个隐含对象.也可以从中获取到当前
+页面的其他信息. (学习自定义标签时使用它) *
+④. session: 代表浏览器和服务器的一次会话, 是 HttpSession 的一个对象.后面详细学习. *
+⑤. application: 代表当前WEB应用.是ServletContext对象.*
+⑥. config: ServletConfig 对象(几乎不使用).
+⑦. out: JspWriter对象.调用 out.println()可以直接把字符串打印到浏览器上.*
+⑧. page: 指向当前JSP对应的Servlet对象的引用,但为Object类型,只能调用Object类的方法(几乎不使用) 
+⑨:
+errorPage = "错误页面.jsp" 如果想跳转过去,必须在错误页面上申明为:
+<%@ page isErrorPage="true" %>
+所以说:这两个错误声明一对.
+
+全局错误(web.xml文件中设置):
+上面的错误声明是针对一个jsp的,如果要设置全部jsp页面的错误跳转
+
+<error-page>
+	<error-code>404</error-code>
+	<location>/404Error.jsp</location>
+</error-page>
+<error-page>
+	<error-code>500</error-code>
+	<location>/500Error.jsp</location>
+</error-page>
+--------------------------
+
+<%= date %>(注意和<%%>比对区别)
+7). JSP表达式将一个java变量或表达式的计算结果输出到客户端的简化方式,									~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+8). JSP脚本片断(scriptlet)是指嵌套在<% 和 %>之中的一条或多条Java程序代码. 
+多个脚本片断中的代码可以相互访问
+
+<% 
+	String ageStr = request.getParameter("age");//后面使用EL替换了这种方法
+	Integer age = Integer.parseInt(ageStr);
+	
+	if(age >= 18){
+%>
+		成人...
+<%
+	}else{
+%>
+		未成人...
+<%
+	}
+%>
+
+
+
+10). JSP注释的格式：<%-- JSP 注释 --%>   <!-- HTML 注释 -->
+区别: JSP 注释可以阻止 Java 代码的执行. 且客户看不见注释
+
+------------------------------
+6. 和属性相关的方法:
+
+1). 方法
+
+void setAttribute(String name, Object o): 设置属性  
+Object getAttribute(String name): 获取指定的属性
+
+Enumeration getAttributeNames(): 获取所有的属性的名字组成的 Enumeration 对象
+removeAttribute(String name): 移除指定的属性 
+
+2). pageContext, request, session, application 对象都有这些方法!这四个对象也称之为域对象. 
+pageContext: 属性的作用范围仅限于当前 JSP 页面
+request:  属性的作用范围仅限于同一个请求. 
+session: 属性的作用范围限于一次会话: 浏览器打开直到关闭称之为一次会话(且在此期间会话没失效)
+application: 属性的作用范围限于当前WEB应用.是范围最大的属性作用范围,
+只要在一处设置属性,在其他各处的JSP或Servlet中都可以获取到.
+
+pageContext, request, session, application(对属性的作用域的范围从小到大)
 																						
 +++++++++++++++++++++++++++++++++++++++++++++++++++++
 +++++++++++++++++++++++++++++++++++++++++++++++++++++
-
+JSP 标准标签库（JSTL）
+JSP标准标签库（JSTL）是一个JSP标签集合，它封装了JSP应用的通用核心功能。
+作用:大大加快前端开发速度,和让编写前端代码更加优雅
+https://www.runoob.com/jsp/jsp-jstl.html
+如:
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>//核心标签,if,foreach等
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>//格式化,国际化,时间等
++++++++++++++++++++++++++++++++++++++++++++++++++++++
++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 FILTER 过滤器(了解,一般被springMvc的HandlerInterceptor代替)
 (双向过滤,多个多滤器的路线如:进时1,2,3,回时3,2,1)
 
+过滤器是一个实现了 javax.servlet.Filter 接口的 Java 类(在servlet下)
 
 Filter 接口定义在 javax.servlet 包中，而接口 HandlerInterceptor 定义在org.springframework.web.servlet 包中
 功能基本差不多，HandlerInterceptor更加强大点（fileter 主要用于对所有请求进行统一处理）
 
-多种同时使用执行顺序
+多种同时使用执行顺序(过滤器在最外层的2端,这是它的优势)
 过滤前-拦截前-AOP-Action处理-aop-拦截后-过滤后
 
 //过滤器（Filter）与拦截器（Interceptor )区别
@@ -6654,11 +6653,27 @@ https://blog.csdn.net/w1219401160/article/details/81101641
 ++++++++++++++++++++++++++++++++++++++++++++++++++++
 实际开发我们怎么使用Template?
 直接做成成员变量,加上自动装配.
-
+举例(配置文件):
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+    <!--阿里巴巴连接池只需要3个核心参数-->
+    <bean class="com.alibaba.druid.pool.DruidDataSource" id="dataSource">
+        <property name="url" value="jdbc:mysql://localhost:3306/shiro" />
+        <property name="username" value="root" />
+        <property name="password" value="hjf,.123" />
+    </bean>
+    <!--JdbcTemplate只要一个dataSource-->
+    <bean class="org.springframework.jdbc.core.JdbcTemplate" id="jdbcTemplate">
+        <property name="dataSource" ref="dataSource" />
+    </bean>  
+</beans>
+-----------
 @Repository
 public class EmployeeDao {	
 	@Autowired
-	private JdbcTemplate jdbcTemplate;
+	private JdbcTemplate jdbcTemplate;//只要一个dataSource就可以使用jdbcTemplate
 	
 	public Employee get(Integer id){
 		String sql = "SELECT id, last_name lastName, email FROM employees WHERE id = ?";
@@ -10715,7 +10730,6 @@ public class RedisTool {
         return false;
 
     }
-
 }
 
 https://www.cnblogs.com/linjiqin/p/8003838.html
@@ -12056,8 +12070,22 @@ https://blog.csdn.net/forezp/article/details/70148833/
 https://www.jianshu.com/p/bdc9c9fa719d
 //activiti5 视频教程
 https://www.iqiyi.com/v_19rrablwi0.html#curid=625556900_2e1180dabbeb53b8a3da680aa32f28e8
+
 ++++++++++++++++++++++++++++++++++++++++++++++
 ++++++++++++++++++++++++++++++++++++++++++++++
+SSO 单点登录
+功能: 多个应用一处登录,其他无需再次登录
+好处: 提高了用户的体验,增强公司的形象
+坏处: 存在木桶效应;
+
+分为 3种:同在一个域下;同一父域不同子域;完全不同域;
+
+
+第一种多设置共同父域cookie.setDomain(".helloweenvsfei.com");
+第二种:都去一个地方验证登录;平安就是
+
++++++++++++++++++++++++++++++++++++++++++++++++++++++
++++++++++++++++++++++++++++++++++++++++++++++++++++++
 SpringbootSecurity 中如何使用?
 
 代码在github 上
@@ -12173,7 +12201,63 @@ SecurityContextHolder.getContext().SetAuthentication((Authentication)json-token)
 
 ++++++++++++++++++++++++++++++++++++++++++++++
 ++++++++++++++++++++++++++++++++++++++++++++++
+shiro
 
+学习视频慕课网,学习链接下面这个(跟着涛哥学shiro)
+https://www.iteye.com/blog/jinnianshilongnian-2049092
+
+shiro 认证流程:
+创建securityManager-主体提交认证-securityManager认证-Authenticator认证-Realm验证
+shiro 授权流程
+创建securityManager-主体提交授权-securityManager授权-Authenticator授权-Realm获取角色权限数据
+
+举例:
+github有源码(该项目的配置文件架构都是值得学习的,清晰简单明了)
+/**
+ * 第1天
+ *shiro的helloWorld
+ * 模拟用户登录账号和密码和数据库进行对比(这里是缓存)
+ * 包含认证(账号密码)和授权(角色权限)
+ * 请运行下面代码,并跟踪断点
+ *
+ * 抽象:Subject中既有数据库的信息,也有用户登录的信息,两边数据都会集中到这里,就可以比对了
+ */
+public class AuthenticationTest {
+
+    private SimpleAccountRealm simpleAccountRealm = new SimpleAccountRealm();
+    //模拟数据库获取的信息
+    @Before
+    public void addUser() {
+        //账号,密码,多个角色
+        simpleAccountRealm.addAccount("huangjufei", "123", "admin", "user");
+    }
+    @Test
+    public void test() {
+        //1 创建securityManager
+        DefaultSecurityManager defaultSecurityManager = new DefaultSecurityManager();
+        //可以是数据库,缓存,或文件,这里用的是模拟缓存
+        defaultSecurityManager.setRealm(simpleAccountRealm);
+
+        SecurityUtils.setSecurityManager(defaultSecurityManager);
+        //2,从静态类得到subject
+        Subject subject = SecurityUtils.getSubject();
+        //3,模拟用户登录的信息
+        UsernamePasswordToken token = new UsernamePasswordToken("huangjufei", "123");
+        /**
+         * token 代码当前登录用户信息,subject有数据库中的用户信息,最好去test4跟踪断点
+         */
+        subject.login(token);//登录提交,这里打断点,这里就是判断逻辑的地方
+        //对用户认证信息进行比对(数据库和登录的的账号密码进行对比)
+        System.out.println("是否认证通过(isAuthenticated): " + subject.isAuthenticated());
+        //授权检查,多个需要全部通过才通过,和SpringSecurity框架思想差不多
+        subject.checkRoles("admin", "user1");
+    }
+}
+---------------
+Realm 的数据可以是缓存,可以是文件,可以数据库,helloWorld模拟的是缓存;
+IniRealmTest 模拟文件中读取账号密码,了解;
+++++++++++++++++++++++++++++++++++++++++++++++
+++++++++++++++++++++++++++++++++++++++++++++++
 提高篇
 hashMap和红黑树
 https://www.cnblogs.com/mfrank/p/9165250.html
@@ -12722,6 +12806,14 @@ n>1时,分为互相不相交的子节点,其中每一个集合本身又是一棵
 3,以树的根为轴心,调整角度;注意第一个孩子是二叉树的左孩子,兄弟转转换过来的孩子是节点的右孩子,最后一句容易错
 反转的就是一个逆向的过程
 
+++++++++++++++++++++++++++++++++++++++++++++++
+++++++++++++++++++++++++++++++++++++++++++++++
+oracle
+
+表--segment--区--连续的块
+share pool -- data buffer -- 磁盘(非常慢)
+
+
 
 ++++++++++++++++++++++++++++++++++++++++++++++
 ++++++++++++++++++++++++++++++++++++++++++++++
@@ -12863,6 +12955,7 @@ n>1时,分为互相不相交的子节点,其中每一个集合本身又是一棵
 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
 
 
 

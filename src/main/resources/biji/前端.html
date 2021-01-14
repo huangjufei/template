@@ -1049,7 +1049,7 @@ jquery 和 DOM (DOM并不专属于JavaScript)对象的如何转换?
 1. jQuery -->  DOM
 jQuery提供了两种方法：[index]和get(index)
 jQuery对象是一个类似数组的对象，可以通过[index]方法得到相应的DOM对象
-let $students = $("#students");//jQuery对象,常用$符号加前面,提示开发这是一个jquery对象
+let $students = $("#students"); //jQuery对象,常用$符号加前面,提示开发这是一个jquery对象
 let student = $students[0];//DOM对象
 另一种方法是jQuery本身提供的，通过get(index)方法得到相应的DOM对象
 
@@ -1086,6 +1086,7 @@ if(typeof $ == 'undefined'){
 判断 radio是否被选中:
 <input type="radio"  name="sex" value="男" />男
 <input type="radio" name="sex" value="女" />女
+//input 标签的和type类型name=sex,被选中的值
 var val=$('input:radio[name="sex"]:checked').val();
 if(val==null){
 	alert("什么也没选中!");
@@ -1175,6 +1176,7 @@ let querystring = require('querystring') //引入querystring模块
 +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 Vue
+Vue.js 的核心是一个允许你采用简洁的模板语法来声明式的将数据渲染进 DOM 的系统。
 
 核心思想或者说vue是什么,为什么需要?
 
@@ -1242,6 +1244,20 @@ var app7 = new Vue({
 })
 </script>
 </html>
+---------------
+除了数据属性property，Vue实例还暴露了一些内置 property 与方法。它们都有前缀 $，以便与用户定义的 property 区分开来
+举例:
+var data = { a: 1 }
+var vm = new Vue({
+  el: '#example',
+  data: data
+})
+vm.$data === data // => true
+vm.$el === document.getElementById('example') // => true
+-------------------------
+每个 Vue 实例在被创建时都要经过一系列的初始化过程——例如，需要设置数据监听、编译模板、将实例挂载到 DOM 并在数据变化时更新 DOM 等。同时在这个过程中也会运行一些叫做生命周期钩子的函数
+
+从上面这句话也可以看出vue核心功能是通过数据监听来实现的
 +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
