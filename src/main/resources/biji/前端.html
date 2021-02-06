@@ -698,15 +698,20 @@ JavaScript:
 1,所属公司不一样,java是sun公司,现在是Orcale公司.
 2,js是由浏览器解释并执行,java是有jvm解释并执行.
 3,js是基于对象,java是面向对象
-4,js是弱类型的语言,java是强类型的语言
+4,js是弱类型的语言(但对大小写敏感),java是强类型的语言
 5,js是非严谨的,java是严谨的.
 js运行在客服端.
 
-JavaScript需要被浏览器所解释执行,就必须要将代码和html相结合.
+JavaScript 一般通过2种方式引入到html文件中(让html改为动态的)
 两种方式:
-1,通过定义<script>标签将js代码写入其中.并指定type属性,方便与浏览器启动指定
-的解析引擎.
-2,可以通过<script>标签,使用src属性连接一个指定js文件进来.常用
+1,直接和html或/jsp页面一起
+<script>
+	function my(){
+	}
+</script>
+
+2,js和html或jsp页面不在一起
+可以通过<script src="/js/my.js">标签,使用src属性连接一个指定js文件,推荐
 
 -----------------------------------------------------------------------
 <title>一般情况下script写在title下面</title> 
@@ -908,6 +913,7 @@ JavaScript的基本语法:
 	通过var关键字定义变量,该变量可以赋予不同类型的常量.
 	var x = 3;
 	x = "asd";
+如果变量声明后没有被赋值,那么其值是undefined	
 二,语句.
 		if,switch,while,do while,for
 		使用逻辑运算符进行布尔;表达式连接的时候,需要是短路与和短路或
@@ -2154,6 +2160,15 @@ public class Dom4jToXml {
 		new Dom4jToXml().createXMl();
 	}
 }
+++++++++++++++++++++++++++++++++++++++++++++++++++++
+chrom 
+debug 分为页面dom和js两个地方
+
+dom debug 主要是属性被修改和元素被删除,还有子节点被修改会被触发
+
+
+chrom 的样式优先级是从低到高,最上面的优先级越高;所以你会发现底部的很多css都有被废弃的横杆,
+说明上面有更高优先级的css样式覆盖了它.
 
 前端end
 
