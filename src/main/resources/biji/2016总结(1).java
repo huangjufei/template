@@ -1936,7 +1936,7 @@ public void test(){
 	System.out.println("--------普通循环不用-------");
 }
 
-增强 for 循环格式:
+ 循环格式:
 for(集合中对象的类型 对象变量:需要遍历的集合){
 	具体操作
 }
@@ -9827,9 +9827,20 @@ service httpd start
 Nginx
 强大的Nginx服务器
 Nginx主要功能2个:反向代理和负载均衡
+反向代理和正向代理的区别就是：正向代理代理客户端，反向代理代理服务器。
 一般来说apache是2000并发而nginx是5W,最少是3倍以上;
 学习网站:
+https://www.cnblogs.com/ysocean/p/9392908.html
 https://www.runoob.com/w3cnote/nginx-setup-intro.html
+
+Nginx配置文件目录:
+/usr/local/nginx/conf/目录下的nginx.conf
+
+Nginx相关命令：
+查看是否运行: ps –ef|grep nginx 
+启动命令：./usr/local/nginx/sbin/nginx 
+重启命令：./usr/local/nginx/sbin/nginx -s reload
+关闭命令：kill -9 nginx
 
 
 下面是工作中的配置(不包含负载均衡):
@@ -9863,13 +9874,13 @@ http {
             index  index.html index.htm;
         }
 
-		#金猪贷
+		#金猪贷,正则匹配，~为区分大小写，~*为不区分大小写;^~ 在请求字符串匹配度最高的location后立即使用此 location 处理请求,不在找其他正则location
 		location ^~ /moblie/ {
 			proxy_pass http://59.110.173.50:8899/moblie/;
 		}
 	
 		#招财收量系统
-		location ^~ /yield/ { #请求的url过滤，正则匹配，~为区分大小写，~*为不区分大小写。
+		location ^~ /yield/ {
 					client_max_body_size  500m;
 					proxy_set_header Host $host;
 					proxy_set_header X-Real-IP $remote_addr;
@@ -12956,9 +12967,20 @@ share pool -- data buffer -- 磁盘(非常慢)
 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
+平穷的本质:
+1,没有长远打算,没有一技之长;(很容易的学习的技能都是不值钱的技能,要找一个很难掌握且需要不断学习的技能)
+2,只顾眼前利益,或看中小利益;(很多小单位没有五险一金,或有些工作马上上手就可以找到钱,但随着时间的增长却没有工资提升)
+3,不善于总结(所有知识都是可以被归类总结,这样的好处你可以看清整体和局部这样全面掌握它,整理总结就是画金字塔的过程)
+4,爱好广泛(如爱好游戏,爱好看小说,爱好看电视剧,无关紧要的人际交往有了这样,哪有时间学习)
+5,不会独处,个性不够坚韧(学习和思考的前提)
+总结举例:
+一技之长 -- 需要大量学习 -- 学习又学习能力(包含学习方法)有关-- 学习能力的强弱和学校所学的基础知识,付出时间,坚韧度有关;
 
 
 
 
-
-
+      9.7
+2020.1.26 
+	 11.5 预产期
+2020年2月7号怀上,周日
+	 
