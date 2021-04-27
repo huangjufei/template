@@ -918,13 +918,13 @@ static方法和static域 —摘抄自《Java编程思想》
 
 final 最终的
 
-final 修饰属性后变为常量,习惯上常量用大写字符表示 (常量赋值就不能再变了;静态变量也叫全局变量)
+final 修饰成员变量后变为常量,习惯上常量用大写字符表示 (常量赋值就不能再变了;静态变量也叫全局变量)
 final 修饰方法 不能被重写.如 Object类的getClass()
 final 修饰类 不能被继承. 如:String StringBuffer类 System 类
 
 
-如果final修饰一个引用类型时，则在对其初始化之后便不能再让其指向其他对象了，但该引用所指向的对象的内容是可以发生变化的。
-（注意是指引用不能被修改,值是可以被改变）
+如果final修饰一个引用类型时，则在初始化之后不能再指向其他对象，但该引用所指向的对象的内容是可以发生变化的。
+（引用不能被修改,值是可以被改变）
 
 常量在哪里赋值?
 final 修饰的 类成员变量 必须在申明时 或 构造方法里初始化。
@@ -998,20 +998,17 @@ interface Person{
 ---------------------------------------------------------------
 抽象类和接口的区别以及使用场景(精华)
 
-相同点
-
+相同点:
 两者都不能实例化.interface 实现类及 abstract class 的子类都必须要实现抽象方法后才可以实例化;
 
-不同点
-
+不同点:
 1,interface 需要实现,要用 implements,而 abstract class 需要继承,要用 extends.
 一个类可以实现多个 interface,但一个类只能继承一个 abstract class.
-
 2,interface 强调特定功能的实现,而 abstract class 强调所属关系.
-3,接口中只能有常量,abstract class 中可以有普通变量
+3,接口中只有常量,abstract class 中可以有普通变量
 
 abstract class是 interface 与 Class 的中起承上启下(既可以有Class 的功能又有接口的功能).
-interface是完全抽象的,只能声明方法,且被 public abstract 默认修饰
+interface 方法全抽象的,且被 public abstract 默认修饰
 
 
 interface 的应用场合
@@ -1037,7 +1034,7 @@ abstract class 的应用场合
 
 缺点:
 使用多态可能会用到强制转型(),判断对象a是否是类A的一个实例 使用 instanceof 
-若a是b的实例 ,那么a也一定是b类的父类的实例(a既然可以是儿子，就一定可以孙子)
+若a是b的实例 ,那么a也一定是b类的父类的实例(a既然已经是儿子，就一定是孙子)
 
 
 举例:
@@ -1070,16 +1067,26 @@ public class TestInterface {
 +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 泛型(都是在集合中使用，和多态容易混淆，它们是不同的东西)
-Generic 泛型 
+Generic 泛型 (泛型没有多态)
 
-泛型的最主要的作用就是动态形参,还可类型传递;而不是防止类型转换错误
+泛型的最主要的作用就是动态形参,可类型传递;防止类型转换错误
 
-泛型，即“参数化类型”。一提到参数，最熟悉的就是定义方法时有形参，然后调用此方法时传递实参
+泛型，即“参数化类型”。就是多态传递有形参，调用此方法时传递实参
 
 为什么需要泛型?
+就是代替Object对象的如:
+public Object doSomething(Object obj) {}
+public <T> T doSomething(T t) {}
+
 1,为了程序有更强的可用性,让类方法可以重用任何对象(泛型不支持多态)；
 2,存取都可以出现类型转换异常.泛型就是明确类型,使用泛型后不需要强转
+----------------------------
+泛型举例:
+如:
+JqGridRequest<T> //分页请求,对请求条件,排序,PageNo,PageSize,T data 进行封装,盘古使用
+JqGridResponse<T>//分页返回,对pageNo,totalPage,totalSize,List<T> data,resultCode,resultMsg 进行封装
 
+----------------------------
 注意事项:
 1,泛型中不能放基本数据类型
 2,泛型没有多态,必须保证前后<>的类型一致;就算是有继承关系也不可以(很重要的一句话)
@@ -1114,7 +1121,7 @@ public class DAO<T> {
 		return e;
 	}
 	
-	//声明泛型方法,实现数据到集合的复制	,不要纠结第一个<E> 只是一种规范
+	//声明泛型方法(更加常用,方法级别的),实现数据到集合的复制,不要纠结第一个<E> 只是一种规范
 	public <E> List<E> formArrayToList(E[] e,List<E> list){
 		for(E e1 : e){
 			list.add(e1);
@@ -1195,9 +1202,8 @@ public class Test {
 1,类的内部在定义类的类叫内部类.
 2,内部类分为 成员内部类(声明在类的内部且方法外) 和 局部内部类(方法里)
 成员内部类:
-是外部类的一个成员:
-可以被 static final 修饰
-可以调用外部类的属性,方法.
+相当于外部类的一个成员变量:
+可以被 static final 修饰,可以调用外部类的属性,方法.
 
 举例:
 //这种创建线程的方式可以哦,其实可以看成是一个匿名内部类（成员内部类）
@@ -1217,8 +1223,7 @@ STRING
 java.lang包:
 *******总结:字符串最好去Api中找.....
 
-字符串最大特点:一但被初始化就不可以被改变.相当于常量.
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+字符串特点:一旦初始化值就不能被改变,所谓的改变只是变量指向.和final还不一样,那个是指向不变值可以改变刚好相反
 
 String str1 = "AA";
 String str2 = "AA";
@@ -1231,22 +1236,20 @@ str1 == str2 结果是 true;因为地址都是一样,都指向同一块内存
 str3 变量在栈空间中, new String 在堆内存中, 但堆内存中的区域又指向了方法区中的字符串常量池
 (因为是字符串是引用数据类型).先是去找有没AA这个字符串,有就直接指向AA,没有就建立一个AA
 
-str1.equals (str3) 结果也是true; 但 str1 == str3 结果是 false(new 这种相当于又多了一个中间层);
-其实这个结果也可以想象出上面
+str1.equals (str3) 结果也是true; 但 str1 == str3 结果是 false (new 这种相当于又多了一个中间层);
 
-== 比较的是地址; equals比较的是字符值;但是你可以重写equals方法让它和默认结果相反;
+equals比较的是字符值,== 比较的是地址;但是你可以重写equals方法让它和默认结果相反;
 ----------------------------------------------------
 toString:
 toString由: 类名+"@"十六转十进制的hashCode()值两部分组成
 
-我们先来看看在Object类的toString方法,注意大部分类的toString内容是不一样的(它们重写了)
+我们先来看看在Object类的toString方法,注意大部分类的toString内容是不一样的(它们自定义重写了toString方法)
 
 public String toString(){
 	return getClass().getName() + '@' + Integer.toHexString(hashCode());
 }
 
 hashCode()里面存的就是十进制的哈希值,就是对象的特征值 好比给你起身份证 可以唯一识别一个对象.
-
 ------------------------------------------------------
 /**
  * 基本数据类型转String 和String转基本数据类型如何转?
@@ -1459,7 +1462,7 @@ void setCharAt(int index ,char ch);
 void getChare (int srcBegin, int srcEnd, char[] dst, int dstBegin)
 
 JDK1.5,版本之后出现了StringBuilder
-StringBuffer 线程同步,StringBuilder 线程不同步但速度快(建议)
+StringBuffer 线程同步,StringBuilder 线程不同步但速度快
 
 ------------------------------------------------
 时间
@@ -1544,8 +1547,7 @@ public void dateDiff(String startTime,String endTime, String format) {
 		System.out.println("时间相差:"+day+"天"+hour+"小时"+min+"分钟"+sec+"秒.");
 	} catch (Exception e) {
 		// TODO: handle exception
-	}
-	
+	}	
 }	
 ----------------------------------------------------
 推荐
@@ -1611,10 +1613,10 @@ public class DateTimeUtils {
 
 java.lang.Object
 	|--java.lang.Throwable(所有异常都具有可抛性)
-		|--java.lang.Error:错误,java程序本身错误,无需关心
+		|--java.lang.Error:错误,jdk本身错误,无需关心
 		|--java.lang.Excption:异常.需要进行处理
-			|--RuntimeException:运行时异常（ArrayIndexOutOfBoundsException NullPointerException ArithmeticException ClassCastException）
-			
+			|--RuntimeException:运行时异常（ArrayIndexOutOfBoundsException数组下标越界 NullPointerException空指针
+									ArithmeticException算法异常 ClassCastException类型转换异常,bean重复）			
 
 
 异常的处理：
@@ -1630,10 +1632,9 @@ try:{
 
 
 如何定义异常信息？
-
-自定义类继承Throwable或子类即可,将异常信息传给父类；
+自定义类继承Throwable 或子类即可,将异常信息传给父类；
 因为父类中已经把异常信息的操作都完成了,所以子类只要在构造时将异常传递给父类通过
- super 语句,那么就可以直接通过getMessage方法获得自定义的异常信息.
+ super 语句,然后直接通过getMessage方法获得异常信息.
 
 继承原因：
 异常体系有一个特点：因为异常类和异常都具备可抛性,这是 Throwable 这个体系独有特点.只有这个体系中的类和对象才可以被 throws 和 throw 操作
@@ -1642,21 +1643,15 @@ throws 使用在的函数上,后面跟的是异常类,多个用逗号隔开.
 throw 使用在函数内,后跟的是异常对象.
 ~~~~~~~~~~~~~~~~~~~
 	
-因为java程序分为javac.exe(编译)和java.exe(运行)两个过程
+java程序分为javac.exe(编译)和java.exe(运行)两个过程
 
 异常分两种：
-Exception 和 RuntimeException
-1,编译时异常
- 该异常必须显示告诉程序如何处理,要么方法上 throws 最后到入口函数上,要么 try;不然无法编译代码
-
-Exception 属于应用程序级别的异常，如果 throw 的话,该方法上还必须 throws
-调用者必须处理(要么 try 要么继续 throws);
+Exception(编译) 和 RuntimeException(运行)
+1,编译时异常必须显示告诉程序如何处理,要么方法上 throw ,要么 try;不然无法编译代码
+如果 throw 的话,该方法上还必须 throws ,调用者必须处理(要么 try 要么继续 throws);
  
-2,RuntimeException 以及子类
-
-RuntimeException如果在函数内 throw 抛出该异常,方法上可以不用声明,编译一样通过.
+2,RuntimeException 以及子类如果在函数内 throw 抛出该异常,方法上可以不用声明,编译一样通过(所以就要看业务是否需要用户显示处理还是运行处理来判断哪种异常)
 如果在方法上 throws 声明了该异常,调用者可以不用 try, catch 处理,
-之所以不用在方法声明,是因为不需要要调用者处理,当该异常发生希望程序停止.
 因为在运行时,出现了无法继续运算的情况,希望停止程序后,由程序员进行修正.
 ------------------
 举例：
@@ -1712,7 +1707,6 @@ SpringMvc 统一异常处理有 3 种方式(精华)，分别为：
 2,实现 HandlerExceptionResolver 接口 （这种基于xml配置可以直接跳转的页面；全局搜索有例子）
 3,使用注解 @ControllerAdvice + @ExceptionHandler(方法注解)推荐 (百度网盘springbootHello-3有例子)
 
-
 关于异常总结(精华)：
 
  java对异常进行了对象封装，jdk中有很多异常对象;但在业务开发时我们有很多业务异常我们希望有自己异常对象这样能更精确更友好提示用户;
@@ -1728,7 +1722,7 @@ SpringMvc 统一异常处理有 3 种方式(精华)，分别为：
 异常的处理原则:
 1,处理有两种: try 或者 throws.
 2,调用到抛出异常的功能时,抛出几个就处理几个.一个 try 对应对一个 catch(规范)
-3,多个 catch,父类的 catch 放在最下面
+3,多个 catch,父类的 catch 放在最下面(粒度细的放上面,粒度粗的放下面)
 4,catch 内,需要定义针对性的处理方式,不要简单的定义printStackTrace,输出语句.更不要什么都不写.
 当捕获到异常,本功能处理不了时,可以继续从 catch 中抛出.
 
@@ -1882,9 +1876,9 @@ Map	 				  HashMap  LinkedHashMap  TreeMap  Hashtable
 Collections 工具箱这个类
 ---------------------------------
 Collection 接口(里面有15个方法,子类共享)
-	|---List 接口(存储是有序的,可以重复)(如果要判断list中的元素的值是否相同，那么一定要重写equals)
+	|---List 接口,继承了Collection接口(存储是有序的,可以重复)(如果要判断list中的元素的值是否相同，那么一定要重写equals)
 		~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-			|---ArrayList(推荐.底层原理是数组)实现类
+			|---ArrayList(推荐.底层原理是数组)实现了List还实现了其它接口
 			|---LinkedList(底层是链表,对于大量的插入,删用它)实现类
 			|---vector(古老的,线程安全的,一般不用) 实现类
 	|---Set(**存储**是无序的,不可重复;方法基本和父类Collection一样)
@@ -1908,9 +1902,8 @@ Collection 接口(里面有15个方法,子类共享)
 重点:操作集合大多数  List和 linked我们要复写 equals ; 
 Set和Map 我们要复写HashCode 和 equals ;
 
-*******
-iterator():返回的是一个 Iterator 接口实现类的**对象**.进而实现集合的遍历!
-********
+
+iterator()方法返回的是一个 Iterator 接口实现类的对象
 
 @Test
 public void test(){	
@@ -1918,15 +1911,15 @@ public void test(){
 	l.add(1);
 	l.add(2);
 	l.add(3);
-	Iterator<Integer> it = l.iterator();
+	Iterator<Integer> it = l.iterator();//方法返回的是一个 Iterator 接口实现类的对象
 
 	while (it.hasNext()) {
-		System.out.print(it.next());//123		
+		System.out.print(it.next());//1,2,3		
 	}	
 	
 	System.out.println("---------------------------");	
 
-	for(Iterator<Integer> i = l.iterator();i.hasNext();){
+	for(Iterator<Integer> i = l.iterator();i.hasNext();){//最后一个++操作在方法体中i.next();hasNext不会取出任何东西,推荐
 			System.out.println(i.next());
 	}
 
@@ -2135,7 +2128,7 @@ Comparator 推荐使用,因为它不用修改实体类的源码,思路一模一�
 +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
-枚举类
+枚举类(有点像内部类)
 
 https://www.cnblogs.com/singlecodeworld/p/9887926.html
 
@@ -2144,10 +2137,7 @@ https://www.cnblogs.com/singlecodeworld/p/9887926.html
 
 好处:
 含义明确,类型限制.
-
 举例:一周的时间,不能使用int 直接来表示,因为可能出现8,还有就是使用1,业务含义也不明确;
-
-
 
 注意:
 枚举变量是常量(建议大写)多个之间用,号分割,最后一个用;结尾
@@ -2173,15 +2163,16 @@ enum Season {
 	   SPRING 就好比匿名内部类
 	 * 
 	 */
-	SPRING("spring", "春天"),SUMMER("summer", "夏日炎炎"),AUTUMN("autumn", "秋高气爽"),
-	WINTER("winter", "白雪皑皑");
+	SPRING("spring", "春天"),SUMMER("summer", "夏日炎炎"),
+	AUTUMN("autumn", "秋高气爽"),WINTER("winter", "白雪皑皑");
 
 
 	private final String seasonName;
 	private final String seasonDesc;
 
 	/**
-	 * 1,第一步私有化构造器,属性在构造器中赋值,被final修饰可以在构造器赋值,但如果加了static就需立即赋值
+	 * 1,第一步私有化构造器(不能通过new来创建对象,单例),成员变量在构造器中赋值,
+		被final修饰可以在构造器赋值,但如果加了static就需立即赋值
 	 */
 	private Season(String seasonName, String seasonDesc) {
 		this.seasonName = seasonName;
@@ -2219,21 +2210,19 @@ public static void main(String[] args) {
 		}
 	}
 }
--------------------------------------------
+--------------------------
 其中常用的方法:
 values()返回类型为枚举类型的数组
 valueOf(String name);传入字符串(大小写必须和声明的一致)得到对象
 
-枚举类如何实现接口:
+枚举类如何实现接口(不看,工作中没看见使用):
 让类实现此接口,类的对象共享同一套接口的抽象方法的实现.
 让类的每一个对象都是实现接口的抽象方法,进而通过类的对象调用被重写的抽象方法时,执行的效果不同
 +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 注解 Annotation
 
-
-JDK提供的 常用 的3大注解:
-
+JDK提供的 常用注解:
 @Override:表示是重写的父类的方法;该注释只能用于方法,比如我们常常用的toString()方法,
 @Deprecated: 已过时;用于表示某个程序元素(可以修饰类,方法等)
 @SuppressWarnings :抑制编译器警告
@@ -2250,12 +2239,12 @@ Inherited :是否具有继承性
 
 //ElementType.METHOD 表示方法上可以使用,ElementType.Type 表示类或接口上可以使用
 @Target({ElementType.METHOD,ElementType.Type})//说明自定义注解的使用范围;
-@Retention(RetentionPolicy.RUNTIME)//声明周期分为:源码 < 编译 < 运行;这里使用的运行
-
+@Retention(RetentionPolicy.RUNTIME)//生命周期分为:源码 < 编译 < 运行;这里使用的运行
 @Inherited//可以继承,只能使用在类上
 @Documented//可以生成javadoc,就是可以生成api文档
 
 //上面都是元注解;每一个自定义注解都需要使用上面几个元注解;
+
 //1,使用@interface 关键字定义注解
 public @interface Description{	
 	String desc();//2,成员以无参,无异常的方式声明
@@ -2289,6 +2278,7 @@ Map<String,Object> map = new HashMap<>();
 
 5,try(这里面开启资源){} 会自动关闭开启的资源,无需再去 finally 判断关闭
 
+举例:
 try (FileWriter fw = new FileWriter("c:/aa.txt")) {
 		
 } catch (Exception e) {
@@ -2333,8 +2323,8 @@ generic 泛型
 
 ****************************************************************
 过程:
-我的创建的每一个类经过编译(javac.exe)以后,得到.class文件(也叫字节码文件)
-运行(java.exe),通过JVM的 getClassLoader() (类的加载器) 把.class文件加载到内存中的缓存区
+class类.java经过编译(javac.exe)以后,得到.class文件也叫字节码文件
+再运行java.exe会运行JVM的 getClassLoader() 类的加载器 把.class文件加载到内存中的缓存区
 .每一个放入缓存区中的.class文件 就是 一个Class的实例! (每一个运行时类只加载一次)
 ****************************************************************
 
@@ -2343,7 +2333,7 @@ generic 泛型
 
 万物皆对象那么类也应该是一种对象,既然类是一种对象,那么谁描述该对象?
 
-JRE保留一个的Class抽象类.这个Class类(可以理解为对象)可以得到的某个类的描述（类的定义）如:
+JRE保留一个的Class抽象类.这个Class类(可以理解为对象)可以得到某个类的描述（类的定义）如:
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 成员变量,形参,函数,构造器,实现了那些接口等,反射在运行期间得到这些信息,也就是反射存在的目的
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -2358,7 +2348,7 @@ java.lang.Class类是反射的源头!
 Class的一个对象,就是那份字节码
 Class实例:就是指JVM中的一份字节码 类.class 就是一份字节码
 
-(JVM中只有一份字节码,新的覆盖原来的,另字节码只有在程序中使用到才会被加载到内存中)
+(JVM中只有一份字节码,新的覆盖原来的,另字节码只有在程序中使用到才会被加载到内存中,意思不是所有的class文件都会被加载到内存中)
 
 Eclipse中的Outline视图就是通过反射机制做出来的
 Class描述的是一切类,Object是描述一切对象
@@ -2370,16 +2360,16 @@ Class clz1 = String.class;
 //第二种: 根据全路径得到,可能抛出空异常,但常用
 Class clz2 = Class.forName("java.lang.String");
 Object obj = new Date();
-//第三种: 根据对象得到
+//第三种: 根据对象得到(说明已经在内存中了)
 Class clz3 = obj.getClass();
 System.out.println(clz1);//class java.lang.String
 System.out.println(clz2);//class java.lang.String
 System.out.println(clz3);//class java.util.Date
--------------------------------------------------------
+--------------------------
 
-Constructor,Mothod,Field的信息:
+Constructor构造器,Mothod方法,Field成员变量等的信息:
 比如想得到方法的返回值类型,修饰符,等都是Method类Api去找
---------------------------------------------------------
+--------------------------
 
 开始使用,Class类API更加准确且多
 
@@ -2414,7 +2404,7 @@ public Constructor<T> getDeclaredConstructor(Class<?>... parameterTypes)//根据
 ----------------------------------------------------------------------
 public T newInstance()
 
-得到Class对象表示的实例,如果一个类中有public且有无参的构造器可以省略getConstructor方法.
+得到Class对象的实例,如果一个类中有public且有无参的构造器可以省略getConstructor方法.
 
 对于有参数的构造器先使用getConstructor(Class<?>... parameterTypes)得到实例,在使用newInstance("实际参数")传进去参数
 如: Employee e = clz.getConstructor(String.class).newInstance("小明"); 
@@ -2428,11 +2418,8 @@ constructor.setAccessible(boolean flag)//设置为true,表示允许访问
 方法如何调用:
 
 public Method[] getMethods()//得到public 修饰且包含继承或接口
-
 getMethod(String methodName, Class<?>... parameterTypes) //返回指定方法,参数:方法名,可变参数类型;
-
 getDeclaredMethods() //返回自身类的方法,不包含继承或接口,且和修饰符无关
-
 
 上面得到方法后如何调用?
 
@@ -2527,17 +2514,16 @@ public void testInstance() throws ClassNotFoundException{
 	Class p3 = Class.forName("com.entitys.Person");	
 	//通过类的加载器,这里方法就能体现出反射的动态性	
 	Class p4 = this.getClass().getClassLoader().loadClass("com.entitys.Person");
-	
-		//下面打印的hashCode都一样,只有第一才会被加载,后面直接在内存读
-		System.out.println(p1.hashCode());
-		System.out.println(p2.hashCode());
-		System.out.println(p3.hashCode());
-		System.out.println(p4.hashCode());
+
+	//下面打印的hashCode都一样,只有第一才会被加载,后面直接在内存读
+	System.out.println(p1.hashCode());
+	System.out.println(p2.hashCode());
+	System.out.println(p3.hashCode());
+	System.out.println(p4.hashCode());
 }
 
 如何创建Class的实例?(重点)
-上面4种方式再
-.newInstance();//得到实例对象,实际上就是调用了空参的构造器
+上面4种方式在.newInstance();//得到实例对象,实际上就是调用了空参的构造器
 
 -------------------------------------------------
 简单使用:
@@ -2656,25 +2642,25 @@ public void testMethed() throws Exception {
 }
 ---------------------------------------------------------------
 
-		Java中9个预定义的Class实例(工作中没用到,但面试可能会问)
-		八个基本类型 4个整数 2个浮点 1个boolean 1个char 另加一个void
+Java中9个预定义的Class实例(工作中没用到,但面试可能会问)
+八个基本类型 4个整数 2个浮点 1个boolean 1个char 另加一个void
 
 
-		8大基本数据类型 中有一个常亮TYPE
-		Integer.TYPE == int.class //打印true,TYPE就是基本数据类型的Class实例
+8大基本数据类型 中有一个常亮TYPE
+Integer.TYPE == int.class //打印true,TYPE就是基本数据类型的Class实例
 
 注意,Integer.class == int.class //打印 false,因为它们根本不是一种数据类型
 ------------------------------------------------------------
-		数组也是可以.class ,数组的比较结果和 类型和维数 有关系
+数组也是可以.class ,数组的比较结果和 类型和维数 有关系
 
-		String [] s = {};
-		String [] s1 = {"a","b"};
-		Class s3 = s.getClass();
+String [] s = {};
+String [] s1 = {"a","b"};
+Class s3 = s.getClass();
 
-		System.out.println(s.getClass() == s1.getClass());//true
-		System.out.println(String [][].class== s3);//false 维数不一样
+System.out.println(s.getClass() == s1.getClass());//true
+System.out.println(String [][].class== s3);//false 维数不一样
 
-		当然类型不一样结果肯定是 false
+当然类型不一样结果肯定是 false
 ------------------------------------------------------------
 /**
  * 获取父类的泛型,jdbc 必用(这个调式失败)
@@ -2714,7 +2700,7 @@ interface ProduceFactory {	//接口:生产工厂
 class Nickfactory implements ProduceFactory{//被代理类
 	@Override
 	public void action() {
-		System.out.println("Nick工厂 运行中.... ");
+		System.out.println("Nick 运行中.... ");
 	}
 }
 //代理类,实现了接口
@@ -2743,7 +2729,7 @@ public class StaticTest {
 	}
 }
 --------------------------------------
-动态代理—(精华)
+动态代理—(底层依赖反射实现,精华)
 
 
 动态代理:
@@ -2754,7 +2740,7 @@ public class StaticTest {
 
 静态代理需要代理和被代理都实现同一接口，动态代理不需要
 
-静态代理只服务于一种类型的对象，如果要服务多类型的对象。势必要为每一种对象都进行代理.
+静态代理只服务于一种类型的对象，如果要服务多类型的对象。需要为每一种对象都进行代理.
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 涉及到的技术点:(重点)
@@ -2775,8 +2761,9 @@ jdk和CGlib 动态代理如何选择?
 ++++++++++++++++++++++++++++++++++++++++++++++++++++
 IO(input,output)流
 
-IO操作都依赖操作系统,这是为了系统安全的考虑,read从内核地址空间到用户地址空间,writer从用户到内核,
-只要是系统调用就存在用户空间和内核空间切换的问题;
+IO操作都依赖操作系统,这是为了系统安全的考虑,只要是系统调用就存在用户空间和内核空间切换的问题;
+read从内核地址空间到用户地址空间,writer从用户地址空间到内核地址空间
+
 IO流的作用(站在硬盘的角度):
 数据从内存到硬盘（output写writer）,从硬盘到内存(input读read)的转换
 
@@ -2786,10 +2773,10 @@ java对数据的传输是通过流的方式;java用于操作流的对象都在IO
 流按操作数据分为: 字节流(8bit) 和 字符流(16bit) 
 流按流向分为    : 输入流 和 输出流
 
-**********************************************************************
+***********************************************
 字节流的抽象类 InputStream,Outputstream 
 字符流的抽象基类 Reader,Writer 																  
-(抽象类不能被创建,其他40几个类都是以上面抽象类名作为后缀的)
+(其它40几个类都是以上面抽象类名作为后缀的)
 
 
 数据的最常见体现形式是 File类.
@@ -3025,7 +3012,7 @@ rws:打开读取和写入；同步文件内容和元数据的更新
 另:随机流中有个seek(int index)方法,可以完成覆盖原数据的功能.
 ---------------------------------
 /**
- * 需求:在第4个字节后添加 "xy" 
+ * 需求:在文件中的第4个字节后添加 "xy真" 
  
  * 本身seek()方法直接使用时覆盖的效果(read()可以读汉字(一个汉字3个位置)但readLine()的方式只能是字母)
  * 
@@ -3086,27 +3073,26 @@ public void testClassLoader() throws IOException{
 }
 -------------------------------
 
-通过 Spring的Resource 接口
+Spring的Resource 接口
 
 目的:
-传统的Java资源文件的访问通过JDK中的File、URL类难以满足各种不同需求的资源加载，
-这里有Spring中设计的Resource接口提供更加强大的访问底层资源的能力。
-
+通过JDK中的File、URL类难以满足各种不同资源加载,Spring中设计的Resource接口提供获取文件资源(文件流,文件内容)
 https://blog.csdn.net/xiaoliuliu2050/article/details/81463223
 
 ResourceLoader是对资源加载的统一接口
 所有的application 都实现了resourceLoader 接口,反过来说就是你得到ApplicationContext就可以得到Resource
-得到resource就可以得到任何地方的文件对象.(可以是url,可以是本地文件路径,可以是项目相对路径,可以是网络url)
+得到resource就得到任何地方的文件对象.(可以是网络url,可以是本地文件绝对路径,可以是项目相对路径)
 
 如何使用?
 我们可以通过实现ApplicationContextAware接口得到application;然后得到resource
+
 注意:我们需要对不同的地点的文件加前缀:
 url:http://...//...(全部//线)
 file:D:\apache-maven-3.2.5
 classpath:applicationConfig.xml
-如果不写前缀,默认是你的applicationContext.xml文件加载的前缀(大多数我们刚好写的classpath)
+如果不写前缀,默认在你的classes路径下找
 
-classpath是指WEB-INF或target文件夹下的classes目录。
+classpath是指WEB-INF或target/classes/路径下
 classpath和classpath*区别： 
 
 classpath：只会到你的classes路径中查找找文件。
@@ -3162,32 +3148,28 @@ HttpServletRequest（请求） HttpServletResponse （响应）
 答:  ip  (端口定位的是某一个程序)
 ~~~~~~~~~~~~~~~~~~~
 ip定位到电脑,端口定位到一个应用,然后就是io操作
-一个InetAddress 的对象就代表一个IP地址
 
 
-如何创建一个InetAddress的对象? 通过getByName("域名 或 ip");
-比如: InetAddress inet = InetAddress.getByNmae("www.baidu.com");
-比如: InetAddress inet = InetAddress.getByNmae("192.168.110.16");
+如何创建一个InetAddress的对象? 
+
+InetAddress inet = InetAddress.getByNmae("www.baidu.com");//域名 或 ip
+InetAddress inet = InetAddress.getByNmae("192.168.110.16");
 	
-得到域名: inet.getHostName();
-得到IP  : inet.getHostAddress();//返回IP地址,真实ip(Ipv4)
-InetAddress.getLocalHost();//返回本地主机
+inet.getHostName();//得到域名: 
+inet.getHostAddress();//返回IP地址,真实ip(Ipv4)
+inet.getLocalHost();//返回本地主机
 
-http:\\www.hao123\te.tex.com
-由传输协议 主机名 +(http 默认端口80)文件名
+http:\\www.hao123\te.tex.com //URL=传输协议 + 主机名(就是域名或ip) +端口 (http 默认端口80)+ 文件路径
 
-URL :统一资源定位符 一个URL的对象,对应这互联网上的一个资源,将此资源读取(下载).
+URL :统一资源定位符 一个URL的对象,对应这互联网上的一个资源
 
-
-IP地址一般分为4段,最大255,是8位组成一段
-有一个IP地址十分特殊,本地回环地址127.0.0.1,可以测试网络.电脑没设置默认就是这个地址.
+IP地址一般分为4段,最大255,8位组成一段
+本地回环地址127.0.0.1,可以测试网络.电脑默认就是这个地址.
 
 现在都是一个地区一个公网,然后下面类似局域网分段划分.
 现在出的TCP/ipV6,分为6段,还包括字母.
 
-
 传输协议一般比较常见  TCP , UDP ,Ftp
-
 应用层 http或ftp
 ---> 传输层 (Tcp或UDP）
 ----> 网络层 （IP）
@@ -3226,7 +3208,7 @@ ftp 21   http 80  Oracle 1521   mysql 3306
  */
 public class TestTcp {
 
-	@Test
+	@Test//服务端
 	public void Service() throws Exception {
 		ServerSocket ss = new ServerSocket(8989);	
 		Socket s = ss.accept();//阻塞式,会一直监听
@@ -3240,7 +3222,7 @@ public class TestTcp {
 		ss.close();
 	}
 	
-	@Test
+	@Test//客服端
 	public void Client() throws Exception {		
 		Socket s = new Socket("127.0.0.1",8989);	
 		OutputStream out = s.getOutputStream();
@@ -12214,13 +12196,22 @@ SecurityContextHolder.getContext().SetAuthentication((Authentication)json-token)
 ++++++++++++++++++++++++++++++++++++++++++++++
 shiro
 
-学习视频慕课网,学习链接下面这个(跟着涛哥学shiro)
+学习视频慕课网,学习链接下面这个(跟着涛哥学shiro),重点放在1,2,3,7章节
 https://www.iteye.com/blog/jinnianshilongnian-2049092
 
+
 shiro 认证流程:
-创建securityManager-主体提交认证-securityManager认证-Authenticator认证-Realm验证
+创建securityManager-主体提交认证(subject)-securityManager认证-Authenticator认证-Realm验证
+
 shiro 授权流程
-创建securityManager-主体提交授权-securityManager授权-Authenticator授权-Realm获取角色权限数据
+创建securityManager-主体提交授权(subject)-securityManager授权-Authenticator授权-Realm获取角色权限数据
+
+
+shiro 访问默认会先判断用户是否登录,如果没有默认是login.jsp,可以通过下面键值对修改
+authc.loginUrl=login
+
+
+
 
 举例:
 github有源码(该项目的配置文件架构都是值得学习的,清晰简单明了)
@@ -12264,9 +12255,46 @@ public class AuthenticationTest {
         subject.checkRoles("admin", "user1");
     }
 }
----------------
+-------------
+
 Realm 的数据可以是缓存,可以是文件,可以数据库,helloWorld模拟的是缓存;
 IniRealmTest 模拟文件中读取账号密码,了解;
+-----------------------------
+
+项目二:shiro-example-chapter16(github)
+
+前置知识:
+shiro 访问默认会先判断用户是否登录,如果没有默认是login.jsp,可以通过下面键值对修改
+authc.loginUrl=login
+
+如果shiro登录成功默认会访问"/"接口
+
+shiro如何流转的:
+1,启动tmcat,tomcat 的conf文件夹下的web.xml文件中,标识tomcat 启动后默认访问的jsp
+<welcome-file-list>
+    <welcome-file>index.html</welcome-file>
+    <welcome-file>index.htm</welcome-file>
+    <welcome-file>index.jsp</welcome-file>
+</welcome-file-list>
+
+2,这时马上就被shiroFilter拦截----->formAuthenticationFilter(任何请求都会先到这里来校验用户是否登录,
+如果没有就会跳转到login.jsp页面),发现没有登录,然后就到了login.jsp页面
+
+3,在web.xml配置文件中 org.springframework.web.filter.DelegatingFilterProxy(启动的时就会进入该类)
+的DelegatingFilterProxy作用是自动到spring容器查找名字为shiroFilter（filter-name）
+的bean并把所有Filter的操作委托给它。然后将ShiroFilter配置到spring容器即可
+
+4,上面相当于从web.xml 的配置关联到spring-config-shiro.xml 文件中的shiroFilter的Bean了
+
+5,如果用户在登录页面点击登录按钮-->formAuthenticationFilter(进行密码比对,如果密码错误是直接回到login方法
+,提示用户密码错误;
+如果密码正确会到SysUserFilter类中,然后来到"/"接口跳转到index.jsp页面(如果shiro登录成功默认会访问"/"接口))
+
+6,然后根据用户得到该用户所拥有的菜单
+(注意通配符匹配,进来的permission和resource不是对应数据库中的同一行数据)
+
+7,然后用户点击菜单中的如用户管理,来到userController的默认接口;返回用户列表;
+前端user/list.jsp中通过shiro标签控制着按钮是否显示;
 ++++++++++++++++++++++++++++++++++++++++++++++
 ++++++++++++++++++++++++++++++++++++++++++++++
 提高篇
@@ -12980,7 +13008,7 @@ share pool -- data buffer -- 磁盘(非常慢)
 
 
       9.7
-2020.1.26 
+2020.1.26 最后一次月经
 	 11.5 预产期
 2020年2月7号怀上,周日
 	 
