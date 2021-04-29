@@ -6,8 +6,7 @@
 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 jdk 里包含开发和运行环境,jre 只是运行环境
 
-
-
+--------
 java数据类型分为: 基本数据类型 和 引用数据类型
 
 								数据类型分
@@ -16,61 +15,60 @@ java数据类型分为: 基本数据类型 和 引用数据类型
 					 |							|
 			数值型,		字符型,布尔型            String,类class,接口interface,数组
 			|		  		|		|
-	整数(4)和浮点类型(2) char(1) boolean(1)
+	整数(4)和浮点类型(2) char(1) boolean最为特殊占1位
 	|			|
 byte,short,int,long;float,double
 
 基础类型一共8个分为数值6个和字符和布尔；数值又分为整数4个浮点2个
--------------------------------------
-
-数组的各个类型的初始化值是不一样的(根据类型判断值)
 
 1,整数类型默认初始化是0;
 2,浮点类型默认初始化值是0.0;
 3,char 字符默认初始化为 ""
 4,boolean 默人初始化为 false
-5,引用数据类型 始化值为 null; 
+5,引用数据类型 始化值为 null;
+6,数组的各个类型的初始化值是不一样的(根据类型判断值如:整形是0,浮点数0.0,引用null)
 
-orcle云
+oracle云
 feijuhuang
 feijuhuang@gmail.com
 --------------------------------------
-重点:
+java赋值传递:
 引用类型是地址传递,基本数据类型是值传递;
 
 举例:
 public static void main(String[] args) {
-	int a = 1;
-	int[] b = {1,2};
-	compare(a,b);
-	System.out.println(a);
-	System.out.println(b[0]);
-	
-}
+		int a = 1;
+		int[] b = {3,4};
+		compare(a,b);
+		System.out.println(a);//打印1,因为方法内的a不是引用传递,不会影响到外面
+		System.out.println(b[0]);//打印2,因为是引用传递,所以方法内修改影响外面
+	}
 
 public static void compare(int a,int[] b) {
 	a = 2;
 	b[0] = 2;
 }
 
-输出:1和2
-
 过上面的分析我们可以得出以下结论：
 
 1,基本数据类型传值，对形参的修改不会影响实参；
-2,引用类型传引用，形参和实参指向同一个内存地址（同一个对象），所以对参数的修改会影响到实际的对象。
+2,引用类型传引用，形参和实参指向同一个内存地址，所以对参数的修改会影响到实际的对象。
+
 3,但 String, Integer, Double等包装类型，可以理解为传值，最后的操作不会修改实参对象。
+
 
 https://blog.csdn.net/Norte_L/article/details/80250057
 -------------------------------------------------------
 下面是java8源码:
-首先:
-一个字节占8位是规范.
 
-boolean(1bit) < byte(1byte) < short,char(2byte) < float,int(4byte) < double,long(8byte)
+boolean(1bit)一位源码中没有 < byte(1byte)一字节 < short,char(2byte) < float,int(4byte) < double,long(8byte)
 
-因为java规范了如一个int占4个字节,一个byte一个字节;所以就确定了占几位,那么最大的数和最小数就自然出来了.
+首先:一个字节占8位是规范.
+因为java规范了如一个int占4个字节,一个byte一个字节;所以就确定了占几位,那么最大的正数和最大负数就自然出来了.
 
+因为定义了占几个字节就知道占几位,知道占几位就知道最大数和最大负数
+
+下面几个是源码例子,主要是理解上面一句话
 
 public static final byte   MIN_VALUE = -128;(1个字节,最高位是符号位1000,0000)
 public static final byte   MAX_VALUE = 127;(1个字节,最高位是符号位0111,1111)
@@ -98,10 +96,8 @@ int i = 12;
 3,System.out.println(i/5); //打印2 ,因为是i是int类型是整数
 
 ---------------------------------------------------------------
-
 格式:
 switch(变量){
-	
 	case 值1：
 		//添加业务逻辑
 	case 值2：
@@ -126,7 +122,6 @@ switch(变量){
  * 2,default 效果好比else 一样,都不满足时执行
  */
 public class Test {
-
 	public static void main(String[] args) {
 		Scanner s = new Scanner(System.in);
 		System.out.println("请输出成绩");
@@ -172,17 +167,17 @@ for(int j=0; j<10; j++){
 		System.out.println(	getPrimeNumberToN(100));
 		
 	}
-	   private static List<Integer> getPrimeNumberToN(int n) {
-	        List<Integer> result = new ArrayList<>();//保存质数
-			
-	        for (int i = 2; i < n + 1; i++) {
-	            if (isShuSu(i)) {
-					//只有返回true时才添加到集合中
-	                result.add(i);
-	            }
-	        }
-	        return result;
-	   }
+   private static List<Integer> getPrimeNumberToN(int n) {
+		List<Integer> result = new ArrayList<>();//保存质数
+		
+		for (int i = 2; i < n + 1; i++) {
+			if (isShuSu(i)) {
+				//只有返回true时才添加到集合中
+				result.add(i);
+			}
+		}
+		return result;
+   }
 	   
 	/**
 	 *判断一个数是不是素数：只能被1和本身整除
@@ -206,53 +201,38 @@ for(int j=0; j<10; j++){
 正数的原码、反码、补码都相同
 
 原码：将一个数值换成二进制数
-反码：对原码按位取反,只是最高位(符号位)确定为1.(正数是0,负数是1)
+反码：对原码取反,只是最高位(符号位)确定为1.(正数是0,负数是1)
 补码: 计算机最后保存的;
 
 
 负数的补码其实就是正数转2进制后,再加1，最后的前面全部补1
-比如: -128
-0111,1111 = 127
-1000 0000 = -128
-假如 是64位电脑
-前面在加56个1,在把1000 000;刚好64位;计算器点十进制刚好是-128
-
-
-UTF-8编码：一个英文字符等于一个字节，一个中文（含繁体）等于三个字节。
-Unicode编码：一个英文等于两个字节，一个中文（含繁体）等于两个字节。
-
-1B(byte,字节)= 8 bit
-1KB(Kibibyte,1千字节)=1024B（1024字节）= 2^10 B；
-1MB(Mebibyte,兆字节,百万字节,简称“兆”)=1024KB=2^20 B;
-
-一兆等于多少字节?
-1024*1024
-
-注意:兆下面是千字节不是字节;
-
-一个字节(byte) 由8个 bit 组成 -128到+127
-最大正数 是:127 用 0 1 1 1 1 1 1 1;//127的 源码反码补码都是它
-127 =				64 32 16 8 4 2 1;
-						
-公式 =			2^6	2^5	2^4	2^3	2^2	2^1	1;
-
-最大负数是128(其实-128是从正的127转过去的)
-0111 1111
-1000 0000
-然后前面加56个1
-
-
+比如: -128,其实只是127的反码;
+0111,1111 = 127,源码
+1000 0000 = -128,反码
+假如 是64位电脑前最高为为1,其它补0,在把1000 000;刚好64位;计算器点十进制刚好是-128
 
 一个10进制数字怎么转为2进制?
 每次除以2，记下余数，直到商小于2，然后按相反循序写出来就是结果。
 相当于除2求余
-如:
+例子1:
 23/2=商11（余1）
 11/2=商5（余1）
 5/2=商2（余1）
-2/2=商1（余0）
-现在商小于2了,然后把余数连起来,所以十进制23 = 二进制10111
+2/2=商1 余0
+1
+最后从面开始写10111,23 = 二进制10111
+例子2:
+16/2=商8 余0
+8/2=商4 余0
+4/2=商2 余0
+2/2=商1 余0
+1
+最后从面开始写10000,16 = 二进制10000
+校验:
+1,0,0,0,0
+16,8,4,2,1		
 
+	 		
 如何将一个8进制转2进制 ?
 8进制的一位相当于2进制的3位
 
@@ -273,20 +253,38 @@ Unicode编码：一个英文等于两个字节，一个中文（含繁体）等�
 4个2进制 是一个16进制的一位
 如:0011 1010 1111
 	3 	 A    F
+	
+---------------
+
+UTF-8,编码：一个英文字符等于一个字节，一个中文（含繁体）等于三个字节。
+Unicode编码：一个英文等于两个字节，一个中文（含繁体）等于两个字节。
+
+1B(byte,字节)= 8 bit
+1KB(Kibibyte,1千字节)=1024B（1024字节）= 2^10 B；
+1MB(Mebibyte,兆字节,百万字节,简称“兆”)=1024KB=2^20 B;
+
+一兆等于多少字节?
+1024*1024=1048576字节,(刚好一百多W)
+
+注意:兆下面是千字节不是字节;	
 --------------------------------------
 
-取模 % 取余数
+% 取余数(取模),规则:左边小于右边，结果为左边，左边大于右边看余数
+ System.out.println(2%5)//打印 2;
+System.out.println(6%8)//打印 6;
+System.out.println(4%1)//打印 0
+System.out.println(4%2)//打印 0
+System.out.println(4%3)//打印 1
+System.out.println(4%4)//打印 0
 结果的符号取决于被模数(被模数是/前面那个)
 ———————————————————
 前++ :先自增1,在做运算
-后++ :先运算,在自增加1
+后++ :先运算(或赋值),在自增加1
 
 int myint1 = 10;
 int myint2 = myint1++;
 System.out.println(myint1);// 11	
-System.out.println(myint2);// 10 (比如统计,随时出错;只是只差1可能看不出)	
-
-
+System.out.println(myint2);// 10 (比如统计,随时出错;只是只差1可能看不出)
 int myint3 = 10;
 int myint4 = ++ myint3;
 System.out.println(myint3);// 11	
@@ -311,7 +309,7 @@ System.out.println(myint4);// 11
 注意没有无符号左移(因为最高位是符号位,移掉了数字就变了)
 
 ----------------------------------------------
-与(and) 和 或(or) ,异或是与的反起来（它们3个可以看为一组记忆）
+与(and) 和 或(or) ,异或和与的反起来（它们3个可以看为一组记忆）
 注意同样6和3每种运算结果都不一样
 
 & 与运算 6 & 3 = 2  (画2进制运算,只有上下都是1才返回1)
@@ -320,7 +318,6 @@ System.out.println(myint4);// 11
 ---------
 0000 0010 = 2
 
-
 ^ 异或运算 6 ^ 3 = 5 (异或就是&的取反)
 
 0000 0110
@@ -328,14 +325,13 @@ System.out.println(myint4);// 11
 ---------
 0000 0101 = 5
 
-
 | 或运算 6 | 3 = 7 (画2进制运算,只要有一个1就是1)
 
 0000 0110
 0000 0011
 ---------
 0000 0111 = 7
------------------------------
+---------
 
 ~ 反码(负数符号都会改变,原始数+1)
 
@@ -348,7 +344,7 @@ System.out.println(myint4);// 11
 
 /**
  * 功能:交换2个变量,但不能定义零时变量
-   原始方法:这种可以会损失精度
+   原始方法:好理解,这种可以会损失精度
    思路:拿其中一个变量来得到2个变量的总和,在分别相减
  */
 	//假如是a=5和b=2
@@ -403,21 +399,21 @@ p = new Person[2];
 //定义2维数组,
 int [][] arr = new int [3][4]; 
 
-	public static void main(String[] args){ 
-		int [][] arr = {{1,2,4},{2,3},{1,2}};
-		int sum = 0;
-		for(int x=0; x<arr.length; x++){
-			for (int y=0 ; y<arr[x].length; y++)
-				sum=sum+arr[x][y];		
-		}
-	   System.out.println(sum);
-    }
+public static void main(String[] args){ 
+	int [][] arr = {{1,2,4},{2,3},{1,2}};
+	int sum = 0;
+	for(int x=0; x<arr.length; x++){
+		for (int y=0 ; y<arr[x].length; y++)
+			sum=sum+arr[x][y];		
+	}
+   System.out.println(sum);
+}
 
 ---------------------------------------------
 下面这句代码内存空间会做什么
 String[] s = new String[3]; 
 	
-1,首先会在栈空间建立一个s变量,然后在堆内存中 new 字符串数组 长度为3,默认值为 null（因为目前是字符串） .
+1,首先会在栈空间建立一个s变量,在堆内存中 new 字符串数组,长度为3,默认值为 null（因为目前是字符串） .
 	
 2,栈空间的s变量 指向堆内存中的首地址,然后我们可以通过角标的方式移动角标得到对应的值	
 	
@@ -465,7 +461,7 @@ for(int i=0; i<=2; i++){
 	System.out.println();
 }
 
-//打印结果
+//打印结果,先循环内部打出5个*再换行在到内部...
 3*5 = 15 总次数
 /*
 *****
@@ -479,24 +475,25 @@ for(int i=0; i<=2; i++){
 	说白了就是先定位到行，在对这行循环;
  */
 public static void main(String[] args) {
-	int [][] ii= {{1,2,3},{4,5,6},{7,9}};
-	
+	int [][] ii= {{1,2,3},{4,5,6},{7,9}};	
 	//通过嵌套循环来模拟2维数组; 进行遍历
 	for(int i=0; i<ii.length;i++){
 		//对每一维数组进行角标长度遍历
-		for(int j=0; j<ii[i].length;j++){
-			
+		for(int j=0; j<ii[i].length;j++){		
 			System.out.print(ii[i][j]+" ");
 		}
 		System.out.println();
 	}
 }
-
---------------------------------------------------------------------------
+打印结果:
+//1 2 3 
+//4 5 6 
+//7 9 
+---------------------------------
 数组的常见算法:
 1,求数组的最大值,最小值,平均值,总和等
 2,数组的复制,反转.
-3,数组的排序
+3,数组的排序(需要2层for循环)
 
 /**
  * 需求:数组的常见算法: 求最大值 求最小值 求总和 求平均值 数组的复制 数组的反转
@@ -504,10 +501,8 @@ public static void main(String[] args) {
 public class Test2Array {
 
 	public static void main(String[] args) {
-
 		int[] array = new int[] { -44, 77, 33, 66, 55, 88, 99, 0 };
 		System.out.println("数组的长度为:" + array.length);
-
 		/**
 		 * 数组求最大值
 			思路: 先假设数组0下标最大,然后依次比较，如果找到更大的重新赋值”最大值“变量
@@ -539,15 +534,11 @@ public class Test2Array {
 
 		/**
 		 * 数组的复制,定义一个数组来装array的值
-		 */
-		
+		 */	
 		int[] array2 = new int[array.length];
-
-		 for (int i = 0; i < array2.length; i++) {
-			 
+		 for (int i = 0; i < array2.length; i++) {		 
 			 array2[i] = array[i];
 		 }
-		 
 		 array2[2] = 22;//覆盖原本33的值
 		 
 		 
@@ -564,16 +555,16 @@ public class Test2Array {
 		
 
 		/**
-		 * 数组的反转
+		 * 数组的反转(同时初始化2个变量一个为0,一个为长度减一;一个加一个减)
 			思路:暂存，交换，交换永远是替换不换的法则
 		 */
-		for (int i=0,end = array.length-1;    i < end;      i++,end--) {
-		
-			// 前面一个值给变量暂时放着
+		for (int i=0,end = array.length-1;i < end; i++,end--) {	
+			System.out.println("i="+i);	//打印3,只循环了3次	
+			// 将下标0值暂存
 			int temp = array[i];
-			// 前面的值被后面的值覆盖
+			// 将最后一个下标赋值给0下标
 			array[i] = array[end];
-			// 后面的值都前面的值覆盖
+			// 0下标的值赋值给数组最后一个
 			array[end] = temp;
 		}
 		
@@ -581,50 +572,40 @@ public class Test2Array {
 				System.out.print(array[i]+" ");
 		}
 
-			
-		//推荐第二种方式，特好理解（其实2个原理一样只是实现不一样，记住要-1）
 		System.out.println();
-		
-		//循环次数少了一半
+		//推荐第二种方式（其实2个原理一样只是实现不一样，记住要-1）
+		//循环次数和上面一模一样
 		for (int i = 0; i < array.length/2; i++) {
+			System.out.println("i="+i);	//打印3,只循环了3次	
 			//暂存，交换，交换永远是替换不换的法则		
-			int temp = array[i];
-			array[i] = array[array.length-1-i]; 
-			array[array.length-1-i] = temp;		
+			int temp = array[i];//将下标0值暂存
+			array[i] = array[array.length-1-i]; // 将最后一个下标赋值给0下标
+			array[array.length-1-i] = temp;		// 0下标的值赋值给数组最后一个
 		}
 		
 		for (int i = 0; i < array.length; i++) {
 			System.out.print(array[i]+" ");
 		}	
-
 	}
 }
 
 ----------------------------------------------
 数组的排序
 
-1,插入排序
-直接插入排序,折半插入排序,shell排序
-
-2,交换排序
-冒泡排序,快速排序(或分区交换排序)
-
+1,插入排序:直接插入排序,折半插入排序,shell排序
+2,交换排序:冒泡排序,快速排序(或分区交换排序)
 3,选择排序简单选择排序,堆排序
-
 4,归并排序
-
 5,基数排序
 --------------------------
-
 功能:数组冒泡排序
 思路:
-(从外层取一个和后面的每一个进行比较，如果外层(i)的大就放后面(j)),最后形成从小到大排列
+(从外层的第一个和内层的每一个进行比较，如果外层(i)的大就(交换)放后面(j)),最后形成从小到大排列
 
 另:java 本身都给我们提供了对数组的排序 Arrays.sort(数组名),我们可以直接用
 public static void sort(int[] items) {
 	
-	for (int i = 0; i < items.length; i++) {
-		
+	for (int i = 0; i < items.length; i++) {		
 		//注意j＝i, j < items.length, j一直加++,会往后面走
 		for (int j = i; j < items.length; j++) {
 			if(items[i] > items[j]) {
@@ -647,7 +628,7 @@ public class MySort {
         test.add(23);
         fastSort(test);
         System.out.println(test);
-    }
+  }
 
     /**
      * 功能:
@@ -685,7 +666,6 @@ public class MySort {
             items.addAll(larger);//大于部分
         }
     }
-
 }
 
 ------------------------------------------------------------
@@ -727,7 +707,7 @@ this 的2种应用:
 1,用于区分局部和成员变量同名情况.
 2,构造函数之间的相互调用.
 -----------------------------------------------------------------------
-代码块是类的第4个成员;
+代码块
 用来初始化 类 的 属性 ;只能用 static 来修饰
 分为:静态代码块和非静态代码块两种
 
@@ -748,7 +728,7 @@ this 的2种应用:
 3,显示初始化
 4,代码块
 5,构造器(居然到第5来了)
-上面属性初始化的过程
+上面属性初始化的过程,只有你知道了这些,你才知道如何在之前或之后加入你的逻辑
 6,通过对象的相应的属性进行修改
 ------------------------------------------------------
 public static void main (String[] args)
@@ -830,13 +810,13 @@ class suibian {
 person p = new person("zhangsan",20);
 
 这句话都做了什么事？（其实下面的步骤只说了大概，主要根据加载时机来）
-1,类加载器把person.class文件把类并加载到内存.
-2,执行该类的静态代码块.如果有的话给person.class类进行初始化.
-3,在堆内存中开辟空间,分配内存地址(这里主要开始 new 的动作).
-4,在堆内存中建立对象的特有属性.并进行默认初始化.
-5,属性进行显示初始化.
-6,对象进行代码块初始化.
-7,对象进行对应的构造函数初始化.
+1,类加载器把person.class文件把类并加载到内存
+2,执行静态代码块
+3,在堆内存中开辟空间,分配内存地址(这里 new 的动作)
+4,进行默认初始化.
+5,属性显示初始化.
+6,代码块初始化.
+7,构造函数初始化.
 8,将堆内存地址赋给栈内存中的p变量.
 -------------------------------------
 
@@ -847,32 +827,30 @@ person p = new person("zhangsan",20);
 
 ---------------------------------------------------------------------------
 
-方法的重载(overload,相当多个不同方法)
-同一个类中只要方法名相同 就构成了重载,和方法的参数，返回值类型没有关系
+重载 overload (和的参数和返回值类型没有关系)
+同一个类中只要方法名相同 就构成了重载
 
-方法的重写(overrite,相当于一个方法)
-,一般基于继承或接口(简单理解:就是全部都要一样(返回参数可以小于父类),只是方法体内部不同)
- 除权限修饰符大于或等于父类; 子类的方法异常类型不能大于父类的;两个方法同为static 或同时不是
+VS
+
+重写 overrite (和参数和返回值类型有关)
+继承或接口 ,返回参数可以小于父类,权限修饰符大于或等于父类;子类的方法异常类型不能大于父类的;两个方法同为static 或同时不是
 --------------------------------------------------
 可变参数
 
-1,格式 ： 数据类型 ...形参名
-2,相当于一个可变长度的数组
-3,若方法中存在可变个数的形参,那么一定要声明在方法形参的最后
-4,在一个方法中,最多只能声明一个可变个数的形参
----------------------------------
+相当于一个可变长度的数组,可变参数只能放在方法形参的最后 且 在一个方法中,只能有一个
+
+举例:
 public class VariableParameter {
 
 	public static void main(String[] args) {
-		VariableParameter vp = new VariableParameter();
-		int a = vp.getNum(1 + 1); //2个参数
-		int b = vp.getNum(1 + 1 + 1);//3个参数
-		int c = vp.getNum(1 + 1 + 1 + 1);//4个参数
-		System.out.println(a + " " + b + " " + c);
+		int a = getNum(2,2); //2个参数
+		int b = getNum(3,3,2);//3个参数
+		System.out.println(a + " " + b );
 	}
-
-	public int getNum(int... args) {
+	
+	public static int getNum(int... args) {//格式:数据类型 ...形参名
 		int sum = 0;
+		System.out.println(" args.length="+ args.length);
 		for (int i = 0; i < args.length; i++) {
 			sum += args[i];
 		}
@@ -884,37 +862,27 @@ public class VariableParameter {
 1,创建对象
 2,给创建的对象的属性赋值
 
-如何声明一个构造器 ?
+格式:
 
 权限修饰符 类名(形参){	
 }
 
-类的多个构造器之间构成重载
-
-类对象的属性赋值的先后顺序在前面自己找
+多个构造器之间构成重载,类对象的属性赋值的先后顺序在前面自己找
 ----------------------------------------
 什么是javaBean ?
 
-1,是一个公共的类
-2,有公共的无参的构造方法
-3,有属性,并提供了getter setter方法
+1,是一个公共的类,有公共的无参的构造方法,属性提供了getter setter方法
 ------------------------------	
 super ,this 关键字 可以修饰属性,方法
 
-在子类的方法,构造器中,通过 super.属性 或者是 super.方法 的形式,显示调用父类
-指定的属性或方法.
-
-使用到 super 或 this 一定放在方法体的第一行;	
+super.方法 的形式,显示调用父类,使用到 super 或 this 一定放在方法体的第一行;	
 -------------------------------------------------
 static 
 静态可以修饰属性,方法,代码块,可以是类或是内部类；可以的认为静态方法在类加载的同时被初始化；
 
-在static方法的内部不能调用非静态方法，反过来倒是可以的，而且可以在没有创建任何对象的前提下，仅仅通过类本身来调用static方法。
-这实际上正是static方法的主要用途。它很像全局方法。Java中禁止使用全局方法，但你在类中置入static方法就可以访问其它
-static方法和static域 —摘抄自《Java编程思想》
 
-无论创建多少个对象，静态数据都只占用一份存储区域。static关键字不能应用于局部变量，因此它只能作用于域。如果是静态的
-基本数据类型域，且也没有对它进行初始化，
+
+无论创建多少个对象，静态数据都只占用一份存储区域。static关键字不能应用于局部变量，因此它只能作用于域。
 那么它就会获得基本类型的标准初值；如果它是一个对象引用，那么它的默认初始化的值就是null。 
 -----------------------------------------
 
@@ -925,17 +893,18 @@ final 修饰方法 不能被重写.如 Object类的getClass()
 final 修饰类 不能被继承. 如:String StringBuffer类 System 类
 
 
-如果final修饰一个引用类型时，则在初始化之后不能再指向其他对象，但该引用所指向的对象的内容是可以发生变化的。
-（引用不能被修改,值是可以被改变）
+如果final修饰一个引用类型时，则在初始化之后不能再指向其他对象，但对象的内容是可以变化的(引用不能被修改,值是可以被改变)
 
-常量在哪里赋值?
+常量赋值
 final 修饰的 类成员变量 必须在申明时 或 构造方法里初始化。
 
-常量可以同时用 static final 如果加了 static 修饰后,就不能再构造器里初始化了,必须立即赋值（配合使用的好处）
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+如果加了 static final 修饰后,就不能再构造器里初始化了,必须立即赋值（配合使用的好处）
+
 
 举例:被final修饰的引用类型,值是可以改变的
+
 private static final List<Integer> l = new ArrayList<>();
+
 public static void main(String[] args) {
 		l.add(1);
 		l.add(2);
@@ -948,8 +917,8 @@ public static void main(String[] args) {
 重点:
 abstract :抽象的,可以用来修饰类,方法.
 
-1,抽象类也有构造器(凡是类都有),但不能被实例化，因为常包含抽象方法
-2,抽象类中可以没有抽象方法(但不推荐这样做)
+1,抽象类也有构造器(凡是类都有),但不能被实例化(子类可以)，就算没有 抽象方法也不能;抽象类中可以没有抽象方法(但不推荐这样做)
+
 
 abstract class Animal {  
     Animal(){  
@@ -979,16 +948,17 @@ public class Horse extends Animal {
 } 
 
 二 抽象方法.
-1,没有方法体(没有方法体), 如 public abstract void eat();
+1,没有方法体 如 public abstract void eat();
 2,子类继承了抽象类,重写父类抽象方法后就可以实例化
 3,若继承一个抽象类,没有重写所有的抽象方法,此类不能被实例化或改为抽象类
 
 ----------------------------------------------------------------
 接口 (interface)与类是 并行 的一个概念
-1,只能有常量，不能有普通变量(但不推荐使用)与抽象方法的一个集合;全是抽象方法，
-不能有普通方法（因为默认 public abstract 修饰）
-2,接口不能有构造器
-3,实现接口的类,必须重写其中所有的抽象方法后才可以实例化.若没有全部重写,则此类还是一个抽象类
+
+
+1,方法默认被 public abstract 修饰,所以全是抽象方法;只能有常量，不能有普通变量(但不推荐使用)
+2,接口没有构造器
+3,实现接口的类,重写方法后才可以实例化.若没有全部重写,还是一个抽象类
 4,类可以实现多个接口.弥补了java的单继承
 5,接口与接口之间存在继承关系(实现后你可以使用任何一个接口的方法或常量)
 6,接口与实现类之间也存在多态性 
@@ -998,41 +968,40 @@ interface Person{
 	public abstract void getRun();
 }
 ---------------------------------------------------------------
-抽象类和接口的区别以及使用场景(精华)
+抽象类和接口的区别和使用场景(精华)
 
 相同点:
-两者都不能实例化.interface 实现类及 abstract class 的子类都必须要实现抽象方法后才可以实例化;
+两者都不能实例化.子类实现抽象方法后才可以实例化;
 
 不同点:
-1,interface 需要实现,要用 implements,而 abstract class 需要继承,要用 extends.
-一个类可以实现多个 interface,但一个类只能继承一个 abstract class.
+1,interface 实现用 implements,而 abstract class 需要继承用 extends.一个类可以实现多个接口,但一个类只能继承一个抽象类
 2,interface 强调特定功能的实现,而 abstract class 强调所属关系.
-3,接口中只有常量,abstract class 中可以有普通变量
+3,接口中只有常量,抽象类中可以有普通变量
 
-abstract class是 interface 与 Class 的中起承上启下(既可以有Class 的功能又有接口的功能).
-interface 方法全抽象的,且被 public abstract 默认修饰
+抽象类 是 接口 与 类 的中起承上启下作用.(既可以有类 的功能又有接口的功能).
+
 
 
 interface 的应用场合
 
-1,类与类之前需要特定的接口进行协调,而不在乎其如何实现.需要将一组类视为单一的类,而调用者只通过接口来与这组类发生联系.
-2,作为能够实现特定功能的标识存在,如Serializable就是一个空接口
+1,类与类之前需要特定的接口进行协调,而不在乎其如何实现.需要将一组类视为单一的类(多态),调用者通过接口来与这组类发生联系.
+2,标识存在,如Serializable就是一个空接口
 
 
 abstract class 的应用场合
 
-1,某些场合下,只靠纯粹的接口不能满足类与类之间的协调,还必需类中表示状态的变量来区别不同的关系.			
+1,只靠的接口不能满足类与类之间的协调,还需要变量来协调
 2,可以共享的方法,无需子类分别实现
 
 +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
-多态(直到我学完设计模式才搞懂,作用强大,但泛型在Java更为重要)
+多态(直到我读完设计模式书才搞懂,作用强大,但泛型在Java更为重要)
 
-多态:超类可以接受任何实现或继承的子类的实例;这样带来的好处是大大的提高程序的扩张性.
+多态:超类可以接受任何实现或继承的子类的实例;类于类之前最好通过接口联系;这样带来的好处是大大的提高程序的扩张性.
 
-前提(核心中的核心): 
-要有继承关系,要么是接口实现
+多态前提(核心中的核心): 
+要么有继承,要么有接口实现
 
 缺点:
 使用多态可能会用到强制转型(),判断对象a是否是类A的一个实例 使用 instanceof 
@@ -1055,10 +1024,10 @@ class Man implements Person{
 public class TestInterface {
 
 	public static void main(String[] args) {
-		//Man是子类，用多态父类统一接收子类;面向抽象编程
-		Person man = new Man();
+		//Man是子类，用多态父类统一接收子类(可以有多种子类);面向抽象编程
+		Person p = new Man();
 		//方法中是父类接受子类,运行子类的方法体
-		TestInterface.person(man);
+		person(p);
 	}
 	
 	public static void person(Person p){
@@ -1071,39 +1040,38 @@ public class TestInterface {
 泛型(都是在集合中使用，和多态容易混淆，它们是不同的东西)
 Generic 泛型 (泛型没有多态)
 
-泛型的最主要的作用就是动态形参,可类型传递;防止类型转换错误
-
-泛型，即“参数化类型”。就是多态传递有形参，调用此方法时传递实参
+泛型的最主要的作用就是动态形参,类型传递防止类型转换错误
+就是多态传递有形参，调用此方法时传递实参
 
 为什么需要泛型?
 就是代替Object对象的如:
-public Object doSomething(Object obj) {}
-public <T> T doSomething(T t) {}
+public Object doSomething(Object obj) {}//需要转换类型,可能转换错误
+public <T> T doSomething(T t) {}//调用者传递实参后动态传递形参,不会出现转换错误
 
-1,为了程序有更强的可用性,让类方法可以重用任何对象(泛型不支持多态)；
+1,增强程序的可用性,让类和方法可重用任何对象(泛型不支持多态)；
 2,存取都可以出现类型转换异常.泛型就是明确类型,使用泛型后不需要强转
 ----------------------------
 泛型举例:
-如:
-JqGridRequest<T> //分页请求,对请求条件,排序,PageNo,PageSize,T data 进行封装,盘古使用
+如盘古使用:
+JqGridRequest<T> //分页请求,对请求条件,排序,PageNo,PageSize,T data 进行封装,这里的T就是动态形参
 JqGridResponse<T>//分页返回,对pageNo,totalPage,totalSize,List<T> data,resultCode,resultMsg 进行封装
 
-----------------------------
+---------
 注意事项:
 1,泛型中不能放基本数据类型
 2,泛型没有多态,必须保证前后<>的类型一致;就算是有继承关系也不可以(很重要的一句话)
 3,把一个带泛型的直接给一赋个不带泛型的变量,泛型自动消失.但注意类型需要一致,不然会出现转换异常.
 ---------------------------------
-泛型怎么来的?
-我们可以查看到底层List源码,看见其实在底层 类上定义了List<E>这样的泛型,后面就嵌套出
+泛型例子学习
+List源码, 类上定义了List<E>这样的泛型,后面就嵌套出
 很多方法 如:   add(E e) ;  E get(int index);等,这样一套底层嵌套,你会发现List<任何引用对象>,
-极大提高了方法的复用性;从类接受具体类型传递到各方法（还不需要考虑转换异常，前后类型必须一致连继承都不可以）;
+极大提高了方法的复用性;从类接受具体类型(实参)传递到各方法
 ----------------------------------------------------
 
 /**
  * 自定义一个泛型类可以参看Collection源码
  * DAO 的使用大大增加了泛型的理解,大大提高代码的重用性（何时我能写出这样的代码，大牛判断的一个指标）
-	泛型是最难理解的基础知识
+	泛型是最难理解和运用的基础知识,如果你理解了你会发现你会运用
  */
 public class DAO<T> {
 
@@ -1118,12 +1086,12 @@ public class DAO<T> {
 	}
 	
 	//声明泛型方法,因为有时方法中的类型 不一定就和类的类型一样（如这里T和E)
-	//这里的类型相当于是传进来什么类型返回就是什么类型
+	//这里的E类型是传进来什么类型返回就是什么类型,形参接收实参
 	public <E> E getE(E e){
 		return e;
 	}
 	
-	//声明泛型方法(更加常用,方法级别的),实现数据到集合的复制,不要纠结第一个<E> 只是一种规范
+	//声明泛型方法(更加常用,方法级别的),实现数组复制到集合,不要纠结第一个<E> 只是一种规范
 	public <E> List<E> formArrayToList(E[] e,List<E> list){
 		for(E e1 : e){
 			list.add(e1);
@@ -1157,8 +1125,8 @@ public class DAO<T> {
 ？通配符(也可以叫占位符)
 
 ？和 T 区别？
-?可以接受任何类型，一般用在继承关系上；?不能限制实参类型一致
-T可以接受任何类型， 一般用在类型有相互传递值上，要求类型一致
+?可以接受任何类型,用在继承关系上 ?不能限制实参类型一致
+T可以接受任何类型,用在类型有相互传递值上 要求类型一致
 精华
 https://blog.csdn.net/woshizisezise/article/details/79374460
 
@@ -1199,13 +1167,10 @@ public class Test {
 下界：List<? super Integer> 类型参数可以是Integer类型或是其父类的；
 +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-
-类的第5个成员:内部类
-1,类的内部在定义类的类叫内部类.
+内部类
+在类的内部在定义类的类叫内部类
 2,内部类分为 成员内部类(声明在类的内部且方法外) 和 局部内部类(方法里)
-成员内部类:
-相当于外部类的一个成员变量:
-可以被 static final 修饰,可以调用外部类的属性,方法.
+成员内部类可以被 static final 修饰,可以调用外部类的属性,方法.
 
 举例:
 //这种创建线程的方式可以哦,其实可以看成是一个匿名内部类（成员内部类）
@@ -1218,7 +1183,6 @@ final Thread t1 = new Thread(new Runnable() {
 
 +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-STRING
 
 字符串(引用数据类型)
 
@@ -1434,10 +1398,8 @@ public static String myReverse4(String s, int start, int end) {
 
 StringBuffer 是字符串缓冲区.在lang包中
 
-*********记住缓冲区三个特点:************
-1,长度是可变化的.
-2,可以字节操作多个数据类型.
-3,最终会通过toString方法变成字符串.
+***特点:***
+长度是可变化的.底层是一个char[],字符串的追加比普通的String快;因为不会频繁的开辟内存空间
 
 
 1,存储.
@@ -1468,7 +1430,7 @@ StringBuffer 线程同步,StringBuilder 线程不同步但速度快
 
 ------------------------------------------------
 时间
-(线程不安全的，不建议使用;用LocalDateTime代替Date, LocalDataFormat代替SimpleDateFormat)
+(SimpleDateFormat线程不安全的,用LocalDataFormat代替;用LocalDateTime代替Date)
 
 System 类 currentTimeMillis();返回当前时间的long型值.(此long值从1970年1月1日0点0分00秒到当前毫秒数)
 
@@ -1614,16 +1576,14 @@ public class DateTimeUtils {
 异常体系结构
 
 java.lang.Object
-	|--java.lang.Throwable(所有异常都具有可抛性)
+	|--java.lang.Throwable(所有异常都具有可抛性,抛出不处理,当前线程停止)
 		|--java.lang.Error:错误,jdk本身错误,无需关心
-		|--java.lang.Excption:异常.需要进行处理
+		|--java.lang.Excption:异常.需要编译前进行处理
 			|--RuntimeException:运行时异常（ArrayIndexOutOfBoundsException数组下标越界 NullPointerException空指针
 									ArithmeticException算法异常 ClassCastException类型转换异常,bean重复）			
 
 
-异常的处理：
-java 提供了特有的语句进行处理.如下:
-
+捕获异常格式：
 try:{
 	需要被检测的代码;
 }catch(异常类 变量){
@@ -1633,13 +1593,13 @@ try:{
 }
 
 
-如何定义异常信息？
+如何自定义异常信息？
 自定义类继承Throwable 或子类即可,将异常信息传给父类；
 因为父类中已经把异常信息的操作都完成了,所以子类只要在构造时将异常传递给父类通过
  super 语句,然后直接通过getMessage方法获得异常信息.
 
 继承原因：
-异常体系有一个特点：因为异常类和异常都具备可抛性,这是 Throwable 这个体系独有特点.只有这个体系中的类和对象才可以被 throws 和 throw 操作
+异常体系有一个特点：都具备可抛性,这是 Throwable 这个体系独有特点.只有这个体系中的类和对象才可以被 throws 和 throw 操作
 throws 和 throw 的区别:
 throws 使用在的函数上,后面跟的是异常类,多个用逗号隔开.
 throw 使用在函数内,后跟的是异常对象.
@@ -1650,7 +1610,7 @@ java程序分为javac.exe(编译)和java.exe(运行)两个过程
 异常分两种：
 Exception(编译) 和 RuntimeException(运行)
 1,编译时异常必须显示告诉程序如何处理,要么方法上 throw ,要么 try;不然无法编译代码
-如果 throw 的话,该方法上还必须 throws ,调用者必须处理(要么 try 要么继续 throws);
+如果 throw 的话,该方法上还必须 throws ,调用者必须处理(要么 try 要么继续抛,直到线程执行器,如果还未处理,线程将停止执行);
  
 2,RuntimeException 以及子类如果在函数内 throw 抛出该异常,方法上可以不用声明,编译一样通过(所以就要看业务是否需要用户显示处理还是运行处理来判断哪种异常)
 如果在方法上 throws 声明了该异常,调用者可以不用 try, catch 处理,
@@ -1661,8 +1621,7 @@ Exception(编译) 和 RuntimeException(运行)
 public class DefinedException extends RuntimeException{	
 
 	/**
-	 * 有参构造器，无参可以不需要；
-	 * @param message 动态异常信息
+	 * 重写构造器,将异常信息传递给父类
 	 */
 	DefinedException(String message){
 		super(message);
@@ -1702,7 +1661,7 @@ public class Demo {
 	}
 }
 ----------------------------
-上面main方法的代码,其实开发中是在Controler层,正确处理service端throw异常可以是下面选一种:
+上面main方法的代码,实际开发中是在Controler层,正确处理service端throw异常可以是下面选一种:
 SpringMvc 统一异常处理有 3 种方式(精华)，分别为：
 
 1,spring MVC提供的SimpleMappingExceptionResolver
@@ -1715,7 +1674,7 @@ SpringMvc 统一异常处理有 3 种方式(精华)，分别为：
 所以出现了自定义异常类；实际开发时我们可能会在service层抛出各种自定义异常，如果我们在controler层对每个异常分别处理的话
 会让我们代码可读性变差，和工作量加大；这时就统一异常处理就排上用场了；统一异常通过上面3种实现；
 
-异常的出现可以让异常问题流程代码和正常代码分离,从而阅读性强
+
 
 异常的好处:
 1,将问题进行封装.
@@ -1737,17 +1696,16 @@ SpringMvc 统一异常处理有 3 种方式(精华)，分别为：
 
 有了包后类的全名:包名.类名
 
-主要记住第一排下面的"类"因为每个都支持;子类比同包访问的访问权限更高;
-然后四种修饰public是全部,private只有一个;
+然后四种修饰public是全部,private只有一个;同包的优先级高于子类
 
-  访问权限   类   同包  子类  其他包
-  public     ∨   ∨   ∨     ∨
+  访问权限   类   同包  子类  不同包
+  public     ∨   	∨    ∨     ∨
 
-protected    ∨   ∨   ∨     ×
+protected    ∨   	∨    ∨     ×
 
-  default    ∨   ∨   ×      ×
+  default    ∨   	∨    ×      ×
 
-  private    ∨   ×    ×      ×
+  private    ∨   	×    ×      ×
 +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 正则表达式:
@@ -1866,8 +1824,8 @@ public class Regex {
 +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 集合
 
-Java 集合可分为 Collection 和 Map 两种体系
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Java 集合分为 Collection 和 Map 两种体系
+~~~~~~~~~~~~~~
 
 				List :ArrayList LinkedList Vector
 Collection	
@@ -1890,7 +1848,7 @@ Collection 接口(里面有15个方法,子类共享)
 			如果不一样,直接存.这样大大提高了效率.这样Set必需复写好HashCode方法.和 equals 方法 
 			****************
 			
-			|---HashSet(推荐)
+			|---HashSet(推荐,底层其实用是HashMap,key就是该对象,value统一放的是new Object())
 			|---LinkedHashSet:根据元素的hashCode值来决定元素的存储位置,同时使用链表维护元素的次序,
 								(使用效果是有序的,但底层其实无序,因为有链表维护)
 			|---TreeSet:可以按照指定属性进行排序
@@ -1900,7 +1858,6 @@ Collection 接口(里面有15个方法,子类共享)
 				
 
 
-另: HashSet集合底层其实用到了HashMap,key就是该对象,value统一放的是new Object();
 重点:操作集合大多数  List和 linked我们要复写 equals ; 
 Set和Map 我们要复写HashCode 和 equals ;
 
@@ -1931,8 +1888,8 @@ public void test(){
 	System.out.println("--------普通循环不用-------");
 }
 
- 循环格式:
-for(集合中对象的类型 对象变量:需要遍历的集合){
+循环格式:
+for(集合中对象 对象变量:需要遍历的集合){
 	具体操作
 }
 
@@ -1964,25 +1921,25 @@ public void delete(String id){
 
 
 //数组转list错误的方式和正确方式；但这里删除推荐jdk8的removeIf来
-	public static void main(String[] args) {     
-	        String [] s = {"1","2","1","2"};
-	        List<String> l = new ArrayList();
-			
-	        l = Arrays.asList(s);//错误方式
-			l.remove(0);//报错java.lang.UnsupportedOperationException
-			
-	        List<String> l2 = new ArrayList(Arrays.asList(s)); //推荐使用  		
-	        l2.remove(0);   		
-	        System.out.println(l2.size());
-	        System.out.println(s.length);       
-	}
+public static void main(String[] args) {     
+		String [] s = {"1","2","1","2"};
+		List<String> l = new ArrayList();
+		
+		l = Arrays.asList(s);//错误方式
+		l.remove(0);//报错java.lang.UnsupportedOperationException
+		
+		List<String> l2 = new ArrayList(Arrays.asList(s)); //推荐使用  		
+		l2.remove(0);   		
+		System.out.println(l2.size());
+		System.out.println(s.length);       
+}
 
 ----------------------------------------
 数组有个工具类 Arrays ,集合也有一个工具类(包含Map) Collections
 ----------------------------------------
 Map
 			
-Map 接口(键值对的数据,api中的方法下面所有子接口实现类共享)
+Map 接口(键值对类型数据,api中的方法下面所有子接口实现类共享)
 一个key--value 对,是一个Entry(包含键和值).所有的Entry是用Set存放的,不可重复.
 	|---HashMap(主要使用,key是通过Set来存放的,所以不可重复,若相同保留是最后添加的那条)
 	|---LinkedHashMap:使用了链表来维护添加Map中的顺序.
@@ -2056,76 +2013,71 @@ comparable和Comparator区别:
 Comparator 推荐使用,因为它不用修改实体类的源码,思路一模一样,只是算法写的地点不一样	
 -------------------------------------------------------------------
 
-	@Test
-	public void test() {
-		// 第一步:建立comparator 比较方式的的方法（相当一套独立的算法当作参数使用）
-		Comparator comparator = new Comparator<Person>() {
-			@Override
-			public int compare(Person o1, Person o2) {
-				int i = o1.getId().compareTo(o2.getId());
-				if (i == 0) {
-					return o1.getName().compareTo(o2.getName());
-				} else {
-					return i;
-				}
+@Test
+public void test() {
+	// 第一步:建立comparator 比较方式的的方法（相当一套独立的算法当作参数使用）
+	Comparator comparator = new Comparator<Person>() {
+		@Override
+		public int compare(Person o1, Person o2) {
+			int i = o1.getId().compareTo(o2.getId());
+			if (i == 0) {
+				return o1.getName().compareTo(o2.getName());
+			} else {
+				return i;
 			}
-		};
-		
-
-		
-		// 第二步:通过TreeSet构造器传入自定义的比较方式
-		
-		Set<Person> treeSet = new TreeSet<Person>(comparator);
-		Person c1 = new Person(1, "a");
-		Person c3 = new Person(5, "c");
-		Person c4 = new Person(4, "d");
-		// 后面的一样:加入参数 进行比较
-		treeSet.add(c1);
-		treeSet.add(c3);
-		treeSet.add(c4);
-		
-		Iterator<Person> it = treeSet.iterator();
-		while (it.hasNext()) {
-			System.out.println(it.next().getId());
 		}
-		
-
+	};
+	
+	
+	// 第二步:通过TreeSet构造器传入自定义的比较方式
+	Set<Person> treeSet = new TreeSet<Person>(comparator);
+	Person c1 = new Person(1, "a");
+	Person c3 = new Person(5, "c");
+	Person c4 = new Person(4, "d");
+	// 后面的一样:加入参数 进行比较
+	treeSet.add(c1);
+	treeSet.add(c3);
+	treeSet.add(c4);
+	
+	Iterator<Person> it = treeSet.iterator();
+	while (it.hasNext()) {
+		System.out.println(it.next().getId());
 	}
+}
 
 
-	/**
-	 * 
-	 * 第二种写法:更为匿名的方式
-	 */
-	@Test
-	public void test() {
-		//建立comparator 比较方式的的方法.（上面是分开写的，这里是写在一起的）
-		Set<Person> treeSet = new TreeSet<Person>(new Comparator<Person>() {
-			@Override
-			public int compare(Person o1, Person o2) {
-				int i = o1.getId().compareTo(o2.getId());
-				if (i == 0) {
-					return o1.getName().compareTo(o2.getName());
-				} else {
-					return i;
-				}
+/**
+ * 
+ * 第二种写法:更为匿名的方式
+ */
+@Test
+public void test() {
+	//建立comparator 比较方式的的方法.（上面是分开写的，这里是写在一起的）
+	Set<Person> treeSet = new TreeSet<Person>(new Comparator<Person>() {
+		@Override
+		public int compare(Person o1, Person o2) {
+			int i = o1.getId().compareTo(o2.getId());
+			if (i == 0) {
+				return o1.getName().compareTo(o2.getName());
+			} else {
+				return i;
 			}
-		});
-		
-		Person c1 = new Person(1, "b");
-		Person c3 = new Person(1, "a");
-		Person c4 = new Person(4, "d");
-		//id一样还会比较年龄
-		treeSet.add(c1);
-		treeSet.add(c3);
-		treeSet.add(c4);
-		Iterator<Person> it = treeSet.iterator();
-		while (it.hasNext()) {
-			Person p = it.next();
-			System.out.println(p.getId()+"=="+p.getName());
 		}
-
+	});
+	
+	Person c1 = new Person(1, "b");
+	Person c3 = new Person(1, "a");
+	Person c4 = new Person(4, "d");
+	//id一样还会比较年龄
+	treeSet.add(c1);
+	treeSet.add(c3);
+	treeSet.add(c4);
+	Iterator<Person> it = treeSet.iterator();
+	while (it.hasNext()) {
+		Person p = it.next();
+		System.out.println(p.getId()+"=="+p.getName());
 	}
+}
 
 +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -2233,8 +2185,8 @@ JDK提供的 常用注解:
 
 Retention:生命周期 SOURCE CLASS RUNTIME(必须)
 Target :修饰的范围(必须)
-Documented :是否能被javadoc解析
 Inherited :是否具有继承性
+Documented :是否能被javadoc解析
 
 使用场景: 数据库和类的字段的映射
 
