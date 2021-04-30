@@ -309,7 +309,7 @@ System.out.println(myint4);// 11
 注意没有无符号左移(因为最高位是符号位,移掉了数字就变了)
 
 ----------------------------------------------
-与(and) 和 或(or) ,异或和与的反起来（它们3个可以看为一组记忆）
+与和或,异或和与的反起来（它们3个可以看为一组记忆）
 注意同样6和3每种运算结果都不一样
 
 & 与运算 6 & 3 = 2  (画2进制运算,只有上下都是1才返回1)
@@ -318,13 +318,6 @@ System.out.println(myint4);// 11
 ---------
 0000 0010 = 2
 
-^ 异或运算 6 ^ 3 = 5 (异或就是&的取反)
-
-0000 0110
-0000 0011
----------
-0000 0101 = 5
-
 | 或运算 6 | 3 = 7 (画2进制运算,只要有一个1就是1)
 
 0000 0110
@@ -332,6 +325,14 @@ System.out.println(myint4);// 11
 ---------
 0000 0111 = 7
 ---------
+
+^ 异或运算 6 ^ 3 = 5 (异或就是&的取反)
+
+0000 0110
+0000 0011
+---------
+0000 0101 = 5
+
 
 ~ 反码(负数符号都会改变,原始数+1)
 
@@ -1426,7 +1427,7 @@ void setCharAt(int index ,char ch);
 void getChare (int srcBegin, int srcEnd, char[] dst, int dstBegin)
 
 JDK1.5,版本之后出现了StringBuilder
-StringBuffer 线程同步,StringBuilder 线程不同步但速度快
+StringBuffer 线程同步被 synchronized 修饰,StringBuilder 线程不同步但速度快
 
 ------------------------------------------------
 时间
@@ -1824,8 +1825,7 @@ public class Regex {
 +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 集合
 
-Java 集合分为 Collection 和 Map 两种体系
-~~~~~~~~~~~~~~
+分为 Collection 和 Map 两大体系
 
 				List :ArrayList LinkedList Vector
 Collection	
@@ -1833,9 +1833,9 @@ Collection
 
 Map	 				  HashMap  LinkedHashMap  TreeMap  Hashtable
 
-Collections 工具箱这个类
+Collections 工具箱这个类(里面有一些公共方法,子类共享如排序,反转排序,追加,随机排序,数组转list,单词首字母排序)
 ---------------------------------
-Collection 接口(里面有15个方法,子类共享)
+Collection 接口
 	|---List 接口,继承了Collection接口(存储是有序的,可以重复)(如果要判断list中的元素的值是否相同，那么一定要重写equals)
 		~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 			|---ArrayList(推荐.底层原理是数组)实现了List还实现了其它接口
@@ -2086,12 +2086,9 @@ public void test() {
 
 https://www.cnblogs.com/singlecodeworld/p/9887926.html
 
-枚举的作用:
-小范围数据库(一般是多个常量的集合)
 
 好处:
-含义明确,类型限制.
-举例:一周的时间,不能使用int 直接来表示,因为可能出现8,还有就是使用1,业务含义也不明确;
+一周的时间,不能使用int 直接来表示,因为可能出现8,还有就是使用1,业务含义也不明确;
 
 注意:
 枚举变量是常量(建议大写)多个之间用,号分割,最后一个用;结尾
@@ -2458,7 +2455,7 @@ Class getSuperClass():获得类的父类
 boolean isArray():判断该Class实例是否是数组
 boolean isEnum(): 判断该class实例是否是枚举
 ----------------------------------------------
-如何获取Class的实例下面举了4种方式:
+获取Class的实例4种方式:
 
 @Test
 public void testInstance() throws ClassNotFoundException{
@@ -2685,28 +2682,24 @@ public class StaticTest {
 --------------------------------------
 动态代理—(底层依赖反射实现,精华)
 
-
 动态代理:
-在程序运行时,动态的创建一个代理类.
+在程序运行时,动态的创建一个代理类.AOP就是通过动态代理实现的
 当调用代理类的实现的抽象方法时,就会转调被代理类的同样的方法
 
 动态代理和静态代理的区别：
-
-静态代理需要代理和被代理都实现同一接口，动态代理不需要
-
-静态代理只服务于一种类型的对象，如果要服务多类型的对象。需要为每一种对象都进行代理.
+静态代理需要代理类和被代理类都实现同一接口，动态代理不需要;静态代理只服务于一种类型的对象.
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 涉及到的技术点:(重点)
 1,自定义类然后实现InvocationHandler接口,重写invoke()方法.
 
-//使用时通过Proxy静态方法调用，在这句话运行时才会创建代理类这就是多态代理
+//使用时通过Proxy静态方法调用，在这句话运行时才会动态创建代理类
 2,Proxy.newInstance(obj.getClass().getClassLoader(), obj.getClass().getInterface(), h);
 //注:obj :被代理类的对象; h:实现了invocationHandler接口的实现类的对象
 
 具体代码如何写,和细节在这个链接
 http://www.cnblogs.com/xiaoluo501395377/p/3383130.html
----------------------------------------------
+
 jdk和CGlib 动态代理如何选择?
 
 如果有接口我们选Jdk动态代理,没有接口选CGlib动态代理
@@ -2745,7 +2738,7 @@ File对象常作为io流的具体类的构造器的形参存在.
 	Reader            FileReader               BufferedReader(readLine())
 	Writer            FileWriter               BufferedWriter(flush()) 
 
-注:
+注意:
 1,从硬盘中读入一个文件,要求此文件一定存在,若不存在则报FileNotFound的异常
 2,从程序中输出一个文件到硬盘,此文件可以不存在.若不存在,就创建一个实现输出.存在覆盖(也可以不覆盖)
 3,开发时,尽量缓冲流
@@ -2905,13 +2898,13 @@ ObjectInputStream 和 ObjectOutputStream
 
 对象的序列化过程：将内存中的对象通过ObjectOutputStream转换为二进制流,存储在硬盘文件中
 对象的反序列化过程：将硬盘中的二进制文件通过ObjectInputStream转换为相应的对象
-(全部过程于平台无关，但不要乱用；序列化性能很差)
+(全部过程于平台无关,但序列化性能很差)
 
 如何实现序列化的类：
-1,要求此类是可序列化的：实现Serializable接口
-2,要求类的属性类同样的要实现Serializable接口
-3,提供一个版本号：private static final long serialVersionUID(防止修改后可能找不到这个对象)
-4,使用 static 或 transient 修饰的属性,不可实现序列化
+
+1,要求类和类的属性类同样的要实现Serializable接口
+2,提供一个版本号：private static final long serialVersionUID(防止修改后可能找不到这个对象)
+3,使用 static 或 transient 修饰的属性,不可实现序列化
 
 /**
  * 描述 : Object转byte[]
@@ -2960,11 +2953,12 @@ public RandomAccessFile(String name, String model)
 model 参数指定 RandomAccessFile 的访问模式：
 r: 以只读方式打开
 rw：打开以取和写入
-rwd:打开读取和写入；同步文件内容的更新
-rws:打开读取和写入；同步文件内容和元数据的更新
+rws: 相对于 "rw",还要求对“文件的内容”或“元数据”的每个更新都同步写入到基础存储设备。
+rwd: 相对于 "rw",还要求对“文件的内容”的每个更新都同步写入到基础存储设备。
 
-另:随机流中有个seek(int index)方法,可以完成覆盖原数据的功能.
----------------------------------
+
+随机流中有个seek(int index)方法,移动位置
+------------------
 /**
  * 需求:在文件中的第4个字节后添加 "xy真" 
  
@@ -2983,11 +2977,10 @@ public void randomAccessFile() throws Exception{
 	byte [] b = new byte[1024];
 	StringBuffer sb = new StringBuffer();	
 	while((len = rafw.read(b)) != -1){
-		sb.append(new String(b, 0, len));//将数组转为字符串在添加到buffer中
+		sb.append(new String(b, 0, len));//将第4为后面的内容,添加到buffer中
 	}
-	rafw.seek(4);//找到文件第4个字符的位置
-	rafw.write(s.getBytes());//然后加入s变量字符串,会立即写入到文件
-	//int i = 1/0;
+	rafw.seek(4);//再次回到第4个字符的位置
+	rafw.write(s.getBytes());//添加我们的字符
 	rafw.write(sb.toString().getBytes());//再加入原文件第4字符后面的文字
 }
 
@@ -3016,8 +3009,8 @@ org.apache.commons.io 关闭流更为简洁,底层和实现了AutoCloseable都�
 
 @Test
 public void testClassLoader() throws IOException{
-	//InputStream is = new FileInputStream(new File("db.properties"));//在一个工程下
 	
+	//InputStream is = new FileInputStream(new File("db.properties"));//在一个工程下	
 	InputStream is = this.getClass().getClassLoader().getResourceAsStream("com\\entitys\\db.properties");//在一个包下
 	Properties p = new Properties();
 	p.load(is);
@@ -3034,11 +3027,10 @@ Spring的Resource 接口
 https://blog.csdn.net/xiaoliuliu2050/article/details/81463223
 
 ResourceLoader是对资源加载的统一接口
-所有的application 都实现了resourceLoader 接口,反过来说就是你得到ApplicationContext就可以得到Resource
-得到resource就得到任何地方的文件对象.(可以是网络url,可以是本地文件绝对路径,可以是项目相对路径)
 
 如何使用?
-我们可以通过实现ApplicationContextAware接口得到application;然后得到resource
+实现ApplicationContextAware接口ApplicationContext得到Resource得到resource就得到任何地方的文件对象.
+(可以是网络url,可以是本地文件绝对路径,可以是项目相对路径)
 
 注意:我们需要对不同的地点的文件加前缀:
 url:http://...//...(全部//线)
