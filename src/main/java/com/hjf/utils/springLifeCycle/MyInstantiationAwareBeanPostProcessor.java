@@ -43,7 +43,7 @@ public class MyInstantiationAwareBeanPostProcessor extends
            System.out.println(  s.getName()+"==="+s.getValue());
            if(s.getName().equals("phone")){
                s.setAttribute("phone","老子再次修改参数值,然后这里却没改用");
-               s.setAttribute("phone2","设置一个不存在的key,也是没用,但也没报错");
+               s.setAttribute("phone2","设置一个不存在的key,也是没用,也没报错");
                System.out.println(  s.getName()+"==="+s.getValue());
            }
        }

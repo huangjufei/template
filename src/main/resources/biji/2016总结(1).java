@@ -1061,6 +1061,20 @@ public <T> T doSomething(T t) {}//调用者传递实参后动态传递形参,不
 JqGridRequest<T> //分页请求,对请求条件,排序,PageNo,PageSize,T data 进行封装,这里的T就是动态形参
 JqGridResponse<T>//分页返回,对pageNo,totalPage,totalSize,List<T> data,resultCode,resultMsg 进行封装
 
+
+
+//创建工具类
+public class BaseDAOImpl<T> implements BaseDao<T> {
+
+}	
+
+//实际使用时传入实参
+public class UserDAOImpl extends BaseDAOImpl<User> implements UserDAO {
+
+}
+
+我们使用泛型后,所有的实体类可以共用一个BaseDaoImpl;我们传入什么实体类,里面一样通过一样的T变量传递
+其实做这么多就是抽取代码,为了让程序有更大的重用性,和解耦性.
 ---------
 注意事项:
 1,泛型中不能放基本数据类型
@@ -4885,7 +4899,7 @@ ServletConfig: 封装了servlet(狭义理解可以读取web.xml配置文件)的�
 
 
 ServletContext(大管家)
-1).可以由SerlvetConfig 获取,也可以通过session,request获得
+1).可以从SerlvetConfig 获取,也可以通过session,request获得
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ServletContext servletContext = servletConfig.getServletContext();
 
@@ -5344,8 +5358,9 @@ http://zhidao.baidu.com 就是站点根目录
 ①.  重复点击提交按钮 (fireFox无效)
 ②.  刷新成功页面(forward)
 ③.  通过回退再次点击提交按钮
+
 表单重复提交的根本原因:
- 没有进行完整的请求表单界面后 在提交表单的过程.
+ 没有进行完整的请求表单界面后 再次提交表单的过程.
  
 解决方案有两种:
 1,让表单不能回退或失效(比如银行页面,一般不推荐)
@@ -5456,7 +5471,6 @@ errorPage = "错误页面.jsp" 如果想跳转过去,必须在错误页面上申
 
 void setAttribute(String name, Object o): 设置属性  
 Object getAttribute(String name): 获取指定的属性
-
 Enumeration getAttributeNames(): 获取所有的属性的名字组成的 Enumeration 对象
 removeAttribute(String name): 移除指定的属性 
 
@@ -5481,7 +5495,7 @@ https://www.runoob.com/jsp/jsp-jstl.html
 +++++++++++++++++++++++++++++++++++++++++++++++++++++
 +++++++++++++++++++++++++++++++++++++++++++++++++++++
 
-FILTER 过滤器(一般被springMvc的HandlerInterceptor代替)
+FILTER 过滤器(一般被springMvc的HandlerInterceptor代替,但不是全部,主要看业务时机点)
 (双向过滤,多个多滤器的路线如:进时1,2,3,回时3,2,1)
 
 过滤器是一个实现了 javax.servlet.Filter 接口的 Java 类(在servlet下)
@@ -5489,7 +5503,7 @@ FILTER 过滤器(一般被springMvc的HandlerInterceptor代替)
 Filter 接口定义在 javax.servlet 包中，而接口 HandlerInterceptor 定义在org.springframework.web.servlet 包中
 功能基本差不多，HandlerInterceptor更加强大点（fileter 主要用于对所有请求进行统一处理）
 
-多种同时使用执行顺序(过滤器在最外层的2端,这是它的优势)
+多种同时使用执行顺序(过滤器在最外层的2端,这就是它不能被全完代替的原因,比如说权限校验就该放在最外层shiro就是)
 过滤前-拦截前-AOP-Action处理-aop-拦截后-过滤后
 
 //过滤器（Filter）与拦截器（Interceptor )区别
@@ -5613,7 +5627,7 @@ WEB 监听器(web组件,适用于Web开发)
 1,作用域的生命周期监听器(创建和销毁,全是接口):
 ServletRequestListener
 HttpSessionListener
-ServletContextListener(监听系统启动时,在初始化方法中编写初始化代码很常用,spring加载就是靠它);
+ServletContextListener(系统启动时,只要实现了它的方法就会被调用,spring加载就是靠它);
 
 2,作用域属性监听器(添加/删除/替换):
 ServletRequestAttributeListener(接口,统一多了attribute)
@@ -5781,22 +5795,7 @@ json 支持下面3种写法:
 	alert(jsonObj.address.tity);
 	jsonObj.mothod();
 </script>
-+++++++++++++++++++++++++++++++++++++++++
-+++++++++++++++++++++++++++++++++++++++++
-为什么会有DAO或那么多DAO?
 
-//第一步(公共的抽取出来,这个的T就是下面的User)
-public class BaseDAOImpl<T> implements BaseDao<T> {
-
-}	
-
-//第二步(独立的)
-public class UserDAOImpl extends BaseDAOImpl<User> implements UserDAO {
-
-}
-
-我们使用泛型后,所有的实体类可以共用一个BaseDaoImpl;我们传入什么实体类,里面一样通过一样的T变量传递
-其实做这么多就是抽取代码,为了让程序有更大的重用性,和解耦性.
 +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 SPRING
@@ -5808,6 +5807,8 @@ spring 是一个使用java语言编写的轻量级容器框架,目的解决企�
 
 我们主要使用的如:控制反转(IOC)和面向切面(AOP)
 
+org.springframework.context.ApplicationContext 就是ioc容器,都实现了它
+
 容器:装对象的,负责对象的生命周期
 
 框架(framework): 就如同毛坯房,已经是个半成品;
@@ -5816,11 +5817,44 @@ Bean的生命周期包括: Bean的定义,Bean的初始化,Bean的使用,Bean的�
 
 IOC (inverse of control)控制反转 或叫 DI(depend injection)依赖注入 :不是什么技术,是一种设计思想(类似MVC).
 由Spring容器来管理对象之间的依赖关系,最终作用就是:对象和对象之间解耦
+IOC 过程:
+工厂模式+反射+xml配置文件解析 返回对象
+
+spring 提供ioc容器实现的两种方式:
+1,BeanFactory:spring内部使用接口,一般开发人员不使用
+2,ApplicationContext:是beanFactory的子接口,提供更加强大的功能,一般开发人员使用
+
+不同点:BeanFactory 加载配置文件时不会立即创建只有在使用时或获取才会创建
+
+注意:
+BeanFactory和FactoryBean的区别:它们都是接口,前者是spring Ioc容器父接口,后者是实现后返回的对象是getObject返回的对象
+
+
 精华
 http://www.cnblogs.com/DebugLZQ/archive/2013/06/05/3107957.html
 
 举例:淘宝中的支付宝,用户和卖家通过支付宝来完成交易
+
+/**
+	tomcat 启动时如何和spring,springMvc 关联的?
+	
+web.xml 文件读取时会查找contextConfigLocation 配置值,如果有就加载这个值的spring的配置文件,没有就是spring*.xml的配置文件,
+然后会运行实现了ServletContextListener的ContextLoaderListener类,然后会运行初始化方法,实际做事的是
+ContextLoader的initWebApplicationContext方法,然后读取spring的配置文件初始化ioc容器,最后会向
+servletContext.setAttribute(WebApplicationContext.ROOT_WEB_APPLICATION_CONTEXT_ATTRIBUTE, this.WebApplicationContext);
+*/
+public class ContextLoaderListener extends ContextLoader implements ServletContextListener {
+    public void contextInitialized(ServletContextEvent event) {
+        this.initWebApplicationContext(event.getServletContext());
+    }
+}
+
+
+//tomcat 启动spring,springMvc 
+https://blog.csdn.net/qq_15037231/article/details/78743765
+https://cloud.tencent.com/developer/article/1456865
 -----------------------------------
+
 如果对这一核心概念还不理解这里找到的浅显易懂的答案：
 IoC与DI
 
@@ -6069,7 +6103,7 @@ public class Appconfig{
 }
 ---------------------------------------------
 //结合spring源码告诉你bean的初始化过程
-http://www.cnblogs.com/digdeep/p/4518571.html
+http://www.cnblogs.com/digdeep/p/4518571.html //深入剖析 Spring 框架的 BeanFactory
 https://www.iteye.com/blog/uule-2094609
 精华中的精华
 
@@ -6077,26 +6111,36 @@ https://www.iteye.com/blog/uule-2094609
 spring容器接管了bean的实例化,通过依赖注入达到了松耦合的效果,同时也提供了各种的扩展接口，
 在bean的生命周期的各个阶段可以插入我们需要的业务逻辑(意思动态时间点让我们扩展功能)：
 
-启动阶段
-1,BeanFactoryPostProcessor.postProcessBeanFactory()(比如替换配置文件的属性值占位符)
-实例化阶段
-初始化时：
+//在github上springboot-template项目中有bean加载流程例子
 
+1,启动阶段:将xml文件中的每一个<bean />元素分别转换成一个BeanDefinition对象,然后通过BeanDefinitionRegistry将这些bean注册到beanFactory
+时机点调用这个方法
+BeanFactoryPostProcessor.postProcessBeanFactory()(比如替换配置文件的属性值占位符)
+
+2,实例化阶段:通过反射或者CGLIB对bean进行实例化,在这个阶段Spring又给我们暴露了很多的扩展点：
+初始化时各种的Aware接口，比如 BeanFactoryAware，MessageSourceAware，ApplicationContextAware：
+2-1
 属性注入（setter）
 BeanNameAware.setBeanName() 
 BeanFactoryAware.setBeanFactory() 
 ApplicationContextAware.setApplicationContext()
 
 
-BeanPostProcessor.postProcessBeforeInitialization()
-InitializingBean.afterPropertiesSet()
-init-method属性
+BeanPostProcessor.postProcessBeforeInitialization()//在init之前被调用,现在实例已经有属性值了！
+InitializingBean.afterPropertiesSet() //person实现InitializingBean
+init-method属性//xml配置文件bean标签中配置的init-method方法被执行
 
-BeanPostProcessor.postProcessAfterInitialization()
-DiposibleBean.destory() 
-destroy-method属性
+BeanPostProcessor.postProcessAfterInitialization()//实际返回给用户的bean,还可以修改这个bean
+DisPosableBean.destory() //person实现DisPosableBean接口
+destroy-method属性//xml配置文件bean标签中配置的init-method方法被执行
 
-在github上springboot-template项目中有bean加载流程例子;
+
+主要顺序:
+1,BeanFactoryPostProcessor//在xml文件中配置,spring 会自动识别这个接口下的实现
+2,各种Aware//在person实体类上实现
+3,BeanPostProcessor//在xml文件中配置,spring 会自动识别这个接口下的实现
+4,InitializingBean//在person实体类上实现
+5,init-method//在xml中配置,在person实体类中写入方法
 -----------------------------------------------
 后置Bean (我在pojo类上测试了,但没看见效果,因为我没在xml中配置)
 
@@ -6157,26 +6201,6 @@ public void test() {
 	System.out.println(car);
 	cpac.close();	
 }
-
-变为:在init 初始化的前后加入before 和after
-1,最先还是构造函数
-2,然后是对Bean的属性进行赋值,或其他Bean的引用
-//加入before
-3,调用Bean的初始化方法.
-//加入After
-4,Bean对象可以使用了
-5,当容器调用关闭(close()函数)后,会调用destroy 
-
-实际打印结果
-constructor
-setter
-Before: Car [brand=Audi]-----beanPostProcess
-init
-After: Car [brand=Audi]-----beanPostProcess
-constructor
-setter
-Car [brand=Bean偷梁换柱成功..]
-destroy[?d?d??t] 
 ------------------------------------------------
 IOC容器中Bean的生命周期(常用)
 
@@ -6243,46 +6267,17 @@ public class WeixinController implements InitializingBean,DisposableBean {
 
 在一个类的方法上注解:
 @PostConstruct 相当于 init@PreDestroy 相当与 destroy
-----------------------------------------------
+----------------------------------------
 @Resource 相当与 Autowired 推荐
 下面是 JSR330 标准 ,需要用到javax.inject.jar这个包
 @Inject 相当与 Autowired 推荐
 @Named 相当与 Component (可以是类或成员变量)主要对名字有要求时使用
 比如: 一个变量是一个接口,它同时有多个实现类,这里时我们就需要准确定位名字
----------------------------------------------------------------
----------------------------------------------------------------
-配置Bean的方式:
-1,前面都是基于全类名(反射) 
-2,通过工厂方法 (分为静态工厂和实例工厂方法)
-3,FactoryBean
-------------------------------
-先看静态工厂方法
-通过静态工厂来配置bean,注意不是配置静态工厂方法实例,而是配置bean实例
-<?xml version="1.0" encoding="UTF-8"?>
-<beans xmlns="http://www.springframework.org/schema/beans"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+----------------------------------------
 
-	<!-- 静态方法的创建Bean配置	
-		class: 自定义的静态工厂全类名
-		factory-method : 工厂中的静态静态方法
-		constructor-arg :给静态方法传参数
-	 -->	 
-	<bean name="staticFactory" class="com.factory.StaticFatory" factory-method="getCar">
-		<constructor-arg value="ford"></constructor-arg>
-	</bean>
-	
-	<!-- 实例化得到bean分为两步:
-		1,上配置自定义实例工厂
-		2,在配置一个bean赋值参数和调用方法和指向这个bean
-	 -->
-	<bean name="instancespring" class="com.factory.InstancespringBean"></bean>
-	
-	<bean name="instanceCar" factory-bean="instancespring" factory-method="getCar">
-		<constructor-arg value="audi"></constructor-arg>	
-	</bean>
-</beans>
-------------------------------------------------
+配置Bean的方式:（XML、注解、Java类）
+
+----------------------------------------
 通过FactoryBean 来配置Bean的实例(常用)
 
 首先要写一个类 实现 FactoryBean接口
@@ -6411,44 +6406,7 @@ AspectJ 支持 5 种类型的通知注解:
 @AfterRetruning: 返回通知, 在方法返回结果之后执行
 @AfterThrowing: 异常通知, 在方法抛出异常之后
 @Around: 环绕通知, 围绕着方法执行
-
-切面开发流程:
-
-1,加入jar包
-com.springsource.net.sf.cglib-2.2.0.jar
-com.springsource.org.aopalliance-1.0.0.jar
-com.springsource.org.aspectj.weaver-1.6.8.RELEASE.jar
-commons-logging-1.1.1.jar
-spring-aop-4.0.0.RELEASE.jar
-spring-aspects-4.0.0.RELEASE.jar
-spring-beans-4.0.0.RELEASE.jar
-spring-context-4.0.0.RELEASE.jar
-spring-core-4.0.0.RELEASE.jar
-spring-expression-4.0.0.RELEASE.jar
-
-2,在配置文件中加入aop的命名空间
-3,基于注解的方式:
-<!-- 扫描那些包 -->
-<context:component-scan base-package="com.spring.aop.impl"/>
-
-<!-- 使用Aspectj注解,作用:自动为匹配的类生成代理对象 -->
-<aop:aspectj-autoproxy></aop:aspectj-autoproxy>
-3.2 ,把在实现接口类中加入注解,让IOC管理,如:Component
-4,把横切关注点的代码抽象到切面的类中
-4.1,切面首先加入IOC中的bean,如:@Component注解
-4.2 切面还需要加入@Aspect注解
-5, 在类中声明各种通知(有5种):
-5.1 ,声明一个方法在方法头加入通知
-5.2 ,如果想看见很多细节我们可以使用Joinpoint
-
-@Before("execution(* com.spring.aop.impl.arihmeticCalculator.*(*,*))")//aspectJ的表达式
-//JoinPoint 参数可以让我们得到很多连接细节()具体看ppt
-public void beforeMethod(JoinPoint joinPoint){
-	
-}
-
-多个@pointcut 注解的方法可以 使用 && 或 || 联合使用让功能增强
---------------------------------------------------------------	
+------------------------------------
 源码spring-2 工程下的com.aop1包
 package com.spring.aop.impl;
 import java.util.Arrays;
@@ -6464,7 +6422,6 @@ import org.springframework.stereotype.Component;
 public class LoggingAspect {
 	
 	//任意返回值,任何类,任何方法,任何参数类型
-	~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 	//@Before("execution(* com.aop1.*.*(*, *))")
 	//前置通知:声明在哪个目标方法开始之前执行
 	@Before("execution(* com.spring.aop.impl.arihmeticCalculator.*(*,*))")//aspectJ的表达式	
@@ -6492,10 +6449,10 @@ public class LoggingAspect {
 @Order(1) 可以定义多个切面的优先级,值越小优先级却高
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-
 定义一个方法,用于声明切入点表达式,一般该方法中不需要添入其他代码
 (作用就是方便修改 Aspectj 表达式,相当于成了一个变量,下面调用这个变量)
 
+//多个@pointcut 注解的方法可以 使用 && 或 || 联合使用让功能增强
 @Pointcut ("execution(public int com.spring.aop.arithmeticCalculator.*(..)))")
 public void declareJoinPointExpression(){}
 
@@ -6555,31 +6512,26 @@ xml配置文件方式来 实现AOP
 		<!-- 第二个切面及通知 -->
 		<aop:aspect ref="vlidationAspect" order="1">
 			<aop:before method="validateArgs" pointcut-ref="pointcut"/>
-		</aop:aspect>
-		
+		</aop:aspect>	
 	</aop:config>
-	
 </beans>
-
 -------------------------------------------------
 Spring的Aop(面向切面编程)使用的jdk动态代理或CGlib实现(前面反射有源码)
 
 Aop当中的概念:
 1,切入点Pointcut : 在哪些类的哪些方法上切
-2,通知Advice(增强) : 在方法的什么时机做什么
+2,通知Advice(增强) : 在方法的什么时机做什么 //5种
 3,切面Aspect : 切入点 + 通知 (什么时间什么地点干什么事)
 4,织入Weaving : 把切面加入到对象,并创建出代理对象的过程 (Spring干的事)
 
 -------------------------------------------------
 过滤器，拦截器，aop同时使用执行顺序
-精华（以打不开页面）
-https://blog.csdn.net/w1219401160/article/details/81101641
-
+https://www.cnblogs.com/java-spring/p/12742984.html
 执行顺序并不是想象中那样,进链接5分钟看完.有用
 ++++++++++++++++++++++++++++++++++++++++++++++++++++
 实际开发我们怎么使用Template?
 直接做成成员变量,加上自动装配.
-举例(配置文件):
+配置文件:
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
@@ -6608,7 +6560,7 @@ public class EmployeeDao {
 		return employee;
 	}
 }
-------------------------------------------------------
+----------------------------------------------------
 事务和锁引发的思考.
 
 事务为保证一个操作的原子性而设置的,一个事务必定包含多个操作,多个操作再逻辑上要保证完整一致,
@@ -6617,7 +6569,17 @@ public class EmployeeDao {
 同步是为了解决多线程使用过程中,使用相同资源导致数据不一致而引入的,使用了同步机制,那么多个线程在访问同一资源时,
 必须等到另一个线程使用完毕,释放了这个资源,其它的线程才有机会使用.
 
----------------------------------------------------------------
+----------
+事务四大特征：原子性，一致性，隔离性和持久性。(简称ACID)
+1. 原子性（Atomicity）
+    要么全部执行成功,那么一条都不执行
+2. 一致性（Consistency）
+	例如一次转账过程中，从某一账户中扣除的金额与另一账户中存入的金额相等。
+3. 隔离性（Isolation）
+	隔离性和隔离级别有关;
+4. 持久性（Durability）
+    事务成功结束前必须保存至某种物理存储设备。
+-----------------------------------------------------
 精华
 基于注解的Transactional的类
 
@@ -6636,13 +6598,12 @@ public class BookShopServiceImpl implements BookShopService{
 
 
 	@Transactional(
-			propagation=Propagation.REQUIRES_NEW,//指定事务的传播行为
-			isolation= Isolation.READ_COMMITTED,//指定事务的隔离级别
-			
+			propagation=Propagation.REQUIRES_NEW,//指定事务的传播行为(有7种传播行为)
+			isolation= Isolation.READ_COMMITTED,//指定事务的隔离级别(需要数据库支持,有5种)			
 			readOnly=false,//设置为只读,有些数据设置只读可以提高服务器的效率
 			timeout=2,//指定强制回滚之前事务可以占用的时间
-			rollbackFor=Exception.class,//指定回滚的异常
-			noRollbackFor=Exception.class),//默认情况下spring的声明事务对所有的运行异常都会进行回滚;可以设置不回滚的
+			rollbackFor=Exception.class,//指定那种异常才回滚
+			noRollbackFor=Exception.class),//默认情况下spring的声明事务对所有的运行异常都会进行回滚;可以设置那种异常不回滚的
 			)
 	@Override
 	public void bookService(String username, String isbn) {
@@ -6660,17 +6621,15 @@ public class BookShopServiceImpl implements BookShopService{
 }
 
 
-
-
 Spring共支持7种传播行为Propagation传播性取值：
 
 required(默认值）:在有事务状态下执行；如当前没有事务,则创建新的事务；
 requires_new:创建新的事务并执行（原来的挂起）
 
-supports(支持):如当前有事务,则在事务状态下执行；如果当前没有,在无事务状态下执行；
+supports(支持):如当前有事务,就在事务状态下执行；如果没有,就在无事务状态下执行；
 not_supports:在无事务状态下执行（如果当前已有事务,则挂起）
 
-mandatory(强制):必须在有事务如果没有抛出异常IllegalTransactionStateException；
+mandatory(强制):必须在有事务,如果没有抛出异常IllegalTransactionStateException；
 never:在无事务状态下执行；如果当前有事务也抛出异常IllegalTransactionStateException。
 
 nested (嵌套):如果当前存在事务，则在嵌套事务内执行。如果当前没有事务，则创建一个事务
@@ -6678,17 +6637,17 @@ nested (嵌套):如果当前存在事务，则在嵌套事务内执行。如果�
 https://blog.csdn.net/weixin_39625809/article/details/80707695
 ----------------------------------------
 
-isolation 5种事务隔离级别(和数据库有关系):
+isolation 5,种事务隔离级别(和数据库有关系):
 1 ISOLATION_DEFAULT     这是个 PlatfromTransactionManager 默认的隔离级别，使用数据库默认的事务隔离级别。另外四个与 JDBC 的隔离级别相对应。
-2 ISOLATION_READ_UNCOMMITTED     这是事务最低的隔离级别，它充许另外一个事务可以看到这个事务未提交的数据。这种隔离级别会产生脏读，不可重复读和幻像读。
-3 ISOLATION_READ_COMMITTED     保证一个事务修改的数据提交后才能被另外一个事务读取。另外一个事务不能读取该事务未提交的数据。
-4 ISOLATION_REPEATABLE_READ     这种事务隔离级别可以防止脏读，不可重复读。但是可能出现幻像读。
-5 ISOLATION_SERIALIZABLE     这是花费最高代价但是最可靠的事务隔离级别。事务被处理为顺序执行。
+2 ISOLATION_READ_UNCOMMITTED(读未提交)    这是事务最低的隔离级别，它充许另外一个事务可以看到这个事务未提交的数据。这种隔离级别会产生脏读，不可重复读和幻像读。
+3 ISOLATION_READ_COMMITTED (读以提交)      保证一个事务修改的数据提交后才能被另外一个事务读取。另外一个事务不能读取该事务未提交的数据。
+4 ISOLATION_REPEATABLE_READ(可重复读)     这种事务隔离级别可以防止脏读，不可重复读。但是可能出现幻像读。mysql默认
+5 ISOLATION_SERIALIZABLE (序列化) 这是花费最高代价但是最可靠的事务隔离级别。事务被处理为顺序执行。
 
 
 spring的隔离级别一定是要数据库锁机制支持的，
 比如上面第三点，肯定是使用了数据库的行级排他锁，别人都看不到了。
-------------------------------------------------
+-----------------------------------------
 spring 中的事务
 基于注解配置方式的transaction 
 源码spring2工程下的 template.xml
