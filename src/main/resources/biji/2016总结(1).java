@@ -55,10 +55,10 @@ public static void compare(int a,int[] b) {
 
 过上面的分析我们可以得出以下结论：
 
-1,基本数据类型传值，对形参的修改不会影响实参；
-2,引用类型传引用，形参和实参指向同一个内存地址，所以对参数的修改会影响到实际的对象。
+1,基本数据类型传值,对形参的修改不会影响实参；
+2,引用类型传引用,形参和实参指向同一个内存地址,所以对参数的修改会影响到实际的对象;
 
-3,但 String, Integer, Double等包装类型，可以理解为传值，最后的操作不会修改实参对象。
+3,但 String, Integer, Double等包装类型,可以理解为传值,最后的操作不会修改实参对象;
 
 
 https://blog.csdn.net/Norte_L/article/details/80250057
@@ -185,12 +185,12 @@ for(int j=0; j<10; j++){
 	   
 	/**
 	 *判断一个数是不是素数：只能被1和本身整除
-     * 说明：从2开始循环递增和传进来的值取模，不需要到n，也就是循环条件是 < n 就可以，
-     * 这之间只要被整除了，那么他就不是素数了
+     * 说明：从2开始循环递增和传进来的值取模,不需要到n,也就是循环条件是 < n 就可以,
+     * 这之间只要被整除了,那么他就不是素数了
 	 */
 	public static boolean isShuSu(int n) {
 		for (int i = 2; i < n; i++) {
-			//如果取模等于0就说明不是质数（素数），就返回flase
+			//如果取模等于0就说明不是质数（素数）,就返回flase
 			if(n % i == 0) {
 				return false;
 			}
@@ -202,21 +202,21 @@ for(int j=0; j<10; j++){
 
 所有数字在计算机底层都以二进制形式存在.
 计算机以补码的形式保存所有的整数.
-正数的原码、反码、补码都相同
+正数的原码,反码,补码都相同
 
 原码：将一个数值换成二进制数
 反码：对原码取反,只是最高位(符号位)确定为1.(正数是0,负数是1)
 补码: 计算机最后保存的;
 
 
-负数的补码其实就是正数转2进制后,再加1，最后的前面全部补1
+负数的补码其实就是正数转2进制后,再加1,最后的前面全部补1
 比如: -128,其实只是127的反码;
 0111,1111 = 127,源码
 1000 0000 = -128,反码
 假如 是64位电脑前最高为为1,其它补0,在把1000 000;刚好64位;计算器点十进制刚好是-128
 
 一个10进制数字怎么转为2进制?
-每次除以2，记下余数，直到商小于2，然后按相反循序写出来就是结果。
+每次除以2,记下余数,直到商小于2,然后按相反循序写出来就是结果;
 相当于除2求余
 例子1:
 23/2=商11（余1）
@@ -260,8 +260,8 @@ for(int j=0; j<10; j++){
 	
 ---------------
 
-UTF-8,编码：一个英文字符等于一个字节，一个中文（含繁体）等于三个字节。
-Unicode编码：一个英文等于两个字节，一个中文（含繁体）等于两个字节。
+UTF-8,编码：一个英文字符等于一个字节,一个中文（含繁体）等于三个字节;
+Unicode编码：一个英文等于两个字节,一个中文（含繁体）等于两个字节;
 
 1B(byte,字节)= 8 bit
 1KB(Kibibyte,1千字节)=1024B（1024字节）= 2^10 B；
@@ -273,7 +273,7 @@ Unicode编码：一个英文等于两个字节，一个中文（含繁体）等�
 注意:兆下面是千字节不是字节;	
 --------------------------------------
 
-% 取余数(取模),规则:左边小于右边，结果为左边，左边大于右边看余数
+% 取余数(取模),规则:左边小于右边,结果为左边,左边大于右边看余数
  System.out.println(2%5)//打印 2;
 System.out.println(6%8)//打印 6;
 System.out.println(4%1)//打印 0
@@ -477,7 +477,7 @@ for(int i=0; i<=2; i++){
 ----------------------------------
 /**
  * 需求:对2维数组进行遍历
-	说白了就是先定位到行，在对这行循环;
+	说白了就是先定位到行,在对这行循环;
  */
 public static void main(String[] args) {
 	int [][] ii= {{1,2,3},{4,5,6},{7,9}};	
@@ -510,7 +510,7 @@ public class Test2Array {
 		System.out.println("数组的长度为:" + array.length);
 		/**
 		 * 数组求最大值
-			思路: 先假设数组0下标最大,然后依次比较，如果找到更大的重新赋值”最大值“变量
+			思路: 先假设数组0下标最大,然后依次比较,如果找到更大的重新赋值”最大值“变量
 		 */
 		int max = array[0];
 		for (int i = 0; i < array.length; i++) {
@@ -561,7 +561,7 @@ public class Test2Array {
 
 		/**
 		 * 数组的反转(同时初始化2个变量一个为0,一个为长度减一;一个加一个减)
-			思路:暂存，交换，交换永远是替换不换的法则
+			思路:暂存,交换,交换永远是替换不换的法则
 		 */
 		for (int i=0,end = array.length-1;i < end; i++,end--) {	
 			System.out.println("i="+i);	//打印3,只循环了3次	
@@ -578,11 +578,11 @@ public class Test2Array {
 		}
 
 		System.out.println();
-		//推荐第二种方式（其实2个原理一样只是实现不一样，记住要-1）
+		//推荐第二种方式（其实2个原理一样只是实现不一样,记住要-1）
 		//循环次数和上面一模一样
 		for (int i = 0; i < array.length/2; i++) {
 			System.out.println("i="+i);	//打印3,只循环了3次	
-			//暂存，交换，交换永远是替换不换的法则		
+			//暂存,交换,交换永远是替换不换的法则		
 			int temp = array[i];//将下标0值暂存
 			array[i] = array[array.length-1-i]; // 将最后一个下标赋值给0下标
 			array[array.length-1-i] = temp;		// 0下标的值赋值给数组最后一个
@@ -605,7 +605,7 @@ public class Test2Array {
 --------------------------
 功能:数组冒泡排序
 思路:
-(从外层的第一个和内层的每一个进行比较，如果外层(i)的大就(交换)放后面(j)),最后形成从小到大排列
+(从外层的第一个和内层的每一个进行比较,如果外层(i)的大就(交换)放后面(j)),最后形成从小到大排列
 
 另:java 本身都给我们提供了对数组的排序 Arrays.sort(数组名),我们可以直接用
 public static void sort(int[] items) {
@@ -614,7 +614,7 @@ public static void sort(int[] items) {
 		//注意j＝i, j < items.length, j一直加++,会往后面走
 		for (int j = i; j < items.length; j++) {
 			if(items[i] > items[j]) {
-				//暂存，交换，交换永远是替换不换的法则	
+				//暂存,交换,交换永远是替换不换的法则	
 				int temp = items[j];
 				items[j] = items[i];
 				items[i]= temp;
@@ -814,7 +814,7 @@ class suibian {
 -------------
 person p = new person("zhangsan",20);
 
-这句话都做了什么事？（其实下面的步骤只说了大概，主要根据加载时机来）
+这句话都做了什么事？（其实下面的步骤只说了大概,主要根据加载时机来）
 1,类加载器把person.class文件把类并加载到内存
 2,执行静态代码块
 3,在堆内存中开辟空间,分配内存地址(这里 new 的动作)
@@ -887,8 +887,8 @@ static
 
 
 
-无论创建多少个对象，静态数据都只占用一份存储区域。static关键字不能应用于局部变量，因此它只能作用于域。
-那么它就会获得基本类型的标准初值；如果它是一个对象引用，那么它的默认初始化的值就是null。 
+无论创建多少个对象,静态数据都只占用一份存储区域;static关键字不能应用于局部变量,因此它只能作用于域;
+那么它就会获得基本类型的标准初值；如果它是一个对象引用,那么它的默认初始化的值就是null; 
 -----------------------------------------
 
 final 最终的
@@ -898,10 +898,10 @@ final 修饰方法 不能被重写.如 Object类的getClass()
 final 修饰类 不能被继承. 如:String StringBuffer类 System 类
 
 
-如果final修饰一个引用类型时，则在初始化之后不能再指向其他对象，但对象的内容是可以变化的(引用不能被修改,值是可以被改变)
+如果final修饰一个引用类型时,则在初始化之后不能再指向其他对象,但对象的内容是可以变化的(引用不能被修改,值是可以被改变)
 
 常量赋值
-final 修饰的 类成员变量 必须在申明时 或 构造方法里初始化。
+final 修饰的 类成员变量 必须在申明时 或 构造方法里初始化;
 
 如果加了 static final 修饰后,就不能再构造器里初始化了,必须立即赋值（配合使用的好处）
 
@@ -922,7 +922,7 @@ public static void main(String[] args) {
 重点:
 abstract :抽象的,可以用来修饰类,方法.
 
-1,抽象类也有构造器(凡是类都有),但不能被实例化(子类可以)，就算没有 抽象方法也不能;抽象类中可以没有抽象方法(但不推荐这样做)
+1,抽象类也有构造器(凡是类都有),但不能被实例化(子类可以),就算没有 抽象方法也不能;抽象类中可以没有抽象方法(但不推荐这样做)
 
 
 abstract class Animal {  
@@ -961,7 +961,7 @@ public class Horse extends Animal {
 接口 (interface)与类是 并行 的一个概念
 
 
-1,方法默认被 public abstract 修饰,所以全是抽象方法;只能有常量，不能有普通变量(但不推荐使用)
+1,方法默认被 public abstract 修饰,所以全是抽象方法;只能有常量,不能有普通变量(但不推荐使用)
 2,接口没有构造器
 3,实现接口的类,重写方法后才可以实例化.若没有全部重写,还是一个抽象类
 4,类可以实现多个接口.弥补了java的单继承
@@ -1010,12 +1010,12 @@ abstract class 的应用场合
 
 缺点:
 使用多态可能会用到强制转型(),判断对象a是否是类A的一个实例 使用 instanceof 
-若a是b的实例 ,那么a也一定是b类的父类的实例(a既然已经是儿子，就一定是孙子)
+若a是b的实例 ,那么a也一定是b类的父类的实例(a既然已经是儿子,就一定是孙子)
 
 
 举例:
 interface Person{
-	//每一个接口默认都有public abstract修饰，不写也有
+	//每一个接口默认都有public abstract修饰,不写也有
 	public abstract void getRun();
 }
 
@@ -1029,7 +1029,7 @@ class Man implements Person{
 public class TestInterface {
 
 	public static void main(String[] args) {
-		//Man是子类，用多态父类统一接收子类(可以有多种子类);面向抽象编程
+		//Man是子类,用多态父类统一接收子类(可以有多种子类);面向抽象编程
 		Person p = new Man();
 		//方法中是父类接受子类,运行子类的方法体
 		person(p);
@@ -1042,11 +1042,11 @@ public class TestInterface {
 
 +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-泛型(都是在集合中使用，和多态容易混淆，它们是不同的东西)
+泛型(都是在集合中使用,和多态容易混淆,它们是不同的东西)
 Generic 泛型 (泛型没有多态)
 
 泛型的最主要的作用就是动态形参,类型传递防止类型转换错误
-就是多态传递有形参，调用此方法时传递实参
+就是多态传递有形参,调用此方法时传递实参
 
 为什么需要泛型?
 就是代替Object对象的如:
@@ -1089,7 +1089,7 @@ List源码, 类上定义了List<E>这样的泛型,后面就嵌套出
 
 /**
  * 自定义一个泛型类可以参看Collection源码
- * DAO 的使用大大增加了泛型的理解,大大提高代码的重用性（何时我能写出这样的代码，大牛判断的一个指标）
+ * DAO 的使用大大增加了泛型的理解,大大提高代码的重用性（何时我能写出这样的代码,大牛判断的一个指标）
 	泛型是最难理解和运用的基础知识,如果你理解了你会发现你会运用
  */
 public class DAO<T> {
@@ -1172,7 +1172,7 @@ public class Test {
 		List<User> lists = new ArrayList<>();
 		show3(lists);
 	}
-	//List<? extends T>问号和T的位置不可以换，且方法返回值多了一个<T>
+	//List<? extends T>问号和T的位置不可以换,且方法返回值多了一个<T>
 	//且这时根据就约束不到?号是T的子类
 	public static <T> void show3(List<? extends T> list) {
 		for (T t : list) {
@@ -1260,15 +1260,15 @@ public class Test {
 	 */
 	public static int get(String str,String key){		
 		int count = 0, index = 0;		
-		//思路：循环在长的字符串中查找短的字符串，如果找到就找到位置，重新截取在赋值给长字符串
+		//思路：循环在长的字符串中查找短的字符串,如果找到就找到位置,重新截取在赋值给长字符串
 		while((index = str.indexOf(key)) != -1){
-			//能到这里说明已经匹配上了，indexOf 记录首次出现的位置,然后再将原字符串截取长度后重新赋值给
+			//能到这里说明已经匹配上了,indexOf 记录首次出现的位置,然后再将原字符串截取长度后重新赋值给
 			//字符串变量
 			str = str.substring(index + key.length());
 			count++;
 		}
 		
-		//第二种方式比上面快，如果找到直接移动下标的方式（字符串截取相对耗时）
+		//第二种方式比上面快,如果找到直接移动下标的方式（字符串截取相对耗时）
 //		while((index = str.indexOf(key, index)) != -1){
 //			index = index+key.length();
 //			count++;
@@ -1279,12 +1279,12 @@ public class Test {
 	
 	
 	/**
-	 * 反转指定位置的字符串,和反转全部(原理和反转数组一模一样，转为字符数组)
+	 * 反转指定位置的字符串,和反转全部(原理和反转数组一模一样,转为字符数组)
 		String e ="abcdef";
 		System.out.println(reverseString(e));
 	 */
 	public static String reverseString(String str,int start,int end){
-		char[] arr = str.toCharArray();//字符串变数组，关键一步
+		char[] arr = str.toCharArray();//字符串变数组,关键一步
 		reverse(arr,start,end);//反转数组.重点
 		return new String(arr);//返回将数组变成字符串
 	}
@@ -1296,7 +1296,7 @@ public class Test {
 	public static void reverse(char[] arr ,int st,int en){
 		
 		for(int start = st, end= en - 1;start < end; start++, end--){
-			//暂存，交换，交换永远是替换不换的法则
+			//暂存,交换,交换永远是替换不换的法则
 			char temp = arr[start];
 			arr[start] = arr[end];
 			arr[end] = temp; 
@@ -1368,7 +1368,7 @@ public static String myReverse1(String s, int start, int end) {
 	char[] c = s.toCharArray();
 
 	for (int i = start, j = end - 1; i < j; i++, j--) {
-		//暂存，交换，交换永远是替换不换的法则	
+		//暂存,交换,交换永远是替换不换的法则	
 		char temp = c[i];
 		c[i] = c[j];
 		c[j] = temp;
@@ -1495,12 +1495,12 @@ public void test4(){
 	String month = String.valueOf(calendar.get(Calendar.MONTH) + 1);
 	String day = String.valueOf(calendar.get(Calendar.DAY_OF_MONTH));
 	String week = String.valueOf(calendar.get(Calendar.DAY_OF_WEEK) - 1);
-	System.out.println("现在时间是：" + year + "年" + month + "月" + day + "日，星期" + week);
+	System.out.println("现在时间是：" + year + "年" + month + "月" + day + "日,星期" + week);
 	long now = calendar.getTimeInMillis();
 	calendar.set(2018, 7, 1);// 这里与真实的月份之间减一月
 	long birth = calendar.getTimeInMillis();
 	long days = (now - birth) / (1000 * 60 * 60 * 24);
-	System.out.println("今天和2018年8月1日相隔" + days + "天，" + "也就是说我在这个美丽的星球上已经幸福的生活了" + days + "天。");	
+	System.out.println("今天和2018年8月1日相隔" + days + "天," + "也就是说我在这个美丽的星球上已经幸福的生活了" + days + "天;");	
 }
 
 -----------------------------------------------------
@@ -1534,7 +1534,7 @@ public void dateDiff(String startTime,String endTime, String format) {
 }	
 ----------------------------------------------------
 推荐
-jdk1.8 推出线程安全的时间类LocalDateTime，用来代替Date和SimpleDataFormat
+jdk1.8 推出线程安全的时间类LocalDateTime,用来代替Date和SimpleDataFormat
 
 //https://blog.csdn.net/u010002184/article/details/79713573
 //网上找的时间工具类
@@ -1668,7 +1668,7 @@ public class Demo {
 		MyAction myaction = new MyAction();
 		/**
 		 * 如果不放到try里面程序会嘎然而止；(可能我们就想程序出错直接
-		 * 就终止，就可以不try)
+		 * 就终止,就可以不try)
 		 */
 		int c = myaction.div(4, -1);
 		/**try {
@@ -1681,7 +1681,7 @@ public class Demo {
 }
 ----------------------------
 上面main方法的代码,实际开发中是在Controler层,正确处理service端throw异常可以是下面选一种:
-SpringMvc 统一异常处理有 3 种方式(精华)，分别为：
+SpringMvc 统一异常处理有 3 种方式(精华),分别为：
 
 1,spring MVC提供的SimpleMappingExceptionResolver
 2,实现 HandlerExceptionResolver 接口 （这种基于xml配置可以直接跳转的页面；全局搜索有例子）
@@ -1689,9 +1689,9 @@ SpringMvc 统一异常处理有 3 种方式(精华)，分别为：
 
 关于异常总结(精华)：
 
- java对异常进行了对象封装，jdk中有很多异常对象;但在业务开发时我们有很多业务异常我们希望有自己异常对象这样能更精确更友好提示用户;
-所以出现了自定义异常类；实际开发时我们可能会在service层抛出各种自定义异常，如果我们在controler层对每个异常分别处理的话
-会让我们代码可读性变差，和工作量加大；这时就统一异常处理就排上用场了；统一异常通过上面3种实现；
+ java对异常进行了对象封装,jdk中有很多异常对象;但在业务开发时我们有很多业务异常我们希望有自己异常对象这样能更精确更友好提示用户;
+所以出现了自定义异常类；实际开发时我们可能会在service层抛出各种自定义异常,如果我们在controler层对每个异常分别处理的话
+会让我们代码可读性变差,和工作量加大；这时就统一异常处理就排上用场了；统一异常通过上面3种实现；
 
 
 
@@ -1854,7 +1854,7 @@ Map	 				  HashMap  LinkedHashMap  TreeMap  Hashtable
 Collections 工具箱这个类(里面有一些公共方法,子类共享如排序,反转排序,追加,随机排序,数组转list,单词首字母排序)
 ---------------------------------
 Collection 接口
-	|---List 接口,继承了Collection接口(存储是有序的,可以重复)(如果要判断list中的元素的值是否相同，那么一定要重写equals)
+	|---List 接口,继承了Collection接口(存储是有序的,可以重复)(如果要判断list中的元素的值是否相同,那么一定要重写equals)
 		~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 			|---ArrayList(推荐.底层原理是数组)实现了List还实现了其它接口
 			|---LinkedList(底层是链表,对于大量的插入,删用它)实现类
@@ -2002,7 +2002,7 @@ public class MyMap {
 }
 
 ---------------------------------------------------
-了解，这种3方jar包多，直接百度最好
+了解,这种3方jar包多,直接百度最好
 import com.commontools.xml.XmlTool;
 
 Map<String, Object> map = new HashMap<String, Object>();
@@ -2023,7 +2023,7 @@ Person person1 = new Person("aa", 22);
 Person person2 = new Person("aa", 22);
 
 如果普通的比较一定是不相当等的,这时我们就需要实现comparable或comparator
-而hashCode,equals同compareTo方法没有直接联系，只是为了逻辑一致我们常常也会重写
+而hashCode,equals同compareTo方法没有直接联系,只是为了逻辑一致我们常常也会重写
 hashCode 和equals(主要针对于集合使用会需要这两个方法)；comparable或comparator这两个接口
 都会调用每个类的compareTo()方法；
 
@@ -2070,7 +2070,7 @@ public void test() {
  */
 @Test
 public void test() {
-	//建立comparator 比较方式的的方法.（上面是分开写的，这里是写在一起的）
+	//建立comparator 比较方式的的方法.（上面是分开写的,这里是写在一起的）
 	Set<Person> treeSet = new TreeSet<Person>(new Comparator<Person>() {
 		@Override
 		public int compare(Person o1, Person o2) {
@@ -2242,7 +2242,7 @@ ThreadLocalRandom
 System.out.println(ThreadLocalRandom.current().nextInt(1, 3));//只出现1,2
 System.out.println(ThreadLocalRandom.current().nextDouble(1.10, 3.20));//1.3400984454836864
 
-4,泛型的菱形语法,后面的只需要写<>就OK，原来必须和前面一样（只是少写2个单词）
+4,泛型的菱形语法,后面的只需要写<>就OK,原来必须和前面一样（只是少写2个单词）
 Map<String,Object> map = new HashMap<>();
 
 5,try(这里面开启资源){} 会自动关闭开启的资源,无需再去 finally 判断关闭
@@ -2657,7 +2657,7 @@ package comproxy;
 
 /**
 	根据设计模式来说：代理类持有被代理的引用	
-   所谓代理，只是一个转发；真正的事还得由被代理来做；
+   所谓代理,只是一个转发；真正的事还得由被代理来做；
  * 静态代理:要求被代理类和代理类同时实现一个相应的一套接口,
       代理类中去添加额外的逻辑后再调用被代理方法.
  *
@@ -2705,13 +2705,13 @@ public class StaticTest {
 当调用代理类的实现的抽象方法时,就会转调被代理类的同样的方法
 
 动态代理和静态代理的区别：
-静态代理需要代理类和被代理类都实现同一接口，动态代理不需要;静态代理只服务于一种类型的对象.
+静态代理需要代理类和被代理类都实现同一接口,动态代理不需要;静态代理只服务于一种类型的对象.
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 涉及到的技术点:(重点)
 1,自定义类然后实现InvocationHandler接口,重写invoke()方法.
 
-//使用时通过Proxy静态方法调用，在这句话运行时才会动态创建代理类
+//使用时通过Proxy静态方法调用,在这句话运行时才会动态创建代理类
 2,Proxy.newInstance(obj.getClass().getClassLoader(), obj.getClass().getInterface(), h);
 //注:obj :被代理类的对象; h:实现了invocationHandler接口的实现类的对象
 
@@ -2885,7 +2885,7 @@ System.in:对应的标准输入设备:键盘.
 打印流(所谓打印流,只有输出流)：
 
 字符流：PrintWriter (比BufferedWriter还方便)
-字节流: PrintWriter则不同,一定要在构造方法中设置自动刷新或者在调用println()方法以后再调用flush(),才可以立即完成输出。
+字节流: PrintWriter则不同,一定要在构造方法中设置自动刷新或者在调用println()方法以后再调用flush(),才可以立即完成输出;
 //字符打印流(PrintWriter)
 @Test
 public void testPrintStream() throws IOException {	
@@ -2902,7 +2902,7 @@ public void testPrintStream() throws IOException {
 }
 
 -------------------------------------------------	
-数据流(没有字符流，居然工作中很少用，可以加密)
+数据流(没有字符流,居然工作中很少用,可以加密)
 
 DataInputStream 和 DataOutputStream
 
@@ -2971,8 +2971,8 @@ public RandomAccessFile(String name, String model)
 model 参数指定 RandomAccessFile 的访问模式：
 r: 以只读方式打开
 rw：打开以取和写入
-rws: 相对于 "rw",还要求对“文件的内容”或“元数据”的每个更新都同步写入到基础存储设备。
-rwd: 相对于 "rw",还要求对“文件的内容”的每个更新都同步写入到基础存储设备。
+rws: 相对于 "rw",还要求对“文件的内容”或“元数据”的每个更新都同步写入到基础存储设备;
+rwd: 相对于 "rw",还要求对“文件的内容”的每个更新都同步写入到基础存储设备;
 
 
 随机流中有个seek(int index)方法,移动位置
@@ -3005,7 +3005,7 @@ public void randomAccessFile() throws Exception{
 --------------------------------------------------
 /**
 	需求:读取文件里内容转String类型
-*平安mock(假项目)项目中，就是通过json.txt保存的返回前端的假数据(且定义了每个页面的返回格式)；
+*平安mock(假项目)项目中,就是通过json.txt保存的返回前端的假数据(且定义了每个页面的返回格式)；
 */
 使用org.apache.commons.io包读取文件更为简单:
 
@@ -3041,7 +3041,7 @@ public void testClassLoader() throws IOException{
 Spring的Resource 接口
 
 目的:
-通过JDK中的File、URL类难以满足各种不同资源加载,Spring中设计的Resource接口提供获取文件资源(文件流,文件内容)
+通过JDK中的File,URL类难以满足各种不同资源加载,Spring中设计的Resource接口提供获取文件资源(文件流,文件内容)
 https://blog.csdn.net/xiaoliuliu2050/article/details/81463223
 
 ResourceLoader是对资源加载的统一接口
@@ -3059,9 +3059,9 @@ classpath:applicationConfig.xml //相当路径
 classpath是指WEB-INF或target/classes/路径下
 classpath和classpath*区别： 
 
-classpath：只会到你的classes路径中查找找文件。
+classpath：只会到你的classes路径中查找找文件;
 
-classpath*：不仅包含classes路径，还包括jar文件中（class路径）进行查找。
+classpath*：不仅包含classes路径,还包括jar文件中（class路径）进行查找;
 -------------------------------------------------------------------
 //spring中读取配置文件
 public static void main(String[] args) throws IOException {
@@ -3086,51 +3086,51 @@ public static void main(String[] args) throws IOException {
 ++++++++++++++++++++++++++++++++++++++++++++++++++++
 Socket{插座}
 
-socket是对TCP/IP协议的封装，Socket本身并不是协议，而是一个调用接口(API)
+socket是对TCP/IP协议的封装,Socket本身并不是协议,而是一个调用接口(API)
 java网络通信其实就是Socket间的通信
 *************************************
-//TCP/IP、HTTP、Socket和Servlet之间的逻辑关系、系统点
+//TCP/IP,HTTP,Socket和Servlet之间的逻辑关系,系统点
 https://www.pianshen.com/article/5692745826/
 
-一、先来一个讲TCP、UDP和HTTP关系的
+一,先来一个讲TCP,UDP和HTTP关系的
 
-1,TCP/IP是个协议组，可分为三个层次：网络层、传输层和应用层。
+1,TCP/IP是个协议组,可分为三个层次：网络层,传输层和应用层;
 
-在网络层有IP协议、ICMP协议、ARP协议、RARP协议和BOOTP协议。
+在网络层有IP协议,ICMP协议,ARP协议,RARP协议和BOOTP协议;
 
-在传输层中有TCP协议与UDP协议。
+在传输层中有TCP协议与UDP协议;
 
-在应用层有FTP、HTTP、TELNET、SMTP、DNS等协议。
+在应用层有FTP,HTTP,TELNET,SMTP,DNS等协议;
 
-因此，HTTP本身就是一个协议，是从Web服务器传输超文本到本地浏览器的传送协议。
+因此,HTTP本身就是一个协议,是从Web服务器传输超文本到本地浏览器的传送协议;
 
-2,HTTP协议是建立在请求/响应模型上的。首先由客户建立一条与服务器的TCP链接，并发送一个请求到服务器，请求中包含请求方法、URI、协议版本以及相关的MIME样式的消息。服务器响应一个状态行，包含消息的协议版本、一个成功和失败码以及相关的MIME式样的消息。
+2,HTTP协议是建立在请求/响应模型上的;首先由客户建立一条与服务器的TCP链接,并发送一个请求到服务器,请求中包含请求方法,URI,协议版本以及相关的MIME样式的消息;服务器响应一个状态行,包含消息的协议版本,一个成功和失败码以及相关的MIME式样的消息;
 
-HTTP/1.0,为每一次HTTP的请求/响应建立一条新的TCP链接，因此一个包含HTML内容和图片的页面将需要建立多次的短期的TCP链接。一次TCP链接的建立将需要3次握手。
+HTTP/1.0,为每一次HTTP的请求/响应建立一条新的TCP链接,因此一个包含HTML内容和图片的页面将需要建立多次的短期的TCP链接;一次TCP链接的建立将需要3次握手;
 
-另外，为了获得适当的传输速度，则需要TCP花费额外的回路链接时间（RTT）。每一次链接的建立需要这种经常性的开销，而其并不带有实际有用的数据，只是保证链接的可靠性，因此HTTP/1.1,提出了可持续链接的实现方法。HTTP/1.1,将只建立一次TCP的链接而重复地使用它传输一系列的请求/响应消息，因此减少了链接建立的次数和经常性的链接开销。
+另外,为了获得适当的传输速度,则需要TCP花费额外的回路链接时间（RTT）;每一次链接的建立需要这种经常性的开销,而其并不带有实际有用的数据,只是保证链接的可靠性,因此HTTP/1.1,提出了可持续链接的实现方法;HTTP/1.1,将只建立一次TCP的链接而重复地使用它传输一系列的请求/响应消息,因此减少了链接建立的次数和经常性的链接开销;
 
-3,结论：虽然HTTP本身是一个协议，但其最终还是基于TCP的。不过，目前，有人正在研究基于TCP+UDP混合的HTTP协议。
+3,结论：虽然HTTP本身是一个协议,但其最终还是基于TCP的;不过,目前,有人正在研究基于TCP+UDP混合的HTTP协议;
 
 Socket是什么呢？
 
-Socket是应用层与TCP/IP协议族通信的中间软件抽象层，它是一组接口。在设计模式中，Socket其实就是一个门面模式，它把复杂的TCP/IP协议族隐藏在Socket接口后面，对用户来说，一组简单的接口就是全部，让Socket去组织数据，以符合指定的协议。
+Socket是应用层与TCP/IP协议族通信的中间软件抽象层,它是一组接口;在设计模式中,Socket其实就是一个门面模式,它把复杂的TCP/IP协议族隐藏在Socket接口后面,对用户来说,一组简单的接口就是全部,让Socket去组织数据,以符合指定的协议;
 
 
 
-二、socket和TCP/IP之间关系
+二,socket和TCP/IP之间关系
 
-而我们平时说的最多的socket是什么呢，实际上socket是对TCP/IP协议的封装，Socket本身并不是协议，而是一个调用接口(API)。socket则是对TCP/IP协议的封装和应用(程序员层面上)。也可以说，TPC/IP协议是传输层协议，主要解决数据如何在网络中传输，而HTTP是应用层协议，主要解决如何包装数据。关于TCP/IP和HTTP协议的关系，网络有一段比较容易理解的介绍:“我们在传输数据时，可以只使用(传输层)TCP/IP协议，但是那样的话，如果没有应用层，便无法识别数据内容。如果想要使传输的数据有意义，则必须使用到应用层协议。
+而我们平时说的最多的socket是什么呢,实际上socket是对TCP/IP协议的封装,Socket本身并不是协议,而是一个调用接口(API);socket则是对TCP/IP协议的封装和应用(程序员层面上);也可以说,TPC/IP协议是传输层协议,主要解决数据如何在网络中传输,而HTTP是应用层协议,主要解决如何包装数据;关于TCP/IP和HTTP协议的关系,网络有一段比较容易理解的介绍:“我们在传输数据时,可以只使用(传输层)TCP/IP协议,但是那样的话,如果没有应用层,便无法识别数据内容;如果想要使传输的数据有意义,则必须使用到应用层协议;
 
-三、servlet和HTTP之间的关系
+三,servlet和HTTP之间的关系
 
-Servlet 是 J2EE 最重要的一部分，有了 Servlet 你就是 J2EE 了，J2EE 的其他方面的内容择需采用。而 Servlet 规范你需要掌握的就是 servlet 和 filter 这两项技术。绝大多数框架不是基于 servlet 就是基于 filter，如果它要在 Servlet 容器上运行，就永远也脱离不开这个模型。为什么 Servlet 规范会有两个包，javax.servlet 和 javax.servlet.http ，早先设计该规范的人认为 Servlet 是一种服务模型，不一定是依赖某种网络协议之上，因此就抽象出了一个 javax.servlet ，同时在提供一个基于 HTTP 协议上的接口扩展。但是从实际运行这么多年来看，似乎没有发现有在其他协议上实现的 Servlet 技术。
+Servlet 是 J2EE 最重要的一部分,有了 Servlet 你就是 J2EE 了,J2EE 的其他方面的内容择需采用;而 Servlet 规范你需要掌握的就是 servlet 和 filter 这两项技术;绝大多数框架不是基于 servlet 就是基于 filter,如果它要在 Servlet 容器上运行,就永远也脱离不开这个模型;为什么 Servlet 规范会有两个包,javax.servlet 和 javax.servlet.http ,早先设计该规范的人认为 Servlet 是一种服务模型,不一定是依赖某种网络协议之上,因此就抽象出了一个 javax.servlet ,同时在提供一个基于 HTTP 协议上的接口扩展;但是从实际运行这么多年来看,似乎没有发现有在其他协议上实现的 Servlet 技术;
 
-为什么我这么强调 HttpServletRequest 和 HttpServletResponse 这两个接口，因为 Web 开发是离不开 HTTP 协议的，而 Servlet 规范其实就是对 HTTP 协议做面向对象的封装，HTTP协议中的请求和响应就是对应了 HttpServletRequest 和 HttpServletResponse 这两个接口。
+为什么我这么强调 HttpServletRequest 和 HttpServletResponse 这两个接口,因为 Web 开发是离不开 HTTP 协议的,而 Servlet 规范其实就是对 HTTP 协议做面向对象的封装,HTTP协议中的请求和响应就是对应了 HttpServletRequest 和 HttpServletResponse 这两个接口;
 
-你可以通过 HttpServletRequest 来获取所有请求相关的信息，包括 URI、Cookie、Header、请求参数等等，别无它路。因此当你使用某个框架时，你想获取HTTP请求的相关信息，只要拿到 HttpServletRequest 实例即可。而 HttpServletResponse接口是用来生产 HTTP 回应，包含 Cookie、Header 以及回应的内容等等。
+你可以通过 HttpServletRequest 来获取所有请求相关的信息,包括 URI,Cookie,Header,请求参数等等,别无它路;因此当你使用某个框架时,你想获取HTTP请求的相关信息,只要拿到 HttpServletRequest 实例即可;而 HttpServletResponse接口是用来生产 HTTP 回应,包含 Cookie,Header 以及回应的内容等等;
 
-HTTP 协议里是没有关于 Session 会话的定义，Session 是各种编程语言根据 HTTP 协议的无状态这种特点而产生的。其实现无非就是服务器端的一个哈希表，哈希表的Key就是传递给浏览器的名为 jsessionid 的 Cookie 值。
+HTTP 协议里是没有关于 Session 会话的定义,Session 是各种编程语言根据 HTTP 协议的无状态这种特点而产生的;其实现无非就是服务器端的一个哈希表,哈希表的Key就是传递给浏览器的名为 jsessionid 的 Cookie 值;
 
 
 //servlet与tomcat的关系
@@ -3194,7 +3194,7 @@ ftp 21   http 80  Oracle 1521   mysql 3306
 针对网络通信的不同层次,java 提供了网络功能有4大类:
 1,inetAddress :用于标示网络上的硬件资源
 2,URL :统一资源定位符,通过url可以直接读取或写入(需要权限吧)网络上的数据
-3,Sockets :是对TCP/IP协议的封装，Socket本身并不是协议
+3,Sockets :是对TCP/IP协议的封装,Socket本身并不是协议
 4,Datagram:使用UDP协议,将数据保存在数据报中,通过网络进行通信.
 -------------------------------------------------------
 /**
@@ -3372,7 +3372,7 @@ public class zhuhanshu{
 -----------------------------------------------------------------------
 -----------------------------------------------------------------------
 -----------------------------------------------------------------------
-NIO(jdk1.4,就有了)，BIO，AIO
+NIO(jdk1.4,就有了),BIO,AIO
 
 github上有2个项目;
 
@@ -3386,18 +3386,18 @@ http://tutorials.jenkov.com/java-nio/files.html
 https://www.cnblogs.com/applerosa/p/7141684.html
 
 
-在网上一些朋友将同步和异步分别与阻塞和非阻塞画上等号，事实上，它们是两组完全不同的概念。
+在网上一些朋友将同步和异步分别与阻塞和非阻塞画上等号,事实上,它们是两组完全不同的概念;
 
-　　同步和异步着重点在于多个任务同时执行，一个任务的执行是否会导致整个流程的暂时等待；
-（如果A，B两个线程执行io操作，同步需要排队，A执行完了才能轮到B执行；异步同时执行）
+　　同步和异步着重点在于多个任务同时执行,一个任务的执行是否会导致整个流程的暂时等待；
+（如果A,B两个线程执行io操作,同步需要排队,A执行完了才能轮到B执行；异步同时执行）
 
-　　而阻塞和非阻塞着重点只发出一个请求时，如果进行操作的条件不满足是否会返会一个标志信息告知条件不满足。
-同步异步主要是说的多线程层面分析，阻塞和非阻塞主要是单线程层面分析的
+　　而阻塞和非阻塞着重点只发出一个请求时,如果进行操作的条件不满足是否会返会一个标志信息告知条件不满足;
+同步异步主要是说的多线程层面分析,阻塞和非阻塞主要是单线程层面分析的
 
 
 
-//入门例子(注释简单，请仔细翻译英文注解)
-//需求：加载一个文件，然后通过NIO的形式读到Channel对象中,在到buffer容器中暂存，然后循环这个把文件内容读完
+//入门例子(注释简单,请仔细翻译英文注解)
+//需求：加载一个文件,然后通过NIO的形式读到Channel对象中,在到buffer容器中暂存,然后循环这个把文件内容读完
 import java.io.IOException;
 import java.io.RandomAccessFile;
 import java.nio.ByteBuffer;
@@ -3425,12 +3425,12 @@ while (bytesRead != -1) {
 aFile.close();
 -------------------------------
 通过使用FileChannel可以从文件读或者向文件写入数据；
-通过SocketChannel，以TCP来向网络连接的两端读写数据
-通过ServerSocketChanel能够监听客户端发起的TCP连接，并为每个TCP连接创建一个新的SocketChannel来进行数据读写；
-通过DatagramChannel，以UDP协议来向网络连接的两端读写数据。
+通过SocketChannel,以TCP来向网络连接的两端读写数据
+通过ServerSocketChanel能够监听客户端发起的TCP连接,并为每个TCP连接创建一个新的SocketChannel来进行数据读写；
+通过DatagramChannel,以UDP协议来向网络连接的两端读写数据;
 -------------------------------
-Netty 是一个 NIO 客户端服务器框架，使用它可以快速简单地开发网络应用程序，比如服务器和客户端的协议。
-Netty 大大简化了网络程序的开发过程比如 TCP 和 UDP 的 socket 服务的开发。
+Netty 是一个 NIO 客户端服务器框架,使用它可以快速简单地开发网络应用程序,比如服务器和客户端的协议;
+Netty 大大简化了网络程序的开发过程比如 TCP 和 UDP 的 socket 服务的开发;
 
 gitHub 上有2个项目
 -------------------------------
@@ -3520,7 +3520,7 @@ public class RecurSion {
 			if (files[x].isDirectory())// 是否为文件夹
 				showDir(files[x]);// 是文件夹,就调用自己
 			else
-				System.out.println(files[x]);// 我是文件，就打印
+				System.out.println(files[x]);// 我是文件,就打印
 		}
 	}
 
@@ -3534,9 +3534,9 @@ public class RecurSion {
 
 	/**
 	 * 假设传入参数3；
-	 * 1，if不成立，执行3+sum（3-1）
-	 * 2，if不成里，执行2+sum（2-1）
-	 * 3，if成立，返回 3+2+1
+	 * 1,if不成立,执行3+sum（3-1）
+	 * 2,if不成里,执行2+sum（2-1）
+	 * 3,if成立,返回 3+2+1
 	 * 4,return 6
 	 */
 	public static int sum(int x) {
@@ -3654,7 +3654,7 @@ synchronized 使用时的流程;
 -----------------------
 volatile 和 synchronized 都可以让变量可见,但 volatile 不能保证复合操作的原子性,volatile 执行数度更快
 
-如果给一个变量加上volatile修饰符，就相当于：每一个线程中一旦这个值发生了变化就马上刷新回主存，使得各个线程取出的值相同。
+如果给一个变量加上volatile修饰符,就相当于：每一个线程中一旦这个值发生了变化就马上刷新回主存,使得各个线程取出的值相同;
 
 
 
@@ -3674,8 +3674,8 @@ synchronized(this){
 -------------------------------------
 方式一：
 /**
- * 功能描述:测试Volatile不能保证原子性，synchronized可以；
- * 另Thread.activeCount()结合hread.yield()让当前主线程等待，请仔细
+ * 功能描述:测试Volatile不能保证原子性,synchronized可以；
+ * 另Thread.activeCount()结合hread.yield()让当前主线程等待,请仔细
  * 想想主和其它线程的切换过程；
  */
 public class VolatileDemo {
@@ -3695,7 +3695,7 @@ public class VolatileDemo {
 			e.printStackTrace();
 		}
 		/**
-		 * 下面是保证可见性的两种方式，我们选一种synchronized,
+		 * 下面是保证可见性的两种方式,我们选一种synchronized,
 		 * volatile不能保存原子性；
 		 */
 		//synchronized (this) {
@@ -3733,7 +3733,7 @@ Thread 和 Runnable 的区别:
 不然共享变量需要就加 static
 -----------------------------------------------
 /**
- * 继承方式的Hello World；任何一个线程.yield()就会放弃cpu执行权,但并不是另一个线程就会执行，靠抢；
+ * 继承方式的Hello World；任何一个线程.yield()就会放弃cpu执行权,但并不是另一个线程就会执行,靠抢；
  */
 public class ThreadDemo {
 	public static void main(String[] args) {
@@ -3781,7 +3781,7 @@ class MyRunnable implements Runnable {
 	public void run() {
 		while (true) {//无限循环
 			synchronized (this) {		
-				if (m > 0) {//共享变量的改变，放在锁内
+				if (m > 0) {//共享变量的改变,放在锁内
 					try {
 						Thread.sleep(20);// 如果当前线程冻结20毫秒,不加锁马上会出现卖票混乱,就算变量加静态也不能解决,只有加锁
 					} catch (Exception e) {
@@ -3856,7 +3856,7 @@ public class MyRunnable implements Runnable {
 	public void run() {
 		while (flag) {
 			try {
-				lock.lock();// 加锁，不加锁数据错乱,可能要测试很几次才会出现，但一定会出现
+				lock.lock();// 加锁,不加锁数据错乱,可能要测试很几次才会出现,但一定会出现
 				try {
 					Thread.sleep(10);// 睡10毫秒
 				} catch (InterruptedException e) {
@@ -3872,7 +3872,7 @@ public class MyRunnable implements Runnable {
 				lock.unlock();// 解锁都放finally里,对应最外层的try
 			}
 			
-			Thread.yield();//强制放弃，加了后马上可以看到多线程在切换
+			Thread.yield();//强制放弃,加了后马上可以看到多线程在切换
 		}
 	}
 
@@ -3994,7 +3994,7 @@ public class TestProduceConsume {
 	}
 }
 
-//店员（所有逻辑处理都在店员这里，生产者和消费者只是调的方法不一样）
+//店员（所有逻辑处理都在店员这里,生产者和消费者只是调的方法不一样）
 class Clerk {
 	
 	private volatile int productNumber; //产品数量
@@ -4109,12 +4109,12 @@ synchronized的性能会下降几十倍;
 
 Condition的特性:
 
-　　　　1.Condition中的await()方法相当于Object的wait()方法，Condition中的signal()方法相当于Object的notify()方法，
-Condition中的signalAll()相当于Object的notifyAll()方法。不同的是，Object中的这些方法和同步锁捆绑使用的；
-而Condition是需要与互斥锁/共享锁捆绑使用的。其实同步锁和互斥锁是一个概念
+　　　　1.Condition中的await()方法相当于Object的wait()方法,Condition中的signal()方法相当于Object的notify()方法,
+Condition中的signalAll()相当于Object的notifyAll()方法;不同的是,Object中的这些方法和同步锁捆绑使用的；
+而Condition是需要与互斥锁/共享锁捆绑使用的;其实同步锁和互斥锁是一个概念
 
 　　　　2.Condition它更强大的地方在于：能够更加精细的控制多线程(大于2个)的休眠与唤醒(前面的生产者消费者就是)
-对于同一个锁，我们可以创建多个Condition，如果采用Object类中的wait(), notify(), notifyAll()就不可以；
+对于同一个锁,我们可以创建多个Condition,如果采用Object类中的wait(), notify(), notifyAll()就不可以；
 
 －－－－－－－－－－－－－－－－－－－－－－－－－－
 import java.util.concurrent.locks.Condition;
@@ -4237,31 +4237,31 @@ setPriority(int newPriority) 更改线程的优先级.
 MAX_PRIORITY 线程可以具有的最高优先级(10级).在Thread类
 yield()暂停当前正在执行的线程对象,并执行其他线程,如果只有2个线程相当于交替执行  
 ----------------------------------------------------
-并发是指同时有很多事要做(发生)，并行是指同时做多件事(执行)。
+并发是指同时有很多事要做(发生),并行是指同时做多件事(执行);
 
-因此并发后 可以并行处理 也可以 串行处理，所以并发和并行是不同的概念。
+因此并发后 可以并行处理 也可以 串行处理,所以并发和并行是不同的概念;
 -----------------------------------------------------  
 ThreadLocal
 
 https://www.jianshu.com/p/3c5d7f09dfbd
 
-ThreadLocal用来解决多线程环境中资源竞争的问题。它不是通过加锁的方式，而是通过每个线程保存一份资源的副本, 
-这样各个线程访问本线程自己的那一份儿，从而避免了对资源竞争的问题。
+ThreadLocal用来解决多线程环境中资源竞争的问题;它不是通过加锁的方式,而是通过每个线程保存一份资源的副本, 
+这样各个线程访问本线程自己的那一份儿,从而避免了对资源竞争的问题;
 
 private static final ThreadLocal<CurrentUser> threadLocal = new ThreadLocal<CurrentUser>();
 得到当前用户;gsso,ppp项目都是这样得到当前用户的；
 
-ThreadLocal会为每个使用该变量的线程提供独立的变量副本，所以每一个线程都可以独立地改变自己的副本，而不会影响其它线
-程所对应的副本。这样做其实就是以空间换时间的方式,以耗费内存为代价,大大减少了线程同步(如synchronized)
-所带来性能消耗 和 线程并发控制的复杂度。
+ThreadLocal会为每个使用该变量的线程提供独立的变量副本,所以每一个线程都可以独立地改变自己的副本,而不会影响其它线
+程所对应的副本;这样做其实就是以空间换时间的方式,以耗费内存为代价,大大减少了线程同步(如synchronized)
+所带来性能消耗 和 线程并发控制的复杂度;
 
 
-虽然ThreadLocal和Synchonized都用于解决多线程并发访问，ThreadLocal与synchronized还是有本质的区别。
-synchronized是利用锁的机制，使变量或代码块在某一时该只能被一个线程访问。而ThreadLocal为每一个线程都提供了变量的副本，
+虽然ThreadLocal和Synchonized都用于解决多线程并发访问,ThreadLocal与synchronized还是有本质的区别;
+synchronized是利用锁的机制,使变量或代码块在某一时该只能被一个线程访问;而ThreadLocal为每一个线程都提供了变量的副本,
 使得每个线程在某一时间访问到的并不是同一个对象.(线程独立数据)
 
-synchronized关键字是Java利用锁的机制自动实现的，一般有同步方法和同步代码块两种使用方式。Java中所有的对象都自动含有单一的锁
-(也称为监视器)，当在对象上调用其任意的synchronized方法时，此对象被加锁(一个任务可以多次获得对象的锁，计数会递增)
+synchronized关键字是Java利用锁的机制自动实现的,一般有同步方法和同步代码块两种使用方式;Java中所有的对象都自动含有单一的锁
+(也称为监视器),当在对象上调用其任意的synchronized方法时,此对象被加锁(一个任务可以多次获得对象的锁,计数会递增)
 
 举例：
 /**
@@ -4334,9 +4334,9 @@ public class MyThreadLocal {
 ---------------------------------
 高级多线程
 
-CAS是compare and swap的缩写，即我们所说的比较交换。cas是一种基于锁的操作，而且是乐观锁。在java中锁分为乐观锁和悲观锁。悲观锁是将资源锁住，等一个之前获得锁的线程释放锁之后，下一个线程才可以访问。而乐观锁采取了一种宽泛的态度，通过某种方式不加锁来处理资源，比如通过给记录加version来获取数据，性能较悲观锁有很大的提高。
+CAS是compare and swap的缩写,即我们所说的比较交换;cas是一种基于锁的操作,而且是乐观锁;在java中锁分为乐观锁和悲观锁;悲观锁是将资源锁住,等一个之前获得锁的线程释放锁之后,下一个线程才可以访问;而乐观锁采取了一种宽泛的态度,通过某种方式不加锁来处理资源,比如通过给记录加version来获取数据,性能较悲观锁有很大的提高;
 ---------
-原子操作是指不会被线程调度机制打断的操作；这种操作一旦开始，就一直运行到结束，中间不会有任何一个线程）
+原子操作是指不会被线程调度机制打断的操作；这种操作一旦开始,就一直运行到结束,中间不会有任何一个线程）
 一,
 atomicXXX和volatile的区别?
 atomicInteger 可以保证原子性,底层是CAS方式实现
@@ -4346,36 +4346,36 @@ atomicInteger 可以保证原子性,底层是CAS方式实现
 jvm关闭的时候先执行该线程钩子
 Runtime.getRuntime().addShutdownHook(shutdownThread);
 三,
-CountDownLatch是一个同步工具类，它允许一个或多个线程一直等待，直到其他线程的操作执行完后再执行。
+CountDownLatch是一个同步工具类,它允许一个或多个线程一直等待,直到其他线程的操作执行完后再执行;
 CountDownLatch最重要的方法是countDown() 做减的操作 
 await() 只要上面的减减操作没有到0 就会一直等待;
 
 
 五,
-在java5以后，一个可以调度执行的线程单元可以有三种方式定义：
+在java5以后,一个可以调度执行的线程单元可以有三种方式定义：
 
-Thread、Runnable、Callable，其中Runnable实现的是void run()方法，Callable实现的是
- V call()方法，并且可以返回执行结果，Callable一般提交给ExecuteService来执行。
+Thread,Runnable,Callable,其中Runnable实现的是void run()方法,Callable实现的是
+ V call()方法,并且可以返回执行结果,Callable一般提交给ExecuteService来执行;
 
-简单来说，Executor就是Runnable和Callable的调度容器，Future就是对于具体的调度任务的执行
-结果进行查看，最为关键的是Future可以检查对应的任务是否已经完成，也可以阻塞在get方法上一直等待
-任务返回结果。Runnable和Callable的差别就是Runnable是没有结果可以返回的
+简单来说,Executor就是Runnable和Callable的调度容器,Future就是对于具体的调度任务的执行
+结果进行查看,最为关键的是Future可以检查对应的任务是否已经完成,也可以阻塞在get方法上一直等待
+任务返回结果;Runnable和Callable的差别就是Runnable是没有结果可以返回的
 
 有返回值的线程 
 
 为什么需要?
-Future 可用于异步获取子线程执行结果(其实就是自己创建了一个List,把每一个子线程结果装进去了)或取消执行任务的场景。
+Future 可用于异步获取子线程执行结果(其实就是自己创建了一个List,把每一个子线程结果装进去了)或取消执行任务的场景;
 
 1,可以通过 ExecutorService pool = Executors.newFixedThreadPool(taskSize); 设置线程个数
-2,Future f = pool.submit(c);  通过这句话启动线程，线程返回值在f变量里面；c是Callable的一个实现类(返回值和Callable相关)
+2,Future f = pool.submit(c);  通过这句话启动线程,线程返回值在f变量里面；c是Callable的一个实现类(返回值和Callable相关)
 3,class MyCallable implements Callable<Object> 它就是c；重写call方法（方法体就是线程执行内容）
-4, Future返回值保存在一个list中，这样我们可以马上关系线程，节约资源
+4, Future返回值保存在一个list中,这样我们可以马上关系线程,节约资源
 
 六,
-newFixedThreadPool创建的线程池corePoolSize和maximumPoolSize值是相等的，它使用的LinkedBlockingQueue；
-newSingleThreadExecutor将corePoolSize和maximumPoolSize都设置为1，也使用的LinkedBlockingQueue；
-newCachedThreadPool将corePoolSize设置为0，将maximumPoolSize设置为Integer.MAX_VALUE，使用的SynchronousQueue,
-也就是说来了任务就创建线程运行，默认当线程空闲超过60秒就销毁。
+newFixedThreadPool创建的线程池corePoolSize和maximumPoolSize值是相等的,它使用的LinkedBlockingQueue；
+newSingleThreadExecutor将corePoolSize和maximumPoolSize都设置为1,也使用的LinkedBlockingQueue；
+newCachedThreadPool将corePoolSize设置为0,将maximumPoolSize设置为Integer.MAX_VALUE,使用的SynchronousQueue,
+也就是说来了任务就创建线程运行,默认当线程空闲超过60秒就销毁;
 newScheduledThreadPool 定时任务的线程池
 七,
 ConcurrentHashMap,如BlockingQueue(生产者消费者更好的实现),Semeaphore, CyclicBarrier, ReentrantLock,Future
@@ -4518,8 +4518,21 @@ setXxx(int index, Object val) 设置占位符的值
 语句:executeQuery() 或 executeUpdate()
 
 -----------------------------
-Mysql5.5开始 的默认存储引擎(engine)是InnoDB 可以修改为ISAM 速度 比上面快10被但不支持事物									        
------------------------------
+Mysql5.5开始 的默认存储引擎(engine)是InnoDB 可以修改为ISAM 速度 比上面快10被但不支持事物
+
+innodb 是聚集索引:数据库表行中数据的物理顺序与键值的逻辑(索引)顺序相同,一个
+表中只有一个聚集索引就是主键索引
+
+Innodb vs myisam?
+innodb只有一个ibd文件,myisam两个文件myi,myd文件
+innodb 辅助索引需要2次才可以找到,需要辅助索引->主键索引->数据
+
+innodb 单列索引可以当做特殊的联合索引,只是只有一个而已;
+当建立了联合索引后不需要单独创建一个字段的索引,默认从左到右匹配骨干
+
+覆盖索引:
+被查询的字段可以通过索引项的信息直接返回的,这样的好处通过,辅助索引-->数据少了中转一次
+----------------------------
 如何创建一个sql类型的Date?
 //外层是Sql 的Date
 new Date(new java.util.Date().getTime())
@@ -4545,15 +4558,15 @@ dbcp tomcat默认在用;c3p0 Hibernate默认使用;开发推荐阿里
 +++++++++++++++++++++++++++++++++++++++++++++++++++++
 +++++++++++++++++++++++++++++++++++++++++++++++++++++
 精华
-事务四大特征：原子性，一致性，隔离性和持久性。(简称ACID)
-1. 原子性（Atomicity）
+事务四大特征：原子性,一致性,隔离性和持久性;(简称ACID)
+1,原子性（Atomicity）
     要么全部执行成功,那么一条都不执行
-2. 一致性（Consistency）
-	例如一次转账过程中，从某一账户中扣除的金额与另一账户中存入的金额相等。
-3. 隔离性（Isolation）
+2,一致性（Consistency）
+	例如一次转账过程中,从某一账户中扣除的金额与另一账户中存入的金额相等;
+3,隔离性（Isolation）
 	隔离性和隔离级别有关;
-4. 持久性（Durability）
-    事务成功结束前必须保存至某种物理存储设备。
+4,持久性（Durability）
+    事务成功结束前必须保存至某种物理存储设备;
 -------------------
 	/**
 	 *	需求: Tom 给 Jerry 汇款 500 元.
@@ -4631,13 +4644,13 @@ TCP/IP 和 Http的区别
 
 	TCP提供有保证的数据传输,而UDP不保证.
 
-7	应用层	例如 HTTP、FTP、Telnet、SSH、NFS、SMTP 等
-6	表示层(了解)	例如XDR、ASN.1、SMB、AFP、NCP
-5	会话层(了解)	例如ASAP、TLS、SSH、ISO 8327 / CCITT X.225、RPC、NetBIOS、ASP、Winsock、BSD sockets
-4	传输层	例如TCP、UDP   RTP、SCTP、SPX、ATP、IL
-3	网络层	例如IP       ICMP、IGMP、IPX、BGP、OSPF、RIP、IGRP、EIGRP、ARP、RARP、
-2	数据链路层(了解)	例如以太网、令牌环、HDLC、帧中继、ISDN、ATM、IEEE 802.11、FDDI、PPP
-1	物理层	例如线路、光纤,无线电、信鸽
+7	应用层	例如 HTTP,FTP,Telnet,SSH,NFS,SMTP 等
+6	表示层(了解)	例如XDR,ASN.1,SMB,AFP,NCP
+5	会话层(了解)	例如ASAP,TLS,SSH,ISO 8327 / CCITT X.225,RPC,NetBIOS,ASP,Winsock,BSD sockets
+4	传输层	例如TCP,UDP   RTP,SCTP,SPX,ATP,IL
+3	网络层	例如IP       ICMP,IGMP,IPX,BGP,OSPF,RIP,IGRP,EIGRP,ARP,RARP,
+2	数据链路层(了解)	例如以太网,令牌环,HDLC,帧中继,ISDN,ATM,IEEE 802.11,FDDI,PPP
+1	物理层	例如线路,光纤,无线电,信鸽
  
 
 HTTP协议的几个重要概念
@@ -4744,7 +4757,7 @@ SSL(非对称加密) + CA 认证
 Tomcat的运行原理:
 
 Tomcat和apache的关系:
-apache是web服务器,Tomcat是应用（java）服务器,它一个servlet(jsp也翻译成servlet)容器,可以独立于apache运行。
+apache是web服务器,Tomcat是应用（java）服务器,它一个servlet(jsp也翻译成servlet)容器,可以独立于apache运行;
 --------------
 为什么选择tomcat:
 　Tomcat它是sun公司官方推荐的servlet和jsp容器
@@ -4769,12 +4782,12 @@ server.xml主要是服务器设置的,例如端口设置,路径设置.
 ---------------------------------
 精华
 简易结构图:
-<Server> 顶层类元素，可包含多个service
-	<Service> 顶层类元素，可包含一个Engine和多个Connector
-		<Connector/> 链接器类，代表通信接口
-		<Engine> 容器元素，为Service处理客户请求,含多个Host
-			<Host> 容器元素，为Host处理客户请求，含多个Context
-				<Context/> 容器元素，为Web应用处理客户请求
+<Server> 顶层类元素,可包含多个service
+	<Service> 顶层类元素,可包含一个Engine和多个Connector
+		<Connector/> 链接器类,代表通信接口
+		<Engine> 容器元素,为Service处理客户请求,含多个Host
+			<Host> 容器元素,为Host处理客户请求,含多个Context
+				<Context/> 容器元素,为Web应用处理客户请求
 			</Host>
 		</Engine>
 	</Service>
@@ -5120,7 +5133,7 @@ public abstract class GenericServlet implements Servlet, ServletConfig {
 2. HttpServlet:
 
 1). 继承自 GenericServlet. 针对于 HTTP 协议所定制. 
-public abstract class GenericServlet implements Servlet, ServletConfig //一共4个,2个接口，1个抽象类，1个类
+public abstract class GenericServlet implements Servlet, ServletConfig //一共4个,2个接口,1个抽象类,1个类
 2). 在 service() 方法中直接把 ServletReuqest 和  ServletResponse 转为 HttpServletRequest 和 HttpServletResponse.
 并调用了重载的 service(HttpServletRequest, HttpServletResponse)
 
@@ -5216,7 +5229,7 @@ Cookie就是这样的一种机制.它可以弥补HTTP协议无状态的不足.�
 
 1.1.1  什么是Cookie
 是由W3C组织提出,最早由Netscape社区发展的一种机制.目前Cookie已经成为标准,
-所有的主流浏览器如IE、Netscape、Firefox、Opera等都支持Cookie.
+所有的主流浏览器如IE,Netscape,Firefox,Opera等都支持Cookie.
 
 Cookie实际上是一小段的文本信息.客户端在请求服务器,如果服务器需要记录该用户状态,就使用response向客户端浏览器颁发一个,
 				~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -5240,7 +5253,7 @@ Java对Cookie封装成javax.servlet.http.Cookie类.每个Cookie都是该Cookie�
 因为Cookie类 位于包javax.servlet.http.*下面,所以JSP中不需要import该类.
 
 
-cookie 要尽可能的短，不要有中文
+cookie 要尽可能的短,不要有中文
 
 
 Cookie修改与删除
@@ -5250,7 +5263,7 @@ response对象提供的Cookie操作方法只有一个添加操作add(Cookie cook
 删除时只需要把maxAge修改为0即可
 
 注意：从客户端读取Cookie时,包括maxAge在内的其他属性都是不可读的,也不会被提交.浏览器提交Cookie时只会提交name与value属性.
-maxAge属性只被浏览器用来判断Cookie是否过期（服务器说了算，客服端不能修改）
+maxAge属性只被浏览器用来判断Cookie是否过期（服务器说了算,客服端不能修改）
 		
 
 Cookie的域名
@@ -5299,9 +5312,9 @@ Cookie cookie = new Cookie("time", "20080808");
 cookie.setSecure(true);  // 设置安全传输,这尼玛首先该网站要先支持https吧,没使用过
 response.addCookie(cookie); //输出到客户端
 
-提示：secure属性并不能对Cookie内容加密,因而不能保证绝对的安全性.如果需要高安全性,需要在程序中对Cookie内容加密、解密,以防泄密
+提示：secure属性并不能对Cookie内容加密,因而不能保证绝对的安全性.如果需要高安全性,需要在程序中对Cookie内容加密,解密,以防泄密
 
-（如果是网络拦截时还是拿到你加密后的码服务器还是无法辨认，只有服务返回的数据也是加密的，只有客服端知道怎么解;那么就算拿到cookie也没用）
+（如果是网络拦截时还是拿到你加密后的码服务器还是无法辨认,只有服务返回的数据也是加密的,只有客服端知道怎么解;那么就算拿到cookie也没用）
 
 
 
@@ -5349,7 +5362,7 @@ http://zhidao.baidu.com 就是站点根目录
 若 / 需要服务器进行内部解析, 则代表的就是 WEB 应用的根目录.就不需要加上 ContextPath;
 若是交给浏览器了, 则/代表的就是站点的根目录
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-(站点根目录就是webapp下，web应用根目录就是该项目内的根目录)
+(站点根目录就是webapp下,web应用根目录就是该项目内的根目录)
 ----------------------------------------------------------------
 
 表单的重复提交(工作中,居然大部分人都忽视了这么常用且重要的技术)
@@ -5486,7 +5499,7 @@ pageContext, request, session, application(对属性的作用域的范围从小�
 +++++++++++++++++++++++++++++++++++++++++++++++++++++
 +++++++++++++++++++++++++++++++++++++++++++++++++++++
 JSP 标准标签库（JSTL）
-JSP标准标签库（JSTL）是一个JSP标签集合，它封装了JSP应用的通用核心功能。
+JSP标准标签库（JSTL）是一个JSP标签集合,它封装了JSP应用的通用核心功能;
 作用:大大加快前端开发速度,和让编写前端代码更加优雅
 https://www.runoob.com/jsp/jsp-jstl.html
 如:
@@ -5500,8 +5513,8 @@ FILTER 过滤器(一般被springMvc的HandlerInterceptor代替,但不是全部,�
 
 过滤器是一个实现了 javax.servlet.Filter 接口的 Java 类(在servlet下)
 
-Filter 接口定义在 javax.servlet 包中，而接口 HandlerInterceptor 定义在org.springframework.web.servlet 包中
-功能基本差不多，HandlerInterceptor更加强大点（fileter 主要用于对所有请求进行统一处理）
+Filter 接口定义在 javax.servlet 包中,而接口 HandlerInterceptor 定义在org.springframework.web.servlet 包中
+功能基本差不多,HandlerInterceptor更加强大点（fileter 主要用于对所有请求进行统一处理）
 
 多种同时使用执行顺序(过滤器在最外层的2端,这就是它不能被全完代替的原因,比如说权限校验就该放在最外层shiro就是)
 过滤前-拦截前-AOP-Action处理-aop-拦截后-过滤后
@@ -5647,14 +5660,14 @@ servlet 和 Filter 都有局部的初始化参数,而监听器没有,监听器�
 </init-param>
 
 ----------------------------
-核心中的核心，逻辑中的逻辑
+核心中的核心,逻辑中的逻辑
 
 ServletContextListener:(最常用,其它2个都不怎么用)
 
 //自定义类实现 ServletContextListener, 然后实现两个方法			
 public class HelloListener implements ServletContextListener{
 
-	//当WEB项目被加载时,Servlet容器调用该方法.(spring启动就是重写了这个方法，核心中的核心)
+	//当WEB项目被加载时,Servlet容器调用该方法.(spring启动就是重写了这个方法,核心中的核心)
 	public void contextInitialized(ServletContextEvent sce) {	
 		ServletContext servletContext = sce.getServletContext();
 		//ServletContext 对象中所有的方法就都可以使用了	
@@ -5800,8 +5813,8 @@ json 支持下面3种写法:
 +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 SPRING
 
-学spring主要3样:ioc,aop,和spring在管理bean的生命周期，暴露了一些可以操作bean的接口；
-比如容器加载时期，bean初始化和销毁时可以让用户加入自己的业务逻辑；
+学spring主要3样:ioc,aop,和spring在管理bean的生命周期,暴露了一些可以操作bean的接口；
+比如容器加载时期,bean初始化和销毁时可以让用户加入自己的业务逻辑；
 
 spring 是一个使用java语言编写的轻量级容器框架,目的解决企业应用开发的复杂性
 
@@ -5860,7 +5873,7 @@ IoC与DI
 
 　　首先想说说IoC(Inversion of Control,控制倒转).所谓IoC,
 就是获得依赖对象的过程或方式反转了.由spring来负责控制对象的生命周期和对象间的关系.
-所有的类的创建、销毁都由 spring来控制
+所有的类的创建,销毁都由 spring来控制
 
 IoC动态的向某个对象提供它所需要的其他对象.如何实现的呢？ 
 反射(reflection)
@@ -6108,7 +6121,7 @@ https://www.iteye.com/blog/uule-2094609
 精华中的精华
 
 
-spring容器接管了bean的实例化,通过依赖注入达到了松耦合的效果,同时也提供了各种的扩展接口，
+spring容器接管了bean的实例化,通过依赖注入达到了松耦合的效果,同时也提供了各种的扩展接口,
 在bean的生命周期的各个阶段可以插入我们需要的业务逻辑(意思动态时间点让我们扩展功能)：
 
 //在github上springboot-template项目中有bean加载流程例子
@@ -6118,7 +6131,7 @@ spring容器接管了bean的实例化,通过依赖注入达到了松耦合的效
 BeanFactoryPostProcessor.postProcessBeanFactory()(比如替换配置文件的属性值占位符)
 
 2,实例化阶段:通过反射或者CGLIB对bean进行实例化,在这个阶段Spring又给我们暴露了很多的扩展点：
-初始化时各种的Aware接口，比如 BeanFactoryAware，MessageSourceAware，ApplicationContextAware：
+初始化时各种的Aware接口,比如 BeanFactoryAware,MessageSourceAware,ApplicationContextAware：
 2-1
 属性注入（setter）
 BeanNameAware.setBeanName() 
@@ -6214,7 +6227,7 @@ spring IOC容器管理Bean的生命周期,spring可以在每个Bean生命周期�
 1,最先还是构造函数
 2,然后是对Bean的属性进行赋值,或其他Bean的引用
 //上面2步其实就是加载配置文件时做的
-3,调用Bean的初始化方法.(init)，Bean对象可以使用了
+3,调用Bean的初始化方法.(init),Bean对象可以使用了
 4,当容器调用关闭(close()函数)后,会调用(destroy) 
 --------------------------------------------------
 了解
@@ -6275,7 +6288,7 @@ public class WeixinController implements InitializingBean,DisposableBean {
 比如: 一个变量是一个接口,它同时有多个实现类,这里时我们就需要准确定位名字
 ----------------------------------------
 
-配置Bean的方式:（XML、注解、Java类）
+配置Bean的方式:（XML,注解,Java类）
 
 ----------------------------------------
 通过FactoryBean 来配置Bean的实例(常用)
@@ -6374,7 +6387,7 @@ Aspect Oriented programming 的缩写:面向切面编程
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 如:只有在我们申明的切入点上才会有效 : 只有在异常后我们才会调用方法,只有在方法之后,方法之前等等
 *************************************************************
-AOP这个东西很常用，可以大量的减少代码量，减轻加入新的业务需求的难度；
+AOP这个东西很常用,可以大量的减少代码量,减轻加入新的业务需求的难度；
 
 
 如何使用,这是最关心的?
@@ -6525,7 +6538,7 @@ Aop当中的概念:
 4,织入Weaving : 把切面加入到对象,并创建出代理对象的过程 (Spring干的事)
 
 -------------------------------------------------
-过滤器，拦截器，aop同时使用执行顺序
+过滤器,拦截器,aop同时使用执行顺序
 https://www.cnblogs.com/java-spring/p/12742984.html
 执行顺序并不是想象中那样,进链接5分钟看完.有用
 ++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -6570,15 +6583,15 @@ public class EmployeeDao {
 必须等到另一个线程使用完毕,释放了这个资源,其它的线程才有机会使用.
 
 ----------
-事务四大特征：原子性，一致性，隔离性和持久性。(简称ACID)
+事务四大特征：原子性,一致性,隔离性和持久性;(简称ACID)
 1. 原子性（Atomicity）
     要么全部执行成功,那么一条都不执行
 2. 一致性（Consistency）
-	例如一次转账过程中，从某一账户中扣除的金额与另一账户中存入的金额相等。
+	例如一次转账过程中,从某一账户中扣除的金额与另一账户中存入的金额相等;
 3. 隔离性（Isolation）
 	隔离性和隔离级别有关;
 4. 持久性（Durability）
-    事务成功结束前必须保存至某种物理存储设备。
+    事务成功结束前必须保存至某种物理存储设备;
 -----------------------------------------------------
 精华
 基于注解的Transactional的类
@@ -6630,23 +6643,23 @@ supports(支持):如当前有事务,就在事务状态下执行；如果没有,�
 not_supports:在无事务状态下执行（如果当前已有事务,则挂起）
 
 mandatory(强制):必须在有事务,如果没有抛出异常IllegalTransactionStateException；
-never:在无事务状态下执行；如果当前有事务也抛出异常IllegalTransactionStateException。
+never:在无事务状态下执行；如果当前有事务也抛出异常IllegalTransactionStateException;
 
-nested (嵌套):如果当前存在事务，则在嵌套事务内执行。如果当前没有事务，则创建一个事务
-嵌套事务一个非常重要的概念就是内层事务依赖于外层事务。外层事务失败时，会回滚内层事务所做的动作。而内层事务操作失败并不会引起外层事务的回滚
+nested (嵌套):如果当前存在事务,则在嵌套事务内执行;如果当前没有事务,则创建一个事务
+嵌套事务一个非常重要的概念就是内层事务依赖于外层事务;外层事务失败时,会回滚内层事务所做的动作;而内层事务操作失败并不会引起外层事务的回滚
 https://blog.csdn.net/weixin_39625809/article/details/80707695
 ----------------------------------------
 
 isolation 5,种事务隔离级别(和数据库有关系):
-1 ISOLATION_DEFAULT     这是个 PlatfromTransactionManager 默认的隔离级别，使用数据库默认的事务隔离级别。另外四个与 JDBC 的隔离级别相对应。
-2 ISOLATION_READ_UNCOMMITTED(读未提交)    这是事务最低的隔离级别，它充许另外一个事务可以看到这个事务未提交的数据。这种隔离级别会产生脏读，不可重复读和幻像读。
-3 ISOLATION_READ_COMMITTED (读以提交)      保证一个事务修改的数据提交后才能被另外一个事务读取。另外一个事务不能读取该事务未提交的数据。
-4 ISOLATION_REPEATABLE_READ(可重复读)     这种事务隔离级别可以防止脏读，不可重复读。但是可能出现幻像读。mysql默认
-5 ISOLATION_SERIALIZABLE (序列化) 这是花费最高代价但是最可靠的事务隔离级别。事务被处理为顺序执行。
+1 ISOLATION_DEFAULT     这是个 PlatfromTransactionManager 默认的隔离级别,使用数据库默认的事务隔离级别;另外四个与 JDBC 的隔离级别相对应;
+2 ISOLATION_READ_UNCOMMITTED(读未提交)    这是事务最低的隔离级别,它充许另外一个事务可以看到这个事务未提交的数据;这种隔离级别会产生脏读,不可重复读和幻像读;
+3 ISOLATION_READ_COMMITTED (读以提交)      保证一个事务修改的数据提交后才能被另外一个事务读取;另外一个事务不能读取该事务未提交的数据;
+4 ISOLATION_REPEATABLE_READ(可重复读)     这种事务隔离级别可以防止脏读,不可重复读;但是可能出现幻像读;mysql默认
+5 ISOLATION_SERIALIZABLE (序列化) 这是花费最高代价但是最可靠的事务隔离级别;事务被处理为顺序执行;
 
 
-spring的隔离级别一定是要数据库锁机制支持的，
-比如上面第三点，肯定是使用了数据库的行级排他锁，别人都看不到了。
+spring的隔离级别一定是要数据库锁机制支持的,
+比如上面第三点,肯定是使用了数据库的行级排他锁,别人都看不到了;
 -----------------------------------------
 spring 中的事务
 基于注解配置方式的transaction 
@@ -6721,7 +6734,7 @@ spring 中的事务
 ①:首先按照名字去找,如果找到就使用setter或则字段注入
 ②:如果名字找不到,在按照类型去找,如果找到多个匹配类型会报错
 ③:如果指定的name就只能按照name去找.就不会再按类型去找.
------------------------
+---------------------------------
 @Autowired 找bean的方式:
 1,首先按照依赖对象的类型找:如果找到就用setter或则是字段直接注入
 2,如果Spring上下文中找到多个匹配的类型,再按照名字去找,如果没有匹配,报错
@@ -6751,19 +6764,19 @@ public class OtherBean{
 public void init()
 相当于<bean destory-method=“init”/>
 
-@PreDestroy
+@PreDestory
 public void destroy()
 相当于<bean destroy-method="destory"/>
 --------------------------------------------------
 定时器主要分3种:
-1,jdk的Timer（单线程执行，如果中途异常无法重新开始，不用）
+1,jdk的Timer（单线程执行,如果中途异常无法重新开始,不用）
 2,spring的Scheduled
-不是太复杂时使用，默认单线程，中途异常可以继续，支持多线程加这个注解@Async，实现SchedulingConfigurer 接口可以配置线程数量）
+不是太复杂时使用,默认单线程,中途异常可以继续,支持多线程加这个注解@Async,实现SchedulingConfigurer 接口可以配置线程数量）
 3,quartz
 另springboot整合了quartz,使用更加简单,github上的SpringBootHello项目有例子
 -----------------------------------
 
-Spring3。0后的注解定时器（算第2种）
+Spring3;0后的注解定时器（算第2种）
 首先在applicationContext.xml中增加 
 
 文件头中增加
@@ -6801,9 +6814,9 @@ http://www.quartz-scheduler.org/documentation/quartz-2.2.x/examples/Example6.htm
 另外还是结合官网操作(还在不断的更新中),提供10几种例子;百度云有源码;
 
 为什么需要quartz?
-想每月25号，信用卡自动还款
+想每月25号,信用卡自动还款
 想每年4月1日自己给当年暗恋女神发一封匿名贺卡
-想每隔1小时，备份一下自己的爱情动作片 学习笔记到云盘
+想每隔1小时,备份一下自己的爱情动作片 学习笔记到云盘
 或则更为复杂的触发
 
 
@@ -6868,8 +6881,8 @@ spring-webmvc-4.0.0.RELEASE.jar
 	<listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
 </listener>
 ------------------------------------------
-1, src路径下的文件在编译后会放到WEB-INF/clases路径下吧。默认的classpath是在这里。直接放到WEB-INF下的话,是不在classpath下的。用ClassPathXmlApplicationContext当然获取
-2,如果单元测试的话,可以在启动或者运行的选项里指定classpath的路径的。用maven构建项目时候resource目录就是默认的classpath
+1, src路径下的文件在编译后会放到WEB-INF/clases路径下吧;默认的classpath是在这里;直接放到WEB-INF下的话,是不在classpath下的;用ClassPathXmlApplicationContext当然获取
+2,如果单元测试的话,可以在启动或者运行的选项里指定classpath的路径的;用maven构建项目时候resource目录就是默认的classpath
 3,classPath即为java文件编译之后的class文件的编译目录一般为web-inf/classes,src下的xml在编译时也会复制到classPath下
 //读取classPath下的spring.xml配置文件
 (1)ApplicationContext ctx = new ClassPathXmlApplicationContext("xxxx.xml");
@@ -6901,7 +6914,7 @@ springMVC的Hello
 		 <param-value>classpath:spring-servlet.xml</param-value> 
 	 </init-param>	
 	 
-	 <!-- 创建的时机 0为最快 -->	 
+	 <!-- 创建的时机 0,为最快 -->	 
 	<load-on-startup>1</load-on-startup>	
 </servlet>	
 
@@ -6927,17 +6940,9 @@ springMVC的Hello
 
 
 ----------------------------------------
-可以使用了一个被@Controller注解的类
-@Controller
-public class HelloWorld {	
-	@RequestMapping("/helloworld")
-	public String index(){	
-		System.out.println("HelloWorld类的index方法被调用");
-		return "hello";
-	}
-}
+
 springMVC 的运行流程(精华,必须会):
-~~~~~~~~~~~~~~~~~~~~~~~
+
 1,请求url会被DispatcherServlet拦截,因为我们一般都是配置拦截全部url(web.xml配置文件中配置)
 2,然后去查找所有的@Controller类的方法的有没有对应的url名字 @RequestMapping("/helloworld")
 3,有就执行方法体,后返回值会通过视图解析器解析为实际的物理视图InternalResourceViewResolver
@@ -6945,15 +6950,9 @@ springMVC 的运行流程(精华,必须会):
 +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 /**
- * Spring MVC 会按请求参数名和 POJO 属性名进行自动匹配, 自动为该对象填充属性值.
- * 支持级联属性 : 在java实体类没有变化 ,只是前端页面name 名字需要是.的方式定义name (很重要对类中实体进行赋值	
-	如:dept.deptId等(dept指向一个类,这里是User类中的一个属性)
+ * Spring MVC 会按请求参数名和形参对象中的 属性名进行自动匹配, 自动为该对象填充属性值.
+ * 支持级联属性 : 前端页面name 名字需要是.的方式定义name 
  */
-@RequestMapping("/testPojo")
-public String testPojo(User user) {
-	System.out.println("testPojo: " + user);
-	return SUCCESS;
-}
 ------------------------------------------
 /**
  * 可以使用 Serlvet 原生的 API 作为目标方法的参数 具体支持以下类型
@@ -6990,7 +6989,7 @@ public ModelAndView testModelAndView(){
 	modelAndView.addObject("time", new Date());	
 	return modelAndView;
 }
---------------------------------------------------------
+-----------------------------------------
 Map 类型(实际上也可以是 Model 类型或 ModelMap 类型)的参数 :
 作用也是向页面传递参数
 @RequestMapping("/testMap")
@@ -6999,49 +6998,23 @@ public String testMap(Map<String, Object> map){
 	map.put("names", Arrays.asList("Tom", "Jerry", "Mike"));
 	return SUCCESS;
 }
----------------------------------------------------------
-(了解,开发没用过)
-ModelAndView ,Map(或不常用的Model和ModelMap)默认放在request域中,如果想放到session域中.
-我们可以使用@sessionAttributes注解,这个注解只能使用在类上request和session两个域中都会放入 
-@SessionAttributes(value={"user"},types={string.class})
-types:这样一修饰,只要是字符串(值)都会放到session中
-
-/**
- * @SessionAttributes 除了可以通过属性名指定需要放到会话中的属性外(使用的是 value 属性值),
- * 还可以通过模型属性的对象类型指定哪些模型属性需要放到会话中(使用的是types属性值)
- * 注意: 该注解只能放在类的上面. 而不能修饰放方法. 
- */
-@RequestMapping("/testSessionAttributes")
-public String testSessionAttributes(Map<String, Object> map){
-	User user = new User("Tom", "123456", "tom@atguigu.com", 15);
-	map.put("user", user);
-	map.put("school", "atguigu");
-	return SUCCESS;
-}
----------------------------------------------------------
+------------------------------------------
 //精华
 @ModelAttribute//注解的方法,会在每个方法执行之前被SpringMVC调用,常用
-public void getUser(@RequestParam(value="id",required=false) Integer id, 
-		Map<String, Object> map){
-	if(id != null){                                 
-		//模拟从数据库中获取对象
-		User user = new User(1, "Tom", "123456", "tom@atguigu.com", 12);
-		System.out.println("从数据库中获取一个对象: " + user);	
-		map.put("user", user);
-	}
+public void getUser(@RequestParam(value="id",required=false) Integer id, Map<String, Object> map){
+	
 }
----------------------------------------------------------
-@PathVariable (url传参且不写key使用)和 @Requestparam  @RequestHader 等都可以用于接受参数
-返回参数可以ModelAndView,Map<String ,Object> ,@SessionAttributes ,@Model
+------------------------------------------
+@PathVariable (url传参 且不写key使用)和 @Requestparam  @RequestHader 等都可以用于接受参数
+
 ------------------------------------------
 精华:
 如果我们有的页面不想经过handler 那么就如下配置
 
-<!-- 在实际开发中通常都需配置(不然报错) mvc:annotation-driven 标签 -->
-<mvc:annotation-driven></mvc:annotation-driven>
 
-1.使用tomcat的默认的Servlet解决
-     在web.xml中配置映射文件，<url-pattern>标签中为静态资源的类型：
+
+1,使用tomcat的默认的Servlet解决
+     在web.xml中配置映射文件,<url-pattern>标签中为静态资源的类型：
 
 <servlet-mapping>
 	<servlet-name>default</servlet-name>
@@ -7052,14 +7025,14 @@ public void getUser(@RequestParam(value="id",required=false) Integer id,
 	<url-pattern>*.png</url-pattern>
 </servlet-mapping> 
 
-2.使用MVC的default-Servlet-handler解决
+2,使用MVC的default-Servlet-handler解决
     在springmvc.xml配置文件中进行配置：
 
 <mvc:default-servlet-handler />
-3.使用MVC的resources解决：
+
+3,使用MVC的resources解决
    在springmvc.xml配置文件中进行配置：
    location:资源位置  mapping：表示对该资源的请求(由处理器ResourceHttpRequestHandler)
-
 <mvc:resources location="/image/" mapping="/image/**"/>
 ------------------------
 
@@ -7359,22 +7332,6 @@ prefix1
 对于登录验证在日志后面,对于权限验证在登录后面.
 +++++++++++++++++++++++++++++++++++++++++++++++++++++
 +++++++++++++++++++++++++++++++++++++++++++++++++++++
-springMVC 处理异常流程
-
-源码在springMVC-crud工程下index.jsp中
-
-1,在@ExceptionHandler 方法的入参中可以加入Exception 类型的参数,只有符合该类型的异常才会进来
-
-2,@ExceptionHandler 方法的入参中不能传入Map ,若希望异常信息传到页面上,
-需要使用ModelAndView 作为返回值
- 
-//存在的意义就是异常处理和业务逻辑处理分离 
-@ExceptionHandler 多个方法标记的异常有优先级问题: 根据类精确匹配 .
-
-
-4,如果在当前Handler 中找不到@ExceptionHandler对应的异常,则去@ConterollerAdvice 标记的自定义
-异常（推荐，统一一个类处理异常）类中查找 @ExceptionHandler 标记的方法来处理异常
-----------------------------------
 
 关于springMVC 的 异常进行统一处理:
 
@@ -7458,7 +7415,7 @@ public enum ResultEnum {
     }
 
 }
-------------------------------------------------------
+-----------------------------------------
 springMVC和Struts2 的区别:
 1,springMVC 基于方法的开发,struts2 基于类的开发.
 2 springMVC 将url 和controller方法映射.映射成功后springMVC生成一个Handler 对象 ,
@@ -7466,7 +7423,7 @@ springMVC和Struts2 的区别:
 springMVC的Controller开发类似service开发.
 3,springMVC可以进行单例开发,并且建议使用单利开发,struts2通过类的成员变量接收参数,无法使用单例.
 4,经过实际测试,struts2速度慢,在与使用struts标签,如果使用struts建议使用jstl.
------------------------------------------------------
+------------------------------------------
 DispatcherServlet 前端控制器 : 接收request,返回response
 HandlerMapping 处理器映射器 : 根据url 查找Handler (可以通过xml和注解方式)
 HandlerAdapter 处理器适配器 : 根据特定规则执行 Handler,编写 Handler 时需要按照 HandlerAdapter的要求去编写
@@ -7476,12 +7433,7 @@ Handler 处理器(后端控制器) : 需要程序员去编写,常用注解开发
 response相应结果类型实现JSON 数据输出)
 
 View resolver 视图解析器 :根据逻辑视图名生成真正的视图 (在springMVC中使用View 对象表示)
-View 视图:jsp 页面,仅是数据展示,没有业务逻辑.
-
-
-requestMappingHandlerMapping 注解映射器 
-requestMappingHandlerAdapter 注解适配器
-使用<mvc:anntation-driven>代替上边处理器映射器和适配器配置.
+使用<mvc:annotation-driven>代替上边处理器映射器和适配器配置.
 
 @Controller 必须加,作用标示类是一个Handler处理器
 @requestMapping 必须加3个作用:
@@ -7493,7 +7445,7 @@ requestMappingHandlerAdapter 注解适配器
 ---------------------------------------------
 Spring和SpringMVC 的父子容器关系
 
-Spring是父容器,SpringMVC是子容器,子容器可以使用父容器的对象，但是父容器是不能使用子容器的对象的。注意，这里是对象。
+Spring是父容器,SpringMVC是子容器,子容器可以使用父容器的对象,但是父容器是不能使用子容器的对象的;注意,这里是对象;
 归根结底也是由于2个容器的可见性问题导致
 
 那么代码如何操作：
@@ -7509,17 +7461,14 @@ Spring是父容器,SpringMVC是子容器,子容器可以使用父容器的对象
 <context:component-scan base-package="com.fsnip.open" use-default-filters="false">
         <context:include-filter type="annotation" expression="org.springframework.stereotype.Controller" />
 </context:component-scan>
-
-
 +++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 +++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-REST，即Representational State Transfer的缩写.我对这个词组的翻译是"表现层状态转化"。
-如果一个架构符合REST原则，就称它为RESTful架构。
+REST,即Representational State Transfer的缩写.我对这个词组的翻译是"表现层状态转化";
+如果一个架构符合REST原则,就称它为RESTful架构;
 
 RESTful
-一种软件架构风格，设计风格而不是标准，只是提供了一组设计原则和约束条件。
-它主要用于客户端和服务器交互类的软件。基于这个风格设计的软件可以更简洁，更有层次，
-更易于实现缓存等机制。
+一种软件架构风格,设计风格而不是标准,只是提供了一组设计原则和约束条件;
+基于这个风格设计的软件可以更简洁,更有层次,更易于实现缓存等机制;
 
 差的:
 /getProducts
@@ -7532,9 +7481,11 @@ POST /products : will add a product to the collection
 GET /products/4 : will retrieve product #4
 PATCH/PUT /products/4 : will update product #4
 
-总结 :接口方法名一样,接口上明确接受http的动词;参数在url上不指明key;
+总结 :
+1,访问路径都一样,没有明确动词,通过method = RequestMethod.PUT来确定访问那个接口;
+2,参数在url上不指明key;
 -----------------------------
-@PathVariable :可以URL中的传递参数(但一般不使用它使用RequestParam),
+@PathVariable :可以URL中的传递参数(工作中很少使用它,使用RequestParam),
 就是因为它的存在 才有了下面的REST风格.
 
 URL 如: testRest?1//不需要写id=1 
@@ -7596,7 +7547,7 @@ public String testCookieValue(@CookieValue("JSESSIONID") String sessionId) {
 
 mysql
 
-正确使用join 字句:
+正确使用5种关联查询字句:
 
 1,inner join（join）: (内连接)查出两个圈重叠的部分
 
@@ -7612,10 +7563,10 @@ mysql
 
 5.,cross Join :(交叉连接又称笛卡尔连接) 假如a表是4条记录,b表是5表,最后查出20条记录;
 
-UNION 操作符用于合并两个或多个 SELECT 语句的结果集。UNION 内部的 SELECT 语句必须拥有相同数量的列。列也必须拥有相似的数据类型。
+UNION 操作符用于合并两个或多个 SELECT 语句的结果集;UNION 内部的 SELECT 语句必须拥有相同数量的列;列也必须拥有相似的数据类型;
 
-union 是对数据进行并集操作，不包括重复行，同时进行默认排序
-Union all 是对数据进行并集操作，包括重复行，不进行排序
+union 是对数据进行并集操作,去重,同时进行默认排序
+Union all 是对数据进行并集操作,不去重,不进行排序
 
 http://www.w3school.com.cn/sql/sql_union.asp
 
@@ -7666,7 +7617,7 @@ select a.id,a.user_name,a.over from user1 a inner join user2 b on a.user_name = 
 
 
 
--- 左外连接(查出左表全部字段,右表只显示和where条件对应的那条记录,不匹配的用NULL填充)
+-- 左外连接(查出左表全部字段,右表只显示和where条件对应的那条记录,不匹配的用NULL填充,但工作时都会不会直接使用*)
  select * from user1 a left join user2 b on a.user_name = b.user_name;
 //开发用id关联,你会发现要么是1对1,要么是1对多数量不会大;左表全部数据,右表只有id匹配的那几条
 +----+-----------+----------+------+-----------+------+
@@ -7815,7 +7766,7 @@ select a.user_name,b.user_name from user1 a cross join user2 b;
 
 
 
--- 上面 5种join从句就已经学完了
+-- 上面 5,种join从句就已经学完了
 =======================================================================
 
 需求: 想找出2张表名字的字段相同的记录,然后修改a 表的over字段为齐天大圣;
@@ -7834,9 +7785,9 @@ update user1 a inner join user2 b on a.user_name = b.user_name set a.over = '齐
 
 on和where条件的区别如下(十分重要)：
 
-1,on条件是在生成临时表时使用的条件，它不管on中的条件是否为真，都会返回左边表中的记录。
+1,on条件是在生成临时表时使用的条件,它不管on中的条件是否为真,都会返回左边表中的记录;
 										~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-2,where条件是在临时表生成好后，再对临时表进行过滤的条件。这时已经没有left join的含义
+2,where条件是在临时表生成好后,再对临时表进行过滤的条件;这时已经没有left join的含义
 				~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 结论: on 的作用是在生成临时表时的条件,where是在临时表后的条件;所以on的性能比where高;
 				
@@ -7897,19 +7848,19 @@ http://www.cnblogs.com/xdp-gacl/p/4261895.html //这人的博客入门到缓存�
 
 首先我们来看看JDBC中操作有什么问题,为什么需要Mybatis.
 1,数据库连接,使用时创建,不使用立即释放,对数据库进行频繁的连接和关闭,造成数据库资源的浪费.
-设想:使用数据库连接池管理数据库链接
+改变:数据库连接池
 
 2,将sql语句硬编码到java代码中,如果sql语句修改,需要重新编译java代码,不利于系统维护.
-设想:将sql语句配置到xml配置文件中,即使sql变化,不需要对java代码进行重新编译.
+改变:将sql放到xml文件中,即使sql变化,不需要对java代码进行重新编译.
 
 3,在向preparedStatement中设置参数,对占位符号位置和设置参数值,硬编码在java代码中.
-设想:将sql语句及占位符号和参数全部配置在xml中
+改变:将sql语句及占位符号和参数全部配置在xml中
 
 4,对于resultSet 结果集的输出也是硬编码
-设想:在结果集自动映射对java实体对象.
+改变:在结果集自动映射对java实体对象.
 
 
-SqlSessionFactory :会话工厂,作用 :创建SqlSession.
+SqlSessionFactory :会话工厂,作用 :创建SqlSession
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 SqlSession 的作用 :使用它来操作数据库的CRUD.但是通过内部Execute(执行器)来完成的
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -8012,7 +7963,7 @@ MyBatis提供了choose 元素,按顺序判断when中的条件是否成立,
 例如下面例子,同样把所有可以限制的条件都写上,方面使用.选择条件顺序,when标签的从上到下的书写顺序:
  
  
-<!-- 查询学生list,like姓名、或=性别、或=生日、或=班级,使用choose -->     
+<!-- 查询学生list,like姓名,或=性别,或=生日,或=班级,使用choose -->     
 <select id="getStudentListChooseEntity" parameterType="StudentEntity" resultMap="studentResultMap">     
 	SELECT * from STUDENT_TBL ST      
 	<where>     
@@ -8189,9 +8140,9 @@ end;
 
 
 
-DDL—数据定义语言(Create，Alter，Drop，DECLARE)
-DML—数据操纵语言(Select，Delete，Update，Insert)
-DCL—数据控制语言(GRANT，REVOKE，COMMIT，ROLLBACK)
+DDL—数据定义语言(Create,Alter,Drop,DECLARE)
+DML—数据操纵语言(Select,Delete,Update,Insert)
+DCL—数据控制语言(GRANT,REVOKE,COMMIT,ROLLBACK)
 
 首先,简要介绍基础语句：
 set names gbk;有时我们在编写时可能要输入中文,就需要设置,不影响数据库
@@ -8204,21 +8155,21 @@ delimiter 自定义 然后我们就只能用这个符号才会提交
 4,select *from 表名 查表
 5,desc 表名可以查看字段类型
 -----------------------------------
-1、说明：创建数据库
+1,说明：创建数据库
 CREATE DATABASE 数据库名 DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci；
 查看数据库字符集：show variables like '%char%';
 
-2、说明：删除数据库
+2,说明：删除数据库
 drop database dbname
 
-3、说明：备份sql server
+3,说明：备份sql server
 --- 创建 备份数据的 device
 USE master
 EXEC sp_addumpdevice 'disk', 'testBack', 'c:\mssql7backup\MyNwind_1.dat'
 --- 开始 备份
 BACKUP DATABASE pubs TO testBack
 
-4、说明：创建新表
+4,说明：创建新表
 create table tabname(
 col1 type1 [not null] [primary key],
 col2 type2 [not null],
@@ -8237,25 +8188,25 @@ CREATE TABLE `girl` (
 A：create table tab_new like tab_old (使用旧表创建新表)
 B：create table tab_new as select col1,col2… from tab_old definition only
 
-5、说明：删除表
+5,说明：删除表
 drop table tabname
 
-6、说明：增加一个列
+6,说明：增加一个列
 Alter table tabname add column col type
-注：列增加后将不能删除。DB2中列加上后数据类型也不能改变，唯一能改变的是增加varchar类型
-的长度。
+注：列增加后将不能删除;DB2中列加上后数据类型也不能改变,唯一能改变的是增加varchar类型
+的长度;
 
-7、说明：添加主键： Alter table tabname add primary key(col)
+7,说明：添加主键： Alter table tabname add primary key(col)
 说明：删除主键： Alter table tabname drop primary key(col)
 
-8、说明：创建索引：create [unique] index idxname on tabname(col….)
+8,说明：创建索引：create [unique] index idxname on tabname(col….)
 删除索引：drop index idxname
-注：索引是不可更改的，想更改必须删除重新建。
+注：索引是不可更改的,想更改必须删除重新建;
 
-9、说明：创建视图：create view viewname as select statement
+9,说明：创建视图：create view viewname as select statement
 删除视图：drop view viewname
 
-10、说明：几个简单的基本的sql语句
+10,说明：几个简单的基本的sql语句
 选择：select * from table1 where 范围
 插入：insert into table1(field1,field2) values(value1,value2)
 -- 举例
@@ -8270,105 +8221,105 @@ insert into userinfo(name,age,sex) values('张三',24,'男')
 最大：select max(field1) as maxvalue from table1
 最小：select min(field1) as minvalue from table1
 
-11、说明：几个高级查询运算词
+11,说明：几个高级查询运算词
 A： UNION 运算符
 UNION 运算符通过组合其他两个结果表（例如 TABLE1 和 TABLE2）并消去表中任何重复行而派生
-出一个结果表。当 ALL 随 UNION 一起使用时（即 UNION ALL），不消除重复行。两种情况下，派
-生表的每一行不是来自 TABLE1 就是来自 TABLE2。
+出一个结果表;当 ALL 随 UNION 一起使用时（即 UNION ALL）,不消除重复行;两种情况下,派
+生表的每一行不是来自 TABLE1 就是来自 TABLE2;
 B： EXCEPT 运算符
 EXCEPT 运算符通过包括所有在 TABLE1 中但不在 TABLE2 中的行并消除所有重复行而派生出一个
-结果表。当 ALL 随 EXCEPT 一起使用时 (EXCEPT ALL)，不消除重复行。
+结果表;当 ALL 随 EXCEPT 一起使用时 (EXCEPT ALL),不消除重复行;
 C： INTERSECT 运算符
 INTERSECT 运算符通过只包括 TABLE1 和 TABLE2 中都有的行并消除所有重复行而派生出一个结果
-表。当 ALL 随 INTERSECT 一起使用时 (INTERSECT ALL)，不消除重复行。
-注：使用运算词的几个查询结果行必须是一致的。
+表;当 ALL 随 INTERSECT 一起使用时 (INTERSECT ALL),不消除重复行;
+注：使用运算词的几个查询结果行必须是一致的;
 
-12、说明：使用外连接
-A、left outer join：
-左外连接（左连接）：结果集几包括连接表的匹配行，也包括左连接表的所有行。
+12,说明：使用外连接
+A,left outer join：
+左外连接（左连接）：结果集几包括连接表的匹配行,也包括左连接表的所有行;
 sql: select a.a, a.b, a.c, b.c, b.d, b.f from a LEFT OUT JOIN b ON a.a = b.c
 B：right outer join:
-右外连接(右连接)：结果集既包括连接表的匹配连接行，也包括右连接表的所有行。
+右外连接(右连接)：结果集既包括连接表的匹配连接行,也包括右连接表的所有行;
 C：full outer join：
-全外连接：不仅包括符号连接表的匹配行，还包括两个连接表中的所有记录。
+全外连接：不仅包括符号连接表的匹配行,还包括两个连接表中的所有记录;
 
-13、说明：复制表(只复制结构,源表名：a 新表名：b) (Access可用)
+13,说明：复制表(只复制结构,源表名：a 新表名：b) (Access可用)
 法一：select * into b from a where 1<>1
 法二：select top 0 * into b from a
 
-14、说明：拷贝表(拷贝数据,源表名：a 目标表名：b) (Access可用)
+14,说明：拷贝表(拷贝数据,源表名：a 目标表名：b) (Access可用)
 insert into b(a, b, c) select d,e,f from b;
 
-15、说明：跨数据库之间表的拷贝(具体数据使用绝对路径) (Access可用)
+15,说明：跨数据库之间表的拷贝(具体数据使用绝对路径) (Access可用)
 insert into b(a, b, c) select d,e,f from b in ‘具体数据库' where 条件
 例子：..from b in '"&Server.MapPath(".")&"\data.mdb" &"' where..
 
-16、说明：子查询(表名1：a 表名2：b)
+16,说明：子查询(表名1：a 表名2：b)
 select a,b,c from a where a IN (select d from b ) 或者: select a,b,c from a where a IN
 (1,2,3)
 
-17、说明：显示文章、提交人和最后回复时间
+17,说明：显示文章,提交人和最后回复时间
 select a.title,a.username,b.adddate from table a,(select max(adddate) adddate from
 table where table.title=a.title) b
 
-18.说明：外连接查询(表名1：a 表名2：b)
+18,说明：外连接查询(表名1：a 表名2：b)
 select a.a, a.b, a.c, b.c, b.d, b.f from a LEFT OUT JOIN b ON a.a = b.c
 
-19、说明：在线视图查询(表名1：a )
+19,说明：在线视图查询(表名1：a )
 select * from (Select a,b,c FROM a) T where t.a > 1;
 
-20、说明：between的用法,between限制查询数据范围时包括了边界值,not between不包括
+20,说明：between的用法,between限制查询数据范围时包括了边界值,not between不包括
 select * from table1 where time between time1 and time2
 select a,b,c, from table1 where a not between 数值1 and 数值2
 
-21、说明：in 的使用方法
+21,说明：in 的使用方法
 select * from table1 where a [not] in (‘值1','值2','值4','值6')
 
-22、说明：两张关联表，删除主表中在副表中没有的信息
+22,说明：两张关联表,删除主表中在副表中没有的信息
 delete from table1 where not exists ( select * from table2 where
 table1.field1=table2.field1 )
 
-23、说明：四表联查问题：
+23,说明：四表联查问题：
 select * from a left inner join b on a.a=b.b right inner join c on a.a=c.c inner join
 d on a.a=d.d where .....
 
-24、说明：日程安排提前五分钟提醒
+24,说明：日程安排提前五分钟提醒
 sql: select * from 日程安排 where datediff('minute',f开始时间,getdate())>5
 
-25、说明：一条sql 语句搞定数据库分页
+25,说明：一条sql 语句搞定数据库分页
 select top 10 b.* from (select top 20 主键字段,排序字段 from 表名 order by 排序字段
 desc) a,表名 b where b.主键字段 = a.主键字段 order by a.排序字段
 
-26、说明：前10条记录
+26,说明：前10条记录
 select top 10 * form table1 where 范围
 
-27、说明：选择在每一组b值相同的数据中对应的a最大的记录的所有信息(类似这样的用法可以用
+27,说明：选择在每一组b值相同的数据中对应的a最大的记录的所有信息(类似这样的用法可以用
 于论坛每月排行榜,每月热销产品分析,按科目成绩排名,等等.)
 select a,b,c from tablename ta where a=(select max(a) from tablename tb where
 tb.b=ta.b)
 
-28、说明：包括所有在 TableA 中但不在 TableB和TableC 中的行并消除所有重复行而派生出一个
+28,说明：包括所有在 TableA 中但不在 TableB和TableC 中的行并消除所有重复行而派生出一个
 结果表
 (select a from tableA ) except (select a from tableB) except (select a from tableC)
 
-29、说明：随机取出10条数据
+29,说明：随机取出10条数据
 select top 10 * from tablename order by newid()
 
-30、说明：随机选择记录
+30,说明：随机选择记录
 select newid()
 
-31、说明：删除重复记录
+31,说明：删除重复记录
 Delete from tablename where id not in (select max(id) from tablename group by
 col1,col2,...)
 
-32、说明：列出数据库里所有的表名
+32,说明：列出数据库里所有的表名
 select name from sysobjects where type='U'
 
-33、说明：列出表里的所有的
+33,说明：列出表里的所有的
 select name from syscolumns where id=object_id('TableName')
 
-34、说明：列示type、vender、pcs字段，以type字段排列，case可以方便地实现多重选择，类似
-select 中的case。
+34,说明：列示type,vender,pcs字段,以type字段排列,case可以方便地实现多重选择,类似
+select 中的case;
 select type,sum(case vender when 'A' then pcs else 0 end),sum(case vender when 'C'
 then pcs else 0 end),sum(case vender when 'B' then pcs else 0 end) FROM tablename
 group by type
@@ -8381,15 +8332,15 @@ type vender pcs
 手机 B 3
 手机 C 3
 
-35、说明：初始化表table1
+35,说明：初始化表table1
 TRUNCATE TABLE table1
 
 
-36、说明：选择从10到15的记录
+36,说明：选择从10到15的记录
 select top 5 * from (select top 15 * from table order by id asc) table_别名 order by
 id desc
 　　
-37、一道SQL语句面试题，关于group by
+37,一道SQL语句面试题,关于group by
 表内容：
 2005-05-09 胜
 2005-05-09 胜
@@ -8421,23 +8372,23 @@ select rq,勝=count(*) from #tmp where shengfu='胜'group by rq)N inner join
 (select col001,count(col001) b1 from temp1 where col002='负' group by col001) b
 where a.col001=b.col001
 
-38、请教一个面试中遇到的SQL语句的查询问题
-表中有A B C三列,用SQL语句实现：当A列大于B列时选择A列否则选择B列，当B列大于C列时选择B列
-否则选择C列。
+38,请教一个面试中遇到的SQL语句的查询问题
+表中有A B C三列,用SQL语句实现：当A列大于B列时选择A列否则选择B列,当B列大于C列时选择B列
+否则选择C列;
 示例如下:
 select (case when a>b then a else b end ),
 (case when b>c then b esle c end)
 from table_name
 
-39、一个日期判断的sql语句？
-请取出tb_send表中日期(SendTime字段)为当天的所有记录?(SendTime字段为datetime型，包含日
+39,一个日期判断的sql语句？
+请取出tb_send表中日期(SendTime字段)为当天的所有记录?(SendTime字段为datetime型,包含日
 期与时间)
 示例如下:
 select * from tb where datediff(dd,SendTime,getdate())=0
 
-40、有一张表，里面有3个字段：语文，数学，英语。其中有3条记录分别表示语文70分，数学80分
-，英语58分，请用一条sql语句查询出这三条记录并按以下条件显示出来（并写出您的思路）：
-大于或等于80表示优秀，大于或等于60表示及格，小于60分表示不及格。
+40,有一张表,里面有3个字段：语文,数学,英语;其中有3条记录分别表示语文70分,数学80分
+,英语58分,请用一条sql语句查询出这三条记录并按以下条件显示出来（并写出您的思路）：
+大于或等于80表示优秀,大于或等于60表示及格,小于60分表示不及格;
 显示格式：
 语文 数学 英语
 及格 优秀 不及格
@@ -8453,32 +8404,32 @@ else '不及格') as 数学,
 when 英语>=60 then '及格'
 else '不及格') as 英语,
 from table
-41、在sqlserver2000中请用sql创建一张用户临时表和系统临时表，里面包含两个字段ID和
-IDValues,类型都是int型，并解释下两者的区别?
+41,在sqlserver2000中请用sql创建一张用户临时表和系统临时表,里面包含两个字段ID和
+IDValues,类型都是int型,并解释下两者的区别?
 用户临时表:create table #xx(ID int, IDValues int)
 系统临时表:create table ##xx(ID int, IDValues int)
 区别:
 用户临时表只对创建这个表的用户的Session可见,对其他进程是不可见的.
 当创建它的进程消失时这个临时表就自动删除.
 全局临时表对整个SQL Server实例都可见,但是所有访问它的Session都消失的时候,它也自动删除.
-42、sqlserver2000是一种大型数据库，他的存储容量只受存储介质的限制，请问它是通过什么方
-式实现这种无限容量机制的。
+42,sqlserver2000是一种大型数据库,他的存储容量只受存储介质的限制,请问它是通过什么方
+式实现这种无限容量机制的;
 它的所有数据都存储在数据文件中(*.dbf),所以只要文件够大,SQL Server的存储容量是可以扩
 大的.
 SQL Server 2000 数据库有三种类型的文件：
 主要数据文件
-主要数据文件是数据库的起点，指向数据库中文件的其它部分。每个数据库都有一个主要数据文件
-。主要数据文件的推荐文件扩展名是 .mdf。
+主要数据文件是数据库的起点,指向数据库中文件的其它部分;每个数据库都有一个主要数据文件
+;主要数据文件的推荐文件扩展名是 .mdf;
 次要数据文件
-次要数据文件包含除主要数据文件外的所有数据文件。有些数据库可能没有次要数据文件，而有些
-数据库则有多个次要数据文件。次要数据文件的推荐文件扩展名是 .ndf。
+次要数据文件包含除主要数据文件外的所有数据文件;有些数据库可能没有次要数据文件,而有些
+数据库则有多个次要数据文件;次要数据文件的推荐文件扩展名是 .ndf;
 日志文件
-日志文件包含恢复数据库所需的所有日志信息。每个数据库必须至少有一个日志文件，但可以不止
-一个。日志文件的推荐文件扩展名是 .ldf。
-43、请用一个sql语句得出结果
-从table1,table2中取出如table3所列格式数据，注意提供的数据及结果不准确，只是作为一个格
-式向大家请教。
-如使用存储过程也可以。
+日志文件包含恢复数据库所需的所有日志信息;每个数据库必须至少有一个日志文件,但可以不止
+一个;日志文件的推荐文件扩展名是 .ldf;
+43,请用一个sql语句得出结果
+从table1,table2中取出如table3所列格式数据,注意提供的数据及结果不准确,只是作为一个格
+式向大家请教;
+如使用存储过程也可以;
 table1
 月份mon 部门dep 业绩yj
 一月份 01 10
@@ -8524,8 +8475,8 @@ sum(case when b.mon=11 then b.yj else 0 end) as '十一月份',
 sum(case when b.mon=12 then b.yj else 0 end) as '十二月份',
 from table2 a left join table1 b on a.dep=b.dep
 
-44、华为一道面试题
-一个表中的Id有多个记录，把所有这个id的记录查出来，并显示有多少条记录。
+44,华为一道面试题
+一个表中的Id有多个记录,把所有这个id的记录查出来,并显示有多少条记录;
 -------------------------------------------------
 select id, Count(*) from tb group by id having count(*)>1
 select*from(select count(ID) as count from table group by ID)T where T.count>1 
@@ -8643,7 +8594,7 @@ GIT
 2,云端存储
 3,更好的解决团队开发带来的冲突;
 
-git 和 svn 的主要区别就是git 是分布式的(可以独立的上传，不依赖服务器),svn 是集中式管理(提交依赖服务器)
+git 和 svn 的主要区别就是git 是分布式的(可以独立的上传,不依赖服务器),svn 是集中式管理(提交依赖服务器)
 
 发展历史：
 cvs(集中式 网络环境)->svn（集中式  网络环境）->git（分布式 无网环境）->github（程序猿托管网站）
@@ -8667,17 +8618,17 @@ git --help #可以查看命令帮助,下面就是内容
 最常用的 git 命令有：
    add        添加文件内容至索引
    bisect     通过二分查找定位引入 bug 的变更
-   branch     列出、创建或删除分支
+   branch     列出,创建或删除分支
    checkout   检出一个分支或路径到工作区
    clone      克隆一个版本库到一个新目录
    commit     记录变更到版本库
-   diff       显示提交之间、提交和工作区之间等的差异
+   diff       显示提交之间,提交和工作区之间等的差异
    fetch      从另外一个版本库下载对象和引用
    grep       输出和模式匹配的行
    init       创建一个空的 Git 版本库或重新初始化一个已存在的版本库
    log        显示提交日志
    merge      合并两个或更多开发历史
-   mv         移动或重命名一个文件、目录或符号链接
+   mv         移动或重命名一个文件,目录或符号链接
    pull       获取并合并另外的版本库或一个本地分支
    push       更新远程引用和相关的对象
    rebase     本地提交转移至更新后的上游分支中
@@ -8685,7 +8636,7 @@ git --help #可以查看命令帮助,下面就是内容
    rm         从工作区和索引中删除文件
    show       显示各种类型的对象
    status     显示工作区状态
-   tag        创建、列出、删除或校验一个GPG签名的 tag 对象
+   tag        创建,列出,删除或校验一个GPG签名的 tag 对象
    
 -------------------------------
 如何 从github 克隆项目
@@ -8697,7 +8648,7 @@ $ echo "我来得了" >> wuyong.txt -- 随便创建一个文件来测试能推�
 git status
 $git add wuyong.txt -- 加入缓存区
 $git commit -m "克隆测试" --本地版本库已经可以了
-$git push -- 推到gitgub上面，现在github可以看见有了这个文件
+$git push -- 推到gitgub上面,现在github可以看见有了这个文件
 
 --------------------------
 分支管理：
@@ -8710,11 +8661,11 @@ $ echo "我来得了" >> fenzhi.txt
 $git add fenzhi.txt -- 加入缓存区
 $git commit -m "分支测试" --本地版本库已经可以了
 $git status 
-假如这时我们在分支任务完成，需要把代码合并到主分支来
-$git checkout master -- 切换到分支，可以是其他分支也可以是主分支
+假如这时我们在分支任务完成,需要把代码合并到主分支来
+$git checkout master -- 切换到分支,可以是其他分支也可以是主分支
 $git merge wodefenzi -- 合并分支
 
-这时如果我们不需要再在这个分支上开发了，我们需要删除这个分支
+这时如果我们不需要再在这个分支上开发了,我们需要删除这个分支
 $git branch -d wodefenzi
 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -8729,18 +8680,10 @@ http://www.cnblogs.com/xing901022/p/4170248.html
 
 
 Maven是一个用于 项目构建的工具
-通过它便捷的管理项目项目的jar包依赖,开发,测试,发布打包
-
-jar包依赖
-
-　　这个也许会maven最突出的特点了使用maven不需要上网单独下载jar包,只需要在配置文件pom.xml中配置
-jar包的依赖关系,就可以自动的下载jar包到我们的项目中.这样,别人开发或者使用这个工程时,不需要来回
-的拷贝jar包,只需要复制这个pom.xml就可以自动的下载这些jar包.
-　　而且,我们自己下载jar包,还有可能造成版本的不一致,这样在协同开发的过程中就有可能造成代码运行
-的不一致.通过使用maven精确的匹配jar包,就不会出现这种问题了.
+,便捷的管理项目项目的jar包依赖和版本,和打包的功能
 
 
-Maven通过xml格式,来标示唯一jar包
+Maven通过pom.xml格式,来标示唯一jar包
 <dependency>
 	<groupId>com.test</groupId>
 	<artifactId>maventest</artifactId>
@@ -8880,22 +8823,20 @@ grable : 不在使用xml形式管理构建脚本;
 
 window 下 使用gradle 
 
-1，下载解压
+1,下载解压
 2,配置环境变量（百度）
-3，检查是否配置成功
-4，gradle是通过groovy实现的，底层就是java；所以需要了解groovy 和Java的区别
-5，在idea中创建一个gradle项目来感觉一下groovy 的特性
-6，去github下载我的项目看看实例
-7，gradle构建中的两个基本概念是项目（project）和任务（task）每个构建至少包含一个项目，项目中包含一个或多个任务（也可以没有）；
-在多项目构建中，一个项目可以依赖其它项目；任务也是；
-
-
+3,检查是否配置成功
+4,gradle是通过groovy实现的,底层就是java；所以需要了解groovy 和Java的区别
+5,在idea中创建一个gradle项目来感觉一下groovy 的特性
+6,去github下载我的项目看看实例
+7,gradle构建中的两个基本概念是项目（project）和任务（task）每个构建至少包含一个项目,项目中包含一个或多个任务（也可以没有）；
+在多项目构建中,一个项目可以依赖其它项目；任务也是；
 
 +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 Linux
-注意下面演示使用的Ctenos6.3版本;
+注意下面演示使用的Ctenos6.3,版本;
 Linux(1994年问世)
 继承与unix(1973年样子)百分之70命令一样.
 特点:
@@ -8918,18 +8859,26 @@ Linux(1994年问世)
 
 查看链接对应服务器是什么:  www.netcraft.com
 +++++++++++++++++++++++++++++++++++++++++++++++++++
-
+精华:
 格式化的作用是写入文件系统(FAT16,FAT32,NTFS,Ext2,Ext3,Ext4),
-写入文件系统时,会对硬盘重新进行分块(默认一个块是4kb),这样就会清空磁盘中的数据,同时会有一部分块记录着磁盘其他块的Id号,
+写入文件系统时,会对硬盘重新分块(默认一个块是4kb),这样会清空磁盘中的数据,同时会有一部分块记录着磁盘其他块的Id号,
 数据写入不一定是连续块中,而是一个通过一串id号把数据窜接起来的;
-
 +++++++++++++++++++++++++++++++++++++++++++++++++++
 分区设备文件名
 首先linux 一切皆文件,硬件能使用也必须要有一个文件名(文件名不要使用中文)和它对应
 linux所有硬件文件名都放在/dev/下
 如:
-/dev/hda1 -- ide硬盘hd开头,a标识第一个硬盘,1表示第一个分区
+/dev/hda1 -- ide硬盘hd开头,a标识第一个硬盘,1,表示第一个分区
 /dev/sdb1 -- SCSI,SATA; sd标识这种接口的硬盘 sata比scsi快,b是第二块硬盘
++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+分区的作用就是方便管理,主要作用就是这个其中一个分区写满了,不会影响其他分区,这点很重要
+
+必须分区:
+swap 分区 (交换分区,内存小于4G是内存2倍,大于则等于内存大小),作用是虚拟内存;
+推荐分区:
+/boot (启动分区,200MB),分了后好处是:/分区就算写满了,也不会影响启动;
+/ 根分区 (分了其他分区大小后全部容量都给它)
 +++++++++++++++++++++++++++++++++++++++++++++++++++
 挂载:
 
@@ -8938,15 +8887,6 @@ linux所有硬件文件名都放在/dev/下
 linux 分区必须挂载后才可以使用,挂载就把分区挂载一个目录或文件下(任何目录或文件),
 挂在哪个目录(或文件)下的哪个位置就叫挂载点;
 +++++++++++++++++++++++++++++++++++++++++++++++++++
-分区的作用就是方便管理,主要作用就是这个其中一个分区写满了,不会影响其他分区,这点很重要
-
-必须分区:
-/ 根分区 (分了其他分区大小后全部容量都给它)
-swap 分区 (交换分区,内存小于4G是内存2倍,大于则等于内存大小),作用是虚拟内存;
-推荐分区:
-/boot (启动分区,200MB),分了后好处是:/分区就算写满了,也不会影响启动;
-+++++++++++++++++++++++++++++++++++++++++++++++++++
-
 linux 的最高层/目录,其他所有目录都在它之下,但并不是所有的目录都在一块硬盘下;
 /home 我们可以设置它的挂载点/dev/sda2
 /boot 我们可以设置它的挂载点/dev/sdb1
@@ -8969,12 +8909,12 @@ linux 的最高层/目录,其他所有目录都在它之下,但并不是所有�
 [root@localhost ~]# 详情
 root : 当前登录的用户名
 localhost: 主机名
-~: 代表我当前所在的目录(家目录) 提示:可以输入pwd看到当前所在目录
+~: 代表我当前所在的目录; 提示:可以输入pwd看到当前所在目录的全路径
 
 #: 超级用户提示符
 $: 普通用户的提示符
 
-root 目录是root用户的家目录,普通用户的家目录是home; root不是根目录
+root 目录是root用户的家目录用符号~表示,普通用户的家目录是home; root不是根目录
 -------------------
 命令格式:
 
@@ -8995,17 +8935,30 @@ ls [选项] [文件目录]
 在输入ls后我们可以看见如:
 -rw-r--r--.
 drwxr-xr-x.
-等这样的文件,一共是10位,第一位为权限,后面的每3位为一组
-linux中没有文件后缀名,用第一位来作为权限,来区分文件,有7种:
-我们需要掌握的就3种:-文件,d目录,l软链接文件
+等这样的文件,一共是10位,第一位来区分文件-文件,d目录,l软链接文件,
 后面3位一组 :
 rw-                       r--                    r--       
-前3位为所有者(主人);中间3位所属组(分配一些人);最后3位为其他人(其他)
+前3位为所有者(主人);中间3位所属组(组权限);最后3位为其他人(其它)
 r读w写x执行
 
+-----------------------
+linux 的权限机制到底是怎么回事?
+http://blog.csdn.net/vvcumt/article/details/38534379
+
+Linux下权限有三种,用户权限(主人),组权限,其他用户;
+
+
+一个文件被谁创建,那个用户就拥有用户权限;
+我们可以通过修改文件权限,来完成对某些用户进行屏蔽,因为另一个用户属于其他用户
+(对应上面的其他用户),当然我们可以让那个用户拥有和当前创建用户的组权限,从而达到
+让其他用户也可以操作这个文件;多个用户可以来至一个组;
+
+
+可以使用chmod filename 改变文件的权限;
+可以使用chown filename 改变文件所属的用户和组
+----------------------------
+
 用户登录使用su- 切换管理员身份
-
-
 shutdown -h now 关机
 shutdown -r now 重启
 reboot 重启
@@ -9039,30 +8992,8 @@ ls -l > a.txt 列表的内容写入到a.txt 中(没有自动创建,有覆盖)
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 >> 是追加
 
-
 ++++++++++++++++++++++++++++++++++++++++++
 ++++++++++++++++++++++++++++++++++++++++++
-linux 的权限机制到底是怎么回事?
-http://blog.csdn.net/vvcumt/article/details/38534379
-
-Linux下权限有三种，用户权限，组权限，其他用户。
-可以使用ls -l filename 会列出改文件的权限。
-分别用rwx表示读，写和可执行三种权限，
-一个文件从左至右依次用这三个符合表示上面所说相对应的权限。
-比如-rwx-rw-r--代表用户有读，写和可执行，组有读和写权限;其他只有读
-
-3个为一组,刚好3组对应上面的用户,组,其他;
-一个文件被谁创建,那个用户就拥有用户权限;
-我们可以通过修改文件权限,来完成对某些用户进行屏蔽,因为另一个用户属于其他用户
-(对应上面的其他用户),当然我们可以让那个用户拥有和当前创建用户的组权限,从而达到
-让其他用户也可以操作这个文件;多个用户可以来至一个组;
-
-
-可以使用chmod filename 改变文件的权限。
-可以使用chown filename 改变文件所属的用户和组
-++++++++++++++++++++++++++++++++++++++++++
-++++++++++++++++++++++++++++++++++++++++++
-
 
 Linux 上到底如何创建一个用户?
 
@@ -9088,7 +9019,7 @@ useradd -u 544 -d /usr/testuser1  -g users -m  testuser1
 ++++++++++++++++++++++++++++++++++++++++++
 chmod 777 用户名 //修改这个文件用户权限
 chmod 777 文件名  //修改文件权限
-777分别表示user,group及other的权限r=4，w=2，x=1
+777分别表示user,group及other的权限r=4,w=2,x=1
 
 cat /etc/group //查看 linux中所有的组
 cat /etc/passwd //查看linux 中所有用户信息
@@ -9099,8 +9030,8 @@ http://blog.csdn.net/qwq_qaq/article/details/54882203
 
 setfacl -x u:userA -R /   #删除userA的所有权限
 setfacl -m u:userA:rwx /dir1  #赋予userA对dir1的读写执行权限
-setfacl -m u:userB:rwx /dir1  #赋予userB对dir1的rwx权限，
-同理可以设置userB C D对dir2，3，4等等其它目录的权限
+setfacl -m u:userB:rwx /dir1  #赋予userB对dir1的rwx权限,
+同理可以设置userB C D对dir2,3,4等等其它目录的权限
 ----------------------------------
 -R : 递归设置子目录下的权限
 setfacl -x u:username dir/file #删除用户的权限
@@ -9503,9 +9434,10 @@ vi
 vim --升级版
 cat 
 more 查看文件
+搜索文件内容:
 tail -n 50 catalina.out -- 查看最后50行
--------------------------------------
-#输出重定向(把本身输出到显示器重定向到文件中)
+---------------------------
+#输出重定向(把命令结果输出到文件中)
 
 #会覆盖原有的
 命令 > 文件 
@@ -9525,8 +9457,7 @@ sd
 
 #正确和错误分开存放(推荐)
 命令>>文件1 2>>文件2
-
-------------------
+---------------------------
 可以用来判断执行语句到底正确执行没
 sdfs && echo yes || echo no
 
@@ -9539,13 +9470,13 @@ netstat -an | grep ESTABLISHED
 netstat -an | grep established | wc -l
 
 established [??'st??bl????t] 确定的
-+++++++++++++++++++++++++++++++++++++++++++++
-+++++++++++++++++++++++++++++++++++++++++++++
+++++++++++++++++++++++++++++++++++
+++++++++++++++++++++++++++++++++++
 
 
 linux 只有两种包:
 1,源码包,
-2,rpm(二进制包);原Red Hat Package Manager，现在是一个递归缩写
+2,rpm(二进制包);原Red Hat Package Manager,现在是一个递归缩写
 
 概念区别:
 源码包开源的,免费的,可以自定义安装,效率高;
@@ -9600,7 +9531,7 @@ vi /etc/yum.repos.d/CentOs-Base.repo
 name : 容器说明,随便写
 mirrorlist :镜像站点
 baseurl : 我们的yum源服务器地址.默认是CentOs官方的yum源服务器,
-可以使用;但你要是觉得慢,可以改为你喜欢的yum源地址 百度:国内yum源的安装(163，阿里云，epel)
+可以使用;但你要是觉得慢,可以改为你喜欢的yum源地址 百度:国内yum源的安装(163,阿里云,epel)
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 enabled : 此容器是否生效,默认不写为生效;enable=0就是不生效;
 gpgcheck : 如果是1指rpm数字证书生效,0不生效;
@@ -9706,86 +9637,10 @@ service httpd start
 如何上传文件到linux上?
 可以使用winSCP ,xshell
 一台linux上可以同时安装源码包和rpm包,但只能启动一个,因为端口会冲突;
-+++++++++++++++++++++++++++++++++++++++++++++++++++
-+++++++++++++++++++++++++++++++++++++++++++++++++++
-+++++++++++++++++++++++++++++++++++++++++++++++++++
-Nginx
-强大的Nginx服务器
-Nginx主要功能2个:反向代理和负载均衡
-反向代理和正向代理的区别就是：正向代理代理客户端，反向代理代理服务器。
-一般来说apache是2000并发而nginx是5W,最少是3倍以上;
-学习网站:
-https://www.cnblogs.com/ysocean/p/9392908.html
-https://www.runoob.com/w3cnote/nginx-setup-intro.html
-
-Nginx配置文件目录:
-/usr/local/nginx/conf/目录下的nginx.conf
-
-Nginx相关命令：
-查看是否运行: ps –ef|grep nginx 
-启动命令：./usr/local/nginx/sbin/nginx 
-重启命令：./usr/local/nginx/sbin/nginx -s reload
-关闭命令：kill -9 nginx
-
-
-下面是工作中的配置(不包含负载均衡):
-#user  nobody;
-# nginx的注释符
-worker_processes  2;#允许生成的进程数，默认为1
-error_log  logs/error.log  info; #制定日志路径，级别。这个设置可以放入全局块，http块，server块，级别以此为：debug|info|notice|warn|error|crit|alert|emerg
-pid        logs/nginx.pid;#指定nginx进程运行文件存放地址
-
-
-# 上面是全局块;共有:全局,events,http,server,location(5块)
-events {
-    use epoll;#事件驱动模型，select|poll|kqueue|epoll|resig|/dev/poll|eventport
-    worker_connections  1024; #最大连接数，默认为512
-}
-
-http {
-    include mime.types;#文件扩展名与文件类型映射表
-    default_type  application/octet-stream;#默认文件类型，默认为text/plain
-    sendfile  on; #允许sendfile方式传输文件，默认为off，可以在http块，server块，location块。
-    keepalive_timeout  65; #连接超时时间，默认为75s，可以在http，server，location块。
-
-    #http 里面可以包含多个server块,一个server块里可以有多个location块
-    server {
-        listen 80;#监听端口
-        server_name localhost; #监听地址
-
-
-        location / {
-            root   html;
-            index  index.html index.htm;
-        }
-
-		#金猪贷,正则匹配，~为区分大小写，~*为不区分大小写;^~ 在请求字符串匹配度最高的location后立即使用此 location 处理请求,不在找其他正则location
-		location ^~ /moblie/ {
-			proxy_pass http://59.110.173.50:8899/moblie/;
-		}
-	
-		#招财收量系统
-		location ^~ /yield/ {
-					client_max_body_size  500m;
-					proxy_set_header Host $host;
-					proxy_set_header X-Real-IP $remote_addr;
-					proxy_set_header REMOTE-HOST $remote_addr;
-					proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
-					proxy_pass http://47.92.38.162:8081/yield/;  #请求转向mysvr 定义的服务器列表
-		}
-
-        error_page   500 502 503 504  /50x.html; #错误页
-		
-        location = /50x.html {
-            root   html;
-        }
-
-    }
-}
 
 +++++++++++++++++++++++++++++++++++++++++++++++++++
 +++++++++++++++++++++++++++++++++++++++++++++++++++
-+++++++++++++++++++++++++++++++++++++++++++++++++++
+
 
 linux 查看进程的常用3个命令:
 ps aux --查看全部进程
@@ -9880,7 +9735,7 @@ http://192.168.1.105:8080/
 
 三,linux下使用yum安装mysql
  http://blog.csdn.net/a695017449/article/details/37900131
-1、安装
+1,安装
 查看有没有安装过:
           yum list installed mysql*
           rpm -qa | grep mysql*
@@ -9896,7 +9751,7 @@ http://192.168.1.105:8080/
  
           yum install mysql-devel
   www.2cto.com  
-2、启动&&停止
+2,启动&&停止
  
 数据库字符集设置
           mysql配置文件/etc/my.cnf中加入default-character-set=utf8
@@ -9909,7 +9764,7 @@ http://192.168.1.105:8080/
           mysqld             0:关闭    1:关闭    2:启用    3:启用    4:启用    5:启用    6:关闭
 停止:
           service mysqld stop
-2、登录
+2,登录
  
 创建root管理员:
           mysqladmin -u root password 123456
@@ -9929,11 +9784,11 @@ http://192.168.1.105:8080/
  
           flush privileges;  
  
-3、远程访问
+3,远程访问
  
 开放防火墙的端口号
 mysql增加权限:mysql库中的user表新增一条记录host为“%”,user为“root”.
-4、Linux MySQL的几个重要目录
+4,Linux MySQL的几个重要目录
   www.2cto.com  
 数据库目录
          /var/lib/mysql/
@@ -10097,6 +9952,82 @@ Web应用中的权限:
 	总结: 可以是2层,可以是3层(可以解耦),最后都是使用用户id查是否拥访问的url的权限,所以在数据库中
 必须有每一个id对应的url的集合.
 
++++++++++++++++++++++++++++++++++++++++++++++++++++
++++++++++++++++++++++++++++++++++++++++++++++++++++
++++++++++++++++++++++++++++++++++++++++++++++++++++
+Nginx
+强大的Nginx服务器
+Nginx主要功能2个:反向代理和负载均衡
+反向代理和正向代理的区别就是：正向代理代理客户端,反向代理代理服务器;
+一般来说apache是2000并发而nginx是5W,最少是3倍以上;
+学习网站:
+https://www.cnblogs.com/ysocean/p/9392908.html
+https://www.runoob.com/w3cnote/nginx-setup-intro.html
+
+Nginx配置文件目录:
+/usr/local/nginx/conf/目录下的nginx.conf
+
+Nginx相关命令：
+查看是否运行: ps –ef|grep nginx 
+启动命令：./usr/local/nginx/sbin/nginx 
+重启命令：./usr/local/nginx/sbin/nginx -s reload
+关闭命令：kill -9 nginx
+
+
+下面是工作中的配置(不包含负载均衡):
+#user  nobody;
+# nginx的注释符
+worker_processes  2;#允许生成的进程数,默认为1
+error_log  logs/error.log  info; #制定日志路径,级别;这个设置可以放入全局块,http块,server块,级别以此为：debug|info|notice|warn|error|crit|alert|emerg
+pid        logs/nginx.pid;#指定nginx进程运行文件存放地址
+
+
+# 上面是全局块;共有:全局,events,http,server,location(5块)
+events {
+    use epoll;#事件驱动模型,select|poll|kqueue|epoll|resig|/dev/poll|eventport
+    worker_connections  1024; #最大连接数,默认为512
+}
+
+http {
+    include mime.types;#文件扩展名与文件类型映射表
+    default_type  application/octet-stream;#默认文件类型,默认为text/plain
+    sendfile  on; #允许sendfile方式传输文件,默认为off,可以在http块,server块,location块;
+    keepalive_timeout  65; #连接超时时间,默认为75s,可以在http,server,location块;
+
+    #http 里面可以包含多个server块,一个server块里可以有多个location块
+    server {
+        listen 80;#监听端口
+        server_name localhost; #监听地址
+
+
+        location / {
+            root   html;
+            index  index.html index.htm;
+        }
+
+		#金猪贷,正则匹配,~为区分大小写,~*为不区分大小写;^~ 在请求字符串匹配度最高的location后立即使用此 location 处理请求,不在找其他正则location
+		location ^~ /moblie/ {
+			proxy_pass http://59.110.173.50:8899/moblie/;
+		}
+	
+		#招财收量系统
+		location ^~ /yield/ {
+					client_max_body_size  500m;
+					proxy_set_header Host $host;
+					proxy_set_header X-Real-IP $remote_addr;
+					proxy_set_header REMOTE-HOST $remote_addr;
+					proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+					proxy_pass http://47.92.38.162:8081/yield/;  #请求转向mysvr 定义的服务器列表
+		}
+
+        error_page   500 502 503 504  /50x.html; #错误页
+		
+        location = /50x.html {
+            root   html;
+        }
+
+    }
+}
 
 
 +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -10154,7 +10085,7 @@ ctrl+alt+shift+上下箭头 查看当前文件那些代码被改动了；previou
 
 base64
 base64 主要功能不是加密(很容易被破解,几种包下base64加密得到一样的结果),
-而是把 2进制数据 转为 普通字符,方便网络传输
+而是把 2,进制数据 转为 普通字符,方便网络传输
 
 //一个简单例子,说明:
 BASE64Encoder encoder = new BASE64Encoder();//编码
@@ -10207,20 +10138,13 @@ main{
 
 }
 
--------------------------------
+
 
 使用base64压缩图片看百度云盘之前端文件夹中有源码;
-
-+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-
-
-
---------------------------------------------
 
 http://www.cnblogs.com/lonelyxmas/p/5667557.html 这个的人博文很多
 
 ----------------------------------------------
-
 
 
 如果不能写在HTML内容的后面,则需要在页面加载完成后再初始化.
@@ -10356,68 +10280,67 @@ http://blog.csdn.net/sundenskyqq/article/details/8549932
 下面就是这个链接的复制
 
 下面从几个方面阐述一下题目中四个概念的区别与联系:
-1、概念
-2、生命周期
-3、职责
-4、执行过程
+1,概念
+2,生命周期
+3,职责
+4,执行过程
 
-一、概念:
-1、servlet:servlet是一种运行服务器端的Java应用程序,主要作用就是接受http请求,然后响应
+一,概念:
+1,servlet:servlet是一种运行服务器端的Java应用程序,主要作用就是接受http请求,然后响应
 
-2、filter:filter是一个可以复用的代码片段,可以用来转换HTTP请求、响应和头信息.Filter不像Servlet,
-它不能产生一个请求或者响应,它只是修改对某一资源的请求,或者修改从某一的响应.
+2,filter:它不能产生一个请求或者响应,它只是修改对某一资源的请求,或者修改从某一的响应.
 
-3、listener:监听器,通过listener可以监听web服务器中
+3,listener:监听器,通过listener可以监听web服务器中
 某一个执行动作,并根据其要求作出相应的响应.通俗的语言说就是在application,session,request
 三个对象创建消亡或者增删改查时自定义业务反应.
 
-4、interceptor(一般是指SpringMvc下的HandlerInterceptor):底层通过动态代理实现;常做登录拦截器
+4,interceptor(一般是指SpringMvc下的HandlerInterceptor):底层通过动态代理实现;常做登录拦截器
 
-5、servlet、filter、listener是配置到web.xml中,interceptor不配置到web.xml中,struts的拦截器配
+5,servlet,filter,listener是配置到web.xml中,interceptor不配置到web.xml中,struts的拦截器配
 置到struts.xml中.spring的拦截器配置到spring.xml中. 
 
-二、生命周期:
-1、servlet:servlet的生命周期始于它被装入web服务器的内存时,并在web服务器终止或重新装入
+二,生命周期:
+1,servlet:servlet的生命周期始于它被装入web服务器的内存时,并在web服务器终止或重新装入
 servlet时结束.servlet一旦被装入web服务器,一般不会从web服务器内存中删除,直至web服务器关闭
 或重新结束.
 
-(1)、装入:启动服务器时加载Servlet的实例； 
-(2)、初始化:web服务器启动时或web服务器接收到请求时,或者两者之间的某个时刻启动.
+(1),装入:启动服务器时加载Servlet的实例； 
+(2),初始化:web服务器启动时或web服务器接收到请求时,或者两者之间的某个时刻启动.
 初始化工作有init()方法负责执行完成； 
-(3)、调用:从第一次到以后的多次访问,都是只调用doGet()或doPost()方法； 
-(4)、销毁:停止服务器时调用destroy()方法,销毁实例. 
+(3),调用:从第一次到以后的多次访问,都是只调用doGet()或doPost()方法； 
+(4),销毁:停止服务器时调用destroy()方法,销毁实例. 
 
-2、filter:(一定要实现javax.servlet包的Filter接口的三个方法init()、doFilter()、destroy(),
+2,filter:(一定要实现javax.servlet包的Filter接口的三个方法init(),doFilter(),destroy(),
 空实现也行) 
 
-(1)、启动服务器时加载过滤器的实例,并调用init()方法来初始化实例； 
-(2)、每一次请求时都只调用方法doFilter()进行处理； 
-(3)、停止服务器时调用destroy()方法,销毁实例.
+(1),启动服务器时加载过滤器的实例,并调用init()方法来初始化实例； 
+(2),每一次请求时都只调用方法doFilter()进行处理； 
+(3),停止服务器时调用destroy()方法,销毁实例.
 
-3、listener:类似于servlet和filter
-web.xml 的加载顺序是:context- param -> listener -> filter -> servlet 
+3,listener:类似于servlet和filter
+web.xml 的加载顺序是: context-param -> listener -> filter -> servlet 
 
-4、interceptor:以struts的拦截器为例,加载了struts.xml以后,初始化相应拦截器.当action请求
+4,interceptor:以struts的拦截器为例,加载了struts.xml以后,初始化相应拦截器.当action请求
 来时调用intercept方法,服务器停止销毁interceptor.
 
-三、职责
-1、servlet:
+三,职责
+1,servlet:
 主要作用就是接受http请求,然后响应
-2、filter:
+2,filter:
 filter能够在一个请求到达servlet之前预处理用户请求,也可以在离开servlet时处理http响应:
 在执行servlet之前,首先执行filter程序,并为之做一些预处理工作；
 根据程序需要修改请求和响应；
 在servlet被调用之后截获servlet的执行
-3、listener:职责如概念.
+3,listener:职责如概念.
 servlet2.4规范中提供了8个listener接口,可以将其分为三类,分别如下:
-第一类:与servletContext有关的listner接口.包括:ServletContextListener、ServletContextAttributeListener
-第二类:与HttpSession有关的Listner接口.包括:HttpSessionListner、HttpSessionAttributeListener、HttpSessionBindingListener、                      HttpSessionActivationListener；
-第三类:与ServletRequest有关的Listener接口,包括:ServletRequestListner、ServletRequestAttributeListener
-4、interceptor:与过滤器十分相似,通过层层拦截,处理用户的请求和响应.
+第一类:与servletContext有关的listner接口.包括:ServletContextListener,ServletContextAttributeListener
+第二类:与HttpSession有关的Listner接口.包括:HttpSessionListner,HttpSessionAttributeListener,HttpSessionBindingListener,                      HttpSessionActivationListener；
+第三类:与ServletRequest有关的Listener接口,包括:ServletRequestListner,ServletRequestAttributeListener
+4,interceptor:与过滤器十分相似,通过层层拦截,处理用户的请求和响应.
 
 备注:web.xml 的加载顺序是:context-param -> listener -> filter -> servlet .了解了这几个概念的区别以后,不难理论这个加载顺序了.
 
-四、几个区别:
+四,几个区别:
  
 1,servlet 流程是短的,url传来之后,就对其进行处理,之后返回或转向到某一自己指定的页面.
 它主要用来在 业务处理之前进行控制.
@@ -10448,7 +10371,7 @@ filter功能可用来保持流程继续按照原来的方式进行下去,或者�
 
 RIDIS redis(接收用户命令是单线程的)
 
-NOSQL 指not only sql 非关系型数据库(如:redis和mongo DB 等都是)
+NOSQL 指not only sql (不仅仅是sql)非关系型数据库(如:redis和mongo DB 等都是)
 
 为什么需要nosql?
 1,到web 2.0(用户可以和浏览页面互动),这时就出现高并发读写;关系数据库这时就不行了;
@@ -10575,7 +10498,7 @@ public static void main(String[] args) {
 -----------------
 
 redis 持久化(这个持久化就是指从内存到文件):
-分两种: rdb 和 aof
+有两种方式: rdb 和 aof
 
 RDB(也叫快照) :默认,以一段时间规则自动持久化数据,redis-conf配置文件中,可以修改规则,
 默认数据保存在bin路径下dump.rdp文件中;
@@ -10593,12 +10516,27 @@ appendfsync always //马上持久化
 
 如果开启了aof ,会把数据持久到appendonly.aof文件中;那么pdb就失效,配置文件也不会记录
 +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-分布式锁的常用3种实现：
 
-0. 数据库乐观锁实现(表加一个version字段,每次修改增加,修改时version作为条件带入判断)
-1. Redis实现  --- 使用redis的setnx()、get()、getset()方法，用于分布式锁，解决死锁问题
+
+分布式锁思想:其实就是普通的锁,只是分布式的;分布式就是共享的地方来获取锁而已就完成分布式锁
+
+为什么需要分布式锁?
+答:普通的锁的作用就是保证原子性操作,分布式锁只是多个地方需要协同保证一致性问题;分布式锁不能解决分布式事务,
+分布式事务只要难点在多个数据库同时成功的问题.这里我们先只说分布式锁.
+
+
+分布式锁的常用3种实现：
+1, 数据库乐观锁实现(表加一个version字段,每次修改增加,修改时version作为条件带入判断)
+2, Redis实现  --- 使用redis的setnx(),get(),getset()方法,用于分布式锁,解决死锁问题
 nx 是 not exist 的意思(其实和数据一样都是靠存 标示 来完成) 解锁使用Lua代码;
-2. Zookeeper实现
+3, Zookeeper实现
+
+确保分布式锁可用,我们至少要确保锁的实现同时满足以下四个条件：
+1,互斥性;在任意时刻,只有一个客户端能持有锁;
+2,不会发生死锁;即使有一个客户端在持有锁的期间崩溃而没有主动解锁,也能保证后续其他客户端能加锁;
+3,具有容错性;只要大部分的Redis节点正常运行,客户端就可以加锁和解锁;
+4,加锁和解锁必须是同一个客户端,客户端自己不能把别人加的锁给解了;
+
 
 
 redis分布式锁
@@ -10617,16 +10555,60 @@ public class RedisTool {
      * @return 是否获取成功
      */
     public static boolean tryGetDistributedLock(Jedis jedis, String lockKey, String requestId, int expireTime) {
-
         String result = jedis.set(lockKey, requestId, SET_IF_NOT_EXIST, SET_WITH_EXPIRE_TIME, expireTime);
-
         if (LOCK_SUCCESS.equals(result)) {
             return true;
         }
         return false;
+    }	
+}
 
+我们加锁就一行代码：jedis.set(String key, String value, String nxxx, String expx, int time),这个set()方法一共有五个形参：
+
+第一个为key,我们使用key来当锁,因为key是唯一的(其实它就是锁,就是一个全局锁)
+
+第二个为value,我们传的是requestId,很多童鞋可能不明白,有key作为锁不就够了吗,为什么还要用到value？原因就是我们在上面讲到可靠性时,分布式锁要满足第四个条件解铃还须系铃人,通过给value赋值为requestId,我们就知道这把锁是哪个请求加的了,在解锁的时候就可以有依据;requestId可以使用UUID.randomUUID().toString()方法生成;
+
+第三个为nxxx,这个参数我们填的是NX,意思是SET IF NOT EXIST,即当key不存在时,我们进行set操作；若key已经存在,则不做任何操作；
+
+第四个为expx,这个参数我们传的是PX,意思是我们要给这个key加一个过期的设置,具体时间由第五个参数决定;
+
+第五个为time,与第四个参数相呼应,代表key的过期时间;
+
+总的来说,执行上面的set()方法就只会导致两种结果：
+1,当前没有锁,那么就进行加锁操作,并对锁设置个有效期,同时value表示加锁的客户端;
+2, 已有锁存在,不做任何操作;
+
+心细的童鞋就会发现了,我们的加锁代码满足我们可靠性里描述的三个条件;首先,set()加入了NX参数,可以保证如果已有key存在,则函数不会调用成功,也就是只有一个客户端能持有锁,满足互斥性;
+其次,由于我们对锁设置了过期时间,即使锁的持有者后续发生崩溃而没有解锁,锁也会因为到了过期时间而自动解锁（即key被删除）,不会发生死锁;
+最后,因为我们将value赋值为requestId,代表加锁的客户端请求标识,那么在客户端在解锁的时候就可以进行校验是否是同一个客户端;
+
+不足之处: 由于我们只考虑Redis单机部署的场景,所以容错性我们暂不考虑;
+
+解锁:
+public class RedisTool {
+    private static final Long RELEASE_SUCCESS = 1L;
+    /**
+     * 释放分布式锁
+     * @param jedis Redis客户端
+     * @param lockKey 锁
+     * @param requestId 请求标识
+     * @return 是否释放成功
+     */
+    public static boolean releaseDistributedLock(Jedis jedis, String lockKey, String requestId) {
+        String script = "if redis.call('get', KEYS[1]) == ARGV[1] then return redis.call('del', KEYS[1]) else return 0 end";
+        Object result = jedis.eval(script, Collections.singletonList(lockKey), Collections.singletonList(requestId));
+        if (RELEASE_SUCCESS.equals(result)) {
+            return true;
+        }
+        return false;
     }
 }
+第一行代码,我们写了一个简单的Lua脚本代码;
+第二行代码,我们将Lua代码传到jedis.eval()方法里,并使参数KEYS[1]赋值为lockKey,ARGV[1]赋值为requestId;eval()方法是将Lua代码交给Redis服务端执行;
+
+那么这段Lua代码的功能是什么呢？其实很简单,首先获取锁对应的value值,检查是否与requestId相等,如果相等则删除锁（解锁）;那么为什么要使用Lua语言来实现呢？因为要确保上述操作是原子性的;关于非原子性会带来什么问题,可以阅读【解锁代码-错误示例2】 ;那么为什么执行eval()方法可以确保原子性,源于Redis的特性,下面是官网对eval命令的部分解释：
+
 
 https://www.cnblogs.com/linjiqin/p/8003838.html
 +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -10679,15 +10661,15 @@ Class 对象是在加载类时由Java虚拟机以及通过调用类加载器中�
 hashCode的意义:
 http://www.cnblogs.com/szlbm/p/5504623.html\
 
-1,HashCode的存在主要是为了查找的快速，HashCode是用来在散列存储结构中确定对象的存储地址的
-2,如果两个对象equals相等，那么这两个对象的HashCode一定也相同,但反过来就不一定了
-3,如果对象的equals方法被重写，那么对象的HashCode方法也尽量重写
+1,HashCode的存在主要是为了快速查找,HashCode是用来在散列存储结构中确定对象的存储地址的
+2,如果两个对象equals相等,那么这两个对象的HashCode一定也相同,但反过来就不一定了
+3,如果对象的equals方法被重写,那么对象的HashCode方法也尽量重写
 
 
 2,Array(全是 native修饰)
 
 3,java.io.serializable 
-首先它是一个空接口,意义可能就是标示,就是标记这个类可以被序列化;
+首先它是一个空接口,意义可能就是标识,就是标记这个类可以被序列化;
 作用就是将内存中的对象保存到硬盘上;
 使用场景:①:游戏存档,网络通信,将这台机上的对象通过文件的方式传给另一台计算机
 
@@ -10835,7 +10817,7 @@ while((key = s.nextElement()) != null){
 }
 
 
-②:有标准输入、标准输出和错误输出流；
+②:有标准输入,标准输出和错误输出流；
 System.out.println("123");//标准的,这里就是控制台
 System.err.println("123");//红色字体输出
 System.in.read("a".getBytes());//会阻塞运行
@@ -10852,7 +10834,7 @@ Byte
 public static final byte   MIN_VALUE = -128;
 public static final byte   MAX_VALUE = 127;
 
-计算机以补码的形式保存所有的整数.正数的原码、反码、补码都相同;负数的补码是其反码加1.
+计算机以补码的形式保存所有的整数.正数的原码,反码,补码都相同;负数的补码是其反码加1.
 
 ①:byte为一字节,8位;最高位是符号位,最大值是0111 1111,因正数的补码就是本身,最大值即为127
 1+2+4+8+16+32+64 = 127
@@ -10946,7 +10928,7 @@ public static int parseInt(String s, int radix)
 最后返回12;
 
 
-⑤:Integer 转2,8,16进制怎么转换的?
+⑤:Integer 转2,8,16,进制怎么转换的?
 
 Integer.toBinaryString(12) 转2进制 >>>1; (位移1位)
 toOctalString(12) 转 8进制 >>> 3;
@@ -10976,31 +10958,24 @@ public static int compare(char x, char y) {
 ************************************************************************
 ************************************************************************
 
-字符编码与字符集在本质上就是不同的东西.
+字符编码与字符集在本质上是不同的东西
 
 字符(Character)>
-　　一个文字就是一个字符.在计算机中,字符是用数字来表示的,不同的文字用不同的数字表示.存储时,或传输时是使用的数字;
+　　一个文字或一个字母等就是一个字符.在计算机中,字符是用数字来表示的,不同的文字用不同的数字表示.存储时,或传输时是使用的数字;
 
-字符集(Character Set) 如:gb2312,utf-8
-　既然是“集”,也就是“集合”,“字符集”自然就是“一定量字符的集合”.
-一个字符集包含了固定数量的字符,如ASCII字符集包含A-Z、a-z、0-9、半角标点符号和特殊控制符号
-(如换行符)在内的128个字符.
+字符集(Character Set) 如:ASCII,gb2312,utf-8,字符集是一定量字符的集合.
+如ASCII字符集包含A-Z,a-z,0-9,半角标点符号和特殊控制符号(如换行符)在内的128个字符
 
 字符编码(Encode)
-　编码,意思是指将数据通过一定方式表达或储存,这个方式就叫编码.所以字符编码就是字符的表现、储存方式,
+　编码,意思是指将数据通过一定方式表达或储存,这个方式就叫编码.所以字符编码就是字符的表现,储存方式,
 也就是字符集的实现方式.但需要注意的是:有的字符编码和字符集的名称是一致的.
 
 
-
-Accept-Charset:浏览器申明自己接收的字符集,这就是本文前面介绍的各种字符集和字符编码,如gb2312,utf-8
-(通常我们说Charset包括了相应的字符编码方案)；
-
-
+Accept-Charset:浏览器申明自己接收的字符集,如gb2312,utf-8
 Content-Type:WEB服务器告诉浏览器自己响应的对象的类型和字符集.例如:Content-Type: text/html; charset='gb2312'
 
+Accept-Encoding:浏览器申明自己接收的编码方法,通常指定压缩方法,是否支持压缩,支持什么压缩方法(gzip,deflate)；
 Content-Encoding:WEB服务器表明自己使用了什么压缩方法(gzip,deflate)压缩响应中的对象.例如:Content-Encoding:gzip
-Accept-Encoding:浏览器申明自己接收的编码方法,通常指定压缩方法,是否支持压缩,支持什么压缩方法(gzip,deflate),
-(注意:这不是只字符编码)；
 
 -------------------------------------------------------------
 HADOOP
@@ -11041,7 +11016,7 @@ vi ifcfg-ens33
 onboot=yes
 保存退出
 service network restart
-经测试，就可以顺利的联网拉
+经测试,就可以顺利的联网拉
 -------------------------
 安装 其他
 
@@ -11063,7 +11038,7 @@ java -version
 安装mysql最新版本,这里是5.7+
 http://www.linuxidc.com/Linux/2016-09/135288.htm -- 下面内容来至这个链接;
 
-1、配置YUM源
+1,配置YUM源
 
 在MySQL官网社区下载YUM源rpm安装包：http://dev.mysql.com/downloads/repo/yum/ 
 MySQL YUM源下载地址
@@ -11076,28 +11051,28 @@ shell> yum localinstall mysql57-community-release-el7-8.noarch.rpm
 
 shell> yum repolist enabled | grep "mysql.*-community.*"
 检查mysql源安装是否正确 
-看到上图所示表示安装成功。 
-可以修改vim /etc/yum.repos.d/mysql-community.repo源，改变默认安装的mysql版本。
-比如要安装5.6版本，将5.7源的enabled=1改成enabled=0。
-然后再将5.6源的enabled=0改成enabled=1即可。改完之后的效果如下所示： 
+看到上图所示表示安装成功; 
+可以修改vim /etc/yum.repos.d/mysql-community.repo源,改变默认安装的mysql版本;
+比如要安装5.6版本,将5.7源的enabled=1改成enabled=0;
+然后再将5.6源的enabled=0改成enabled=1即可;改完之后的效果如下所示： 
 这里写图片描述
 
-2、安装MySQL
+2,安装MySQL
 
 shell> yum install mysql-community-server
-3、启动MySQL服务
+3,启动MySQL服务
 
 shell> systemctl start mysqld
 查看MySQL的启动状态
 shell> systemctl status mysqld
 
-4、开机启动
+4,开机启动
 shell> systemctl enable mysqld
 shell> systemctl daemon-reload
-5、修改root本地登录密码
+5,修改root本地登录密码
 
-mysql安装完成之后，在/var/log/mysqld.log文件中给root生成了一个默认密码。
-通过下面的方式找到root默认密码，然后登录mysql进行修改：
+mysql安装完成之后,在/var/log/mysqld.log文件中给root生成了一个默认密码;
+通过下面的方式找到root默认密码,然后登录mysql进行修改：
 
 shell> grep 'temporary password' /var/log/mysqld.log
 root默认密码
@@ -11107,30 +11082,30 @@ mysql> ALTER USER 'root'@'localhost' IDENTIFIED BY 'MyNewPass4!';
 或者
 
 mysql> set password for 'root'@'localhost'=password('MyNewPass4!'); 
-注意：mysql5.7默认安装了密码安全检查插件（validate_password），默认密码检查策略
-要求密码必须包含：大小写字母、数字和特殊符号，并且长度不能少于8位。
+注意：mysql5.7默认安装了密码安全检查插件（validate_password）,默认密码检查策略
+要求密码必须包含：大小写字母,数字和特殊符号,并且长度不能少于8位;
 否则会提示ERROR 1819 (HY000): Your password does not satisfy the current 
-policy requirements错误，如下图所示： 
+policy requirements错误,如下图所示： 
 密码策略提示
 
 通过msyql环境变量可以查看密码策略的相关信息：
 
 mysql> show variables like '%password%';
 mysql密码策略 
-validate_password_policy：密码策略，默认为MEDIUM策略 
-validate_password_dictionary_file：密码策略文件，策略为STRONG才需要 
+validate_password_policy：密码策略,默认为MEDIUM策略 
+validate_password_dictionary_file：密码策略文件,策略为STRONG才需要 
 validate_password_length：密码最少长度 
-validate_password_mixed_case_count：大小写字符长度，至少1个 
+validate_password_mixed_case_count：大小写字符长度,至少1个 
 validate_password_number_count ：数字至少1个 
 validate_password_special_char_count：特殊字符至少1个 
-上述参数是默认策略MEDIUM的密码检查规则。
+上述参数是默认策略MEDIUM的密码检查规则;
 
 
-6、配置默认编码为utf8
-修改/etc/my.cnf配置文件，在[mysqld]下添加编码配置，如下所示：
+6,配置默认编码为utf8
+修改/etc/my.cnf配置文件,在[mysqld]下添加编码配置,如下所示：
 character_set_server=utf8
 init_connect='SET NAMES utf8'
-重新启动mysql服务，查看数据库默认编码：
+重新启动mysql服务,查看数据库默认编码：
 show variables like '%char%'; 
 
 退出masql 命令:
@@ -11180,7 +11155,7 @@ flush privileges ; --刷新
 
 
 8,忘记密码
-1、修改配置文件my.cnf 按i编辑
+1,修改配置文件my.cnf 按i编辑
 [root@iZ2ze14tbj23jllo85kuh1Z ~]# vim /etc/my.cnf
 在[mysqld]中添加
 skip-grant-tables
@@ -11190,20 +11165,20 @@ skip-grant-tables
 datadir=/var/lib/mysql
 socket=/var/lib/mysql/mysql.sock
 键盘 Esc 保存修改  :wq退出
-2、重启mysql服务
+2,重启mysql服务
 service mysqld restart
-3、用户登录
-mysql -uroot -p (直接点击回车，密码为空)
+3,用户登录
+mysql -uroot -p (直接点击回车,密码为空)
 选择数据库
 use mysql;
 下面我们就要修改密码了
 以前的版本我们用的是以下修改
 update user set password=password('root') where user='root';
-但是在5.7版本中不存在password字段，所有我们要用以下修改进行重置密码
+但是在5.7版本中不存在password字段,所有我们要用以下修改进行重置密码
 update user set authentication_string=password('123456') where user='root';
 执行
 flush privileges;
-4、退出mysql
+4,退出mysql
 quit;
 
 ----------------------------------
@@ -11244,13 +11219,13 @@ https://github.com/mobz/elasticsearch-head
 需要安装node.js 
 我的版本:node-v6.11.3-linux-x64.tar.xz
 
-下载下来的jar包是xz格式的，一般的linux可能不识别，还需要安装xz.
+下载下来的jar包是xz格式的,一般的linux可能不识别,还需要安装xz.
 yum -y install xz
 然后解压nodejs的安装包:
 
 xz -d node*.tar.xz
 tar -xvf node*.tar
-解压完node的安装文件后，需要配置下环境变量,编辑/etc/profile，添加
+解压完node的安装文件后,需要配置下环境变量,编辑/etc/profile,添加
 
 # set node environment
 export NODE_HOME=/usr/elk/node-v6.9.1-linux-x64
@@ -11315,9 +11290,9 @@ network.host: 192.168.142.128
 http.port: 9201
 # 主节点的ip
 discovery.zen.ping.unicast.hosts: ["192.168.142.128"]
-++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+++++++++++++++++++++++++++++++++++++++++++++
+++++++++++++++++++++++++++++++++++++++++++++
 ES 的使用:
 
 java中如何连接es,并完成增删改查;百度云项目Elastic-Client
@@ -11325,15 +11300,14 @@ java中如何连接es,并完成增删改查;百度云项目Elastic-Client
 官方中文文档
 https://www.elastic.co/guide/index.html
 
-Elasticsearch 是一个实时的分布式搜索分析引擎(工作中主要就是crud操作,主要是查询)它能让你以一个之前从未有过的速度和规模，
-去探索你的数据。 它被用作全文检索、结构化搜索、分析以及这三个功能的组合：
+Elasticsearch 是一个 实时的 分布式 搜索 与分析引擎(工作中主要就是crud操作,主要是查询)它能让你以一个之前从未有过的速度和规模,
+去探索你的数据; 它被用作全文检索,结构化搜索,分析以及这三个功能的组合：
 
 基本格式:
 http://{ip}:{port}/{索引}/{类型}/{文档id}
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-精华
-索引相当于数据库，类型相当于数据库中的表，文档类比于表中一行记录
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+索引相当于数据库,类型相当于数据库中的表,文档类比于表中一行记录
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 分片 :每个索引都有多个分片,每个分片是一个Lucene索引
 分片的越多,查询越快;默认5;后期不能修改
@@ -11345,7 +11319,7 @@ http://{ip}:{port}/{索引}/{类型}/{文档id}
 
 仔细看看Es 的结构
 http://192.168.142.128:9200/person/ 
-使用上面链接提交下面数据(建表语句),索引为person(数据库的名字),方式PUT
+使用上面链接提交下面json数据(建表语句),索引为person(数据库的名字),方式PUT(ES全程使用restfull风格)
 
 //1,首先以{}开头,和json格式一样
 {
@@ -11360,7 +11334,7 @@ http://192.168.142.128:9200/person/
 	
 		"man":{//man就是表名
 		
-			"properties" :{//man 表的所有字段先需要properties包一次
+			"properties" :{//表的所有字段先需要properties包一次
 			
 				"name":{ //name 可以就是字段
 					"type":"string"//type的value设置字段的类型
@@ -11378,15 +11352,17 @@ http://192.168.142.128:9200/person/
 			}	
 		},
 		
-		"woman":{//第二个索引		
+		"woman":{//第二个	
 		}
 	}
 }
 
 -------------------------
-ES的增删查改(ES全程使用restfull风格)
+ES的增删查改
 
-增分为指定文档id插入,和自动生成id插入
+新增分为: 
+指定文档id插入,
+和自动生成id插入
 id为唯一索引值;
 
 指定id就是在路径上写入id即可:
@@ -11399,7 +11375,7 @@ id为唯一索引值;
 	"date":"1985-09-09 22:10:06"	
 }
 
---------------
+------------------
 修改:
 方式一:
 192.168.142.128:9200/person/man/1/_update
@@ -11410,7 +11386,7 @@ id为唯一索引值;
 		"country":"中国"
 	}
 }
------------------------
+------------------
 方式二:
 Es还支持脚本语言修改(使用脚本语言计算后,然后赋值):
 192.168.142.128:9200/person/man/1/_update
@@ -11627,7 +11603,7 @@ java 消息队列也叫中间件(JMS java message service)
 好处:加快了用户登录体验,还不会出错;
 总结:就是和主流程无关的业务,可以考虑单独抽离出来,使用中间件来完成
 
-市面主流中间件对比:
+主流中间件对比:
 ActiveMQ:适合小企业,不适合上千队列应用;
 QabbitMq:适合稳定性要求高的金融企业
 Kafka:数度快,超大数据,无限扩展;可靠性要求不是很高的企业;(如kafka,主要作用对消息进行存储)
@@ -11641,7 +11617,7 @@ java 中如何发送http请求或后端到后端的上传
 http://www.cnblogs.com/Scott007/p/3817285.html
 百度云项目 httpClinentDemo
 
-此处HttpClient是org.apache.commons.httpclient.HttpClient。
+此处HttpClient是org.apache.commons.httpclient.HttpClient;
 到2007年就没有更新了
 
 另:
@@ -11745,8 +11721,8 @@ http://www.runoob.com/docker/docker-tutorial.html
 1,程序运行时,环境不一致问题;
 2,快速服务器扩容问题;
 上面都是因为docker 标准化打包,传输等带来的结果
-Docker 可以让开发者打包他们的应用以及依赖包到一个轻量级、可移植的容器中，
-然后发布到任何流行的 Linux 机器上，也可以实现虚拟化
+Docker 可以让开发者打包他们的应用以及依赖包到一个轻量级,可移植的容器中,
+然后发布到任何流行的 Linux 机器上,也可以实现虚拟化
 
 
 docker 会把程序打包成镜像(镜像就是一堆文件);
@@ -11762,9 +11738,9 @@ docker 中有分层文件的思想,只有最上层容器层可以写,容器下�
 
 ------------------
 docker安装流程:
-1.检查内核版本，返回的值大于3.10即可。
+1.检查内核版本,返回的值大于3.10即可;
 $ uname -r
-2.使用 sudo 或 root 权限的用户登入终端。
+2.使用 sudo 或 root 权限的用户登入终端;
 3.确保yum是最新的
 $ yum update //谨慎使用
 4.添加 yum 仓库
@@ -11910,26 +11886,26 @@ Excel 文件和对象的互转
 
 百度云有源码
 
-总体来说，对于简单的单表excel导入导出的需求，建议使用JXL。数据量稍微小点，
-占用内存少，速度快。 对于报表类的，涉及月份数据量，
-多表数据聚合在一起建议使用POI(推荐)。
+总体来说,对于简单的单表excel导入导出的需求,建议使用JXL;数据量稍微小点,
+占用内存少,速度快; 对于报表类的,涉及月份数据量,
+多表数据聚合在一起建议使用POI(推荐);
 
 
-下面简要介绍一下POI的两种读写模式。 
+下面简要介绍一下POI的两种读写模式; 
 首先要知道poi中的几个概念与excel是什么关系 
 WorkBook:一个excel文件 
-Sheet：页签，工作表，代表一个excel文件的一张表 
+Sheet：页签,工作表,代表一个excel文件的一张表 
 Row:excel表中的一行 
 Cell:一张表中的一个单元格 
 CellStyle:单元格的样式 
 
-上面的每个抽象出来的对象都被POI封装好了，声明了接口，有不同的实现方式。
+上面的每个抽象出来的对象都被POI封装好了,声明了接口,有不同的实现方式;
 
 有三种实现方式: 
 XSSFCell:基于内存 
 SXSSFCell:基于内存+磁盘的写入方式 
-HSSFCell:高水平的写入方式，对于单元格的数据类型有很高的限制，
-比如:字符串格式只有字符，不能有数字
+HSSFCell:高水平的写入方式,对于单元格的数据类型有很高的限制,
+比如:字符串格式只有字符,不能有数字
 
 ++++++++++++++++++++++++++++++++++++++++++++++
 ++++++++++++++++++++++++++++++++++++++++++++++
@@ -11957,7 +11933,7 @@ https://blog.csdn.net/forezp/article/details/70148833/
 ++++++++++++++++++++++++++++++++++++++++++++++
 ++++++++++++++++++++++++++++++++++++++++++++++
 工作流
-工作流的最大的好处是可以图形化看到流程的全部节点，目前在那个节点
+工作流的最大的好处是可以图形化看到流程的全部节点,目前在那个节点
 
 百度网盘有学习视频
 
@@ -12005,13 +11981,12 @@ SpringbootSecurity 中如何使用?
  *
  * 对授权 主要就是 :
  * 1, 继承 WebSecurityConfigurerAdapter 重写  protected void configure(HttpSecurity http) 方法
- * 2, 主要就是在方法内部定义如果拦截url,那些url需要被检查,如何检查,是检查角色还是权限(推荐)
+ * 2, 在方法内部定义如果拦截url,那些url需要被检查,如何检查,是检查角色还是权限(推荐)
  * 3, 对登陆和退出的重定义(接口),对页面的重定义
  * 4, 当然我们还可以基于注解在Controller方法上拦截,就当前我觉得不是很好(用不到这么细的粒度)
  *
  * 5, 主要类有 AccessDecisionManager 的 decide 方法被3个类实现(都是通过投票确定,机制不一样)默认是AffirmativeBased
  * 所以这个方法我们会常常在这里打断点,排查授权无效等问题
- *
  *
  * 自定义登陆:
  * 1, .loginPage("/login-view")//自定义登陆controller层方法上,默认login;
@@ -12044,12 +12019,12 @@ springSecurityOauth2
 Oauth2 主要讲是用户允许第三方授权,其实它是依赖于用户认证(就是账号密码验证,就是SpringbootSecurity 的helloWorld 项目的全部内容)
 ,只有在认证完成后,才会走授权流程;
 
-自定义类加 @EnableAuthorizationServer 注解并继承AuthorizationServerConfigurerAdapter来配置OAuth2.0 授权 服务器。
+自定义类加 @EnableAuthorizationServer 注解并继承AuthorizationServerConfigurerAdapter来配置OAuth2.0 授权 服务器;
 作用:告诉程序这个类是一个授权服务器
 
 授权服务器主要包含3个内容
 ClientDetailsServiceConfigurer：客户端 访问授权服务器需要带上授权服务器发的id和密钥才可以访问授权服务器
-AuthorizationServerEndpointsConfigurer：用来配置令牌（token）的访问端点(暴露url)和令牌服务(token services,生成令牌的规则)。 
+AuthorizationServerEndpointsConfigurer：用来配置令牌（token）的访问端点(暴露url)和令牌服务(token services,生成令牌的规则); 
 AuthorizationServerSecurityConfigurer：用来配置令牌端点的安全约束(拦截url的规则)
 
 uaa 项目上要把上面3个都实现后(里面配置还是有点多的)就可以访问默认的接口了:
@@ -12112,8 +12087,6 @@ shiro 授权流程
 
 shiro 访问默认会先判断用户是否登录,如果没有默认是login.jsp,可以通过下面键值对修改
 authc.loginUrl=login
-
-
 
 
 举例:
@@ -12185,7 +12158,7 @@ shiro如何流转的:
 
 3,在web.xml配置文件中 org.springframework.web.filter.DelegatingFilterProxy(启动的时就会进入该类)
 的DelegatingFilterProxy作用是自动到spring容器查找名字为shiroFilter（filter-name）
-的bean并把所有Filter的操作委托给它。然后将ShiroFilter配置到spring容器即可
+的bean并把所有Filter的操作委托给它;然后将ShiroFilter配置到spring容器即可
 
 4,上面相当于从web.xml 的配置关联到spring-config-shiro.xml 文件中的shiroFilter的Bean了
 
@@ -12207,46 +12180,49 @@ https://www.cnblogs.com/mfrank/p/9165250.html
 ++++++++++++++++++++++++++++++++++++++++++++++
 设计模式
 
-OO设计就是面向对象编程,面向对象的特征如:
+OO设计就是面向对象编程,面向对象的3/或4大特征如:
+继承:复用父类代码,但最好是公共统一存在的才放父类再继承
 封装:隐藏内部实现或抽取代码复用
-继承:复用父类代码,但必须是公共统一存在的才放父类再继承
 多态:父类引用指向子类,同一操作作用不同对象可以产生不同的效果;延迟运行时决定
-抽象:先不考虑细节,如抽象类或接口
+抽象:先不考虑细节,如抽象类或接口(如果是4种就包含它)
+
 设计模式的六大原则:
-1,里氏替换:如果用了继承就不要重写父类;要重写时说明就不该放到父类不是共性的是会改变的.变的放接口
+1,里氏替换:如果用了继承就不要重写父类;(要重写时说明就不该放到父类不是共性的是会改变的.变的放接口)
 2,依赖倒置:使用抽象代替实际,主要说的多态
 3,接口隔离:一个接口只做一件事
-4,合成复用:使用组合或聚合代替继承;组合比聚合耦合性更高,在Java代码中看不出区别;组合has-a,聚合part-of
-5,迪米特:最少知道原则;不是直接朋友就不该出现在方法中
-6,开闭原则:对扩展开发对修改关闭;不允许修改原有代码,可以提供plus版
+4,开闭原则:对扩展开发对修改关闭;不允许修改原有代码,可以提供plus版
+5,合成复用:使用组合或聚合代替继承;组合比聚合耦合性更高,在Java代码中看不出区别;组合has-a,聚合part-of
+6,迪米特:最少知道原则;不是直接朋友就不该出现在方法中
 
-设计模式不管是23种还是N种其实都是围绕这个6点在做文章,说白了最后不需要记住任何一种模式,而是在学习了很多设计模式后让我们更好的理解这6点原则.达到无招胜有招;当然对于常用设计模式还是要知道它的类图关系或者叫核心思路,因为每种设计模式对应特定的问题而生,
+设计模式不管是23种还是N种其实都是围绕这个6点在做文章,学习很多设计模式后只是让我们更好的理解这6点原则.达到无招胜有招;当然对于常用设计模式还是要知道它的类图关系或者叫核心思路,因为每种设计模式对应特定的问题而生,
 这样让我们在生产中遇到类似问题,可以快速匹配
+
 小结:我们在写代码或任何时候看是否违反了这6点原则
 
 一,策略模式:
 解释:定义算法族,分别封装起来,让他们之间可以替换;
-举例:鸭子的飞和叫不应该放父类通过继承来覆盖;这会让父类的方法越来越多,从而导致每加一个都会影响现有子类的修改,
+举例:不同品种的鸭子的飞和叫不应该放父类通过继承来覆盖;这会让父类的方法越来越多,从而导致每加一个都会影响现有子类的修改,
 主要违反里氏替换;
 优化:对于变化的我们应该抽取成接口,通过父类和接口的组合或聚合方式来关联起来;
 设计原则:接口隔离(通过将鸭子特有的飞或叫通过接口来单独封装,而不是通过继承重写),合成复用原则,使用组合代替继承
 鸭子项目最后感想:
 1,找出变化的通过接口抽象在原父类中通过组合代替继承.这样的好处运行时才动态的传入具体实现,随时可以切换实现
 2,父类提供set方式传入实际的接口引用方法,比构造器传入好;耦合性降低
-3,可以提供基础算法实现,让用户有基础的版本可以先上手使用,提高可用性.后可以通过运行时set.实际的再替换;
+3,可以提供默认算法实现,让用户有基础的版本可以先上手使用,提高可用性.后可以通过运行时set.实际的再替换;
 另:最后架构图22页,代码使用18,19,
 
 
 二,观察者模式:
-解释:定义了对象一对多的依赖,当一个改变时,它的依赖者都会收到通知
+解释:定义了对象一对多的依赖,当一个改变时,多会收到通知
 举例:气象台需要在气象变化时通知软件服务商,软件服务商提供不同的界面展示给注册用户.
-抽象:一方的变化会通知监听者,或者被通知者监听着一方的变化;一对多的关系
+抽象:一方的变化会通知监听者;一对多的关系
 一般做法:在气象变化时,写死需要被通知的方法;如果后续新增会引发修改了原代码在添加新的;主要违反了开闭原则和依赖倒置,耦合性高;
 优化:通过观察者模式,通过订阅者observer注册到主题subject中,主题是持有数据的一方,订阅者是监听的一方;两边的依赖
 都是通过接口来松耦合的;主题有一个list<observer>集合对象,一旦气象变化,会遍历触发observer.update接口方法,订阅者
 在update实现中,添加自己的后续业务逻辑比如display()方法;display最好也是一个单独的接口;每一个订阅者对象都持有同一个公共的主题对象,这样才是一对多的关系;
 设计原则:依赖倒置,接口隔离,开闭原则,合成复用原则
 气象台项目最后感想:
+关键一步: 多有一的引用,这样才可以注册进去;
 1,特别是2个对象或多个对象或方法间的调用我们选择直接调用,如果有新增我们又找到原代码修改;这种方式是紧耦合的,
 优化就是,两边都通过依赖接口的方式来产生关系,达到低耦合;
 2,如果是多方的变化依赖一方,我们可以考虑观察者模式
@@ -12288,16 +12264,17 @@ OO设计就是面向对象编程,面向对象的特征如:
 设计原则:依赖倒置,开闭原则
 抽象工厂:就是工厂模式的抽象,没有指明具体的返回类
 加工Piazz项目最后感想:
-1,你要知道抽象工厂,你需要先知道工厂模式是什么,你要知道工厂模式是什么你要先知道简单工厂模式,你要知道简单工厂,你要知道工厂模式是什么你要先知道简单工厂模式new有什么不好的点;
-2,目的:简单工厂是为了影藏new的过程,工厂模式让用户定义new的过程;一般使用工厂模式会开放变化部分让用户自我决定,而其它不变部分提前封装好;
+1,你要知道抽象工厂,你需要先知道工厂模式是什么,你要知道工厂模式是什么你要先知道简单工厂模式,你要知道简单工厂,简单工厂模式new有什么不好的点;
+2,目的:简单工厂是为了隐藏new的过程,工厂模式让用户定义new的过程;一般使用工厂模式会开放变化部分让用户自我决定,而其它不变部分提前封装好;
 3,工厂模式和模板方法模式有点类似
 4,找出变化的,找出不变的.变化的让使用者去实现,延迟到运行时.不变的封装起来;关联起来时使用抽象或接口
 另:架构图131,133页,代码实现在125,128,129,130;
 
 
 五,单例模式
-解释:一个类只有一个实例,并提供一个全局访问点
-由来:比方说线程池,注册表,缓存,日志对象等都是公共一个实例,不然就会出现重复,混乱局面;我们可以通过全局变量来做到,但是这意味着这个实例不管后面是否会真正的使用都要提前创建好,会造成资源浪费.但这里也要看jvm是否在使用时才创建实例;
+解释:一个类只能有一个实例,并提供一个全局访问点
+由来:比方说线程池,注册表,缓存,日志对象等都是公共一个实例,不然就会出现重复,混乱局面;我们可以通过全局变量来做到,但是这意味着这个实例不管后面是否会使用都要提前创建好,会造成资源浪费.但这里也要看jvm是否在使用时才创建实例;
+
 代码实现主要逻辑:
 1,创建一个类,私有该类构造函数
 2,private volatile static Singleton uniqueInstance; //创建一个变量来接收实例
@@ -12337,7 +12314,7 @@ public class Danli {
 }
 
 /**
- * 饿汉式(推荐，为什么一定要选择复杂还不安全的;2个pulbic一个private)
+ * 饿汉式(推荐,为什么一定要选择复杂还不安全的;2个pulbic一个private)
  */
 class Bank{
 	//1,单例模式目的就是只能有一个实例,所以我们在把构造器私有化,这样外面就不能 new
@@ -12396,7 +12373,7 @@ class Bank2{
 举例:火鸡换鸭子叫声
 代码实现主要逻辑:
 1,定义一个接口,让被适配者实现该接口
-2,适配器中拥有接口实例引用,当真正操作时适配器会调用被适配者;
+2,适配器中通过多态拥有被是配置者的实例引用,当真正操作时适配器会调用被适配者;
 设计模式:依赖倒置,合成复用原则
 火鸡转鸭子项目最后感想:
 1,因为适配者中有被适配者的实例引用,所以当需要时可以操作被适配者
@@ -12473,21 +12450,13 @@ https://blog.csdn.net/wannuoge4766/article/details/90346675
 另:架构图359页,代码360-365;
 
 
-
-
-
-
-
-
-
-
 tomcat 使用到的设计模式有:
 门面模式,观察模式(也叫发布订阅模式),命令模式,责任链模式
 ++++++++++++++++++++++++++++++++++++++++++++++
 ++++++++++++++++++++++++++++++++++++++++++++++
 小算法：
-需求：一个list，根据专家名字分组成多个list；
-（自己可以创建一个简单对象就可以测试包含name，code）有的人要循环3次，有的人2次；
+需求：一个list,根据专家名字分组成多个list；
+（自己可以创建一个简单对象就可以测试包含name,code）有的人要循环3次,有的人2次；
 Map map = new HashMap<Person>();
 lists.forEash(l->{
 	if(map.containsKey(l.getName()))
@@ -12506,21 +12475,21 @@ https://open.weixin.qq.com/cgi-bin/index?t=home/index&lang=zh_CN
 ++++++++++++++++++++++++++++++++++++++++++++++
 ++++++++++++++++++++++++++++++++++++++++++++++
 
-document.getElementById("some id")。这个方法是 HTML DOM 中定义的。
-DOM (Document Object Model)（文档对象模型）是用于访问 HTML 元素的正式 W3C 标准。
+document.getElementById("some id");这个方法是 HTML DOM 中定义的;
+DOM (Document Object Model)（文档对象模型）是用于访问 HTML 元素的正式 W3C 标准;
 
 ------------
-如需使用外部文件，请在 <script> 标签的 "src" 属性中设置该 .js 文件：
+如需使用外部文件,请在 <script> 标签的 "src" 属性中设置该 .js 文件：
 <script src="myScript.js"></script>
 -----------
 js变量需要通过var 申明,但在function()函数中就可以不用申明,这时就变为全局变量
 -----------
 JavaScript 数据类型
-值类型(基本类型)：字符串（String）、数字(Number)、布尔(Boolean)、对空（Null）、未定义（Undefined）、Symbol。
-引用数据类型：对象(Object)、数组(Array)、函数(Function)。
+值类型(基本类型)：字符串（String）,数字(Number),布尔(Boolean),对空（Null）,未定义（Undefined）,Symbol;
+引用数据类型：对象(Object),数组(Array),函数(Function);
 -----------
 JavaScript 对象
-对象由花括号分隔。在括号内部，对象的属性以名称和值对的形式 (name : value) 来定义。属性由逗号分隔
+对象由花括号分隔;在括号内部,对象的属性以名称和值对的形式 (name : value) 来定义;属性由逗号分隔
 var person={firstname:"John", lastname:"Doe", id:5566};
 -----------
 对象属性有两种寻址方式：
@@ -12531,39 +12500,39 @@ name=person["lastname"];
 js 的函数参数,可以和调用的个数不一致;
 ------------
 全局 JavaScript 变量
-在函数外声明的变量是全局变量，网页上的所有脚本和函数都能访问它。
+在函数外声明的变量是全局变量,网页上的所有脚本和函数都能访问它;
 ---------------
 $(function(){
 // do something
 });
-其实这个bai就是jq ready()的简写，他等价du于：
+其实这个bai就是jq ready()的简写,他等价du于：
 $(document).ready(function(){
 //do something
 })
-//或者下面这个方法，jQuer的默认参数是：“document”；
+//或者下面这个方法,jQuer的默认参数是：“document”；
 $().ready(function(){
 //do something
 })
-这个就是jq ready()的方法就是Dom Ready，他的作用或者意义就是:在DOM加载完成后就可以可以对DOM进行操作。
+这个就是jq ready()的方法就是Dom Ready,他的作用或者意义就是:在DOM加载完成后就可以可以对DOM进行操作;
 -------------
 JS中的window对象
 
-所有浏览器都支持window对象。他表示浏览器窗口。
+所有浏览器都支持window对象;他表示浏览器窗口;
 $(function){
 	window.rolleId = "123";
 	var na = "a";//它们两个都是全局变量;
 }
 
 
-所有JavaScript全局对象、函数以及变量均自动成为window对象的成员。
+所有JavaScript全局对象,函数以及变量均自动成为window对象的成员;
 全局变量是window对象的属性
 全局函数是window对象的方法
 --------------------
-在 JavaScript 中对象 使用 名字作为索引。(本身是不支持数组名字索引的只是转为了对象)
+在 JavaScript 中对象 使用 名字作为索引;(本身是不支持数组名字索引的只是转为了对象)
 
-如果你使用名字作为索引，当访问数组时，JavaScript 会把数组重新定义为标准对象。
+如果你使用名字作为索引,当访问数组时,JavaScript 会把数组重新定义为标准对象;
 
-执行这样操作后，数组的方法及属性将不能再使用，否则会产生错误:
+执行这样操作后,数组的方法及属性将不能再使用,否则会产生错误:
 
 实例
 var person = [];
@@ -12581,9 +12550,9 @@ if (myObj !== null && typeof myObj !== "undefined") //错误的判断方式
 if (typeof myObj !== "undefined" && myObj !== null) 
 --------------------
 程序块作用域
-在每个代码块中 JavaScript 不会创建一个新的作用域，一般各个代码块的作用域都是全局的。
+在每个代码块中 JavaScript 不会创建一个新的作用域,一般各个代码块的作用域都是全局的;
 
-以下代码的的变量 i 返回 10，而不是 undefined：
+以下代码的的变量 i 返回 10,而不是 undefined：
 
 实例
 for (var i = 0; i < 10; i++) {
@@ -12609,7 +12578,7 @@ $ == window.$ == jQuery //源码可以看到
 jQuery 的 action() 执行对元素的操作
 --------------------
 jQuery 入口函数:
-为了防止文档在完全加载（就绪）之前运行 jQuery 代码即在 DOM 加载完成后才可以对 DOM 进行操作。
+为了防止文档在完全加载（就绪）之前运行 jQuery 代码即在 DOM 加载完成后才可以对 DOM 进行操作;
 $(document).ready(function(){
    // 开始写 jQuery 代码...
 });
@@ -12627,24 +12596,24 @@ jquery 和 JavaScript 得到的是不同对象.
 --------------------
 jQuery 入口函数与 JavaScript 入口函数的区别：
 
- jQuery 的入口函数是在 html 所有标签(DOM)都加载之后，就会去执行。
- JavaScript 的 window.onload 事件是等到所有内容，包括外部图片之类的文件加载完后，才会执行。
+ jQuery 的入口函数是在 html 所有标签(DOM)都加载之后,就会去执行;
+ JavaScript 的 window.onload 事件是等到所有内容,包括外部图片之类的文件加载完后,才会执行;
 --------------------
-jQuery load() 方法是简单但强大的 AJAX 方法。
+jQuery load() 方法是简单但强大的 AJAX 方法;
 
-load() 方法从服务器(本地)加载数据，并把返回的数据放入被选元素中(页面会被直接回填数据)。
+load() 方法从服务器(本地)加载数据,并把返回的数据放入被选元素中(页面会被直接回填数据);
 
 语法:
 $(selector).load(URL,data,callback);
-必需的 URL 参数规定您希望加载的 URL。
-可选的 data 参数规定与请求一同发送的查询字符串键/值对集合。
-可选的 callback 参数是 load() 方法完成后所执行的函数名称。
+必需的 URL 参数规定您希望加载的 URL;
+可选的 data 参数规定与请求一同发送的查询字符串键/值对集合;
+可选的 callback 参数是 load() 方法完成后所执行的函数名称;
 --------------------
 语法:
 $.post(URL,data,callback);
-必需的 URL 参数规定您希望请求的 URL。
-可选的 data 参数规定连同请求发送的数据。
-可选的 callback 参数是请求成功后所执行的函数名。
+必需的 URL 参数规定您希望请求的 URL;
+可选的 data 参数规定连同请求发送的数据;
+可选的 callback 参数是请求成功后所执行的函数名;
 
 下面的例子使用 $.post() 连同请求一起发送数据：
 实例
@@ -12668,35 +12637,40 @@ feijuhuang@gwmail.com
 ++++++++++++++++++++++++++++++++++++++++++++++
 ++++++++++++++++++++++++++++++++++++++++++++++
 编程 = 数据结构 + 算法 + 设计模式
-巧妇难为无米之炊的米就是数据
-数据:描述客观事物的符号,可以被计算机识别和操作;
-数据元素就是客观的事物,独立的单元,如人,牛;
-数据类型就是对数据元素的抽象,作用是让计算对数据元素进行分类处理
-比如int,char
-数据结构是数据元素相互之间存在一种或多种特定关系
-数据结构从不同的角度有不同的分类:
-我们先从逻辑和物理进行分:
-逻辑分为:集合,线性,树形,图形;
-物理分为:顺序存储结构和链接存储结构
-算法就是解决问特定问题的步骤,是一个抽象提取的过程;在计算机中表现为指令的有限序列
+
+数据元素就是客观存在的事物,独立的单元;如人,牛,石头,瓶子;
+数据类型(基础数据类型和引用数据类型)就是对数据元素的抽象,作用是让计算机对数据元素进行分类处理
+
+数据结构是数据元素 相互之间 存在特定关系
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+数据结构从不同的角度有不同的分类,比如从逻辑和物理进行区分:
+逻辑:线性,集合,树形,图形;
+物理:顺序存储结构和链接存储结构
+
+算法就是解决问特定问题的步骤,是抽象提取的过程;在计算机中表现为指令的有限序列
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 设计模式是解决复杂问题的特定的架构,引用这些模式让解决问题清晰化,简单化;
 算法好比战术,设计模式好比战略;小问题算法足以,大项目需要有设计模式才能健壮
+
 线性表:零个或多个数据元素的有限序列
-线性存储的适用于查多,删除和添加少的场景;因为会全部移动位置;支持任意位置查询
-有点类似数组
+线性存储的适用于查多,删除和添加少的场景;因为会全部移动位置;支持任意位置查询类似数组
+
 线性链式存储就是在线性存储基础上多了指向下一个节点的指针区域,双链式包含指向上一个和下一个的指针的区域
 链表的优势在于不会因为插入或删除移动后面的整体元素
+
 顺序存储和删除单链表储存(O(n),O(1)),查询时反之
 环形链表就是尾节点的指针指向头节点,这样就形成成一个回路;判断时需要先判断下一个不为null且不等于头节点,才next
 ;两个环形节点合并也是比较方便的,只需将一个环形链表的尾指针指向另一个环形链表的头结点,尾结点指向另一个头结点;
+
 队列 :先进先出,尾端进,头端出;有2个口
-栈 : 后进先出,尾部进尾部出,只有一个口
+栈 : 先进后出,尾部进尾部出,只有一个口
 链式存储 : 就是链表,有数据区和指针区,数据区存数据,指针区存在一个节点的位置
+
 可能有头节点(放公共的内容),最后一个节点的指针区是null
 栈的链式存储叫栈链,栈链没有头结点,直接就是top指向栈顶,不存在溢出情况,除非物理内存吃完
 栈链和顺序栈的存和取都是O(1),顺序栈和需要事前确定一个固定的长度,栈链不需要,
 栈链还多了一个指向下一个节点的指针域;
-在数据结构中只要是顺序存储就是一段联系的储存单元,且需要事前定义固定的长度;固定长度可能导致比如短信固定70个字;
+顺序存储就是一段联系的储存单元,需要事前定义固定的长度;固定长度可能导致比如短信固定70个字;
 栈的作用比如递归,就是一个进栈,出栈的过程;比如计算器就是,中继表达式转后继表达式
 遇到符号弹出2个数字就计算
 队列的链式储存就是线性表的单链表,只不过它只能尾进,头出而已;
@@ -12713,8 +12687,9 @@ n>1时,分为互相不相交的子节点,其中每一个集合本身又是一棵
 根,双亲(子根),兄弟,堂兄;树的高度就是树的深度,
 
 二叉树的特点:
-1,每个节点最多有两棵子树,没有子树或只有一个子树是可以的
-2,左右子树有顺序的
+1,每个节点最多有两棵子树,没有子树或只有一个子树都是可以的
+2,左子小,右子大
+
 
 满二叉树,是最完美的2叉树,其次是完全2叉树,完全2叉树空节点也必须有节点站位,且叶子节点从左开始
 
@@ -12744,15 +12719,74 @@ n>1时,分为互相不相交的子节点,其中每一个集合本身又是一棵
 2,保留第一个孩子的连线,删除其他孩子的线
 3,以树的根为轴心,调整角度;注意第一个孩子是二叉树的左孩子,兄弟转转换过来的孩子是节点的右孩子,最后一句容易错
 反转的就是一个逆向的过程
+-------------------------------
+平衡2叉树 AVL:
+除了具备2叉搜索树的特征外,还加节点和节点的高度差不能大于1
+为什么需要?
+解决2叉树数据分布不均匀的情况,单独一边高度特别深,导致查询效率不高
+平衡2叉树不适用加索引,因为随时会动态旋转
+io的次数等于树的高度
+比如:我插入6,7,8这3个数字,在插入8时高度相差2就会导致7变为根节点6和8分别为左右子节点 (相当于左旋)
+对于旋转只会先从最近一步开始变动,变动后如果触发上层条件不满足时才会再次旋转
 
+左旋:是一个逆时针旋转
+右旋:是一个顺时针旋转
+--------------------------------
+红黑树:
+1,根节点是黑色
+2,每个红色节点下面必须是2个黑色子节点,也就是说从每个叶子到根的所有路径上,不能有两个连续的红色节点
+3,从一个节点到该节点的子孙节点的所有路径都是相同数目的黑色节点
+4,除了左右旋转外,另加颜色转变
+
+红黑树 VS 平衡树
+除了具备2叉搜索树的特征外,但没有树的高度差大于1就旋转的条件
+红黑树不追求立即平衡和绝对平衡,它可以在o(log2 n)时间复杂度进行搜索,插入,删除;它的旋转转动3步之内
+一定可以完成;他们2个时间复杂度一样,但红黑树的统计性能更高,红黑树在动态数据上比哈希表有更优的性能
+
+--------------------------------
+btree(Balance Tree,多路平衡查找树,是一个矮胖树):
+https://www.bilibili.com/video/BV1Xb411n7ka?from=search&seid=9757130464848264394
+子节点不在是只有2个,可以是多个;相对于磁盘更好的存储结构
+
+btree和b+tree 数据单元的中的ID都是一个区间范围,如17-35,查询数字28就是在中间的next指针去查找
+
+当插入一个新的数据进来时,如果导致不平衡,会引发父节点分裂重新组合新的绝对平衡树
+
+
+为什么平衡二叉树不能作为mysql存取数据的数据结构?
+
+1,搜索效率不足;一般来说,在树结构中,数据所处的深度,决定了搜索时的IO次数（MySql中将每个节点大小设置为一页大小,一次IO读取一页 / 一个节点）;如上图中搜索id = 8的数据,需要进行3次IO;当数据量到达几百万的时候,树的高度就会很恐怖;
+
+2,查询不不稳定;如果查询的数据落在根节点,只需要一次IO,如果是叶子节点或者是支节点,会需要多次IO才可以;
+
+3,存储的数据内容太少;没有很好利用操作系统和磁盘数据交换特性,也没有利用好磁盘IO的预读能力;因为操作系统和磁盘之间一次数据交换是以页为单位的,一页大小为4K,即每次IO操作系统会将4K数据加载进内存;但是,在二叉树每个节点的结构只保存一个关键字,一个数据区,两个子节点的引用,并不能够填满4K的内容;幸幸苦苦做了一次的IO操作,却只加载了一个关键字;在树的高度很高,恰好又搜索的关键字位于叶子节点或者支节点的时候,取一个关键字要做很多次的IO;
+---------------------------------------------------
+
+b+tree
+//精华 深入理解MySQL索引之B+Tree
+https://blog.csdn.net/b_x_p/article/details/86434387
+//视频
+https://www.bilibili.com/video/BV1HX4y1N7v6?from=search&seid=11369900862894184642
+数据小单元: 一个ID+内容+next指针
+
+mysql 中有一个page的概念,相当于给数据进行分页,把一部分数据存到page中,每个page16kb,然后page中就存放了
+16,kb的数据小单元(1kb=1024byte)
+mysql 中又定义了一个page目录的概念,大小也是16kb,如果海量数据page目录会有很多层,mysql给page目录再加了
+一层目录;
+
+最后等到一个3层的结构:
+根层是一个page目录的爷爷-->page目录的爸爸--->page层--->数据小单元
+3,层大概可以存30多亿字节
+btree VS b+tree的区别?
+b+非叶子节点不保存数据相关信息,只保存关键字和子节点的引用
+b+叶子节点是顺序排序的,并且相邻节点具有顺序引用的关系
+b+扫描库和表的能力更强,读写磁盘的能力更强,排序能力更强,更加稳定
 ++++++++++++++++++++++++++++++++++++++++++++++
 ++++++++++++++++++++++++++++++++++++++++++++++
 oracle
 
 表--segment--区--连续的块
 share pool -- data buffer -- 磁盘(非常慢)
-
-
 
 ++++++++++++++++++++++++++++++++++++++++++++++
 ++++++++++++++++++++++++++++++++++++++++++++++
@@ -12777,8 +12811,8 @@ share pool -- data buffer -- 磁盘(非常慢)
 会怀疑,且别人会解决你神经病;中国人不会对不熟的人敞开心扉,所以为什么很多事情要
 在酒桌上谈;
 ---
-　　“谋定而后动，知止而有得”意即：在做事之前，先考虑清楚做这件事的后果和过程，
-然后再去做；懂得何时停止行动,会有不错的收获或者所得。
+　　“谋定而后动,知止而有得”意即：在做事之前,先考虑清楚做这件事的后果和过程,
+然后再去做；懂得何时停止行动,会有不错的收获或者所得;
 -------
 刘备刚得到的县令,督邮就来索要钱财被张飞毒打后辞职了.
 ---
@@ -12786,7 +12820,7 @@ share pool -- data buffer -- 磁盘(非常慢)
 腐败问题都存在;官比老百姓有钱;当官要找靠山,打工要找大公司,这样相对来说没
 那么累;
 ---
-由于刘备说没钱,督邮通过 ”贼咬一口，入骨三分“，意思是指被坏人诬陷，难以辩白，受害极深。
+由于刘备说没钱,督邮通过 ”贼咬一口,入骨三分“,意思是指被坏人诬陷,难以辩白,受害极深;
 在城中贴告示,让百姓举报刘备;这样的目的就是为了敛财;有些官员被起底都和这种有关
 ---
 张飞在家中要去打督邮但被关羽拦住,但最后张飞在外面还是打了督邮;
@@ -12855,7 +12889,7 @@ share pool -- data buffer -- 磁盘(非常慢)
 吕伯奢说"现在到处都在抓你,你犯了什么事",后又说出门去打好酒,曹操在梦里被
 外面的磨刀声音惊醒后想起吕伯奢白天的举动,就杀了全家包含妇女小孩;后进入厨房才发现是杀猪要款待曹操
 ,曹操又继续逃跑,在路上又遇到买酒回家的吕伯奢,本来曹操不打算杀他的,但吕伯奢说"你身上怎么有血"这样曹操
-知道以后无法隐瞒了又把吕伯奢杀了,陈宫心情低入谷底问曹操为何;曹操说"宁教我负天下人，休教天下人负我",
+知道以后无法隐瞒了又把吕伯奢杀了,陈宫心情低入谷底问曹操为何;曹操说"宁教我负天下人,休教天下人负我",
 后陈宫决定不再跟随曹操,他们分开逃跑了.从这里可以看出在很敏感的话题要小心,不然就引来大祸.
 
 +++++++++++++++++++++++++++++++++++++++++
@@ -12868,7 +12902,7 @@ share pool -- data buffer -- 磁盘(非常慢)
 吕布一人同时战张飞,关羽,刘备3人都没分出胜负,可见吕布功夫了得,董卓怕吕布吃亏,鸣金收兵保
 吕布;因为吕布是董卓手下的核心武将;后李儒建议董卓迁都长安;因为长安之地西汉东汉延续了很多代.
 在董卓迁都时,曹操要袁绍追击董卓;袁绍没有同意,把曹操气惨了;
-+++++++++++++++++++++++++++++++++++++++++
+++++++++++++++++++++++++++++++++++++++++++
 第六集
 
 人与人之间平时最好有些交情,不然有事之时就吃亏;
@@ -12890,19 +12924,18 @@ share pool -- data buffer -- 磁盘(非常慢)
 但当时李儒告诉董卓"貂蝉只是一个普通女子,而吕布是董卓称王的必要因数",董卓还是恍然大悟,准备许配貂蝉
 给吕布,好让吕布对自己死心塌地;问貂蝉意见时,貂蝉又已死不愿意;
 
-
-++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 平穷的本质:
-1,没有长远打算,没有一技之长;(很容易的学习的技能都是不值钱的技能,要找一个很难掌握且需要不断学习的技能)
+1,没有长远打算,没有一技之长;(越是容易学习的技能都是不值钱的技能,需要找一个很难掌握且需要不断学习的技能)
 2,只顾眼前利益,或看中小利益;(很多小单位没有五险一金,或有些工作马上上手就可以找到钱,但随着时间的增长却没有工资提升)
-3,不善于总结(所有知识都是可以被归类总结,这样的好处你可以看清整体和局部这样全面掌握它,整理总结就是画金字塔的过程)
+3,不善于总结(所有知识都是可以被归类总结,这样的好处你可以看清整体和局部这样全面掌握它,整理总结就是画树的过程)
 4,爱好广泛(如爱好游戏,爱好看小说,爱好看电视剧,无关紧要的人际交往有了这样,哪有时间学习)
 5,不会独处,个性不够坚韧(学习和思考的前提)
 总结举例:
-一技之长 -- 需要大量学习 -- 学习又学习能力(包含学习方法)有关-- 学习能力的强弱和学校所学的基础知识,付出时间,坚韧度有关;
+高工资 --> 一技之长 --> 需要大量学习 --> 学习又和学习能力(包含学习方法)有关--> 学习能力是通过不断的学习+总结归纳提升的-->
+总结归纳的好处是--->好比看世界地图,你缩小了比例,你的视野更大了
 
 
 
