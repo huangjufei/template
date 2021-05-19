@@ -5832,16 +5832,63 @@ IOC (inverse of control)控制反转 或叫 DI(depend injection)依赖注入 :�
 由Spring容器来管理对象之间的依赖关系,最终作用就是:对象和对象之间解耦
 IOC 过程:
 工厂模式+反射+xml配置文件解析 返回对象
-
+-------------------
+配置Bean的方式:
+1,xml配置文件
+2,Configuration+bean注解
+3,自动扫描包+@AutoWired
+---------------------------
+核心中的核心
 spring 提供ioc容器实现的两种方式:
+
 1,BeanFactory:spring内部使用接口,一般开发人员不使用
-2,ApplicationContext:是beanFactory的子接口,提供更加强大的功能,一般开发人员使用
+2,ApplicationContext:是beanFactory的子接口,提供更加强大的功能,一般的开发人员使用
 
 不同点:BeanFactory 加载配置文件时不会立即创建只有在使用时或获取才会创建
 
-注意:
-BeanFactory和FactoryBean的区别:它们都是接口,前者是spring Ioc容器父接口,后者是实现后返回的对象是getObject返回的对象
+applicationContext获取可以通过:
+AnnotationConfigApplicationContext:从一个或多个java类中加载spring的上下文;
+AnnotationConfigWebApplicationContext:从一个或多个java类中加载spring Web的上下文;
+//上面2个差别一个web单词,下面2个都有xml单词
+ClassPathXmlApplicationContext:从类路径下获取上下文(相当路径,包含jar文件);
+FileSystemXmlApplicationContext:从指定路径(系统路径)获取上下文;
 
+----------------------------------------
+注意:
+BeanFactory和FactoryBean的区别:
+它们都是接口,前者是spring Ioc容器父接口,后者是实现后返回的对象是getObject返回的对象
+
+了解:
+//实现 FactoryBean接口
+public class MyFactory implements FactoryBean<Car> {
+	private String brand;
+	public void setBrand(String brand) {
+		this.brand = brand;
+	}
+	@Override
+	public Car getObject() throws Exception {	
+		return new Car(brand,555555);
+	}
+	@Override
+	public Class<?> getObjectType() {
+		return null;
+	}
+	@Override
+	public boolean isSingleton() {	
+		return true;
+	}
+}
+
+<!-- 
+	通过实现接口FactoryBean 来配置Bean的实例
+	class :指向 FactoryBean 的全类名
+	property : 配置 FactoryBean的属性
+	但实际返回的实例是 getObject() 返回的
+ -->
+<bean name="factoryBean" class="com.factory.MyFactory">
+	<property name="brand" value="BMW"></property>
+</bean>
+------------------------------------------
 
 精华
 http://www.cnblogs.com/DebugLZQ/archive/2013/06/05/3107957.html
@@ -5928,7 +5975,7 @@ public class SpringIoc {
 
 ----------------------------------------------------
 ApplicationContext ctx = new ClassPathXmlApplicationContext("ppliactionContext.xml");
-得到容器中的bean,有常用有三种重载方法:
+得到容器中的bean,三种重载方法:
 1,使用id
 Person p = (Person) ctx.getBean("person");//这种也可以强转错误
 2,类class
@@ -5980,105 +6027,9 @@ constructor 是构造器注入值 注入方式有3种:
 //这样<上海>这个<>就不会被解析!
 	<value><![CDATA[<上海>]]></value>
 <constructor-arg>
-
-
-属性注入就是通过底层会调用setter()方法注入
-<property name="name" value="spring"></property>
--------------------------------------
-对于类中的属性是一个类怎么设置值?
-<bean>
-	//name 是属性名,ref 指向另一个bean
-	<property name="car" ref="car2"/>
-	<property name="age" ref="24"/>
-
-	//或第二种写法;
-	<property name="car">
-		<ref bean="car2"/>
-	</property>
-<bean>
-------------------------------
-内部bean,不能被外部引用,只能内部使用
-<bean>
-	<property name="car">
-		<bean id="car3" class="com.spring.car">
-			<constructor-arg value="ford"/>
-			<constructor-arg value="shanghai"/>
-			<constructor-arg value="20000"/>
-		</bean>		
-	</property>
-	<property name="car.maxSpeed" value="260"/>//这就是在内部引用
-</bean>
-
-------------------------------
-如果属性是一个集合,赋值 使用<list>标签
-<property name="cars">
-	<list>//数组和set和list差不多
-		<ref bean="Car"/>
-		<ref bean="Car2"/>	
-		<bean class="com.spring.car">//当然这里还可以赋值内部bean
-			<constructor-arg value="ford"/>
-			<constructor-arg value="shanghai"/>
-			<constructor-arg value="20000"/>
-		</bean>
-	</list>
-</property>
-------------------------------
-为Map属性赋值 使用标签<map>
-//map中放的是一个个entry ,一个entry 中放着一个键值对
-<property name="cars">
-	<map>
-		<entry key="AA" value-ref="Car"/>
-		<entry key="BB" value-ref="Car"/>	
-	</map>
-</property>
-------------------------------
-配置独立集合bean,以供多个bean进行引用,需要导入 util命名空间(了解)
-(作用:就是多个bean共享,其实就是一个再次封装)
-
-<util:list id="cars">
-	<ref bean="car"/>
-	<ref bean="car2">
-</util:list>
-
-<bean id="person4" class="com.spring.Person4">
-	<property name="name" value="jack"></properties>	
-	<property name="cars" ref="cars"></properties>//这个ref 名字 对应util:list 的id名
-</bean>
----------------------------------
-abstract 属性来修饰一个bean是否是抽象类
-
-<?xml version="1.0" encoding="UTF-8"?>
-<beans xmlns="http://www.springframework.org/schema/beans"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xmlns:p="http://www.springframework.org/schema/p"
-	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
-
-	<!-- abstract="true" 修饰后不能再实例化,变为一个模板来存在 -->	
-	<bean name="car" p:brand="dazhong" p:price="300000.00" abstract="true"> 
-	</bean>
-	
-	<!--parent :修饰继承那个baen 的name depends-on :依赖于那个bean,,配置这个就必须有这个值-->	
-	<bean name="car2"  class="com.parent.Car"  p:price="188888.00" parent="car" >
-	</bean>	
-</beans>
 ------------------------------------
-spring的bean默认是单例的,可以通过scope来修改
 
-ApplicationContext ctx = new ClassPathXmlApplicationContext("ppliactionContext.xml");
-Person p=(Person) ctx.getBean("person");
-Person p2=(Person) ctx.getBean("person");
-System.out.println(p == p2);//默认是true 只会调用一次构造器,在加载配置文件那时调用的
-
-使用bean的 scope 属性来配置bean的作用域(作用范围):	
-singleton:默认值,spring容器初始时就会创建bean实例,在整个的生命周期内之创建一个bean(单例).
-prototype:原型的.容器初始化时不会创建实例.每次请求时创建一个新的bean实例.(不是单例)
-另:还有其它两个参数值request（一次请求）,session（一次会话） 很少用
-<bean scope="prototype" name="car2"  class="com.parent.Car"></bean>
--------------------------------------
-读取配置属性文件,提供了xml和注解两种方式(常用)::
-
-配置属性文件位置 <context:property-placeholder location="classpath:db.properties"/>
-通过$(key),就可以得到值
+读取配置属性文件,xml和注解两种方式:
 
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
@@ -6087,19 +6038,13 @@ prototype:原型的.容器初始化时不会创建实例.每次请求时创建�
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
 		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.0.xsd">
 
-	<!--导入外部属性文件 2.5版本以前方式看PPt  -->
+	<!--引用配置文件   -->
 	<context:property-placeholder location="classpath:c3p0.properties"/>
 		
-	<bean name="c3p0" class="com.mchange.v2.c3p0.ComboPooledDataSource">
-		<!-- 通过value属性值,得到value值 -->
-		<property name="user" value="${user}"></property>
-		<property name="password" value="${password}"></property>
-		<property name="driverClass" value="${driverClass}"></property>
-		<property name="jdbcUrl" value="${jdbcUrl}"></property>
-	</bean>
 </beans>
 
-还可以通过注解的方式(等同于上面xml配置的方式,常用;):
+
+注解的方式(等同于上面xml配置的方式,常用;):
 
 @Configuration//相当于这个类当做xml配置文件
 @ImportResource("classpath:/com/dataBase.properties")//引用配置文件
@@ -6118,7 +6063,7 @@ public class Appconfig{
 //结合spring源码告诉你bean的初始化过程
 http://www.cnblogs.com/digdeep/p/4518571.html //深入剖析 Spring 框架的 BeanFactory
 https://www.iteye.com/blog/uule-2094609
-精华中的精华
+精华中的精华,核心中的核心
 
 
 spring容器接管了bean的实例化,通过依赖注入达到了松耦合的效果,同时也提供了各种的扩展接口,
@@ -6133,6 +6078,7 @@ BeanFactoryPostProcessor.postProcessBeanFactory()(比如替换配置文件的属
 2,实例化阶段:通过反射或者CGLIB对bean进行实例化,在这个阶段Spring又给我们暴露了很多的扩展点：
 初始化时各种的Aware接口,比如 BeanFactoryAware,MessageSourceAware,ApplicationContextAware：
 2-1
+
 属性注入（setter）
 BeanNameAware.setBeanName() 
 BeanFactoryAware.setBeanFactory() 
@@ -6149,21 +6095,18 @@ destroy-method属性//xml配置文件bean标签中配置的init-method方法被�
 
 
 主要顺序:
-1,BeanFactoryPostProcessor//在xml文件中配置,spring 会自动识别这个接口下的实现
+1,BeanFactoryPostProcessor//在xml文件中配置,spring 会自动识别这个接口下的实现,多了个Factory
+
 2,各种Aware//在person实体类上实现
-3,BeanPostProcessor//在xml文件中配置,spring 会自动识别这个接口下的实现
+3,BeanPostProcessor初始化前的方法//在xml文件中配置,spring 会自动识别这个接口下的实现
 4,InitializingBean//在person实体类上实现
 5,init-method//在xml中配置,在person实体类中写入方法
+6,BeanPostProcessor初始化后的方法
 -----------------------------------------------
-后置Bean (我在pojo类上测试了,但没看见效果,因为我没在xml中配置)
-
-作用:在init()前后做一些想做的动作
-
-1,自定义类实现 BeanPostProcessor 接口
-
+//实现BeanPostProcessor接口,也叫后置Beam
 public class MyBeanPostProcessor implements BeanPostProcessor {
 	
-	@Override
+	@Override//初始化前的方法
 	public Object postProcessBeforeInitialization(Object bean, String beanName)
 			throws BeansException {
 			System.out.println("Before" + bean +"-----" + beanName);	
@@ -6175,7 +6118,7 @@ public class MyBeanPostProcessor implements BeanPostProcessor {
 	 * beanName : bean id == name="beanPostProcess"
 	 * 返回值: 实际返回给用户的bean ,注意着两个方法我们都可以修改这个Bean ,这就是这个后置bean存在的意义
 	 */
-	@Override
+	@Override//初始化后的方法
 	public Object postProcessAfterInitialization(Object bean, String beanName)
 			throws BeansException {
 		System.out.println("After" + bean +"-----" + beanName);	
@@ -6199,21 +6142,8 @@ public class MyBeanPostProcessor implements BeanPostProcessor {
 	
 	<!-- 配置bean的后置处理器:不需要id ,IOC容器自动识别BeanPostProcessor -->
 	<bean class="com.cycle.MyBeanPostProcessor"></bean>
-
-	<bean name="beanPostProcess" class="com.cycle.Car" 
-	    init-method="指定类中的方法名"//在类初始化的时候会调用一次,后面就不会调用了,我的思考:它晚于constructor,那我为什么还需要它
-		destroy-method="指定类中的方法名">
-		<property name="brand" value="Audi"></property>
-	</bean>	
 </beans>
 
-@Test
-public void test() {	
-	ClassPathXmlApplicationContext cpac =new ClassPathXmlApplicationContext("cycle.xml");
-	Car car = (Car) cpac.getBean("beanPostProcess");
-	System.out.println(car);
-	cpac.close();	
-}
 ------------------------------------------------
 IOC容器中Bean的生命周期(常用)
 
@@ -6229,7 +6159,83 @@ spring IOC容器管理Bean的生命周期,spring可以在每个Bean生命周期�
 //上面2步其实就是加载配置文件时做的
 3,调用Bean的初始化方法.(init),Bean对象可以使用了
 4,当容器调用关闭(close()函数)后,会调用(destroy) 
---------------------------------------------------
+------------------------------------------------------------------
+------------------------------------------------------------------
+核心(面试必问):
+
+spring profile
+
+不同的环境下加载不同的配置文件内容,如数据库连接池我们再开发环境和生产,测试环境都可能不一致这是我们是需要修改
+profile 指向对应的环境即可
+
+-------------------------
+根据条件决定是否创建对象
+@Conditional
+
+//实现这个接口,返回一个boolean值,使用时如cct.getEnvironment()判断一个属性是否存在返回一个boolean值
+/**
+*第一个参数得到很多见下面,第2个参数可以得到类注解上的一些信息
+*/
+public interface Condition {
+    boolean matches(ConditionContext cct, AnnotatedTypeMetadata atm);
+}
+
+//第一个个参数可以得到
+public interface ConditionContext {
+    BeanDefinitionRegistry getRegistry();
+    @Nullable
+    ConfigurableListableBeanFactory getBeanFactory();
+    Environment getEnvironment();
+    ResourceLoader getResourceLoader();
+    @Nullable
+    ClassLoader getClassLoader();
+}
+
+----------------------------
+@Resource(JavaEE规范)
+@Resource查找bean的方式:
+首先按名称去查找,在按照类型去找,如果找到多个匹配类型会报错
+如果指定的name就只能按照name去找.就不会再按类型去找.
+
+
+@Autowired(spring规范) 
+@Autowired查找bean的方式:
+首先按类型查找,如果没有找到或找到多个就会报错
+常常和required=false 属性 和 @Qualifier注解联合使用
+
+@Autowired(required=false) 没有对应的bean,返回null,这样做只是不报错,但这个类是 null
+
+一个接口下有多个实现类,会抛出异常,这时使用
+@Qualifier("类名首字母小写或,我们指定的名字"):指定装配那个一个
+
+@Resource VS @Autowired：
+@Autowired//默认按type注入
+@Qualifier("cusInfoService")//一般作为@Autowired()的修饰用
+上面2个等价下面1个
+@Resource(name="cusInfoService")//默认按name注入，可以通过name和type属性进行选择性注入
+----------------------------------
+bean的作用域:
+spring的bean默认是单例的,可以通过scope来修改
+
+如何判断实例是否时单例的:
+ApplicationContext ctx = new ClassPathXmlApplicationContext("ppliactionContext.xml");
+Person p=(Person) ctx.getBean("person");
+Person p2=(Person) ctx.getBean("person");
+System.out.println(p == p2);//默认是true 只会调用一次构造器,在加载配置文件那时调用的
+
+@Scope("prototype")属性来配置bean的作用域:	
+singleton:默认值,spring容器初始时就会创建bean实例,在整个的生命周期内之创建一个bean(单例).
+prototype:原型的.容器初始化时不会创建实例.每次请求时创建一个新的bean实例.(不是单例)
+request:（一次请求）,很少用
+session:（一次会话）,很少用
+
+-----------------------------------
+@Service("指定Bean的名字") 用于标注服务层
+@Controller("指定Bean的名字") 用于标注控制层
+@Repository("指定Bean的名字") 用于表示Dao层
+@Component("指定Bean的名字") 当都不属于上面几种情况下就可以用它
+-------------------------------------------------
+
 了解
 在很多业务情况下可能我们都需要独立或全局的调用（作用不大）
 
@@ -6256,7 +6262,7 @@ public void destroy(){
 	System.out.println("destroy...................");
 }
 --------------------------------
-另:独立的还可以实现2个接口达到和配置的一样的效果
+另:独立的,还可以实现2个接口达到和配置的一样的效果
 @Controller
 public class WeixinController implements InitializingBean,DisposableBean {
 	
@@ -6272,123 +6278,26 @@ public class WeixinController implements InitializingBean,DisposableBean {
 	
 }
 //总结: 全局,独立Bean或实现接口3种方式都可以,如果3种同时使用:
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
 1,现实的打印(找不到对应的init方法报错.)
 2,全局的打印(全局的就算找不到对应的init也不会报错,因为它有默认的)
 3,独立Bean不会执行(只会执行一个独立的)
-----------------------------------------
 
-在一个类的方法上注解:
-@PostConstruct 相当于 init@PreDestroy 相当与 destroy
-----------------------------------------
-@Resource 相当与 Autowired 推荐
-下面是 JSR330 标准 ,需要用到javax.inject.jar这个包
-@Inject 相当与 Autowired 推荐
-@Named 相当与 Component (可以是类或成员变量)主要对名字有要求时使用
-比如: 一个变量是一个接口,它同时有多个实现类,这里时我们就需要准确定位名字
-----------------------------------------
-
-配置Bean的方式:（XML,注解,Java类）
-
-----------------------------------------
-通过FactoryBean 来配置Bean的实例(常用)
-
-首先要写一个类 实现 FactoryBean接口
-public class MyFactory implements FactoryBean<Car> {
-	private String brand;
-	public void setBrand(String brand) {
-		this.brand = brand;
-	}
-	@Override
-	public Car getObject() throws Exception {	
-		return new Car(brand,555555);
-	}
-	@Override
-	public Class<?> getObjectType() {
-		return null;
-	}
-	@Override
-	public boolean isSingleton() {	
-		return true;
-	}
-}
-
-<!-- 
-	通过实现接口FactoryBean 来配置Bean的实例
-	class :指向 FactoryBean 的全类名
-	property : 配置 FactoryBean的属性
-	但实际返回的实例是 getObject() 返回的
- -->
-<bean name="factoryBean" class="com.factory.MyFactory">
-	<property name="brand" value="BMW"></property>
-</bean>
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-上面都是通过xml文件配置的.下面我们使用注解的方式来配置IOC容器
-要使用注解要引入jar包:
-1,%spring_home%\lib\j2ee\common-annotations.jar.
-而且需要在配置文件中加入<context:annotation-config/>的命名空间,
-如果引入了<context:component-scan>可以不需要这个
-2,引入Spring的头文件
-3,在类上@Controller
-
-源码在spring1 工程下的annotation.xml
-注解方式更为简洁,不需要配置每个类都要配置Bean
-
-特定组件包括:
-@component 基本注解,标识了一个受spring管理的组件
-@Repository :标识持久层组件
-@Service :标识服务层组件
-@Controller :标识表现成组件
-
-首先我们导入声明context 
-
-<?xml version="1.0" encoding="UTF-8"?>
-<beans xmlns="http://www.springframework.org/schema/beans"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xmlns:context="http://www.springframework.org/schema/context"
-	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
-		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.0.xsd">
-	
-	<!-- 指定spring Ioc 容器需要扫描的包 
-		resource-pattern="repository/*.class" :只扫描这个包下面的类	
-		<context:component-scan base-package="com.annotation"
-		resource-pattern="repository/*.class"></context:component-scan>
-	-->
-	 <!-- 
-		context:exclude-filter:排除那些
-		context:include-filter:包含哪些,但需要设置 use-default-filters="false"
-		type="assignable" 这个设置后就用设置 全类名和 spring 4个注解无关
-	 -->	 
-	<context:component-scan base-package="com.annotation" use-default-filters="false">
-		<context:include-filter type="assignable" expression="com.annotation.repository.UserRepository"/>			
-	</context:component-scan>	 	
-</beans>
-具体看ppt
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-@Autowired 注解用于自动配置Bean比如为属性赋值 ,没有对应的bean抛出异常
-@Autowired(required=false) 没有对应的bean,返回null.
-
-有时一个接口下有多个实现类,默认会按SetXXX名字比对,如果同时2个能匹配上,
-会抛出异常,这时我们可能会使用到下面这个注解
-
-@Qualifier("value值"):指定装配那个一个
--------------------------------------------------------
-默认情况下的容器启动时会初始化Bean.但可以通过添加<bean>元素中的lazy-init="true"属性来延迟初始化Bean.
-这样将会在第一次获取Bean的时候才初始化Bean
 
 +++++++++++++++++++++++++++++++++++++++++++++++++++++++
 +++++++++++++++++++++++++++++++++++++++++++++++++++++++
 AOP
-Aspect Oriented programming 的缩写:面向切面编程
-通过预编译方式和运行期动态代理实现程序功能的统一维护的一种技术
-主要功能是 : 日记记录,性能统计,安全控制,事务处理,异常处理等等;
+Aspect Oriented programming 的缩写:面向切面编程,是一种思想,不是技术
+
+aop实现分为两种 基于动态代理的aop 和 基于AspectJ的aop,工作中我们使用AspectJ
+
+aop的好处:
+1,公共逻辑代码统一维护,方便修改
+2,原来功能值关注核心逻辑
+
+使用场景 : 日记记录,安全控制,事务处理,异常处理,性能统计等等;
 
 功能效果有点像init或destroy方法.只是我们定义了更细的规则才会执行我们配置的方法.
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-如:只有在我们申明的切入点上才会有效 : 只有在异常后我们才会调用方法,只有在方法之后,方法之前等等
-*************************************************************
-AOP这个东西很常用,可以大量的减少代码量,减轻加入新的业务需求的难度；
-
 
 如何使用,这是最关心的?
 @Component
@@ -6400,26 +6309,28 @@ public class LoggingAspect {
 		//记录日志,安全控制,事务处理,异常处理等....	
 	}
 }
-
-
 //使用方法后面有写
-
 //AOP就是这样.已经学完了.已经帮我做到了我们需要的干的事情了
-*************************************************************
-Spring Aop 没有 Aspectj强大,也没有它全面,所以
+**********************************************
+Spring Aop VS AspectJ:
+https://blog.csdn.net/wangqingjiewa/article/details/78456072
 
-我们学习的是AspectJ：Java 社区里最完整最流行的 AOP 框架.
-( aspectj 更好的封装了动态代理,且编程更为简单)
-我们用spring实现的事务,事务不是硬编码,而是通过 spring aop完成的
+1,spring Aop底层依赖于动态代码,只能作用于方法级别,只能再运行时织入,AspectJ在编译期织入,可以作用于字段和构造器等
+2,springAop只能对spring容器管理的bean进行增强,AspectJ可以对项目中所有对象进行增强
+3,AspectJ速度上快10倍样子
+
+SpringAop 使用的jdk动态代理(需要有接口) 或CGlib实现,Spirng默认采用JDK动态代理实现机制,如果不是一个实现类
+会自动使用CGlib;
+
+-------------------------
 
 AspectJ 支持 5 种类型的通知注解: 
-
 @Before: 前置通知, 在方法执行之前执行
 @After: 后置通知, 在方法执行之后执行 (无论发生异常都会执行,不能得到返回值)
 @AfterRetruning: 返回通知, 在方法返回结果之后执行
 @AfterThrowing: 异常通知, 在方法抛出异常之后
 @Around: 环绕通知, 围绕着方法执行
-------------------------------------
+--------------------------
 源码spring-2 工程下的com.aop1包
 package com.spring.aop.impl;
 import java.util.Arrays;
@@ -6456,8 +6367,6 @@ public class LoggingAspect {
 	}	
 }
 
-
-
 当同时有多个切面通知时,我们需要设置优先级
 @Order(1) 可以定义多个切面的优先级,值越小优先级却高
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -6473,12 +6382,10 @@ public void declareJoinPointExpression(){}
 假如不在一个类: 类名.declareJoinPointExpression; 
 假如不在一个包下在加: 包名.类名.declareJoinPointExpression;
 
-
 上面都是基于注解的方式配置的AOP(推荐)
 +++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-+++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-+++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-xml配置文件方式来 实现AOP
+了解:
+xml配置文件方式来 实现AOP 
 
 源码spring-2 工程下 com.atguigu.spring.aop.xml包下
 
@@ -6521,7 +6428,6 @@ xml配置文件方式来 实现AOP
 			-->	
 		</aop:aspect>	
 		
-		
 		<!-- 第二个切面及通知 -->
 		<aop:aspect ref="vlidationAspect" order="1">
 			<aop:before method="validateArgs" pointcut-ref="pointcut"/>
@@ -6529,14 +6435,12 @@ xml配置文件方式来 实现AOP
 	</aop:config>
 </beans>
 -------------------------------------------------
-Spring的Aop(面向切面编程)使用的jdk动态代理或CGlib实现(前面反射有源码)
 
 Aop当中的概念:
 1,切入点Pointcut : 在哪些类的哪些方法上切
 2,通知Advice(增强) : 在方法的什么时机做什么 //5种
 3,切面Aspect : 切入点 + 通知 (什么时间什么地点干什么事)
-4,织入Weaving : 把切面加入到对象,并创建出代理对象的过程 (Spring干的事)
-
+4,织入Weaving : 把切面加入到对象,通知和切面组合的时间点,决定了效率
 -------------------------------------------------
 过滤器,拦截器,aop同时使用执行顺序
 https://www.cnblogs.com/java-spring/p/12742984.html
@@ -6718,56 +6622,8 @@ spring 中的事务
 	
 	<tx:annotation-driven  transaction-manager="transactionManager"/>	
 </beans>
-
--------------------------------------------------------------------
 -------------------------------------------------------------------
 
-@Resource标签:
-1,@Resource标签是JavaEE规范的标签
-2,@Resource标签也可以用于字段或则setter方法
-3,也可以使用@Resource标签注入一些Spring内置的重要对象 如ApplicationContext
-4,@Resource标签必须要求有匹配的对象;不能设置required = false
-5,<context:annotation-config>既引入了@Autowired 的解析器也引入了@Resource标签的解析器;
-如果引入了<context:component-scan>可以不需要这个
-
-6,@Resource标签找bean的方式:
-①:首先按照名字去找,如果找到就使用setter或则字段注入
-②:如果名字找不到,在按照类型去找,如果找到多个匹配类型会报错
-③:如果指定的name就只能按照name去找.就不会再按类型去找.
----------------------------------
-@Autowired 找bean的方式:
-1,首先按照依赖对象的类型找:如果找到就用setter或则是字段直接注入
-2,如果Spring上下文中找到多个匹配的类型,再按照名字去找,如果没有匹配,报错
-3,可以通过再添加使用@Qualifier("id名")标签规定对象按照bean的id + 类型去找;
-----------------------------------
-@Component 用来标注Bean的注解,比较中立的Bean使用
-
-@Component默认情况下直接使用类名字首字母小写作为Bean的名字
-如果要修改bean的名称,可以使用value属性来重新定义bean的名称
-
-@Component("重新定义Bean的名字")
-@Scope("prototype")
-public class OtherBean{		
-}
-
-通过注解的方法注入默认也是单例的,可以通过@Scope("prototype")来修改为不是单例的.
-------------------------------------------
-
-@Service 用于标注服务层
-@Controller 用于标注控制层
-@Repository 用于表示Dao层
-@Component 当都不属于上面几种情况下就可以用它
-
--------------------------------------------------
-注解的初始化和销毁方法(javaee的规范)
-@PostConstruct
-public void init()
-相当于<bean destory-method=“init”/>
-
-@PreDestory
-public void destroy()
-相当于<bean destroy-method="destory"/>
---------------------------------------------------
 定时器主要分3种:
 1,jdk的Timer（单线程执行,如果中途异常无法重新开始,不用）
 2,spring的Scheduled
@@ -6776,33 +6632,6 @@ public void destroy()
 另springboot整合了quartz,使用更加简单,github上的SpringBootHello项目有例子
 -----------------------------------
 
-Spring3;0后的注解定时器（算第2种）
-首先在applicationContext.xml中增加 
-
-文件头中增加
-一:
- xmlns:task="http://www.springframework.org/schema/task" 
- http://www.springframework.org/schema/task
- http://www.springframework.org/schema/task/spring-task.xsd"
-
-二:
-<!-- 定义使用注解自动扫描的包 -->
-<context:component-scan base-package="xxx" /> 定时器必须属于扫描的包中
-
-<!-- 打开定时器开关,注意这里已task开发的-->
-<task:annotation-driven/>
-
-三:
-//不可以是在Controller层
-@Component  
-public class TestJob {
-    @Scheduled(fixedDelay = 5000) 
-    public void test(){
-        System.out.println("job 开始执行"+new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date()));
-    } 
-}
-
----------------------------------
 springboot的schedule和quartz到底怎么选以及如何支持并发和避坑
 https://www.jianshu.com/p/61e3abc22fbd
 ---------------------------------
@@ -6898,6 +6727,15 @@ classpath*:不仅包含class路径,还包括jar文件中(class路径)进行查�
 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 SPRINGMVC
 
+主要学dispatcherServlet
+
+springMVC 的运行流程(精华):
+
+1,请求url会被DispatcherServlet拦截,因为我们一般都是配置拦截全部url(web.xml配置文件中配置)
+2,handlerMapping 类的@Controller("prefix") + 方法@RequestMapping("/helloworld")
+3,执行方法体,后返回 ModelAndView 会通过视图解析器解析为实际的物理视图InternalResourceViewResolver
+4,根据配置文件prefix + 方法返回字符串 + suffix 去找对应的jsp页面
+
 springMVC的Hello
 
 1,加入jar包
@@ -6937,16 +6775,27 @@ springMVC的Hello
 	<!-- 返回视图的后缀 -->
 	<property name="suffix" value=".jsp"></property>
 </bean>
+------------------------
+精华:
+如果我们有的页面不想经过handler 那么就如下配置
 
+//spring-mvc里的 <mvc:resources> 及静态资源访问
+https://www.cnblogs.com/linnuo/p/7699401.html
 
-----------------------------------------
+第1种方式:
+在web.xml中：
+<servlet-mapping>
+	<servlet-name>default</servlet-name>
+	<url-pattern>resources/*</url-pattern>
+</servlet-mapping>
+*/
+使用SpringMVC配置文件中：
+<mvc:default-servlet-handler />//它会找到web.xml中的name为default的配置当作不需要走handler的
 
-springMVC 的运行流程(精华,必须会):
+第2种方式直接在springMvc中配置推荐:
+//location:资源位置相对于webapp  mapping：表示对该资源的请求(由处理器ResourceHttpRequestHandler)
+<mvc:resources location="/image/" mapping="/image/**"/>
 
-1,请求url会被DispatcherServlet拦截,因为我们一般都是配置拦截全部url(web.xml配置文件中配置)
-2,然后去查找所有的@Controller类的方法的有没有对应的url名字 @RequestMapping("/helloworld")
-3,有就执行方法体,后返回值会通过视图解析器解析为实际的物理视图InternalResourceViewResolver
-4,根据配置文件prefix + 方法返回字符串 + suffix 去找对应的jsp页面
 +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 /**
@@ -7008,33 +6857,6 @@ public void getUser(@RequestParam(value="id",required=false) Integer id, Map<Str
 @PathVariable (url传参 且不写key使用)和 @Requestparam  @RequestHader 等都可以用于接受参数
 
 ------------------------------------------
-精华:
-如果我们有的页面不想经过handler 那么就如下配置
-
-
-
-1,使用tomcat的默认的Servlet解决
-     在web.xml中配置映射文件,<url-pattern>标签中为静态资源的类型：
-
-<servlet-mapping>
-	<servlet-name>default</servlet-name>
-	<url-pattern>*.jpg</url-pattern>
-</servlet-mapping>
-<servlet-mapping>
-	<servlet-name>default</servlet-name>
-	<url-pattern>*.png</url-pattern>
-</servlet-mapping> 
-
-2,使用MVC的default-Servlet-handler解决
-    在springmvc.xml配置文件中进行配置：
-
-<mvc:default-servlet-handler />
-
-3,使用MVC的resources解决
-   在springmvc.xml配置文件中进行配置：
-   location:资源位置  mapping：表示对该资源的请求(由处理器ResourceHttpRequestHandler)
-<mvc:resources location="/image/" mapping="/image/**"/>
-------------------------
 
 转发 与 重定向
 return "forward:index.jsp"; //转发 
@@ -7097,7 +6919,6 @@ function requestJson(){
 		}	
 	});	
 }
-
 
 -------------------------------------
 springMVC 下载（推荐）
@@ -7530,7 +7351,158 @@ public String testCookieValue(@CookieValue("JSESSIONID") String sessionId) {
 	System.out.println("testCookieValue: sessionId: " + sessionId);
 	return SUCCESS;
 }
+
+
+
 +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+
+Spring-data-jpa的介绍 推荐链接:
+http://www.cnblogs.com/dreamroute/p/5173896.html
+另百度云有基于SpringBoot框架,写了一个关于
+
+Spring-data-jpa(SpringBootHello-2)的增删改查,带参数的分页;
+分页如何使用:
+https://github.com/wenhao/jpa-spec
+
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+SPRINGBOOT
+
+SpringBoot 的基础使用百度云 SpringBootHello-2项目
+
+springboot 主要学习自动配置和起步依赖
+为什么需要springboot?
+比如我们只想写基于spirngmvc框架的一个helloworld接口,我们需要配置web.xml,spring.xml,springmvc.xml,tomcat等配置才可以被使用;
+springboot通过自动配置和起步依赖让开发更加敏捷的使用spring,减少配置甚至没有配置,让开发人员专注于应用程序的功能开发;
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+起步依赖:
+为什么需要?
+如果在springMvc构建一个REST API,遵循JSR303规范的声明式校验,并使用嵌入式tomcat,我们至少需要以下8个依赖:
+1,spring-core,
+2,spring-web,
+3,spring-webmvc,
+4,jackson-databind,
+5,hibernate-validator(声明式校验)
+6,tomcat-embed-core
+7,tomcat-embed-el
+8,tomcat-embed-logging-juli
+
+我们需要记住这8个,还要知道8个之间的版本关系,是否有冲突和兼容性问题,这是一个需要大量时间测试的,使用springboot后,我们只需在maven中引入一个
+spring-boot-starter-web即可,它包含上面8个,springboot会根据你引入springboot的版本自动的引入合适的版本,如果你想查看引入的具体版本可以通过
+$gradle dependencies //gradle
+$mvn dependency:tree //manven
+还可以通过idea dependencies 查看 
+
+起步依赖本质是一个maven项目对象模型pom,定义了对其它库的传递依赖;
+
+springboot的起步依赖命名都是有规律的如:
+spring-boot-starter-web
+spring-boot-starter-thymeleaf
+spring-boot-starter-data-jpa
+spring-boot-starter-test
+
+springboot起步依赖维护了传递依赖的版本,但有时和我们其它依赖jar版本冲突我们该如何处理?
+
+规则:maven总是使用最近的依赖,gradle倾向于使用最新版本,gradle如果是新版本替换旧版本直接引入即可,反之则需要先排除才引入
+
+//maven 例子,先排除在引入:
+<dependency>  
+	<groupId>org.springframework.boot</groupId>  
+	<artifactId>spring-boot-starter-web</artifactId>    
+	<exclusions>  
+		<exclusion>  
+			<groupId>com.fasterxml.jsckson.core</groupId>  		
+		</exclusion>   
+	</exclusions>  
+</dependency>  
+c
+<dependency>  
+	<groupId>com.fasterxml.jsckson.core</groupId>  
+	<artifactId>jackson-datebind</artifactId>
+	<version>2.4.3</version>      
+</dependency> 
+
+//gradle例子,先排除在引入 (直接引入的例子就不写了):
+compile ('org.springframework.boot:spring-boot-starter-web'){
+     exclude group: 'com.fasterxml.jsckson.core'
+}
+
+compile 'com.fasterxml.jsckson.core:jackson-datebind:2.4.3'
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+自动配置:
+
+springboot都有生成这样一个类它的作用有两个:配置和启动引导
+
+/**
+ * 这个类的作用:配置和启动引导的作用
+ */
+@SpringBootApplication//里面包含3个注解,启动自动配置
+public class TemplateApplication {
+    public static void main(String[] args) {
+        //启动引导,它会把当前程序当作一个可执行的jar文件来运行
+        SpringApplication.run(TemplateApplication.class, args);
+    }
+}
+
+
+@SpringBootApplication注解包含其它注解,主要的有3个:
+@Configuration :标明该类是一个配置类
+@EnableAutoConfiguration:开启自动配置
+@ComponentScan:启动组件扫描,它会自动扫描当前包和子包
+
+springboot中如何添加自己的配置?
+最好单独写一类然后用@Configuration标注
+
+springboot自动配置流程?
+在springboot项目启动时会加载名为spirng-boot-autoconfigure的jar包下包含很多配置,然后通过各种Conditional判断是否需要加入自动配置:
+
+各种Conditional如:
+@ConditionalOnBean:Spring容器中存在相应的Bean才会注入当前Bean。
+@ConditionalOnMissingBean :和上面的相反，不存在某个Bean或者某类Bean才注入当前的Bean。
+@ConditionalOnClass:classPath中存在指定的类才会注入当前的Bean。
+@ConditionalOnMissingClass:classpath中不存在指定的类才会注入当前的Bean。
+@ConditionalOnCloudPlatform:只有当指定的Spring Cloud组件激活后才注入当前Bean
+@ConditionalOnJava:基于JDK的版本决定是否注入当前的Bean。
+@ConditionalOnWebApplication:如果当前应用是Web应用就注入当前Bean。默认情况下所有Web应用都符合要求，但是我们也可以自己指定类型（Servlet或者Reactive等）
+@ConditionalOnNotWebApplication:不是Web应用则创建当前Bean。
+@ConditionalOnProperty:根据配置属性值决定是否创建当前Bean。
+
+是否在Classpath:通过maven或gradle引入或在类中注入某个类都在classPath下
+
+springboot自动配置如何修改?
+可以通过显示配置和使用属性进行调整两种方式来修改
+-----------------
+显示配置(比较复杂或自定义比较高的配置调正):
+
+比如:
+继承webSecurityConfigurerAdapter,重写里面的登陆表单路径,拦截那些请求,从哪里获取UserDetail,需要什么角色才可以放行等
+
+显示配置都是要重写方法或实现接口等,springboot在启动时会先扫描你是否显示配置,如果有自动配置就不会被加载
+------------------
+属性调整(更加简单,方便):
+1,命令行参数
+2,java:comp/env里的JNDI
+3,JVM系统属性
+4,操作系统环境变量
+5,应用程序以外的application.properties或application.yml(常用,yml的优先级别更高)
+6,应用程序中的application.properties或application.yml(常用,yml的优先级别更高)
+7,通过@propertySource //https://blog.csdn.net/qq_37312838/article/details/108237678
+
+application.properties或application.yml文件可以放在4个位置:
+1,外置,相对于应用程序运行目录的config子目录下如tomcat
+2,外置,应用程序运行目录
+3,内置,在config目录下
+4,内置,在classpath下
+
+优先级从高到低,优先级高的会覆盖优先级低的配置
+++++++++++++++++++++++++++++++++++++++++++++++
+++++++++++++++++++++++++++++++++++++++++++++++
+++++++++++++++++++++++++++++++++++++++++++++++
+
 <script type="text/javascript" src="script/jquery-1.7.2.js"></script>
 <script type="text/javascript">
 //删除操作:根据询问返回值来确定是否需要发送 超链接
@@ -7542,9 +7514,10 @@ public String testCookieValue(@CookieValue("JSESSIONID") String sessionId) {
 		})
 	});
 </script>
-+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 mysql
 
 正确使用5种关联查询字句:
@@ -7660,8 +7633,6 @@ select * from user1 a right join user2 b on a.user_name = b.user_name
 +------+-----------+----------+----+-----------+--------+
 
 结论: 右表全部字段显示,左表只显示 on 后面 条件相对应的记录,不对应的使用NULL填充.
-
-
 
 
 -- 全连接(就是左右外连接的集合),查询出全部数据.使用union 可以去重复数据(每个字段都是一样,才算重复),使用union all 不去重复数据
@@ -11573,25 +11544,6 @@ Es还支持脚本语言修改(使用脚本语言计算后,然后赋值):
 ++++++++++++++++++++++++++++++++++++++++++++++
 ++++++++++++++++++++++++++++++++++++++++++++++
 
-Spring-data-jpa的介绍 推荐链接:
-http://www.cnblogs.com/dreamroute/p/5173896.html
-另百度云有基于SpringBoot框架,写了一个关于
-
-Spring-data-jpa(SpringBootHello-2)的增删改查,带参数的分页;
-分页如何使用:
-https://github.com/wenhao/jpa-spec
-++++++++++++++++++++++++++++++++++++++++++++++
-
-SpringBoot 的基础使用百度云 SpringBootHello-2项目
-
-@configuration 注解如何使用,下面这个链接写的很好:
-http://blog.csdn.net/javaloveiphone/article/details/52182899
-
-springBoot 有基于类替换配置文件管理拦截器的方法,可以看看
-http://lihao312.iteye.com/blog/2078139
-
-++++++++++++++++++++++++++++++++++++++++++++++
-++++++++++++++++++++++++++++++++++++++++++++++
 
 java 消息队列也叫中间件(JMS java message service)
 
@@ -12637,6 +12589,8 @@ feijuhuang@gwmail.com
 ++++++++++++++++++++++++++++++++++++++++++++++
 ++++++++++++++++++++++++++++++++++++++++++++++
 编程 = 数据结构 + 算法 + 设计模式
+//数据结构模拟 Data Structure Visualizations
+https://www.cs.usfca.edu/~galles/visualization/BTree.html
 
 数据元素就是客观存在的事物,独立的单元;如人,牛,石头,瓶子;
 数据类型(基础数据类型和引用数据类型)就是对数据元素的抽象,作用是让计算机对数据元素进行分类处理
@@ -12938,10 +12892,48 @@ share pool -- data buffer -- 磁盘(非常慢)
 总结归纳的好处是--->好比看世界地图,你缩小了比例,你的视野更大了
 
 
-
+//cpu 对比
+https://www.cpu-monkey.com/zh-cn/
 
       9.7
 2020.1.26 最后一次月经
 	 11.5 预产期
 2020年2月7号怀上,周日
+
+
+
+广岛之恋,盛夏的果实,断点,当你老了,至少还有你,有没有人告诉你,黄昏,恋上一个人,西海情歌,过火,同桌的你
+
+王杰:一场游戏一场梦
+
+陈晓东:突然心动,心有独钟,比我幸福
+
+陈奕迅:因为爱情,好久不见,十年,爱情转移,
+
+无印良品:别人都说我们会分开,是你变了吗,掌心,想见你,伤心地铁
+
+齐秦:无情的雨无情的你,夜夜夜夜,大约在冬季,外面的世界,不让我的眼泪陪我过夜,
+
+阿杜:天黑,坚持到底,他一定很爱你,离别,撕夜,安妮,
+
+陶喆:下沙,普通朋友,找自己,爱我还是他,就是爱你,爱,很简单,流沙,月亮代表我的心
+
+周杰伦:最后战役,上海一九四三,黑色幽默,回到过去,星晴,开不了口,龙卷风,反方向的钟,分裂,屋顶,暗号,可爱女人,轨迹,借口,安静
+
+任贤齐:花太香,小雪,只爱你一个人,爱的路上只有我和你,老地方,依赖,哭个痛快,春天花会开,星语心愿,我是一只鱼,天涯,桥边姑娘,流着泪的你脸,人不该让男人太累,天使也一样,一个男人的眼泪,伤心太平洋,死不了,还有我,一个人,心肝宝贝,任逍遥
+
+黎明:爱情影画戏,我可以忘记你,对不起,我爱你,两个人的烟火,哪有一个天不想你,今夜你会不会来,兄弟,深秋的黎明,
+
+张学友:心碎了无痕,我真的受伤了,我等到花儿也谢了,情网,吻别,一千个伤心的理由,寂寞的男人,明日世界终结时,
+
+陈小春:离不开你,没那种命,我爱的人,独家记忆,一定要幸福
+
+迪克牛仔:我可以抱你吗,爱无罪,三万英尺,有多少爱可以重来,放手去爱,爱我的人和我爱的人,你知道我再等你吗,值得,梦醒时分,我这个你不爱的人,
+
+威尼斯的泪,你是我最深爱的人,每次都想呼喊你的名字,
+
+
+
+
+
 	 
