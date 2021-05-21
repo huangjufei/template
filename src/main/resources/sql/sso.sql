@@ -23,7 +23,7 @@ sso_permission --(必须)资源表
 sso_user_detail -- 用户详情表(一个用户详情目前只设计了一对一的关系)
 
 
-CREATE DATABASE `sso` CHARACTER SET 'utf8' COLLATE 'utf8_bin'; --创建数据库需要单独先执行后再执行下面的
+CREATE DATABASE `sso` CHARACTER SET 'utf8' COLLATE 'utf8_bin'; -- 创建数据库需要单独先执行后再执行下面的
 
 
 -- 系统表(必须)

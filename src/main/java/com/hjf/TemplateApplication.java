@@ -13,5 +13,6 @@ public class TemplateApplication {
     public static void main(String[] args) {
         //启动引导,它会把当前程序当作一个可执行的jar文件来运行
         SpringApplication.run(TemplateApplication.class, args);
+
     }
 }

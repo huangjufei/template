@@ -1,0 +1,5 @@
+
+
+
+项目拉下来后执行sql目录下的sso.sql文件后启动项目,然后访问这个路径可以得到结果
+http://localhost:8081/ssoSystem/list
