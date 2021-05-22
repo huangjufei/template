@@ -1,5 +1,6 @@
 
 
+what when how 
 
 要求:每个知识点如果你讲不清楚,就一定没掌握;那么就请一个一个知识的去屡屡;
 
@@ -5829,7 +5830,7 @@ org.springframework.context.ApplicationContext 就是ioc容器,都实现了它
 Bean的生命周期包括: Bean的定义,Bean的初始化,Bean的使用,Bean的销毁.
 
 IOC (inverse of control)控制反转 或叫 DI(depend injection)依赖注入 :不是什么技术,是一种设计思想(类似MVC).
-由Spring容器来管理对象之间的依赖关系,最终作用就是:对象和对象之间解耦
+由Spring容器来管理对象之间的依赖关系,最终作用就是:硬编码实例化的代码,对象和对象之间解耦;
 IOC 过程:
 工厂模式+反射+xml配置文件解析 返回对象
 -------------------
@@ -7303,8 +7304,9 @@ GET /products/4 : will retrieve product #4
 PATCH/PUT /products/4 : will update product #4
 
 总结 :
-1,访问路径都一样,没有明确动词,通过method = RequestMethod.PUT来确定访问那个接口;
-2,参数在url上不指明key;
+1,访问路径都一样,不在历经上明确动词,通过method = RequestMethod.PUT来确定访问那个接口;
+2,一般使用JSON格式来序列化数据
+可选点:参数在url上不指明key;
 -----------------------------
 @PathVariable :可以URL中的传递参数(工作中很少使用它,使用RequestParam),
 就是因为它的存在 才有了下面的REST风格.
@@ -7502,6 +7504,100 @@ application.properties或application.yml文件可以放在4个位置:
 ++++++++++++++++++++++++++++++++++++++++++++++
 ++++++++++++++++++++++++++++++++++++++++++++++
 ++++++++++++++++++++++++++++++++++++++++++++++
+SPRINGCOULD
+springCould
+
+难点:
+springCould 为了简化开发难度,使用了大量注解来完成功能的使用,这样增加功能效果的隐蔽性
+如果你不知道某个注解对应具体功能的话,你都不知道有这样一个功能,更不知道需要修改它,所以
+看到不会的注解就需要百度,唯有这样才会使用springcould
+
+为什么需要微服务?
+1,当今互联网业务复杂性上升
+2,客服期望更快时间交付
+3,性能和可伸缩行
+
+什么是微服务?
+把原有项目按功能模块分解独立出来,独立出来的模块有明确的职责范围;
+各个模块通过JSON格式进行数据交换;
+
+
+微服务中的每个独立的模块最后都需要部署到某个环境之中运行:
+1,物理服务器,伸缩成本高
+2,虚拟机,虚拟机是云供应商的灵魂或者叫本质(云就是服务器提供商)
+3,虚拟容器,如docker,可以在单个虚拟机上隔离出共享相同的但又独立的进程;
+
+微服务如何学习?下面我们过个分为6分模式来学习
+1,微服务开发模式(核心):服务之间的调用,配置管理,接口管理
+2,路由模式:getway和服务发现
+3,客服端的弹性模式:防止单个服务性能不佳或是挂了不影响整个服务
+4,安全模式:认证和授权问题,JWT
+5,日志记录和跟踪模式:日志收集和整理
+6,部署:部署开发和测试,生产环境不一致问题
+
+上面6种模式使用到的组件:
+开发模式:springboot,配置中心conig(配置是个体力活),异步消息处理 stream
+路由模式:服务发现eureka,nacos;路由 zuul,getway
+弹性模式:负载均衡 ribbon,断路器,后备模式,舱壁模式 hystrix
+安全模式:security(基于令牌的),oauth2,JWT
+日志记录:关联seluth,聚合 sleuth,papertrail,跟踪 zipkin
+打包和部署:打包原本war转为jar将程序和web服务器打包一起消除漂移性问题,部署docker
+
+
+断路器,后备模式说明:
+@HystrixCommand 注解 能对某个一个接口定制 Hystrix的超时时间。
+断路器: execution.isolation.thread.timeoutInMilliseconds 属性可以设置超时时间，
+后备模式: fallbackMethod 可以设置超时后响应的格式
+
+
+举例:
+@HystrixCommand(fallbackMethod = "sleepFallback", commandProperties =
+            {
+                    @HystrixProperty(name = "execution.isolation.thread.timeoutInMilliseconds", value = "900")
+            })
+@PostMapping("/sleep")
+public ResultBean test(@RequestParam(value = "sleep") Integer sleep) throws InterruptedException {
+        log.info("开始睡眠" + sleep + "毫秒");
+        Thread.sleep(sleep);
+        log.info("睡眠结束...");
+        return ResultBean.result("请求结束!");
+}
+ 
+private ResultBean sleepFallback(Integer sleep) {
+        return ResultBean.result(Code.REQUEST_TIME_OUT.getCode(), "请求超时，请稍后重试。");
+}		
+
+
+三、注意事项
+① 设置 fallbackMethod 指定的 返回值方法类型要跟目标方法一致，否则将报错。
+② 如果方法内部有明显的异常,将不走目标方法，直接返回 fallback 方法的返回值。
+③ 启动类需要添加 @EnableCircuitBreaker
+
+舱壁模式:
+//Spring Cloud中@HystrixCommand注解 Hystrix舱壁模式（线程池隔离策略）
+https://blog.csdn.net/fanxb92/article/details/107844110
+
+@HystrixCommand注解标注的方法会被AOP拦截，具体逻辑在 HystrixCommandAspect 类中
+threadPoolKey的默认值是groupKey，而groupKey默认值是@HystrixCommand标注的方法所在类名。所以，默认是每个类中维护了一个线程池，类中的所有方法共用。
+
+为了避免问题服务请求过多导致正常服务⽆法访问，Hystrix 不是采⽤增加线程数，⽽是单独的为每⼀个控制⽅法创建⼀个线程池的⽅式，这种模式叫做“舱壁模式"，也是线程隔离的⼿段。配置如下：
+
+
+@HystrixCommand(
+		// 线程池标识保持唯一（单独使用一个线程池），和属性配置
+		threadPoolKey = "myThreadPool",
+		threadPoolProperties = {
+				@HystrixProperty(name = "coreSize", value = "1"),// 线程数
+				@HystrixProperty(name = "maxQueueSize", value = "20")// 等待队列长度
+		}
+
+)
+
+
+++++++++++++++++++++++++++++++++++++++++++++++
+++++++++++++++++++++++++++++++++++++++++++++++
+++++++++++++++++++++++++++++++++++++++++++++++
+
 
 <script type="text/javascript" src="script/jquery-1.7.2.js"></script>
 <script type="text/javascript">
