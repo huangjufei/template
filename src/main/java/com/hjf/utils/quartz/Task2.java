@@ -14,7 +14,7 @@ import java.util.Date;
  * 任务2,被ScheduleConfig1类引用
  */
 @Component
-//这个注解是使得 quartz 的单任务串行执行，多任务并行执行的关键
+//这个注解是使得 quartz 的单任务串行执行，多任务并行执行的关键(不接受同时执行)
 @DisallowConcurrentExecution
 public class Task2 extends QuartzJobBean {
     private final static Logger log = LoggerFactory.getLogger(Task2.class);

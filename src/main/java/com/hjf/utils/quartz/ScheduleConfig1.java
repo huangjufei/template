@@ -22,7 +22,7 @@ public class ScheduleConfig1 {
     public JobDetail task1JobDetail() {
         return JobBuilder.newJob(Task1.class)
                 .withIdentity("task1")
-                .storeDurably(true)
+                .storeDurably(true)//持久
                 .build();
     }
     /**
@@ -33,7 +33,7 @@ public class ScheduleConfig1 {
     public JobDetail task2JobDetail() {
         return JobBuilder.newJob(Task2.class)
                 .withIdentity("task2")
-                .storeDurably(true)
+                .storeDurably(true)//持久
                 .build();
     }
 

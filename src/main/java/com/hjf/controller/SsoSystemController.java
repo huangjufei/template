@@ -8,6 +8,7 @@ import com.hjf.entity.Page;
 import com.hjf.entity.SsoSystem;
 import com.hjf.service.SsoSystemService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -42,8 +43,12 @@ import java.util.List;
  */
 @Controller
 @RequestMapping("/ssoSystem")
+
 public class SsoSystemController {
 
+
+    @Value("${server.port}")
+    private String port;
 
     @Autowired
     private SsoSystemService ssoSystemService;
@@ -57,6 +62,10 @@ public class SsoSystemController {
     @ResponseBody
     public List<SsoSystem> list() {
         List<SsoSystem> list = ssoSystemService.list();
+        //启动多项目时打印当前项目端口,运行一个项目可以屏蔽
+        for (SsoSystem system:list) {
+            system.setSystemName(port);
+        }
         return list;
     }
 

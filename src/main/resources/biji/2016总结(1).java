@@ -2,6 +2,8 @@
 
 what when how 
 
+https://github.com/huangjufei/template.git
+
 要求:每个知识点如果你讲不清楚,就一定没掌握;那么就请一个一个知识的去屡屡;
 
 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -887,17 +889,21 @@ static
 静态可以修饰属性,方法,代码块,可以是类或是内部类；可以的认为静态方法在类加载的同时被初始化；
 
 
-
 无论创建多少个对象,静态数据都只占用一份存储区域;static关键字不能应用于局部变量,因此它只能作用于域;
 那么它就会获得基本类型的标准初值；如果它是一个对象引用,那么它的默认初始化的值就是null; 
+
+//Java中静态常量和静态变量的区别
+https://blog.csdn.net/luzhensmart/article/details/86855029
 -----------------------------------------
 
 final 最终的
 
-final 修饰成员变量后变为常量,习惯上常量用大写字符表示 (常量赋值就不能再变了;静态变量也叫全局变量)
+final 修饰成员变量后变为常量,习惯上常量用大写字符表示 (常量赋值就不能再变了;静态变量也叫全局变量,它们初始时机不一样,final在编译器就放入常量池,非final在运行时放入常量池)
 final 修饰方法 不能被重写.如 Object类的getClass()
 final 修饰类 不能被继承. 如:String StringBuffer类 System 类
 
+//几张图轻松理解String.intern()
+https://blog.csdn.net/tyyking/article/details/82496901
 
 如果final修饰一个引用类型时,则在初始化之后不能再指向其他对象,但对象的内容是可以变化的(引用不能被修改,值是可以被改变)
 
@@ -919,6 +925,9 @@ public static void main(String[] args) {
 			System.out.println(i.next());//打印1,2说明可以改值
 		}
 }
+
+通过final保障this逃逸:
+final 可见性是指：被 final 修饰的字段在构造器中一旦完成，并且构造器没有把 “this” 的引用传递出去( this 引用逃逸是一件很危险的事情，其他线程有可能通过这个引用访问到“初始化了一半”的对象)，那在其他线程中就能看见 final 字段的值。
 --------------------------------------------------------------------------
 重点:
 abstract :抽象的,可以用来修饰类,方法.
@@ -2101,18 +2110,24 @@ public void test() {
 +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
-枚举类(有点像内部类)
+枚举类(有点像内部类且立即被实例化)
 
 https://www.cnblogs.com/singlecodeworld/p/9887926.html
-
+https://www.cnblogs.com/chiclee/p/9097772.html
 
 好处:
 一周的时间,不能使用int 直接来表示,因为可能出现8,还有就是使用1,业务含义也不明确;
 
+
+枚举类和普通类区别?
+1,使用menu定义的枚举直接继承了java.long.Enum类,而不是继承Object类。其中java.long.Enum类实现了java.long.Serializable
+2,使用enum定义、非抽象的枚举默认修饰符为final,因此枚举不能派生子类。
+3,枚举的构造器默认为private修饰且只能被它修饰(可以不用手动写)
+4,枚举的所有实例必须在枚举的第一行显示列出(建议大写),否则这个枚举永远都不能生产实例,列出这些实例时系统会自动添加 public static final修饰,无需程序员显式添加
+5,所有的枚举类都提供了一个values方法,该方法可以很方便的遍历所有的枚举值
+6,枚举类对象的属性不能更改,所以要用private final修饰
+
 注意:
-枚举变量是常量(建议大写)多个之间用,号分割,最后一个用;结尾
-枚举常量必须在其他成员之前
-枚举中的构造器默认是私有.可以不用手动写
 switch 支持枚举类,因为ordinal 方法.可以得到int类型的索引
 switch 支持的类型有 : byte,char,short,int及包装类,枚举; 1.7,时有增加了String(因为hasCode返回一个int)
 
@@ -2123,18 +2138,18 @@ switch 支持的类型有 : byte,char,short,int及包装类,枚举; 1.7,时有�
 3,若有类属性,属性在构造器中赋值.属性声明为 :private final
 
 
-1.5版本后 新特性,简化优化后 用 enum 关键字如何定义枚举类
+1.5,版本后 新特性,简化优化后 用 enum 关键字如何定义枚举类
 //使用新特性来创建一个枚举类
 enum Season {
 	
 	/**
-	 * 第二步,对构造器进行实例话,新特性要求这个写在最上面 (这个可能会被面试官问到)
+	 * 第二步,对构造器进行实例化,新特性要求这个写在最上面 (这个可能会被面试官问到)
 	   原始写法:public static final Season SPRING = new Season("spring", "春暖花开");	   
-	   SPRING 就好比匿名内部类
+	   SPRING 是一个实例,这里有4个实例,相当于饿汉模式
 	 * 
 	 */
 	SPRING("spring", "春天"),SUMMER("summer", "夏日炎炎"),
-	AUTUMN("autumn", "秋高气爽"),WINTER("winter", "白雪皑皑");
+	AUTUMN("autumn", "秋高气爽"),WINTER("winter", "白雪皑皑");//这是实例
 
 
 	private final String seasonName;
@@ -3590,17 +3605,114 @@ public void run(){
 	System.out.print("结束");
 }
 ---------------
-另 使用interrunpt()停止线程也是不正确的;
-interrupt()方法是用来唤醒被阻塞的线程的,如wait, sleep, join方法;
+//中断线程 推荐
+https://www.cnblogs.com/onlywujun/p/3565082.html
 
-但此时线程的sleep等方法下面的catch语句就会接收到这个打断
+另 使用interrupt()停止线程也是不正确的,如果是其它线程只是告诉线程中断标识被修改了,具体怎么操作还得当前线程自己决定,如果是本线程执行就会中断线程;
+interrupt()方法是用来唤醒被阻塞的线程的,如：BlockingQueue#put、BlockingQueue#take、Object#wait、Thread#sleep。,它会将中断标识设为 true,默认 false;
+catch的InterruptedException就会接收到这个打断
 
 try {
 	Thread.sleep(2000L);
-} catch (InterruptedException e) { //一旦使用Interrupt(打断),就会抓住这个异常
-	//这里可以加入逻辑
+} catch (InterruptedException e) { //一旦使用Interrupt(打断),就会抓住这个异常,且当前标识也变为false
+	//这里可以加入逻辑,不要什么都不做.如果你不知道如何处理最好不要try,直接抛出异常;或则
+	//再次使用interrunpt()恢复中断状态
+}finally {
+	//线程结束前做一些清理工作d
+}	
+
+
+Java的语言层面上没有提供有保证性的能够安全的终止线程的方法。而是采用了一种协商的方式来对线程进行中断。interrupte()方法就是中断
+
+线程的方法，通过调用isInterrupted()和interrupted()方法都能来判断该线程是否被中断，它们的区别是:
+
+public void interrupt() //中断目标线程,相当于设置表示位true
+public boolean isInterrupted()//返回目标线程的中断标识值
+public static boolean interrupted()//唯一清除中断标识设置false,返回之前值
+
+举例:
+public void run() {
+    try {
+        ...
+        /*
+         * 不管循环里是否调用过线程阻塞的方法如sleep、join、wait，这里还是需要加上
+         * !Thread.currentThread().isInterrupted()条件，虽然抛出异常后退出了循环，显
+         * 得用阻塞的情况下是多余的，但如果调用了阻塞方法但没有阻塞时，这样会更安全、更及时。
+         */
+        while (!Thread.currentThread().isInterrupted()&& more work to do) {
+            do more work 
+        }
+    } catch (InterruptedException e) {
+        //线程在wait或sleep期间被中断了
+    } finally {
+        //线程结束前做一些清理工作
+    }
 }
 
+
+
+//【多线程】——停止线程的三种方式
+https://blog.csdn.net/jiadajing267/article/details/80137006
+
+
+/**
+ * 这个段程序主要目的测试isInterrupted()方法,来停止线程,结果运行发现for循环永远会输完100,最初觉得
+ *在InterruptedException 异常发生后使用 Thread.currentThread().interrupt()后while的判断就该不成立了,但为什么
+ * 还是输出了100;后来我才发现,while其实已经不成立了,只是里面的for循环不会因为Thread.currentThread().interrupt()
+ * 而退出
+ *
+ * 最后总结:
+ * 1,在while中使用for这种嵌套要注意,while不成立时,for还是会执行完成
+ * 2,Thread.currentThread().interrupt()确实可以停止while的isInterrupted()判断
+ * 3,InterruptedException 进到这个异常中时,标识已经时false了
+ * 4,如果在InterruptedException 中不再次使用Thread.currentThread().interrupt(),while条件永远生效,会无限循环
+ * 5,beack来退出for循环,但后面的语句还会执行
+ * 6,使用return退出for循环,后面的语句不会执行
+ *
+ */
+public class MyThread extends Thread {
+    public static void main(String[] args) {
+        MyThread t = new MyThread();
+        t.start();
+       try {
+            Thread.sleep(2000);//使开启的线程能够跑到执行体，否则线程还没到达执行体就被中断，此时判断中断状态肯定为true。
+            //那么就不能跑到执行体里面了
+        } catch (InterruptedException e1) {
+            e1.printStackTrace();
+        }
+        System.out.println("主线程中断开启线程" + t.currentThread().isInterrupted());
+        t.interrupt();//主线程中断开启线程
+
+        System.out.println("等待中断请求" + t.currentThread().isInterrupted());
+        try {
+            Thread.sleep(3000);//等待开启线程处理中断
+        } catch (InterruptedException e) {
+            System.out.println("2222222222222");
+            e.printStackTrace();
+        }
+        System.out.println("应用程序结束");
+    }
+
+
+    public void run() {
+        while (!this.isInterrupted()) {
+            System.out.println("线程正在运行。。");
+            for (int i = 0; i < 10; i++) {
+                try {
+                    Thread.sleep(1000);
+                } catch (InterruptedException e) {
+                    System.out.println("开启线程被中断" + Thread.currentThread().isInterrupted());
+                    Thread.currentThread().interrupt();//对中断请求的处理就是中断自己,如果屏蔽它while条件永远成立,死循环
+                    System.out.println("开启线程被中断--后" + Thread.currentThread().isInterrupted());
+                    // break;//跳出for循环,但for循环后还是会执行
+                    //return;//让for循环外的代码不被执行
+                }
+                System.out.println("i的值为：" + i + " " + Thread.currentThread().isInterrupted());
+            }
+            System.out.println("for循环后的代码");
+        }
+    }
+}
 --------------------------------
 线程使用最大的问题就是共享资源 错误的增加或减少,
 共享资源一次只能一个线程在使用完成后,修改值后;其他线程才可能使用这个资源,
@@ -3655,9 +3767,17 @@ synchronized 使用时的流程;
 -----------------------
 volatile 和 synchronized 都可以让变量可见,但 volatile 不能保证复合操作的原子性,volatile 执行数度更快
 
-如果给一个变量加上volatile修饰符,就相当于：每一个线程中一旦这个值发生了变化就马上刷新回主存,使得各个线程取出的值相同;
+如果给一个变量加上volatile修饰符,就相当于：每一个线程中一旦这个值发生了变化就马上刷新回主存,使得各个线程取出的值相同;被 volatile 修饰的变量,内存模型不会对它进行重排序,会让它的操作不会缓存在寄存器上,总是返回最新值.
 
+重排序:
+重排序是为了提高执行性能,Java内存模型允许编译器对操作指令顺序进行重排序,并将数值缓存在寄存器中;
 
+请在64位或则叫8个字节,数值变量的读取加入volatile:
+
+如 long,double在多线程使用时需要加入volatile,因为jvm将64位的操作允许分为2次操作,如果读和写的操作不是同一个线程
+时可能只读到一般32位的值.volatile 变量的写操作先行发生于后面对这个变量的读操作
+
+java内存模型要求: 变量的读和写入操作必须时原子性的,但对64位就不保证了
 
 举例:
 private volatile int number = 0; //volatile只能可见,不能保证原子性
@@ -5896,14 +6016,24 @@ http://www.cnblogs.com/DebugLZQ/archive/2013/06/05/3107957.html
 
 举例:淘宝中的支付宝,用户和卖家通过支付宝来完成交易
 
+
+
+
 /**
-	tomcat 启动时如何和spring,springMvc 关联的?
+
+<context-param>
+     <param-name>contextConfigLocation</param-name> 
+     <param-value>classpath:applicationContext.xml</param-value>
+</context-param>
+
+tomcat 启动时如何和spring,springMvc 关联的?
 	
-web.xml 文件读取时会查找contextConfigLocation 配置值,如果有就加载这个值的spring的配置文件,没有就是spring*.xml的配置文件,
+web.xml文件读取时会查找contextConfigLocation 配置值,如果有就获取这个value值的(spring的配置文件路径),没有默认读取类路径下spring*.xml开头的配置文件,
 然后会运行实现了ServletContextListener的ContextLoaderListener类,然后会运行初始化方法,实际做事的是
 ContextLoader的initWebApplicationContext方法,然后读取spring的配置文件初始化ioc容器,最后会向
 servletContext.setAttribute(WebApplicationContext.ROOT_WEB_APPLICATION_CONTEXT_ATTRIBUTE, this.WebApplicationContext);
 */
+部分源码:
 public class ContextLoaderListener extends ContextLoader implements ServletContextListener {
     public void contextInitialized(ServletContextEvent event) {
         this.initWebApplicationContext(event.getServletContext());
@@ -6099,10 +6229,10 @@ destroy-method属性//xml配置文件bean标签中配置的init-method方法被�
 1,BeanFactoryPostProcessor//在xml文件中配置,spring 会自动识别这个接口下的实现,多了个Factory
 
 2,各种Aware//在person实体类上实现
-3,BeanPostProcessor初始化前的方法//在xml文件中配置,spring 会自动识别这个接口下的实现
+3,BeanPostProcessor的before方法//在xml文件中配置,spring 会自动识别这个接口下的实现
 4,InitializingBean//在person实体类上实现
 5,init-method//在xml中配置,在person实体类中写入方法
-6,BeanPostProcessor初始化后的方法
+6,BeanPostProcessor的after的方法
 -----------------------------------------------
 //实现BeanPostProcessor接口,也叫后置Beam
 public class MyBeanPostProcessor implements BeanPostProcessor {
@@ -6213,7 +6343,7 @@ public interface ConditionContext {
 @Autowired//默认按type注入
 @Qualifier("cusInfoService")//一般作为@Autowired()的修饰用
 上面2个等价下面1个
-@Resource(name="cusInfoService")//默认按name注入，可以通过name和type属性进行选择性注入
+@Resource(name="cusInfoService")//默认按name注入,可以通过name和type属性进行选择性注入
 ----------------------------------
 bean的作用域:
 spring的bean默认是单例的,可以通过scope来修改
@@ -7464,12 +7594,12 @@ springboot自动配置流程?
 
 各种Conditional如:
 @ConditionalOnBean:Spring容器中存在相应的Bean才会注入当前Bean。
-@ConditionalOnMissingBean :和上面的相反，不存在某个Bean或者某类Bean才注入当前的Bean。
+@ConditionalOnMissingBean :和上面的相反,不存在某个Bean或者某类Bean才注入当前的Bean。
 @ConditionalOnClass:classPath中存在指定的类才会注入当前的Bean。
 @ConditionalOnMissingClass:classpath中不存在指定的类才会注入当前的Bean。
 @ConditionalOnCloudPlatform:只有当指定的Spring Cloud组件激活后才注入当前Bean
 @ConditionalOnJava:基于JDK的版本决定是否注入当前的Bean。
-@ConditionalOnWebApplication:如果当前应用是Web应用就注入当前Bean。默认情况下所有Web应用都符合要求，但是我们也可以自己指定类型（Servlet或者Reactive等）
+@ConditionalOnWebApplication:如果当前应用是Web应用就注入当前Bean。默认情况下所有Web应用都符合要求,但是我们也可以自己指定类型（Servlet或者Reactive等）
 @ConditionalOnNotWebApplication:不是Web应用则创建当前Bean。
 @ConditionalOnProperty:根据配置属性值决定是否创建当前Bean。
 
@@ -7546,7 +7676,7 @@ springCould 为了简化开发难度,使用了大量注解来完成功能的使�
 
 断路器,后备模式说明:
 @HystrixCommand 注解 能对某个一个接口定制 Hystrix的超时时间。
-断路器: execution.isolation.thread.timeoutInMilliseconds 属性可以设置超时时间，
+断路器: execution.isolation.thread.timeoutInMilliseconds 属性可以设置超时时间,
 后备模式: fallbackMethod 可以设置超时后响应的格式
 
 
@@ -7564,27 +7694,27 @@ public ResultBean test(@RequestParam(value = "sleep") Integer sleep) throws Inte
 }
  
 private ResultBean sleepFallback(Integer sleep) {
-        return ResultBean.result(Code.REQUEST_TIME_OUT.getCode(), "请求超时，请稍后重试。");
+        return ResultBean.result(Code.REQUEST_TIME_OUT.getCode(), "请求超时,请稍后重试。");
 }		
 
 
 三、注意事项
-① 设置 fallbackMethod 指定的 返回值方法类型要跟目标方法一致，否则将报错。
-② 如果方法内部有明显的异常,将不走目标方法，直接返回 fallback 方法的返回值。
+① 设置 fallbackMethod 指定的 返回值方法类型要跟目标方法一致,否则将报错。
+② 如果方法内部有明显的异常,将不走目标方法,直接返回 fallback 方法的返回值。
 ③ 启动类需要添加 @EnableCircuitBreaker
 
 舱壁模式:
 //Spring Cloud中@HystrixCommand注解 Hystrix舱壁模式（线程池隔离策略）
 https://blog.csdn.net/fanxb92/article/details/107844110
 
-@HystrixCommand注解标注的方法会被AOP拦截，具体逻辑在 HystrixCommandAspect 类中
-threadPoolKey的默认值是groupKey，而groupKey默认值是@HystrixCommand标注的方法所在类名。所以，默认是每个类中维护了一个线程池，类中的所有方法共用。
+@HystrixCommand注解标注的方法会被AOP拦截,具体逻辑在 HystrixCommandAspect 类中
+threadPoolKey的默认值是groupKey,而groupKey默认值是@HystrixCommand标注的方法所在类名。所以,默认是每个类中维护了一个线程池,类中的所有方法共用。
 
-为了避免问题服务请求过多导致正常服务⽆法访问，Hystrix 不是采⽤增加线程数，⽽是单独的为每⼀个控制⽅法创建⼀个线程池的⽅式，这种模式叫做“舱壁模式"，也是线程隔离的⼿段。配置如下：
+为了避免问题服务请求过多导致正常服务⽆法访问,Hystrix 不是采⽤增加线程数,⽽是单独的为每⼀个控制⽅法创建⼀个线程池的⽅式,这种模式叫做“舱壁模式",也是线程隔离的⼿段。配置如下：
 
 
 @HystrixCommand(
-		// 线程池标识保持唯一（单独使用一个线程池），和属性配置
+		// 线程池标识保持唯一（单独使用一个线程池）,和属性配置
 		threadPoolKey = "myThreadPool",
 		threadPoolProperties = {
 				@HystrixProperty(name = "coreSize", value = "1"),// 线程数
@@ -8739,6 +8869,23 @@ $git branch -d wodefenzi
 
 MAVEN
 
+//一个小时学会Maven 强推荐
+https://www.cnblogs.com/best/p/9676515.html
+一、为什么要Maven
+在开发中经常需要依赖第三方的包,包与包之间存在依赖关系,版本间还有兼容性问题,有时还里要将旧的包升级或降级,当项目复杂到一定程度时包管理变得非常重要。
+
+Maven主要做了3件事：
+1,统一项目目录结构
+2,统一jar管理包
+3,统一项目的构建
+
+统一jar管理包：仅仅通过jar包的几个属性,就能确定唯一的jar包,在指定的文件pom.xml中,只要写入这些依赖属性,就会自动下载并管理jar包。
+
+项目的构建：内置很多的插件与生命周期,支持多种任务,比如校验、编译、测试、打包、部署、发布...
+
+通过使用maven让java项目的移植性,可维护性变,开发更容易
+
+
 //官方对pom文件内容的解释,地址
 http://maven.apache.org/pom.html
 
@@ -8746,16 +8893,24 @@ http://maven.apache.org/pom.html
 http://www.cnblogs.com/xing901022/p/4170248.html
 
 
-Maven是一个用于 项目构建的工具
-,便捷的管理项目项目的jar包依赖和版本,和打包的功能
+什么是POM？
+POM是项目对象模型(Project Object Model)的简称,它是Maven项目中的文件,使用XML表示,名称叫做pom.xml.
+POM与Java代码实现了解耦,当需要升级版本时,只需要修改POM,而不需要更改Java代码,
+而在POM稳定后,日常的Java代码开发基本不涉及POM的修改。
+
+作用:
+1,依赖管理,jar包,工程之间的依赖
+2,项目构建.实现项目的一步构建
+3,工程聚合,继承,依赖.
 
 
 Maven通过pom.xml格式,来标示唯一jar包
 <dependency>
-	<groupId>com.test</groupId>
-	<artifactId>maventest</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
-	<packaging>jar</packaging>
+	<groupId>com.test</groupId>//一般是组织或公司
+	<artifactId>maventest</artifactId>//当前项目在组中的唯一ID
+	<version>0.0.1-SNAPSHOT</version>//版本,SNAPSHOT表示快照,表示此项目还在开发中,不稳定
+	<packaging>jar</packaging>//可以打包成war,jar等。当不定义packaging的时候,Maven 会使用默认值jar
+	<scope>test</scope>//依赖范围
 <dependency>
 	
 上面最后生成的:mavensest-0.0.1-SNAPSHOT.jar
@@ -8787,14 +8942,6 @@ test //测试
 package // 会先编译再test再打包
 install //和直接在外面点击install效果一样,比complie多生成jar包
 
-
-什么是POM？
-POM是项目对象模型(Project Object Model)的简称,它是Maven项目中的文件,使用XML表示,名称叫做pom.xml.
-
-作用:
-1,依赖管理,jar包,工程之间的依赖
-2,项目构建.实现项目的一步构建
-3,工程聚合,继承,依赖.
 
 ------------------------
 maven jar版本冲突,解决有2个原则:
@@ -10715,13 +10862,90 @@ slf4j是java的一个日志门面,实现了日志框架一些通用的api,log4j�
 
 +++++++++++++++++++++++++++++++++++++++++++++++++++++
 +++++++++++++++++++++++++++++++++++++++++++++++++++++
+ClassLoader
+//深入探讨 Java 类加载器
+https://www.cnblogs.com/keyi/p/7203170.html
 
+作用:负责加载 Java 类的字节代码到 Java 虚拟机中
+Java程序在运行的时候,JVM通过类加载机制(ClassLoader)把class文件加载到内存中,只有class文件被载入内存,才能被其他class引用,使程序正确运行起来.
+
+为什么需要学?
+ ClassNotFoundException和 NoClassDefFoundError等异常排查问题时需要;
+ 类加载器是 Java 语言的一个创新。它使得动态安装和更新软件组件成为可能(通过网络传输字节码然后生成类)。
+
+层级关系:引导类加载器->扩展类加载器->应用程序类加载器->一般开发人员编写的类加载器(自定义类加载器)
+
+简单描述:
+引导类加载器（bootstrap class loader）：它用来加载 Java 的核心库,是用原生代码来实现的,并不继承自 java.lang.ClassLoader。
+
+扩展类加载器（extensions class loader）：它用来加载 Java 的扩展库。Java 虚拟机的实现会提供一个扩展库目录。该类加载器在此目录里面查找并加载 Java 类。
+
+应用程序类加载器（application  class loader）：它根据 Java 应用的类路径（CLASSPATH）来加载 Java 类。一般来说,Java 应用的类都是由它来完成加载的。可以通过 ClassLoader.getSystemClassLoader()来获取它。
+
+它们对应加载目录是不一样的:
+1,引导类加载器 bootstrap classloader ：加载jre/lib/rt.jar
+2,扩展类加载器 extension classloader ：加载jre/lib/ext//*.jar
+3,应用程序类加载器 application classloader：加载classpath上指定的类库
+
+
+开发如何编写自己的类加载器?
+开发人员可以通过继承 java.lang.ClassLoader类的方式实现自己的类加载器但除了引导类加载器之外
+一般来说,开发人员编写的类加载器的父类加载器是系统类加载器,也可以是开发人员自己写类加载器作为父类。
+
+java虚拟机如何判定2个类是否相同?
+首先看全类名是否一致+是不是相同的define类加载器,如果有一个不同就算是同一份字节码得到的实例也是不一样的;
+
+类加载的流程?双亲委派原则是什么？
+https://www.cnblogs.com/SuperManer/p/11935948.html
+　双亲委派机制是指当一个类加载器收到一个类加载请求时,该类加载器首先会把请求委派给父类加载器。每个类加载器都是如此,只有在父类加载器在自己的搜索范围内找不到指定类时,子类加载器才会尝试自己去加载。
+好处：
+1,保障了是同一类加载器加载
+2,更加安全,保证 Java 核心库的类型安全防止后面篡改
+
+
+因为类加载器流程可能导致:
+define类加载器和初始化initial 加载器是不同的两个加载器,判断2个实例是否一致是看define类加载器
+方法 loadClass()抛出的是 java.lang.ClassNotFoundException异常；
+方法 defineClass()抛出的是 java.lang.NoClassDefFoundError异常。
+一个类加载器实例来说,相同全名的类只加载一次,每次都先从缓冲区取,即 loadClass方法不会被重复调用。
+
+类加载器中findClass与loadClass的区别？
+findClass（）用于写类加载逻辑、
+loadClass（）方法的逻辑里如果父类加载器加载失败则会调用自己的findClass（）方法完成加载,保证了双亲委派规则。
+1,如果不想打破双亲委派模型,那么只需要重写findClass方法即可
+2,如果想打破双亲委派模型,那么就重写整个loadClass方法
+
+如何将*.java 代码 变为*.class 字节码?
+可以通过javac *.java 命令来完成
+
+如何自定义类加载器加载字节码?
+https://blog.csdn.net/huazai30000/article/details/85296671
+
+
+++++++++++++++++++++++++++++++++++++++++++++++
+java JVM(虚拟机)
+
+首先JVM 就包含了上面的类加载器,所有我放到这个位置
+//Java虚拟机（JVM）你只要看这一篇就够了！推荐(包含线程和内存模型的知识)
+https://blog.csdn.net/qq_41701956/article/details/81664921
+
+//只看第一节404,关闭1
+http://blog.csdn.net/column/details/zhangjg-java-blog.html
+
+//java中JVM的原理,主要看jvm回收,和几个图,其它看第一个url
+http://blog.csdn.net/witsmakemen/article/details/28600127/
+++++++++++++++++++++++++++++++++++++++++++++++
+++++++++++++++++++++++++++++++++++++++++++++++
+java本地方法详解:
+https://www.cnblogs.com/langtianya/p/3459647.html
+
++++++++++++++++++++++++++++++++++++++++++++++++++++++
++++++++++++++++++++++++++++++++++++++++++++++++++++++
 JDK源码跟踪
 
 
-Class 类
-Class 没有公共构造方法,有私有的构造方法
-Class 对象是在加载类时由Java虚拟机以及通过调用类加载器中的defineClass 方法自动构造的.
+Class 类,没有公共构造方法,有私有的构造方法
+Class 对象是在加载类时由Java虚拟机通过调用类加载器中的defineClass 方法自动构造的.
 
 
 1,Object
@@ -11960,15 +12184,7 @@ HSSFCell:高水平的写入方式,对于单元格的数据类型有很高的限�
 http://blog.csdn.net/jia20003/article/details/50425061
 java 图像处理
 
-++++++++++++++++++++++++++++++++++++++++++++++
-++++++++++++++++++++++++++++++++++++++++++++++
-java JVM(虚拟机)
-http://blog.csdn.net/column/details/zhangjg-java-blog.html//只看第一节404
-http://blog.csdn.net/witsmakemen/article/details/28600127/
-++++++++++++++++++++++++++++++++++++++++++++++
-++++++++++++++++++++++++++++++++++++++++++++++
-java本地方法详解:
-https://www.cnblogs.com/langtianya/p/3459647.html
+
 ++++++++++++++++++++++++++++++++++++++++++++++
 ++++++++++++++++++++++++++++++++++++++++++++++
 springCloud
@@ -11981,7 +12197,9 @@ https://blog.csdn.net/forezp/article/details/70148833/
 ++++++++++++++++++++++++++++++++++++++++++++++
 ++++++++++++++++++++++++++++++++++++++++++++++
 工作流
-工作流的最大的好处是可以图形化看到流程的全部节点,目前在那个节点
+工作流的最大的好处是可以图形化看到流程的全部节点,目前在那个节点;
+让程序动态接受一个流程图,然后执行这个流程;适用于工厂流水线,各种流水线;各种政务系统;
+适用性大
 
 百度网盘有学习视频
 
@@ -12396,6 +12614,8 @@ class Bank2{
  	}
 }
 
+最后结论:单例模式推荐枚举,而不是上面懒汉式
+https://www.cnblogs.com/chiclee/p/9097772.html
 
 六,命令模式
 解释:将请求封装成对象,这可以让使用不同请求,队列或者日志请求来参数化其它对象.命令模式可支持撤销
