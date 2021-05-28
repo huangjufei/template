@@ -927,7 +927,7 @@ public static void main(String[] args) {
 }
 
 通过final保障this逃逸:
-final 可见性是指：被 final 修饰的字段在构造器中一旦完成，并且构造器没有把 “this” 的引用传递出去( this 引用逃逸是一件很危险的事情，其他线程有可能通过这个引用访问到“初始化了一半”的对象)，那在其他线程中就能看见 final 字段的值。
+final 可见性是指：被 final 修饰的字段在构造器中一旦完成,并且构造器没有把 “this” 的引用传递出去( this 引用逃逸是一件很危险的事情,其他线程有可能通过这个引用访问到“初始化了一半”的对象),那在其他线程中就能看见 final 字段的值.
 --------------------------------------------------------------------------
 重点:
 abstract :抽象的,可以用来修饰类,方法.
@@ -2120,8 +2120,8 @@ https://www.cnblogs.com/chiclee/p/9097772.html
 
 
 枚举类和普通类区别?
-1,使用menu定义的枚举直接继承了java.long.Enum类,而不是继承Object类。其中java.long.Enum类实现了java.long.Serializable
-2,使用enum定义、非抽象的枚举默认修饰符为final,因此枚举不能派生子类。
+1,使用menu定义的枚举直接继承了java.long.Enum类,而不是继承Object类.其中java.long.Enum类实现了java.long.Serializable
+2,使用enum定义、非抽象的枚举默认修饰符为final,因此枚举不能派生子类.
 3,枚举的构造器默认为private修饰且只能被它修饰(可以不用手动写)
 4,枚举的所有实例必须在枚举的第一行显示列出(建议大写),否则这个枚举永远都不能生产实例,列出这些实例时系统会自动添加 public static final修饰,无需程序员显式添加
 5,所有的枚举类都提供了一个values方法,该方法可以很方便的遍历所有的枚举值
@@ -3609,7 +3609,7 @@ public void run(){
 https://www.cnblogs.com/onlywujun/p/3565082.html
 
 另 使用interrupt()停止线程也是不正确的,如果是其它线程只是告诉线程中断标识被修改了,具体怎么操作还得当前线程自己决定,如果是本线程执行就会中断线程;
-interrupt()方法是用来唤醒被阻塞的线程的,如：BlockingQueue#put、BlockingQueue#take、Object#wait、Thread#sleep。,它会将中断标识设为 true,默认 false;
+interrupt()方法是用来唤醒被阻塞的线程的,如：BlockingQueue#put、BlockingQueue#take、Object#wait、Thread#sleep.,它会将中断标识设为 true,默认 false;
 catch的InterruptedException就会接收到这个打断
 
 try {
@@ -3622,9 +3622,9 @@ try {
 }	
 
 
-Java的语言层面上没有提供有保证性的能够安全的终止线程的方法。而是采用了一种协商的方式来对线程进行中断。interrupte()方法就是中断
+Java的语言层面上没有提供有保证性的能够安全的终止线程的方法.而是采用了一种协商的方式来对线程进行中断.interrupte()方法就是中断
 
-线程的方法，通过调用isInterrupted()和interrupted()方法都能来判断该线程是否被中断，它们的区别是:
+线程的方法,通过调用isInterrupted()和interrupted()方法都能来判断该线程是否被中断,它们的区别是:
 
 public void interrupt() //中断目标线程,相当于设置表示位true
 public boolean isInterrupted()//返回目标线程的中断标识值
@@ -3635,9 +3635,9 @@ public void run() {
     try {
         ...
         /*
-         * 不管循环里是否调用过线程阻塞的方法如sleep、join、wait，这里还是需要加上
-         * !Thread.currentThread().isInterrupted()条件，虽然抛出异常后退出了循环，显
-         * 得用阻塞的情况下是多余的，但如果调用了阻塞方法但没有阻塞时，这样会更安全、更及时。
+         * 不管循环里是否调用过线程阻塞的方法如sleep、join、wait,这里还是需要加上
+         * !Thread.currentThread().isInterrupted()条件,虽然抛出异常后退出了循环,显
+         * 得用阻塞的情况下是多余的,但如果调用了阻塞方法但没有阻塞时,这样会更安全、更及时.
          */
         while (!Thread.currentThread().isInterrupted()&& more work to do) {
             do more work 
@@ -3675,7 +3675,7 @@ public class MyThread extends Thread {
         MyThread t = new MyThread();
         t.start();
        try {
-            Thread.sleep(2000);//使开启的线程能够跑到执行体，否则线程还没到达执行体就被中断，此时判断中断状态肯定为true。
+            Thread.sleep(2000);//使开启的线程能够跑到执行体,否则线程还没到达执行体就被中断,此时判断中断状态肯定为true.
             //那么就不能跑到执行体里面了
         } catch (InterruptedException e1) {
             e1.printStackTrace();
@@ -3696,7 +3696,7 @@ public class MyThread extends Thread {
 
     public void run() {
         while (!this.isInterrupted()) {
-            System.out.println("线程正在运行。。");
+            System.out.println("线程正在运行..");
             for (int i = 0; i < 10; i++) {
                 try {
                     Thread.sleep(1000);
@@ -7593,15 +7593,15 @@ springboot自动配置流程?
 在springboot项目启动时会加载名为spirng-boot-autoconfigure的jar包下包含很多配置,然后通过各种Conditional判断是否需要加入自动配置:
 
 各种Conditional如:
-@ConditionalOnBean:Spring容器中存在相应的Bean才会注入当前Bean。
-@ConditionalOnMissingBean :和上面的相反,不存在某个Bean或者某类Bean才注入当前的Bean。
-@ConditionalOnClass:classPath中存在指定的类才会注入当前的Bean。
-@ConditionalOnMissingClass:classpath中不存在指定的类才会注入当前的Bean。
+@ConditionalOnBean:Spring容器中存在相应的Bean才会注入当前Bean.
+@ConditionalOnMissingBean :和上面的相反,不存在某个Bean或者某类Bean才注入当前的Bean.
+@ConditionalOnClass:classPath中存在指定的类才会注入当前的Bean.
+@ConditionalOnMissingClass:classpath中不存在指定的类才会注入当前的Bean.
 @ConditionalOnCloudPlatform:只有当指定的Spring Cloud组件激活后才注入当前Bean
-@ConditionalOnJava:基于JDK的版本决定是否注入当前的Bean。
-@ConditionalOnWebApplication:如果当前应用是Web应用就注入当前Bean。默认情况下所有Web应用都符合要求,但是我们也可以自己指定类型（Servlet或者Reactive等）
-@ConditionalOnNotWebApplication:不是Web应用则创建当前Bean。
-@ConditionalOnProperty:根据配置属性值决定是否创建当前Bean。
+@ConditionalOnJava:基于JDK的版本决定是否注入当前的Bean.
+@ConditionalOnWebApplication:如果当前应用是Web应用就注入当前Bean.默认情况下所有Web应用都符合要求,但是我们也可以自己指定类型（Servlet或者Reactive等）
+@ConditionalOnNotWebApplication:不是Web应用则创建当前Bean.
+@ConditionalOnProperty:根据配置属性值决定是否创建当前Bean.
 
 是否在Classpath:通过maven或gradle引入或在类中注入某个类都在classPath下
 
@@ -7675,7 +7675,7 @@ springCould 为了简化开发难度,使用了大量注解来完成功能的使�
 
 
 断路器,后备模式说明:
-@HystrixCommand 注解 能对某个一个接口定制 Hystrix的超时时间。
+@HystrixCommand 注解 能对某个一个接口定制 Hystrix的超时时间.
 断路器: execution.isolation.thread.timeoutInMilliseconds 属性可以设置超时时间,
 后备模式: fallbackMethod 可以设置超时后响应的格式
 
@@ -7694,13 +7694,13 @@ public ResultBean test(@RequestParam(value = "sleep") Integer sleep) throws Inte
 }
  
 private ResultBean sleepFallback(Integer sleep) {
-        return ResultBean.result(Code.REQUEST_TIME_OUT.getCode(), "请求超时,请稍后重试。");
+        return ResultBean.result(Code.REQUEST_TIME_OUT.getCode(), "请求超时,请稍后重试.");
 }		
 
 
 三、注意事项
-① 设置 fallbackMethod 指定的 返回值方法类型要跟目标方法一致,否则将报错。
-② 如果方法内部有明显的异常,将不走目标方法,直接返回 fallback 方法的返回值。
+① 设置 fallbackMethod 指定的 返回值方法类型要跟目标方法一致,否则将报错.
+② 如果方法内部有明显的异常,将不走目标方法,直接返回 fallback 方法的返回值.
 ③ 启动类需要添加 @EnableCircuitBreaker
 
 舱壁模式:
@@ -7708,9 +7708,9 @@ private ResultBean sleepFallback(Integer sleep) {
 https://blog.csdn.net/fanxb92/article/details/107844110
 
 @HystrixCommand注解标注的方法会被AOP拦截,具体逻辑在 HystrixCommandAspect 类中
-threadPoolKey的默认值是groupKey,而groupKey默认值是@HystrixCommand标注的方法所在类名。所以,默认是每个类中维护了一个线程池,类中的所有方法共用。
+threadPoolKey的默认值是groupKey,而groupKey默认值是@HystrixCommand标注的方法所在类名.所以,默认是每个类中维护了一个线程池,类中的所有方法共用.
 
-为了避免问题服务请求过多导致正常服务⽆法访问,Hystrix 不是采⽤增加线程数,⽽是单独的为每⼀个控制⽅法创建⼀个线程池的⽅式,这种模式叫做“舱壁模式",也是线程隔离的⼿段。配置如下：
+为了避免问题服务请求过多导致正常服务⽆法访问,Hystrix 不是采⽤增加线程数,⽽是单独的为每⼀个控制⽅法创建⼀个线程池的⽅式,这种模式叫做“舱壁模式",也是线程隔离的⼿段.配置如下：
 
 
 @HystrixCommand(
@@ -8797,6 +8797,12 @@ git 和 svn 的主要区别就是git 是分布式的(可以独立的上传,不�
 cvs(集中式 网络环境)->svn（集中式  网络环境）->git（分布式 无网环境）->github（程序猿托管网站）
 
 
+git有4个区:
+workspace：工作区
+staging area：暂存区/缓存区(add)
+local repository：版本库或本地仓库(commit)
+remote repository：远程仓库(push)
+
 发布到网上一个项目可以通过下面3种协议让别人下载:
 1,ssh (elipse 上可以选择ssh也可以选择https等)
 2,https (linux 使用git clone 下载)
@@ -8811,8 +8817,9 @@ yum install git
 git --version
 git version 1.8.3.1 #这次我安装的这个版本
 git --help #可以查看命令帮助,下面就是内容
-
+git config --list 查看所有的配置
 最常用的 git 命令有：
+
    add        添加文件内容至索引
    bisect     通过二分查找定位引入 bug 的变更
    branch     列出,创建或删除分支
@@ -8845,12 +8852,26 @@ $ echo "我来得了" >> wuyong.txt -- 随便创建一个文件来测试能推�
 git status
 $git add wuyong.txt -- 加入缓存区
 $git commit -m "克隆测试" --本地版本库已经可以了
-$git push -- 推到gitgub上面,现在github可以看见有了这个文件
+$git push -- 推到github上面
 
 --------------------------
 分支管理：
-git branch wodefenzi -- 创建分支
+//Git 分支管理
+https://www.runoob.com/git/git-branch.html
+
+使用分支意味着你可以从开发主线上分离开来，然后在不影响主线的同时继续工作。大团队还可以分不同任务不同分支同步开发;有人把 Git 的分支模型称为必杀技特性
+
+注意:
+我们在创建分支时,分支的内容会自动有当前主分支的内容,但在继续在主分支的操作,分支中是不会自动同步过去的.
+分支的内容停留在创建那一刹那;反过来一样你在分支上的操作,主分支也是无法感知,就是因为这样的特性让我们的开发可以
+分别做不同的模块开发.
+
+2,分支合并如果出现冲突,需要解决冲突后才可以commmit(打开冲突文件,删除>>>===符号,然后在add *),不然是提交不上去的.
+在主分支合并后的代码,在分支中也是无法感知的;
+
 git branch -- 查看分支
+git branch wodefenzi -- 创建分支
+
 
 git checkout wodefenzi -- 切换到这个分支
 现在我们就是分支上写代码如：
@@ -8872,14 +8893,14 @@ MAVEN
 //一个小时学会Maven 强推荐
 https://www.cnblogs.com/best/p/9676515.html
 一、为什么要Maven
-在开发中经常需要依赖第三方的包,包与包之间存在依赖关系,版本间还有兼容性问题,有时还里要将旧的包升级或降级,当项目复杂到一定程度时包管理变得非常重要。
+在开发中经常需要依赖第三方的包,包与包之间存在依赖关系,版本间还有兼容性问题,有时还里要将旧的包升级或降级,当项目复杂到一定程度时包管理变得非常重要.
 
 Maven主要做了3件事：
 1,统一项目目录结构
 2,统一jar管理包
 3,统一项目的构建
 
-统一jar管理包：仅仅通过jar包的几个属性,就能确定唯一的jar包,在指定的文件pom.xml中,只要写入这些依赖属性,就会自动下载并管理jar包。
+统一jar管理包：仅仅通过jar包的几个属性,就能确定唯一的jar包,在指定的文件pom.xml中,只要写入这些依赖属性,就会自动下载并管理jar包.
 
 项目的构建：内置很多的插件与生命周期,支持多种任务,比如校验、编译、测试、打包、部署、发布...
 
@@ -8896,7 +8917,7 @@ http://www.cnblogs.com/xing901022/p/4170248.html
 什么是POM？
 POM是项目对象模型(Project Object Model)的简称,它是Maven项目中的文件,使用XML表示,名称叫做pom.xml.
 POM与Java代码实现了解耦,当需要升级版本时,只需要修改POM,而不需要更改Java代码,
-而在POM稳定后,日常的Java代码开发基本不涉及POM的修改。
+而在POM稳定后,日常的Java代码开发基本不涉及POM的修改.
 
 作用:
 1,依赖管理,jar包,工程之间的依赖
@@ -8909,7 +8930,7 @@ Maven通过pom.xml格式,来标示唯一jar包
 	<groupId>com.test</groupId>//一般是组织或公司
 	<artifactId>maventest</artifactId>//当前项目在组中的唯一ID
 	<version>0.0.1-SNAPSHOT</version>//版本,SNAPSHOT表示快照,表示此项目还在开发中,不稳定
-	<packaging>jar</packaging>//可以打包成war,jar等。当不定义packaging的时候,Maven 会使用默认值jar
+	<packaging>jar</packaging>//可以打包成war,jar等.当不定义packaging的时候,Maven 会使用默认值jar
 	<scope>test</scope>//依赖范围
 <dependency>
 	
@@ -10583,7 +10604,10 @@ filter功能可用来保持流程继续按照原来的方式进行下去,或者�
 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
-RIDIS redis(接收用户命令是单线程的)
+RIDIS
+ redis(接收用户命令是单线程的,执行是多线程的)
+ //redis 中文官网,因为在更新,进去点击不同点如事务,推荐
+ http://redis.cn/
 
 NOSQL 指not only sql (不仅仅是sql)非关系型数据库(如:redis和mongo DB 等都是)
 
@@ -10607,7 +10631,7 @@ redis 是用C语言编写的,支持键值对类型存储读写数据:
 5,散列类型hash
 
 redis 的应用场景(都是缓存数据):
-1,缓存
+1,数据缓存
 2,任务队列(商品秒杀,因为是单线程的天然线程安全)
 3,网站访问统计
 4,数据过期处理
@@ -10653,9 +10677,27 @@ tll("key") //还剩好久过期,没有设置返回-1,过期-2;没有过期返回
 exsit("key") //判断一个key是否存在
 jedis.select(数据库值) //redis支持16个数据库,默认是0 
 jedis.move(key, dbIndex) //移动当前数据库的key到指定的数据库
-redis 是支持事务的: 
-事务过程的操作会放到消息队列中,在commit的时候才会提交
+------------------------------
+redis 是支持事务的(可以看官网更多解释): 
 
+redis的事务是不支持回滚(就是队列中前面的命令执行成功了,想撤回),只支持情空事务队列discard
+
+命令用法:
+> MULTI
+OK
+> INCR foo
+QUEUED
+> INCR bar
+QUEUED
+> EXEC
+
+MULTI 命令用于开启一个事务,它总是返回 OK .MULTI 执行之后,客户端可以继续向服务器发送任意多条命令,这些命令不会立即被执行,而是被放到一个队列中,当 EXEC命令被调用时,所有队列中的命令才会被执行.
+另一方面,通过调用 DISCARD ,客户端可以清空事务队列,并放弃执行事务.
+
+另:redis推荐脚本实现事务,只是脚本功能是 Redis 2.6 才引入的, 而事务功能则更早之前就存在了,
+
+jedis用法:
+事务过程的操作会放到消息队列中,在commit的时候才会提交
 public static void main(String[] args) {
 	Jedis jedis = new Jedis("192.168.1.105", 6379);
 	Transaction t =  jedis.multi();//开启事务
@@ -10667,6 +10709,25 @@ public static void main(String[] args) {
 	}
 }
 //另 还whtch 这个命令可以查看值是否被串改
+---------------------------------------
+reids 还支持通过watch乐观锁 check-and-set （CAS）
+WATCH mykey
+val = GET mykey
+val = val + 1
+MULTI
+SET mykey $val
+EXEC
+使用上面的代码,如果在 WATCH 执行之后,EXEC 执行之前,有其他客户端修改了 mykey 的值,那么当前客户端的事务就会失败.程序需要做的,就是不断重试这个操作,直到没有发生碰撞为止.
+
+这种形式的锁被称作乐观锁,它是一种非常强大的锁机制.并且因为大多数情况下,不同的客户端会访问不同的键,碰撞的情况一般都很少,所以通常并不需要进行重试.
+
+
+了解 WATCH:
+WATCH 使得 EXEC 命令需要有条件地执行： 事务只能在所有被监视键都没有被修改的前提下执行, 如果这个前提不能满足的话,事务就不会被执行. 了解更多->
+WATCH 命令可以被调用多次. 对键的监视从 WATCH 执行之后开始生效, 直到调用 EXEC 为止.
+用户还可以在单个 WATCH 命令中监视任意多个键, 就像这样：
+redis> WATCH key1 key2 key3
+OK
 ----------------------------------------
 Jedis 入门
 jedis 是官方首选的java客户端开发包
@@ -10712,14 +10773,18 @@ public static void main(String[] args) {
 -----------------
 
 redis 持久化(这个持久化就是指从内存到文件):
+更多解释看官网
 有两种方式: rdb 和 aof
 
 RDB(也叫快照) :默认,以一段时间规则自动持久化数据,redis-conf配置文件中,可以修改规则,
 默认数据保存在bin路径下dump.rdp文件中;
-优势:数据更快,劣势:数据可能不在时间规则内就保存不进去;
+优势:对于大文件更好的性能.
+劣势:数据可能不在时间规则内就保存不进去;
 
 AOF:
-优势:数据更为安全,且数据恢复性可读性更好; 劣势:速度慢些
+优势:一般设置的时间间隔小于1分钟,数据更为安全,且文件可读性更好; 
+劣势:速度慢些,文件体积大
+如果开启了aof ,会把数据持久到appendonly.aof文件中;
 修改redis-conf配置文件:
 appendonly yes//默认是no
 选择下面3中策略:
@@ -10727,10 +10792,11 @@ appendfsync always //马上持久化
 第二种 : 按秒持久化
 第三种 : 不持久化
 
-
-如果开启了aof ,会把数据持久到appendonly.aof文件中;那么pdb就失效,配置文件也不会记录
+建议初次传输使用rdb,平时使用时间间隔大于5秒选择aof
 +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
+//Redis分布式锁的正确实现方式
+https://www.cnblogs.com/linjiqin/p/8003838.html
 
 分布式锁思想:其实就是普通的锁,只是分布式的;分布式就是共享的地方来获取锁而已就完成分布式锁
 
@@ -10738,6 +10804,9 @@ appendfsync always //马上持久化
 答:普通的锁的作用就是保证原子性操作,分布式锁只是多个地方需要协同保证一致性问题;分布式锁不能解决分布式事务,
 分布式事务只要难点在多个数据库同时成功的问题.这里我们先只说分布式锁.
 
+主要实现思想:
+多个客户端都有相同的锁(lock),可以对任何箱子进行加锁,多个客户端也拥有不同的钥匙(requestId)都可以开这个锁;
+,多个客户端谁先拿到锁去锁了箱子后,其它客户端的锁就不能用了,也只有加锁的那个人的钥匙(锁对应的value值就是requestId)才可以开那把锁
 
 分布式锁的常用3种实现：
 1, 数据库乐观锁实现(表加一个version字段,每次修改增加,修改时version作为条件带入判断)
@@ -10763,13 +10832,13 @@ public class RedisTool {
     /**
      * 尝试获取分布式锁
      * @param jedis Redis客户端
-     * @param lockKey 锁
+     * @param lock 锁
      * @param requestId 请求标识
      * @param expireTime 超期时间
      * @return 是否获取成功
      */
-    public static boolean tryGetDistributedLock(Jedis jedis, String lockKey, String requestId, int expireTime) {
-        String result = jedis.set(lockKey, requestId, SET_IF_NOT_EXIST, SET_WITH_EXPIRE_TIME, expireTime);
+    public static boolean tryGetDistributedLock(Jedis jedis, String lock, String requestId, int expireTime) {
+        String result = jedis.set(lock, requestId, SET_IF_NOT_EXIST, SET_WITH_EXPIRE_TIME, expireTime);
         if (LOCK_SUCCESS.equals(result)) {
             return true;
         }
@@ -10777,24 +10846,25 @@ public class RedisTool {
     }	
 }
 
-我们加锁就一行代码：jedis.set(String key, String value, String nxxx, String expx, int time),这个set()方法一共有五个形参：
+我们加锁就一行代码：jedis.set(String lock, String value, String nxxx, String expx, int time),这个set()方法一共有五个形参：
 
-第一个为key,我们使用key来当锁,因为key是唯一的(其实它就是锁,就是一个全局锁)
+第一个为lock,我们使用lock来当锁,因为lock是唯一的(其实它就是锁,就是一个全局锁)
 
-第二个为value,我们传的是requestId,很多童鞋可能不明白,有key作为锁不就够了吗,为什么还要用到value？原因就是我们在上面讲到可靠性时,分布式锁要满足第四个条件解铃还须系铃人,通过给value赋值为requestId,我们就知道这把锁是哪个请求加的了,在解锁的时候就可以有依据;requestId可以使用UUID.randomUUID().toString()方法生成;
+第二个为value,我们传的是requestId,很多童鞋可能不明白,有lock作为锁不就够了吗,为什么还要用到value？原因就是我们在上面讲到可靠性时,分布式锁要满足第四个条件解铃还须系铃人,通过给value赋值为requestId,我们就知道这把锁是哪个请求加的了,在解锁的时候就可以有依据;requestId可以使用UUID.randomUUID().toString()方法生成;
 
-第三个为nxxx,这个参数我们填的是NX,意思是SET IF NOT EXIST,即当key不存在时,我们进行set操作；若key已经存在,则不做任何操作；
+第三个为nxxx,这个参数我们填的是NX,意思是SET IF NOT EXIST,即当lock不存在时,我们进行set操作；若lock已经存在,则不做任何操作；
 
-第四个为expx,这个参数我们传的是PX,意思是我们要给这个key加一个过期的设置,具体时间由第五个参数决定;
+第四个为expx,这个参数我们传的是PX,意思是我们要给这个lock加一个过期的设置,具体时间由第五个参数决定;
 
-第五个为time,与第四个参数相呼应,代表key的过期时间;
+第五个为time,与第四个参数相呼应,代表lock的过期时间;
 
 总的来说,执行上面的set()方法就只会导致两种结果：
 1,当前没有锁,那么就进行加锁操作,并对锁设置个有效期,同时value表示加锁的客户端;
 2, 已有锁存在,不做任何操作;
 
-心细的童鞋就会发现了,我们的加锁代码满足我们可靠性里描述的三个条件;首先,set()加入了NX参数,可以保证如果已有key存在,则函数不会调用成功,也就是只有一个客户端能持有锁,满足互斥性;
-其次,由于我们对锁设置了过期时间,即使锁的持有者后续发生崩溃而没有解锁,锁也会因为到了过期时间而自动解锁（即key被删除）,不会发生死锁;
+心细的童鞋就会发现了,我们的加锁代码满足我们可靠性里描述的三个条件;
+首先,set()加入了NX参数,可以保证如果已有lock存在,则函数不会调用成功,也就是只有一个客户端能持有锁,满足互斥性;
+其次,由于我们对锁设置了过期时间,即使锁的持有者后续发生崩溃而没有解锁,锁也会因为到了过期时间而自动解锁（即lock被删除）,不会发生死锁;
 最后,因为我们将value赋值为requestId,代表加锁的客户端请求标识,那么在客户端在解锁的时候就可以进行校验是否是同一个客户端;
 
 不足之处: 由于我们只考虑Redis单机部署的场景,所以容错性我们暂不考虑;
@@ -10805,13 +10875,13 @@ public class RedisTool {
     /**
      * 释放分布式锁
      * @param jedis Redis客户端
-     * @param lockKey 锁
+     * @param lock 锁
      * @param requestId 请求标识
      * @return 是否释放成功
      */
-    public static boolean releaseDistributedLock(Jedis jedis, String lockKey, String requestId) {
+    public static boolean releaseDistributedLock(Jedis jedis, String lock, String requestId) {
         String script = "if redis.call('get', KEYS[1]) == ARGV[1] then return redis.call('del', KEYS[1]) else return 0 end";
-        Object result = jedis.eval(script, Collections.singletonList(lockKey), Collections.singletonList(requestId));
+        Object result = jedis.eval(script, Collections.singletonList(lock), Collections.singletonList(requestId));
         if (RELEASE_SUCCESS.equals(result)) {
             return true;
         }
@@ -10819,12 +10889,42 @@ public class RedisTool {
     }
 }
 第一行代码,我们写了一个简单的Lua脚本代码;
-第二行代码,我们将Lua代码传到jedis.eval()方法里,并使参数KEYS[1]赋值为lockKey,ARGV[1]赋值为requestId;eval()方法是将Lua代码交给Redis服务端执行;
+第二行代码,我们将Lua代码传到jedis.eval()方法里,并使参数KEYS[1]赋值为lock,ARGV[1]赋值为requestId;eval()方法是将Lua代码交给Redis服务端执行;
 
 那么这段Lua代码的功能是什么呢？其实很简单,首先获取锁对应的value值,检查是否与requestId相等,如果相等则删除锁（解锁）;那么为什么要使用Lua语言来实现呢？因为要确保上述操作是原子性的;关于非原子性会带来什么问题,可以阅读【解锁代码-错误示例2】 ;那么为什么执行eval()方法可以确保原子性,源于Redis的特性,下面是官网对eval命令的部分解释：
+-------------------------------------------
+redis 哨兵Sentinel (更多解释看官网)
 
+Redis 的 Sentinel 系统用于管理多个 Redis 服务器（instance）, 该系统执行以下三个任务：
 
-https://www.cnblogs.com/linjiqin/p/8003838.html
+1,监控（Monitoring）： Sentinel 会不断地检查你的主服务器和从服务器是否运作正常.
+2,提醒（Notification）： 当被监控的某个 Redis 服务器出现问题时, Sentinel 可以通过 API 向管理员或者其他应用程序发送通知.
+3,自动故障迁移（Automatic failover）： 当一个主服务器不能正常工作时, Sentinel 会开始一次自动故障迁移操作, 它会将失效主服务器的其中一个从服务器升级为新的主服务器, 并让失效主服务器的其他从服务器改为复制新的主服务器； 当客户端试图连接失效的主服务器时, 集群也会向客户端返回新主服务器的地址, 使得集群可以使用新主服务器代替失效服务器.
+-----------------------------------------------
+//【面试】redis缓存穿透、缓存击穿、缓存雪崩区别和解决方案
+https://blog.csdn.net/fcvtb/article/details/89478554
+
+缓存穿透:
+是指缓存和数据库中都没有的数据,而用户不断发起请求
+解决:
+1,当数据库没有值返回null,并且设置缓存间隔30秒;
+2,接口层增加校验,检查用户请求次数,id<=0的直接拦截；
+
+缓存击穿:是指缓存中没有但数据库中有的数据（一般是缓存时间到期）,这时由于并发用户特别多,同时读缓存没读到数据,又同时去数据库去取数据,引起数据库压力瞬间增大.
+
+解决:
+1,设置热点数据永远不过期
+2,接口限流与熔断,降级.
+3,加互斥锁
+
+缓存雪崩:
+是指缓存中数据大批量到过期时间,而查询数据量巨大,引起数据库压力过大甚至down机.
+和缓存击穿不同的是,缓存击穿指并发查同一条数据,缓存雪崩是不同数据都过期了,很多数据都查不到从而查数据库
+
+解决：
+1,缓存数据的过期时间设置随机,防止同一时间大量数据过期现象发生.
+2,如果缓存数据库是分布式部署,将热点数据均匀分布在不同的缓存数据库中.
+3,设置热点数据永远不过期.
 +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
@@ -10871,16 +10971,16 @@ Java程序在运行的时候,JVM通过类加载机制(ClassLoader)把class文件
 
 为什么需要学?
  ClassNotFoundException和 NoClassDefFoundError等异常排查问题时需要;
- 类加载器是 Java 语言的一个创新。它使得动态安装和更新软件组件成为可能(通过网络传输字节码然后生成类)。
+ 类加载器是 Java 语言的一个创新.它使得动态安装和更新软件组件成为可能(通过网络传输字节码然后生成类).
 
 层级关系:引导类加载器->扩展类加载器->应用程序类加载器->一般开发人员编写的类加载器(自定义类加载器)
 
 简单描述:
-引导类加载器（bootstrap class loader）：它用来加载 Java 的核心库,是用原生代码来实现的,并不继承自 java.lang.ClassLoader。
+引导类加载器（bootstrap class loader）：它用来加载 Java 的核心库,是用原生代码来实现的,并不继承自 java.lang.ClassLoader.
 
-扩展类加载器（extensions class loader）：它用来加载 Java 的扩展库。Java 虚拟机的实现会提供一个扩展库目录。该类加载器在此目录里面查找并加载 Java 类。
+扩展类加载器（extensions class loader）：它用来加载 Java 的扩展库.Java 虚拟机的实现会提供一个扩展库目录.该类加载器在此目录里面查找并加载 Java 类.
 
-应用程序类加载器（application  class loader）：它根据 Java 应用的类路径（CLASSPATH）来加载 Java 类。一般来说,Java 应用的类都是由它来完成加载的。可以通过 ClassLoader.getSystemClassLoader()来获取它。
+应用程序类加载器（application  class loader）：它根据 Java 应用的类路径（CLASSPATH）来加载 Java 类.一般来说,Java 应用的类都是由它来完成加载的.可以通过 ClassLoader.getSystemClassLoader()来获取它.
 
 它们对应加载目录是不一样的:
 1,引导类加载器 bootstrap classloader ：加载jre/lib/rt.jar
@@ -10890,14 +10990,14 @@ Java程序在运行的时候,JVM通过类加载机制(ClassLoader)把class文件
 
 开发如何编写自己的类加载器?
 开发人员可以通过继承 java.lang.ClassLoader类的方式实现自己的类加载器但除了引导类加载器之外
-一般来说,开发人员编写的类加载器的父类加载器是系统类加载器,也可以是开发人员自己写类加载器作为父类。
+一般来说,开发人员编写的类加载器的父类加载器是系统类加载器,也可以是开发人员自己写类加载器作为父类.
 
 java虚拟机如何判定2个类是否相同?
 首先看全类名是否一致+是不是相同的define类加载器,如果有一个不同就算是同一份字节码得到的实例也是不一样的;
 
 类加载的流程?双亲委派原则是什么？
 https://www.cnblogs.com/SuperManer/p/11935948.html
-　双亲委派机制是指当一个类加载器收到一个类加载请求时,该类加载器首先会把请求委派给父类加载器。每个类加载器都是如此,只有在父类加载器在自己的搜索范围内找不到指定类时,子类加载器才会尝试自己去加载。
+　双亲委派机制是指当一个类加载器收到一个类加载请求时,该类加载器首先会把请求委派给父类加载器.每个类加载器都是如此,只有在父类加载器在自己的搜索范围内找不到指定类时,子类加载器才会尝试自己去加载.
 好处：
 1,保障了是同一类加载器加载
 2,更加安全,保证 Java 核心库的类型安全防止后面篡改
@@ -10906,12 +11006,12 @@ https://www.cnblogs.com/SuperManer/p/11935948.html
 因为类加载器流程可能导致:
 define类加载器和初始化initial 加载器是不同的两个加载器,判断2个实例是否一致是看define类加载器
 方法 loadClass()抛出的是 java.lang.ClassNotFoundException异常；
-方法 defineClass()抛出的是 java.lang.NoClassDefFoundError异常。
-一个类加载器实例来说,相同全名的类只加载一次,每次都先从缓冲区取,即 loadClass方法不会被重复调用。
+方法 defineClass()抛出的是 java.lang.NoClassDefFoundError异常.
+一个类加载器实例来说,相同全名的类只加载一次,每次都先从缓冲区取,即 loadClass方法不会被重复调用.
 
 类加载器中findClass与loadClass的区别？
 findClass（）用于写类加载逻辑、
-loadClass（）方法的逻辑里如果父类加载器加载失败则会调用自己的findClass（）方法完成加载,保证了双亲委派规则。
+loadClass（）方法的逻辑里如果父类加载器加载失败则会调用自己的findClass（）方法完成加载,保证了双亲委派规则.
 1,如果不想打破双亲委派模型,那么只需要重写findClass方法即可
 2,如果想打破双亲委派模型,那么就重写整个loadClass方法
 
@@ -11867,7 +11967,7 @@ Es还支持脚本语言修改(使用脚本语言计算后,然后赋值):
 
 java 消息队列也叫中间件(JMS java message service)
 
-原代码百度云,项目中间件(包含下面3种现实)
+百度云有官网例子,项目中间件(不是基于spring/springboot的,作用不大)
 
 作用:解耦,异步,横向扩展,安全,顺序保证
 举例: 用户登录,我们可能会发短信,送积分等很多和登录相关的服务,
@@ -11879,6 +11979,170 @@ java 消息队列也叫中间件(JMS java message service)
 ActiveMQ:适合小企业,不适合上千队列应用;
 QabbitMq:适合稳定性要求高的金融企业
 Kafka:数度快,超大数据,无限扩展;可靠性要求不是很高的企业;(如kafka,主要作用对消息进行存储)
+
+
+
+rabbitMq:
+//Springboot 整合RabbitMq ，用心看完这一篇就够了 ,如果是springboot项目推荐
+https://blog.csdn.net/qq_35387940/article/details/100514134
+//安装rabbitmq前必须安装Erlang语言,这个链接下载快
+https://erlang.org/download/otp_versions_tree.html
+//Windows下RabbitMQ安装及配置
+https://blog.csdn.net/wy_0830/article/details/100707208
+
+AMQP 高级消息队列协议,它必须包含这3部分:交换机,绑定,队列
+
+实现AMQP协议的中间件很多,rabbitMq只是其中之一,那我们为什么要使用AMQP不直接使用TCP链接?
+因为创建Tcp会话对资源消耗很大,ampq只会在一个tcp连接上创建多个信道来完成成千上万的消息发送,这样大大提高了效率
+,减少了资源浪费;
+
+
+交换机有4中模式,但常用的只有前3种:
+1,direct 直接指定
+2,fanout 扇形/广播,全部覆盖
+3,topic 主题 通过*和#正则匹配
+4,headers 匹配amqp的头而非路由key
+5,Dead Letter Exchange 死信交换机
+
+绑定就是通过交换机和队列关联上,如果路由key和队列无法绑定上消息将进入黑洞
+
+队列:队列上有个路由key
+
+举例:
+格式:
+basic_pulish(消息,交换器,路由key);
+
+direct:
+//空白字符串的默认交换器,并已队列名称作为key;这里的a就是队列名称
+basic_pulish("消息","","a");
+
+fanout:
+//这种消费队列的交换器都相同,且不需要指定路由key
+basic_pulish("消息","change-a","");
+
+topic:
+//通过正则来匹配走那个队列
+basic_pulish("消息","change-a","*.msg");
+
+* 用来表示一个单词 (必须出现的)
+# 用来表示任意数量（零个或多个）单词
+举例:
+队列Q1 绑定键为 *.TT.* ,队列Q2绑定键为  TT.#
+如果消息携带的路由键为 A.TT.B，那么队列Q1将会收到；
+如果消息携带的路由键为TT.AA.BB，那么队列Q2将会收到；
+
+--------------
+多租户:rabbitmq通过虚拟主机vhost不同进行隔离,在顶层进行隔离
+--------------
+消息确认:
+
+分为:生成者消息确认和消费者消息确认
+
+生产者消息确认如何才可以实现消息确认?
+配置文件设置这2个参数 + 重写下面2个方法
+
+配置添加:
+#确认消息已发送到交换机(Exchange)
+publisher-confirms: true
+#确认消息已发送到队列(Queue)
+publisher-returns: true
+
+//重写下面2个方法
+@Configuration
+public class RabbitConfig {
+ 
+    @Bean
+    public RabbitTemplate createRabbitTemplate(ConnectionFactory connectionFactory){
+        RabbitTemplate rabbitTemplate = new RabbitTemplate();
+        rabbitTemplate.setConnectionFactory(connectionFactory);
+        //设置开启Mandatory,才能触发回调函数,无论消息推送结果怎么样都强制调用回调函数
+        rabbitTemplate.setMandatory(true);
+ 
+		//这个方法交换机和队列都找不到时都要进入这个方法
+        rabbitTemplate.setConfirmCallback(new RabbitTemplate.ConfirmCallback() {
+            @Override
+            public void confirm(CorrelationData correlationData, boolean ack, String cause) {
+                System.out.println("ConfirmCallback:     "+"相关数据："+correlationData);
+                System.out.println("ConfirmCallback:     "+"确认情况："+ack);
+                System.out.println("ConfirmCallback:     "+"原因："+cause);
+            }
+        });
+ 
+		//交换机找到就算队列找不到也会调用该方法
+        rabbitTemplate.setReturnCallback(new RabbitTemplate.ReturnCallback() {
+            @Override
+            public void returnedMessage(Message message, int replyCode, String replyText, String exchange, String routingKey) {
+                System.out.println("ReturnCallback:     "+"消息："+message);
+                System.out.println("ReturnCallback:     "+"回应码："+replyCode);
+                System.out.println("ReturnCallback:     "+"回应信息："+replyText);
+                System.out.println("ReturnCallback:     "+"交换机："+exchange);
+                System.out.println("ReturnCallback:     "+"路由键："+routingKey);
+            }
+        });
+        return rabbitTemplate;
+    }
+ 
+}
+
+总结:
+生产者确认不管交换机和队列找不到都会出发上面方法调用,我们可以在方法内写入自己的处理逻辑
+
+--------------------------------
+消费者确认:
+
+消费者确认分两种:自动确认和手动确认
+
+自动确认:只要投递成功就算成功,所有建议在消费者使用try,失败消费还有记录也不至于丢失数据
+手动确认分为3种:
+basic.ack用于肯定确认 
+basic.nack用于否定确认 
+basic.reject用于否定确认，与basic.nack相比有一个限制:一次只能拒绝单条消息 
+关键点说明:
+channel.basicReject(deliveryTag, true);  //拒绝消费当前消息，
+//如果第二参数传入true，该消息将重回队列,服务器不会删除这条消息,但这种可能出现无限循环
+//如果设置false,消息被消费服务器会删除这条消息
+
+
+总结:
+需要实现 ChannelAwareMessageListene,然后得到deliveryTag,这样就是生产者发过来的id,这样返回这个id让生产者知道消费成功
+
+@Component
+public class MyAckReceiver implements ChannelAwareMessageListener {
+ 
+    @Override
+    public void onMessage(Message message, Channel channel) throws Exception {
+        long deliveryTag = message.getMessageProperties().getDeliveryTag();
+        try {
+            //因为传递消息的时候用的map传递,所以将Map从Message内取出需要做些处理
+            String msg = message.toString();
+            String[] msgArray = msg.split("'");//可以点进Message里面看源码,单引号直接的数据就是我们的map消息数据
+            Map<String, String> msgMap = mapStringToMap(msgArray[1].trim(),3);
+            String messageId=msgMap.get("messageId");
+            String messageData=msgMap.get("messageData");
+            String createTime=msgMap.get("createTime");
+            System.out.println("  MyAckReceiver  messageId:"+messageId+"  messageData:"+messageData+"  createTime:"+createTime);
+            System.out.println("消费的主题消息来自："+message.getMessageProperties().getConsumerQueue());
+            channel.basicAck(deliveryTag, true); //第二个参数，手动确认可以被批处理，当该参数为 true 时，则可以一次性确认 delivery_tag 小于等于传入值的所有消息
+//			channel.basicReject(deliveryTag,true);//第二个参数，true会重新放回队列，所以需要自己根据业务逻辑判断什么时候使用拒绝
+        } catch (Exception e) {
+            channel.basicReject(deliveryTag, false);
+            e.printStackTrace();
+        }
+    }
+ 
+     //{key=value,key=value,key=value} 格式转换成map
+    private Map<String, String> mapStringToMap(String str,int entryNum ) {
+        str = str.substring(1, str.length() - 1);
+        String[] strs = str.split(",",entryNum);
+        Map<String, String> map = new HashMap<String, String>();
+        for (String string : strs) {
+            String key = string.split("=")[0].trim();
+            String value = string.split("=")[1];
+            map.put(key, value);
+        }
+        return map;
+    }
+}
 
 
 ++++++++++++++++++++++++++++++++++++++++++++++

@@ -2,19 +2,22 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
-    <parent>
-        <groupId>org.springframework.boot</groupId>
-        <artifactId>spring-boot-starter-parent</artifactId>
-        <version>2.3.3.RELEASE</version>
-        <relativePath/> <!-- lookup parent from repository -->
-    </parent>
+
     <groupId>com.hjf</groupId>
     <artifactId>template</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <name>template</name>
     <description>模板项目</description>
 
+    <!--parent标签为继承一组依赖-->
+    <parent>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-starter-parent</artifactId>
+        <version>2.3.3.RELEASE</version>
+        <relativePath/> <!-- lookup parent from repository -->
+    </parent>
 
+    <!--版本统一维护-->
     <properties>
         <java.version>1.8</java.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -39,6 +42,7 @@
         <dynamic.version>2.5.4</dynamic.version>
     </properties>
 
+    <!--dependencyManagement不实际依赖,是给子类继承使用的-->
     <dependencyManagement>
         <dependencies>
             <!-- 动态数据源 -->
@@ -74,8 +78,6 @@
                 <artifactId>mybatis-plus-boot-starter</artifactId>
                 <version>${mybatisplus.version}</version>
             </dependency>
-
-
 
             <!--swagger-->
             <dependency>
@@ -149,7 +151,7 @@
 
 
 
-
+    <!--引入真正被本项目使用的依赖-->
     <dependencies>
         <!-- mybatis plus -->
         <dependency>
@@ -341,9 +343,10 @@
             <artifactId>spring-boot-devtools</artifactId>
             <optional>true</optional>
         </dependency>
-
     </dependencies>
 
+
+    <!--环境配置,这里读取的dev配置文件-->
     <profiles>
         <profile>
             <id>dev</id>
@@ -369,6 +372,7 @@
         </profile>
     </profiles>
 
+    <!--插件配置-->
     <build>
         <plugins>
             <plugin>
