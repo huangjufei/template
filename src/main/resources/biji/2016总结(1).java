@@ -341,7 +341,7 @@ System.out.println(myint4);// 11
 0000 0101 = 5
 
 
-~ 反码(负数符号都会改变,原始数+1)
+~ 反码(原始数+1,负数改变)
 
 ~ 6 = -7
 ~ -6 = 5
@@ -3390,6 +3390,21 @@ public class zhuhanshu{
 -----------------------------------------------------------------------
 NIO(jdk1.4,就有了),BIO,AIO
 
+Java NIO 使您能够进行非阻塞IO。例如，线程可以要求通道将数据读取到缓冲区中。当通道将数据读取到缓冲区时，线程可以做其他事情。将数据写入频道也是如此;
+
+
+传统的Socket中:
+serverSocket.accept();//一直阻塞到有一个连接建立
+input.readLine();//直到一个换行符或回车符被读取
+
+NIO 解决什么问题?
+1,NIO主要就是解决传统中阻塞,只要将数据督导缓冲区就ok了;
+2,传统的socket如果要处理并发客户端只能是几个客户端就创建几个线程去处理,一个线程根据系统
+的不同范围在64kb--1,MB
+3,就算内存足够线程切换都是很大的问题,导致并发只能在1w样子,而nio可以到15W以上;通过一个线程控制就足够
+
+
+
 github上有2个项目;
 
 //入门(基础概念.精华)
@@ -3404,7 +3419,7 @@ https://www.cnblogs.com/applerosa/p/7141684.html
 
 在网上一些朋友将同步和异步分别与阻塞和非阻塞画上等号,事实上,它们是两组完全不同的概念;
 
-　　同步和异步着重点在于多个任务同时执行,一个任务的执行是否会导致整个流程的暂时等待；
+　　同步和异步着重点在于多线程同时执行,一个任务的执行是否会导致整个流程的暂时等待；
 （如果A,B两个线程执行io操作,同步需要排队,A执行完了才能轮到B执行；异步同时执行）
 
 　　而阻塞和非阻塞着重点只发出一个请求时,如果进行操作的条件不满足是否会返会一个标志信息告知条件不满足;
@@ -3445,12 +3460,13 @@ aFile.close();
 通过ServerSocketChanel能够监听客户端发起的TCP连接,并为每个TCP连接创建一个新的SocketChannel来进行数据读写；
 通过DatagramChannel,以UDP协议来向网络连接的两端读写数据;
 -------------------------------
-Netty 是一个 NIO 客户端服务器框架,使用它可以快速简单地开发网络应用程序,比如服务器和客户端的协议;
+Netty
 Netty 大大简化了网络程序的开发过程比如 TCP 和 UDP 的 socket 服务的开发;
 
-gitHub 上有2个项目
--------------------------------
 
+netty 是什么?
+netty 封装简化nio的使用,各种协议切换容易(TCP,UDP,阻塞io和非阻塞io,ctp);通过pipeline管道动态新增和减少各种channeHandler(如: http编解码,http压缩)来完成我们业务的需求新增或删除,这样简化开发维护的难度(队列中添加).
+总结:netty 把各部分组件进行了封装,通过接口编程,然后通过接口关联,有点像搭积木;
 
 ***********************************
 自定义延迟1秒的功能
@@ -3572,12 +3588,11 @@ public class RecurSion {
 进程:可以理解为 执行中的代码
 线程: 一个进程可以包含多个线程,一个线程相当于一个子程序
 
-java多线程可以有3种方式:
+java多线程有2种方式:
 1,继承 Thread 类 (1,没指明就不用,因为锁难保证唯一,2,且java是单继承的)
 2,实现 Runnable接口,共享变量好控制
 对于继承方式想启动两个以上的线程,只能多 new Object 对象在.start()的方式,但这样共享变量不好控制
-3,实现Callable,可以得到线程返回值;百度云有源码 线程3-Callable
-http://blog.csdn.net/suifeng3051/article/details/49443835
+
 
 Thread的常用方法:
 start() : 使该线程开始执行；Java 虚拟机调用该线程的 run 方法.
@@ -3586,273 +3601,27 @@ currentThread():静态的,返回当前线程
 getName():获取线程的名字
 setName():设置线程名字
 yield():让出执行权,然后继续去争抢cpu 执行权
-join():其他线程等待,这个线程执行完毕后,其它的再抢
+join():当前线程执行,其他线程等待,这个线程执行完毕后,其它的再抢
 isAlive():判断当前线程是否还活着
 sleep(long value): 显示让当前线程睡眠
-设置线程的优先级: setPriority(int newProiority):改变线程的优先级
+设置线程的优先级: 
+setPriority(int newProiority):改变线程的优先级       
+Thread.MAX_PRIORITY 线程可以具有的最高优先级(10级).
 
--------------------------------
-//通过变量控制线程是否运行,使用stop来暂停线程是错误的(它会戛然而止,不会输出下面的结束)
-volatile boolean keepRunning; //保证其他线程能读到该值的变化
-public void run(){
-	
-	while(keepRunning){//如果等于false时,前一次的for 循环一样会执行完!
-		for(int i=0; i<5; i++){
-			System.out.print("运行中..");
-			Thread.yield();//让出当次执行权,在次争抢
-		}
-	}
-	System.out.print("结束");
-}
----------------
-//中断线程 推荐
-https://www.cnblogs.com/onlywujun/p/3565082.html
-
-另 使用interrupt()停止线程也是不正确的,如果是其它线程只是告诉线程中断标识被修改了,具体怎么操作还得当前线程自己决定,如果是本线程执行就会中断线程;
-interrupt()方法是用来唤醒被阻塞的线程的,如：BlockingQueue#put、BlockingQueue#take、Object#wait、Thread#sleep.,它会将中断标识设为 true,默认 false;
-catch的InterruptedException就会接收到这个打断
-
-try {
-	Thread.sleep(2000L);
-} catch (InterruptedException e) { //一旦使用Interrupt(打断),就会抓住这个异常,且当前标识也变为false
-	//这里可以加入逻辑,不要什么都不做.如果你不知道如何处理最好不要try,直接抛出异常;或则
-	//再次使用interrunpt()恢复中断状态
-}finally {
-	//线程结束前做一些清理工作d
-}	
-
-
-Java的语言层面上没有提供有保证性的能够安全的终止线程的方法.而是采用了一种协商的方式来对线程进行中断.interrupte()方法就是中断
-
-线程的方法,通过调用isInterrupted()和interrupted()方法都能来判断该线程是否被中断,它们的区别是:
-
-public void interrupt() //中断目标线程,相当于设置表示位true
-public boolean isInterrupted()//返回目标线程的中断标识值
-public static boolean interrupted()//唯一清除中断标识设置false,返回之前值
-
-举例:
-public void run() {
-    try {
-        ...
-        /*
-         * 不管循环里是否调用过线程阻塞的方法如sleep、join、wait,这里还是需要加上
-         * !Thread.currentThread().isInterrupted()条件,虽然抛出异常后退出了循环,显
-         * 得用阻塞的情况下是多余的,但如果调用了阻塞方法但没有阻塞时,这样会更安全、更及时.
-         */
-        while (!Thread.currentThread().isInterrupted()&& more work to do) {
-            do more work 
-        }
-    } catch (InterruptedException e) {
-        //线程在wait或sleep期间被中断了
-    } finally {
-        //线程结束前做一些清理工作
-    }
-}
-
-
-
-//【多线程】——停止线程的三种方式
-https://blog.csdn.net/jiadajing267/article/details/80137006
-
-
-/**
- * 这个段程序主要目的测试isInterrupted()方法,来停止线程,结果运行发现for循环永远会输完100,最初觉得
- *在InterruptedException 异常发生后使用 Thread.currentThread().interrupt()后while的判断就该不成立了,但为什么
- * 还是输出了100;后来我才发现,while其实已经不成立了,只是里面的for循环不会因为Thread.currentThread().interrupt()
- * 而退出
- *
- * 最后总结:
- * 1,在while中使用for这种嵌套要注意,while不成立时,for还是会执行完成
- * 2,Thread.currentThread().interrupt()确实可以停止while的isInterrupted()判断
- * 3,InterruptedException 进到这个异常中时,标识已经时false了
- * 4,如果在InterruptedException 中不再次使用Thread.currentThread().interrupt(),while条件永远生效,会无限循环
- * 5,beack来退出for循环,但后面的语句还会执行
- * 6,使用return退出for循环,后面的语句不会执行
- *
- */
-public class MyThread extends Thread {
-    public static void main(String[] args) {
-        MyThread t = new MyThread();
-        t.start();
-       try {
-            Thread.sleep(2000);//使开启的线程能够跑到执行体,否则线程还没到达执行体就被中断,此时判断中断状态肯定为true.
-            //那么就不能跑到执行体里面了
-        } catch (InterruptedException e1) {
-            e1.printStackTrace();
-        }
-        System.out.println("主线程中断开启线程" + t.currentThread().isInterrupted());
-        t.interrupt();//主线程中断开启线程
-
-        System.out.println("等待中断请求" + t.currentThread().isInterrupted());
-        try {
-            Thread.sleep(3000);//等待开启线程处理中断
-        } catch (InterruptedException e) {
-            System.out.println("2222222222222");
-            e.printStackTrace();
-        }
-        System.out.println("应用程序结束");
-    }
-
-
-    public void run() {
-        while (!this.isInterrupted()) {
-            System.out.println("线程正在运行..");
-            for (int i = 0; i < 10; i++) {
-                try {
-                    Thread.sleep(1000);
-                } catch (InterruptedException e) {
-                    System.out.println("开启线程被中断" + Thread.currentThread().isInterrupted());
-                    Thread.currentThread().interrupt();//对中断请求的处理就是中断自己,如果屏蔽它while条件永远成立,死循环
-                    System.out.println("开启线程被中断--后" + Thread.currentThread().isInterrupted());
-                    // break;//跳出for循环,但for循环后还是会执行
-                    //return;//让for循环外的代码不被执行
-                }
-                System.out.println("i的值为：" + i + " " + Thread.currentThread().isInterrupted());
-            }
-            System.out.println("for循环后的代码");
-        }
-    }
-}
 --------------------------------
-线程使用最大的问题就是共享资源 错误的增加或减少,
+线程使用最大的问题?
+
+共享资源 错误的增加或减少,
 共享资源一次只能一个线程在使用完成后,修改值后;其他线程才可能使用这个资源,
-且能正确的读到刚才被改变的共享资源值.
-java使用synchronized 关键字来实现互斥;
+且能正确的读到刚才被改变的共享资源值.java使用 volatile, synchronized ,原子类等来处理;
 
---------------------
+--------------------------------
 
-java使用 wait()和notify()或notifyAll()来实现同步的;
-
-wait():使用一个线程处于等待状态,且释放所持有对象的lock;
-notify();唤醒一个处于等待线程中的线程,其中唤醒谁JVM确定,不是按优先级;
-notifyAll();唤醒全部等待中的线程
-它们都是属于Object对象中的方法,只有它们3个是;
-
-synchronized,volatile,final; 
-//这3种可以保证变量的可见性,让值显示可见
-------------------------------------
-
-如何扩展java 并发的知识?
-一,java Memory Mode (java 内存模型)
-JMM 描述了java线程共享变量的访问规则,以及JVM中将变量存储到内存和从内存中读取出变量的底层细节;
-
-二,Locks 和 Condition 类
-java 锁机制和等待条件的高层实现;
-
-三,java5中并发编程工具
-java.util.concurrent
-线程池 ExecutorService
-Callable & Future
-BlockingQuque
-
-这几个类简化了线程使用,让你更关心业务中的任务;
--------------------------------------------------------
-(精华中的精华,线程共享变量和这段话密切相关)
-所有的变量都存储在主内存中;
-每个线程有自己独立的工作内存,里面保存该线程使用到的变量(是主内存中的一份拷贝)
-线程对共享变量的所有操作都必须在自己的工作内存中进行,不能直接从主内存中读写
-不同线程之间无法直接访问其他线程中的内存中的变量,线程之间变量值的传递需要通过主内存来转换
-
-完成需要共享变量可见性.java使用 volatile 或 synchronized 让共享变量具备可见性;
-
-synchronized 有两个功能: 
-1,原子行 //互斥,一次能有一个线程进来修改(线程原子性可以理解为事务的一致性)
-2,可见性 //值的修改马上被读取到
-synchronized 使用时的流程;
-1,获得 互斥锁
-2,清空工作区(线程)内存,从主内存拷贝变量到工作内存中
-3,执行代码,将工作内存值刷新到主内存
-4,释放 互斥锁
-
------------------------
-volatile 和 synchronized 都可以让变量可见,但 volatile 不能保证复合操作的原子性,volatile 执行数度更快
-
-如果给一个变量加上volatile修饰符,就相当于：每一个线程中一旦这个值发生了变化就马上刷新回主存,使得各个线程取出的值相同;被 volatile 修饰的变量,内存模型不会对它进行重排序,会让它的操作不会缓存在寄存器上,总是返回最新值.
-
-重排序:
-重排序是为了提高执行性能,Java内存模型允许编译器对操作指令顺序进行重排序,并将数值缓存在寄存器中;
-
-请在64位或则叫8个字节,数值变量的读取加入volatile:
-
-如 long,double在多线程使用时需要加入volatile,因为jvm将64位的操作允许分为2次操作,如果读和写的操作不是同一个线程
-时可能只读到一般32位的值.volatile 变量的写操作先行发生于后面对这个变量的读操作
-
-java内存模型要求: 变量的读和写入操作必须时原子性的,但对64位就不保证了
-
-举例:
-private volatile int number = 0; //volatile只能可见,不能保证原子性
-number ++;//看似只有一步,其实底层大概会有3步
-1,读取number的值
-2,将number值加1;
-3,写最新的number到内存中;
-
-因为是3步,就可能在多线程时错乱;不能保证原子性(不是多线程不会出现错乱)
-
-而synchronized一次只能一个线程进去执行,就保证了原子性
-synchronized(this){
-	number ++; 
-}
--------------------------------------
-方式一：
-/**
- * 功能描述:测试Volatile不能保证原子性,synchronized可以；
- * 另Thread.activeCount()结合hread.yield()让当前主线程等待,请仔细
- * 想想主和其它线程的切换过程；
- */
-public class VolatileDemo {
-
-	// 共享数据的访问权限都必须定义为private
-	private volatile int number;
-
-	public int getNumber() {
-		return this.number;
-	}
-
-	// synchronized加到方法上,但这样的执行时间会久,推荐精确力度
-	public void setNumber() {
-		try {
-			Thread.sleep(100L);
-		} catch (InterruptedException e) {
-			e.printStackTrace();
-		}
-		/**
-		 * 下面是保证可见性的两种方式,我们选一种synchronized,
-		 * volatile不能保存原子性；
-		 */
-		//synchronized (this) {
-		//	this.number++;
-		//}
-		this.number++;//运行多次会出现错误
-	}
-
-	public static void main(String[] args) {
-
-		final VolatileDemo vd = new VolatileDemo();
-		for (int i = 0; i < 500; i++) {//启动500个线程做+1操作
-			new Thread(new Runnable() {
-				@Override
-				public void run() {
-					vd.setNumber(); // +1操作
-				}
-			}).start();
-		}
-
-		// Thread.activeCount()查询线程数量;如果大于1,说明除了主线程还有其他线程;这样可以保证子线程完毕后执行主线程
-		// 另 Thread.activeCount()不能再Junit方法体中测试,判断会一直返回true
-		while (Thread.activeCount() > 1) {
-			Thread.yield();// 让出执行权;(作用:让全部子线程执行完成后才执行下面输出)
-		}
-		// 本来结果是等于500,但实际结果可能不是500,就是原子性出现了问题,就算可见却不能保证原子性
-		System.out.println("子线程一定执行完毕了,最后值:" + vd.getNumber());
-	}
-}
------------------------------------------------
-精华
 Thread 和 Runnable 的区别:
 1,Runnable 避免了java单继承的问题;
-2,Runnable 多个Runnbale 实例可以传给一个Thread实例中,这样可以更好的让多线程共享变量; 
-不然共享变量需要就加 static
------------------------------------------------
+2,Runnable 多个Runnbale 实例可以传给一个Thread实例中,这样可以更好的让多线程共享变量.
+继承Thread的会被new多份,而实现Runable只会new一份;不然共享变量需要就加 static
+--------------------------------
 /**
  * 继承方式的Hello World；任何一个线程.yield()就会放弃cpu执行权,但并不是另一个线程就会执行,靠抢；
  */
@@ -3878,7 +3647,7 @@ class TestThread extends Thread {
 -------------------------------------------------------
 
 /**
- * 需求: 模拟三个窗口一起卖100张票 
+ * 需求: 模拟三个窗口一起卖100张票,要求不能多买
  * 思路: 3个窗口就是3个线程,都卖100张票相当于就是共享变量,卖票就是线程需要做的事,就是run方法体
 	,内部就是一个-1操作;
 	变量没有stract修饰,一样的可以完成.但要是继承Thread就必须要修饰静态才可以,如果不加锁可能会-1的现象,加锁后正常
@@ -3915,22 +3684,21 @@ class MyRunnable implements Runnable {
 		}
 	}
 }
-------------------------------------------------------------
-Thread 和 Runable 主要在使用时不一样,继承Thread的会被new多份,而实现Runable只会new一份
-------------------------------------------------------------
-线程的生命周期 : 新建 就绪 阻塞 运行 死亡; 就绪,阻塞,运行 可以循环出现
+--------------------------------------------
+线程的生命周期 : 新建 就绪 阻塞 运行 死亡; 
+单线程5个依次执行,多线程就绪,阻塞,运行循环出现
+
+新建 对应代码中的 new Thread();
+就绪 对应代码中的.start(),表示启动; //就绪会线程池队列中等待,由cpu随机调用那个线程运行
+运行 对应run()方法被执行;
+阻塞 比如在run()方法中使用了sleep或 wait()/join().. 
+死亡 run()方法中代码结束;
 
 一个运行中的线程遇到 sleep()/wait()/join()/suspend("这个基本不用了")都会阻塞
-sleep()时间到,获取同步锁 notify()/notifyAll()/resume("这个基本不用了")都会转到就绪
+sleep()时间到,或notify()/notifyAll()/resume("这个基本不用了")都会转到就绪
 
 yield 不会线程阻塞,且和priority有关;
-
-										
-对于单线程来说是 : 
-新建 -------->   就绪           -------->       运行         --------> 死亡
-		start()				获得cpu执行权				正常运行完run()			
-		
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~	
+									
 	
 对于多线程来说是 : 
 新建 -------->   就绪           -------->       运行         --------> 死亡									
@@ -3938,20 +3706,14 @@ yield 不会线程阻塞,且和priority有关;
                              <--------		         	Error/Exception 未处理
 							失去CPU执行权yield()		shop(过时)					
 
-**************记住下面5句话*************
-新建 对应代码中的 new Thread();
-就绪 对应代码中的.start(),表示启动; //就绪会线程池队列中等待,由cpu随机调用那个线程运行
-运行 对应run()方法被执行;
-阻塞 比如在run()方法中使用了sleep或 wait()/join().. 
-死亡 run()方法中代码结束就死亡了;
------------------------------------------
+-------------------------------
 
 线程 按功能可能分为: 用户线程和守护线程;
 用户线程,就是我们能操作的;运行在前台
 
 守护线程 运行在后台,为其他前台线程服务;
 特点: 一旦所有的用户线程都结束运行,守护线程就随JVM一起结束工作;
-应用: 数据库连接池中检测线程,jvm 虚拟机启动后的检测线程,垃圾回收线程;
+应用: jvm 虚拟机启动后的检测线程,垃圾回收线程;数据库连接池中检测线程
 
 如何使用:
 setDaemon(true);
@@ -4005,18 +3767,39 @@ public class MyRunnable implements Runnable {
 	}
 
 }
--------------------------------------------------------
+-------------------------------------------
 
 死锁: 相互依赖需要的资源(如锁判断资源),就出现卡死.必考题
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-如何防止死锁:
-1,同步监视器:俗称锁,任何一个类的对象都可以充当锁.想要保证线程安全,必须保证所有线程使用同一把锁
-2,如果使用实现Runnable 接口的方式创建多个线程的话,同步代码块的锁,可以是this
-3,如果使用继承Thread类的方式,慎用this (这里主要要看this当前对象是不是同一个对象)
-4,一般是同步代码块中出现同步函数 或 同步函数中出现同步代码块.却锁不一样.
 
+如何防止死锁:
+1,同步监视器:俗称锁,它会自动释放锁 
+2,任何类都可以充当锁但必须保证所有线程使用同一把锁
+3,同步代码块包含同步函数 或 同步函数包含同步代码块却锁不一样.
 
 --------------------------------------------
+同步机制:
+
+java使用 wait()和notify()或notifyAll()来实现同步的;
+
+wait():使用一个线程处于等待状态,且释放所持有对象的lock;
+notify();唤醒一个处于等待线程中的线程,其中唤醒谁JVM确定,不是按优先级;
+notifyAll();唤醒全部等待中的线程
+它们都只能使用在同步块中.它们都是属于Object对象中的方法,只有它们3个是;
+为什么这些操作线程的方法要定义Object类中:因为锁可以是任意对象.(了解)
+只有同一个锁上的被等待wait线程可以被同一个锁上的notify唤醒.等待和唤醒必须是同一个锁.
+
+notify VS notifyAll?
+//Object的notify和notifyAll方法的区别 ,推荐
+https://blog.csdn.net/liuzhixiong_521/article/details/86677057
+每个对象都拥有两个池，分别为锁池(EntrySet)和(WaitSet)等待池,notify和notifyAll都只是唤醒等待池中的线程放入
+锁池;
+
+wait()和sleep()的区别?
+wait释放锁,sleep,yeild不会释放锁.只是让出执行权
+
+如何让多个线程轮流执行?
+object 的同步机制但这种不能大于2个线程如果多线程使用Condition的同步机制(推荐)								 
+------------------------------------
 值得一看:
 /**
  * 需求:模拟两个窗口(多了不行)卖100张票且只能是2个窗口,要求一边卖一张.(2个线程就可以)
@@ -4074,27 +3857,20 @@ class MyRunnable implements Runnable {
 精华:
  * 生产者和消费者问题 ,通过synchronized(同步锁)加Object类中的等待和唤醒机制实现
  (大多数线程执行的run方法中的内容都是一样,这里是两种不同的run)
- * 设计思路: 消费者 只管消费(商品--) 没有逻辑 和 生产者(商品++) 只管生产没有逻辑
- * 店员控制商品数量,和逻辑
-   ~~~~~~~~~~~~~~~~~
+ * 设计思路: 消费者 只管消费(商品--) 没有逻辑 和 生产者(商品++) 只管生产也没有逻辑
+ * 由店员控制商品数量和逻辑:
  *  生产方法 :如果大于20 让生产者睡觉;否则一直生产,并唤醒全部;
  *  消费方法 :如果商品=0 则让消费睡觉,否则一直消费,并唤醒全部;
  *  
- *  问题 : 效率不高,因为++ 或-- 只操作一次就结束了且马上唤醒全部,然后又要来判断;
-
-
-首先抛出2个问题:
-1,这里的 生产者和消费者问题 为什么会这么设计,有那些好处?还有其他思路不?
-2,对于全部都是消费的情况为什么变简单了;多线程使用时怎么设计,设计以什么为标准?
-
+ *  问题:效率不高,因为++ 或-- 只操作一次就结束了且马上唤醒全部,然后又要来判断;
+ 
 总结: Consumer和Producer是2个线程; Clerk是共享变量(不能new多个);多线程往往就是操作业务后修改
 共享变量;线程的个数不会造成线程的出错;只要保证共享变量是一份,且只有一个线程在使用;这里就会加锁
 如这里Clerk的两个操作共享变量的方法都会加锁;
 	然后因为一些业务需求比如数量小于0消费者不能在消费,这时就需要加入线程通信技术;
 	
-	最后: 这个代码最大的问题就是notifyAll()导致才睡觉的,又被唤醒;性能差;且有死锁风险,
-	所以这段代码不会使用,请看Lock实现可以精确唤醒机制
-	
+	最后: 这个代码最大的问题就是notifyAll()导致才睡觉的线程又被唤醒;性能差;
+	所以这段代码不会使用,请看Lock实现可以精确唤醒机制	
  */
 public class TestProduceConsume {
 
@@ -4197,7 +3973,7 @@ class Consumer implements Runnable {
 为什么要定义notifyAll
 因为只用notify容易只唤醒本方的情况,导致程序中的所有线程都在等待(死锁).可能需要在构造的时候把生产线程的传给
 消费线程,但这样如果线程大于2可能会死锁,所以会出现Lock来解决这个问题
-—————————————————————————
+-----------------------
 精华
 Lock 锁和Condition 知识；
 
@@ -4210,34 +3986,37 @@ synchronized 释放锁会有三种情况:
 　　3).调用wait方法
 
 Lock的特性:
-
 　　1).Lock不是Java语言内置的;
 　　2).synchronized是在JVM层面上实现的,如果代码执行出现异常,JVM会自动释放锁,但是Lock不行,要保证锁一定会被释放,
 	就必须将unLock放到finally{}中(手动释放);
-
 　　3).在资源竞争不是很激烈的情况下,Synchronized的性能要优于ReentrantLock,但是在很激烈的情况下,
 synchronized的性能会下降几十倍;
-
 　　4).有多种锁:
 　　　　a. void lock(); // 无条件的锁;
 　　　　b. void lockInterruptibly throws InterruptedException;//可中断的锁;
-解释:使用ReentrantLock如果获取了锁立即返回,如果没有获取锁,当前线程处于休眠状态,直到获得锁或者当前线程
-可以被别的线程中断去做其他的事情;但是synchronized没有获取到锁,则会一直等待下去;
-
+			可中断的锁解释:
+			如果获取了锁立即返回,
+			如果没有获取锁,当前线程处于休眠状态,直到获得锁或者当前线程
+			但可以被别的线程中断去做其他的事情;synchronized没有获取到锁,则会一直等待下去;
 　　　　c. boolean tryLock();//如果获取了锁立即返回true,如果没有,返回false,不会等待;
-　　　　d. boolean tryLock(long timeout,TimeUnit unit);//如果获取了锁立即返回true,如果没有
-//会等待参数给的时间,在等待的过程中,如果获取锁,则返回true,如果等待超时,返回false;
+　　　　d. boolean tryLock(long timeout,TimeUnit unit);//
+			如果获取了锁立即返回true,
+			如果没有会等待参数给的时间,在等待的过程中,如果获取锁,则返回true
+			如果等待超时,返回false;
 
-Condition的特性:
+Condition的 同步机制 :
+1,Condition中的await()方法相当于Object的wait()方法,Condition中的signal()方法相当于Object的notify()方法,
+Condition中的signalAll()相当于Object的notifyAll()方法;
+不同的是:
+Object 中的同步方法需要和同步锁捆绑使用的；
+Condition 同步方法 需要和 互斥锁/共享锁捆绑使用的;
 
-　　　　1.Condition中的await()方法相当于Object的wait()方法,Condition中的signal()方法相当于Object的notify()方法,
-Condition中的signalAll()相当于Object的notifyAll()方法;不同的是,Object中的这些方法和同步锁捆绑使用的；
-而Condition是需要与互斥锁/共享锁捆绑使用的;其实同步锁和互斥锁是一个概念
 
-　　　　2.Condition它更强大的地方在于：能够更加精细的控制多线程(大于2个)的休眠与唤醒(前面的生产者消费者就是)
-对于同一个锁,我们可以创建多个Condition,如果采用Object类中的wait(), notify(), notifyAll()就不可以；
+2,Condition它更强大的地方在于：能够更加精细的控制多线程(大于2个)的休眠与唤醒(前面的生产者消费者就是)
+对于同一个锁,我们可以创建多个Condition,
+如果采用Object类中的wait(), notify(), notifyAll()就不可以；
 
-－－－－－－－－－－－－－－－－－－－－－－－－－－
+--------------------------------------
 import java.util.concurrent.locks.Condition;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
@@ -4337,31 +4116,239 @@ public class Test {
 	}
 }
 
-------------------------------------------
-wait()和sleep()的区别?
-wait释放锁,sleep,yeild不会释放锁.只是让出执行权
 
-如何让多个线程轮流执行?
-切换问题,解决判断加 wait()加 notify()联合使用(2,个线程内).或Condition(推荐)
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-wait();等待 notify();唤醒 notifyAll();唤醒线程池的所有,它们都只能使用在同步块中.														
-只有同一个锁上的被等待wait线程可以被同一个锁上的notify唤醒.等待和唤醒必须是同一个锁.
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-为什么这些操作线程的方法要定义Object类中:因为锁可以是任意对象.(了解)
-t1.join();时主线程会等待t1执行完毕后才会执行,至于还有其他线程在执行,cpu不管.
-join主要用来临时加入线程,join运行时主线程就等待中...
-Thread.yield();这个函数功能可以使2个线程交替执行是错误的.只能让出执行权,但还可能抢到
-优先级:
-setPriority(int newPriority) 更改线程的优先级.         
-MAX_PRIORITY 线程可以具有的最高优先级(10级).在Thread类
-yield()暂停当前正在执行的线程对象,并执行其他线程,如果只有2个线程相当于交替执行  
 ----------------------------------------------------
 并发是指同时有很多事要做(发生),并行是指同时做多件事(执行);
 
 因此并发后 可以并行处理 也可以 串行处理,所以并发和并行是不同的概念;
------------------------------------------------------  
+----------------------------------------------------- 
+中断线程:
+
+Java的语言层面上没有提供有保证性的能够安全的终止线程的方法.而是采用了一种协商的方式来对线程进行中断
+ 
+//使用stop来暂停线程是错误的(它会戛然而止,不会输出下面的结束)
+volatile boolean keepRunning; //保证其他线程能读到该值的变化
+public void run(){
+	
+	while(keepRunning){//如果等于false时,前一次的for 循环一样会执行完!
+		for(int i=0; i<5; i++){
+			System.out.print("运行中..");
+			Thread.yield();//让出当次执行权,在次争抢
+		}
+	}
+	System.out.print("结束");
+}
+---------------
+//中断线程 推荐
+https://www.cnblogs.com/onlywujun/p/3565082.html
+
+使用interrupt()停止线程也是不正确的,
+interrupt()方法是用来唤醒被阻塞的线程的,如：BlockingQueue#put、BlockingQueue#take、Object#wait、Thread#sleep.,它会将中断标识设为 true,默认 false;
+catch的InterruptedException就会接收到这个打断,具体怎么操作还得当前线程自己决定
+
+try {
+	Thread.sleep(2000L);
+} catch (InterruptedException e) { //一旦使用Interrupt(打断),就会抓住这个异常,且当前标识也变为false
+	//这里可以加入逻辑,不要什么都不做.如果你不知道如何处理最好不要try,直接抛出异常;或则
+	//再次使用interrunpt()恢复中断状态
+}finally {
+	//线程结束前做一些清理工作d
+}	
+
+
+线程的方法,通过调用isInterrupted()和interrupted()方法都能来判断该线程是否被中断,它们的区别是:
+
+public void interrupt() //中断目标线程,相当于设置表示位true
+public boolean isInterrupted()//返回目标线程的中断标识值
+public static boolean interrupted()//唯一清除中断标识设置false,返回之前值
+
+举例:
+public void run() {
+    try {
+        ...
+        /*
+         * 不管循环里是否调用过线程阻塞的方法如sleep、join、wait,这里还是需要加上
+         * !Thread.currentThread().isInterrupted()条件,虽然抛出异常后退出了循环,显
+         * 得用阻塞的情况下是多余的,但如果调用了阻塞方法但没有阻塞时,这样会更安全、更及时.
+         */
+        while (!Thread.currentThread().isInterrupted()&& more work to do) {
+            do more work 
+        }
+    } catch (InterruptedException e) {
+        //线程在wait或sleep期间被中断了
+    } finally {
+        //线程结束前做一些清理工作
+    }
+}
+
+
+//【多线程】——停止线程的三种方式
+https://blog.csdn.net/jiadajing267/article/details/80137006
+
+
+/**
+ * 这个段程序主要目的测试interrupt()方法,来停止线程,结果运行发现for循环永远会输完100,最初觉得
+ *在InterruptedException 异常发生后使用 Thread.currentThread().interrupt()后while的判断就该不成立了,但为什么
+ * 还是输出了100;后来我才发现,while其实已经不成立了,只是里面的for循环不会因为Thread.currentThread().interrupt()
+ * 而退出
+ *
+ * 最后总结:
+ * 1,在while中使用for这种嵌套要注意,while不成立时,for还是会执行完成
+ * 2,Thread.currentThread().interrupt()确实可以停止while的isInterrupted()判断
+ * 3,InterruptedException 进到这个异常中时,标识已经时false了
+ * 4,如果在InterruptedException 中不再次使用Thread.currentThread().interrupt(),while条件永远生效,会无限循环
+ * 5,beack来退出for循环,但后面的语句还会执行
+ * 6,使用return退出for循环,后面的语句不会执行
+ *
+ */
+public class MyThread extends Thread {
+    public static void main(String[] args) {
+        MyThread t = new MyThread();
+        t.start();
+       try {
+            Thread.sleep(2000);//使开启的线程能够跑到执行体,否则线程还没到达执行体就被中断,此时判断中断状态肯定为true.
+            //那么就不能跑到执行体里面了
+        } catch (InterruptedException e1) {
+            e1.printStackTrace();
+        }
+        System.out.println("主线程中断开启线程" + t.currentThread().isInterrupted());
+        t.interrupt();//主线程中断开启线程
+
+        System.out.println("等待中断请求" + t.currentThread().isInterrupted());
+        try {
+            Thread.sleep(3000);//等待开启线程处理中断
+        } catch (InterruptedException e) {
+            System.out.println("2222222222222");
+            e.printStackTrace();
+        }
+        System.out.println("应用程序结束");
+    }
+
+
+    public void run() {
+        while (!this.isInterrupted()) {
+            System.out.println("线程正在运行..");
+            for (int i = 0; i < 10; i++) {
+                try {
+                    Thread.sleep(1000);
+                } catch (InterruptedException e) {
+                    System.out.println("开启线程被中断" + Thread.currentThread().isInterrupted());
+                    Thread.currentThread().interrupt();//对中断请求的处理就是中断自己,如果屏蔽它while条件永远成立,死循环
+                    System.out.println("开启线程被中断--后" + Thread.currentThread().isInterrupted());
+                    // break;//跳出for循环,但for循环后还是会执行
+                    //return;//让for循环外的代码不被执行
+                }
+                System.out.println("i的值为：" + i + " " + Thread.currentThread().isInterrupted());
+            }
+            System.out.println("for循环后的代码");
+        }
+    }
+}
+
+--------------------------------
+synchronized,volatile,final; 
+//这3种可以保证变量的可见性,让值显示可见
+
+(精华中的精华,线程共享变量和这段话密切相关)
+所有的变量都存储在主内存中;
+每个线程有自己独立的工作内存,里面保存该线程使用到的变量(是主内存中的一份拷贝)
+线程对共享变量的所有操作都必须在自己的工作内存中进行,不能直接从主内存中读写
+不同线程之间无法直接访问其他线程中的内存中的变量,线程之间变量值的传递需要通过主内存来转换
+
+完成需要共享变量可见性.java使用 volatile 或 synchronized 让共享变量具备可见性;
+
+synchronized 有两个功能: 
+1,原子行 //互斥,一次能有一个线程进来修改(线程原子性可以理解为事务的一致性)
+2,可见性 //值的修改马上被读取到
+synchronized 使用时的流程;
+1,获得 互斥锁
+2,清空工作区(线程)内存,从主内存拷贝变量到工作内存中
+3,执行代码,将工作内存值刷新到主内存
+4,释放 互斥锁
+
+----------------------------------
+volatile 和 synchronized 都可以让变量可见,但 volatile 不能保证复合操作的原子性,volatile 执行数度更快
+
+如果给一个变量加上volatile修饰符,就相当于：每一个线程中一旦这个值发生了变化就马上刷新回主存,使得各个线程取出的值相同;被 volatile 修饰的变量,内存模型不会对它进行重排序,会让它的操作不会缓存在寄存器上,总是返回最新值.
+
+重排序:
+重排序是为了提高执行性能,Java内存模型允许编译器对操作指令顺序进行重排序,并将数值缓存在寄存器中;
+
+请在64位或则叫8个字节,数值变量的读取加入volatile:
+
+如 long,double在多线程使用时需要加入volatile,因为jvm将64位的操作允许分为2次操作,如果读和写的操作不是同一个线程
+时可能只读到一般32位的值.volatile 变量的写操作先行发生于后面对这个变量的读操作
+
+java内存模型要求: 变量的读和写入操作必须时原子性的,但对64位就不保证了
+
+举例:
+private volatile int number = 0; //volatile只能可见,不能保证原子性
+number ++;//看似只有一步,其实底层大概会有3步
+1,读取number的值
+2,将number值加1;
+3,写最新的number到内存中;
+
+因为是3步,就可能在多线程时错乱;不能保证原子性(不是多线程不会出现错乱)
+
+而synchronized一次只能一个线程进去执行,就保证了原子性
+synchronized(this){
+	number ++; 
+}
+-------------------------------------
+方式一：
+/**
+ * 功能描述:测试Volatile不能保证原子性,synchronized可以；
+ * 另Thread.activeCount()结合hread.yield()让当前主线程等待,请仔细
+ * 想想主和其它线程的切换过程；
+ */
+public class VolatileDemo {
+
+	// 共享数据的访问权限都必须定义为private
+	private volatile int number;
+
+	public int getNumber() {
+		return this.number;
+	}
+
+	// synchronized加到方法上,但这样的执行时间会久,推荐精确力度
+	public void setNumber() {
+		try {
+			Thread.sleep(100L);
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
+		/**
+		 * 下面是保证可见性的两种方式,我们选一种synchronized,
+		 * volatile不能保存原子性；
+		 */
+		//synchronized (this) {
+		//	this.number++;
+		//}
+		this.number++;//运行多次会出现错误
+	}
+
+	public static void main(String[] args) {
+
+		final VolatileDemo vd = new VolatileDemo();
+		for (int i = 0; i < 500; i++) {//启动500个线程做+1操作
+			new Thread(new Runnable() {
+				@Override
+				public void run() {
+					vd.setNumber(); // +1操作
+				}
+			}).start();
+		}
+
+		// Thread.activeCount()查询线程数量;如果大于1,说明除了主线程还有其他线程;这样可以保证子线程完毕后执行主线程
+		// 另 Thread.activeCount()不能再Junit方法体中测试,判断会一直返回true
+		while (Thread.activeCount() > 1) {
+			Thread.yield();// 让出执行权;(作用:让全部子线程执行完成后才执行下面输出)
+		}
+		// 本来结果是等于500,但实际结果可能不是500,就是原子性出现了问题,就算可见却不能保证原子性
+		System.out.println("子线程一定执行完毕了,最后值:" + vd.getNumber());
+	}
+}
+-----------------------------------------------
 ThreadLocal
 
 https://www.jianshu.com/p/3c5d7f09dfbd
@@ -4455,6 +4442,10 @@ public class MyThreadLocal {
 ---------------------------------
 高级多线程
 
+实现Callable,可以得到线程返回值;百度云有源码 线程3-Callable
+//Java线程池 ExecutorService
+http://blog.csdn.net/suifeng3051/article/details/49443835
+
 CAS是compare and swap的缩写,即我们所说的比较交换;cas是一种基于锁的操作,而且是乐观锁;在java中锁分为乐观锁和悲观锁;悲观锁是将资源锁住,等一个之前获得锁的线程释放锁之后,下一个线程才可以访问;而乐观锁采取了一种宽泛的态度,通过某种方式不加锁来处理资源,比如通过给记录加version来获取数据,性能较悲观锁有很大的提高;
 ---------
 原子操作是指不会被线程调度机制打断的操作；这种操作一旦开始,就一直运行到结束,中间不会有任何一个线程）
@@ -4500,6 +4491,9 @@ newCachedThreadPool将corePoolSize设置为0,将maximumPoolSize设置为Integer.
 newScheduledThreadPool 定时任务的线程池
 七,
 ConcurrentHashMap,如BlockingQueue(生产者消费者更好的实现),Semeaphore, CyclicBarrier, ReentrantLock,Future
+
+八,java Memory Mode (java 内存模型)
+JMM 描述了java线程共享变量的访问规则,以及JVM中将变量存储到内存和从内存中读取出变量的底层细节;
 
 
 javaseend
@@ -12101,7 +12095,11 @@ basic.reject用于否定确认，与basic.nack相比有一个限制:一次只能
 channel.basicReject(deliveryTag, true);  //拒绝消费当前消息，
 //如果第二参数传入true，该消息将重回队列,服务器不会删除这条消息,但这种可能出现无限循环
 //如果设置false,消息被消费服务器会删除这条消息
-
+----------------------
+channel.basicNack(deliveryTag, false, true);
+第一个参数依然是当前消息到的数据的唯一id;
+第二个参数是指是否针对多条消息；如果是true，也就是说一次性针对当前通道的消息的tagID小于当前这条消息的，都拒绝确认。
+第三个参数是指是否重新入列，也就是指不确认的消息是否重新丢回到队列里面去
 
 总结:
 需要实现 ChannelAwareMessageListene,然后得到deliveryTag,这样就是生产者发过来的id,这样返回这个id让生产者知道消费成功
@@ -12123,7 +12121,7 @@ public class MyAckReceiver implements ChannelAwareMessageListener {
             System.out.println("  MyAckReceiver  messageId:"+messageId+"  messageData:"+messageData+"  createTime:"+createTime);
             System.out.println("消费的主题消息来自："+message.getMessageProperties().getConsumerQueue());
             channel.basicAck(deliveryTag, true); //第二个参数，手动确认可以被批处理，当该参数为 true 时，则可以一次性确认 delivery_tag 小于等于传入值的所有消息
-//			channel.basicReject(deliveryTag,true);//第二个参数，true会重新放回队列，所以需要自己根据业务逻辑判断什么时候使用拒绝
+//	channel.basicReject(deliveryTag,true);//第二个参数，true会重新放回队列，所以需要自己根据业务逻辑判断什么时候使用拒绝
         } catch (Exception e) {
             channel.basicReject(deliveryTag, false);
             e.printStackTrace();
@@ -12703,11 +12701,7 @@ shiro如何流转的:
 前端user/list.jsp中通过shiro标签控制着按钮是否显示;
 ++++++++++++++++++++++++++++++++++++++++++++++
 ++++++++++++++++++++++++++++++++++++++++++++++
-提高篇
-hashMap和红黑树
-https://www.cnblogs.com/mfrank/p/9165250.html
-++++++++++++++++++++++++++++++++++++++++++++++
-++++++++++++++++++++++++++++++++++++++++++++++
+
 设计模式
 
 OO设计就是面向对象编程,面向对象的3/或4大特征如:
@@ -13175,7 +13169,7 @@ https://www.cs.usfca.edu/~galles/visualization/BTree.html
 数据元素就是客观存在的事物,独立的单元;如人,牛,石头,瓶子;
 数据类型(基础数据类型和引用数据类型)就是对数据元素的抽象,作用是让计算机对数据元素进行分类处理
 
-数据结构是数据元素 相互之间 存在特定关系
+数据结构是 数据元素 相互之间 存在特定关系
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 数据结构从不同的角度有不同的分类,比如从逻辑和物理进行区分:
 逻辑:线性,集合,树形,图形;
@@ -13196,17 +13190,17 @@ https://www.cs.usfca.edu/~galles/visualization/BTree.html
 环形链表就是尾节点的指针指向头节点,这样就形成成一个回路;判断时需要先判断下一个不为null且不等于头节点,才next
 ;两个环形节点合并也是比较方便的,只需将一个环形链表的尾指针指向另一个环形链表的头结点,尾结点指向另一个头结点;
 
-队列 :先进先出,尾端进,头端出;有2个口
+队列 :先进先出,一端进另一端出;有2个口
 栈 : 先进后出,尾部进尾部出,只有一个口
 链式存储 : 就是链表,有数据区和指针区,数据区存数据,指针区存在一个节点的位置
+,可能有头节点(放公共的内容),最后一个节点的指针区是null
 
-可能有头节点(放公共的内容),最后一个节点的指针区是null
-栈的链式存储叫栈链,栈链没有头结点,直接就是top指向栈顶,不存在溢出情况,除非物理内存吃完
+栈的链式存储叫栈链(可以不是连续的空间),栈链没有头结点,直接就是top指向栈顶,不存在溢出情况,除非物理内存吃完
 栈链和顺序栈的存和取都是O(1),顺序栈和需要事前确定一个固定的长度,栈链不需要,
 栈链还多了一个指向下一个节点的指针域;
 顺序存储就是一段联系的储存单元,需要事前定义固定的长度;固定长度可能导致比如短信固定70个字;
-栈的作用比如递归,就是一个进栈,出栈的过程;比如计算器就是,中继表达式转后继表达式
-遇到符号弹出2个数字就计算
+栈的作用比如递归,就是一个进栈,出栈的过程;比如计算器(中继表达式转后继表达式
+遇到符号弹出2个数字就计算)
 队列的链式储存就是线性表的单链表,只不过它只能尾进,头出而已;
 
 串
@@ -13216,14 +13210,13 @@ https://www.cs.usfca.edu/~galles/visualization/BTree.html
 
 树
 
-树是n个结点的有限集.n=0称为空树,在任意一个非空树有且只有一个根root结点;
+树是n个结点的有限集.n=0,称为空树,在任意一个非空树都只有一个根root结点;
 n>1时,分为互相不相交的子节点,其中每一个集合本身又是一棵树称为根子树;
 根,双亲(子根),兄弟,堂兄;树的高度就是树的深度,
 
 二叉树的特点:
 1,每个节点最多有两棵子树,没有子树或只有一个子树都是可以的
-2,左子小,右子大
-
+2,左小,右大
 
 满二叉树,是最完美的2叉树,其次是完全2叉树,完全2叉树空节点也必须有节点站位,且叶子节点从左开始
 
@@ -13232,6 +13225,7 @@ n>1时,分为互相不相交的子节点,其中每一个集合本身又是一棵
 链表存储格式为 lchild data rchild 每个节点有左右两个指针,指向左右两个儿子,这样大大减少空节点
 
 二叉树的遍历:
+总结:都是转为线性转换遍历
 
 是指从根节点出发,按照某种次序依次访问二叉树,每个节点都被访问一次,且仅为一次
 如果按从左到右的习惯主要分4种:
@@ -13241,7 +13235,7 @@ n>1时,分为互相不相交的子节点,其中每一个集合本身又是一棵
 前序立即打印,中序返回后才打印;前序从根节点开始打印,中序从左叶开始打印
 中序和后序的区别:
 后序也从左叶开始打印,然后打印兄弟节点,而中序是打完左叶子后打印父节点在到兄弟
-二叉树的遍历总结:都是转为线性转换遍历
+
 
 二叉树的创建:
 二叉树的创建就是补全空节点,然后通过如前序递归成线性链
@@ -13277,8 +13271,11 @@ io的次数等于树的高度
 红黑树不追求立即平衡和绝对平衡,它可以在o(log2 n)时间复杂度进行搜索,插入,删除;它的旋转转动3步之内
 一定可以完成;他们2个时间复杂度一样,但红黑树的统计性能更高,红黑树在动态数据上比哈希表有更优的性能
 
+//【Java入门提高篇】Day22 Java容器类详解 ,HashMap源码分析
+https://www.cnblogs.com/mfrank/p/9165250.html
 --------------------------------
 btree(Balance Tree,多路平衡查找树,是一个矮胖树):
+//验证打油诗理解Mysql B+Tree索引机制【咕泡学院】 视频
 https://www.bilibili.com/video/BV1Xb411n7ka?from=search&seid=9757130464848264394
 子节点不在是只有2个,可以是多个;相对于磁盘更好的存储结构
 
@@ -13289,11 +13286,10 @@ btree和b+tree 数据单元的中的ID都是一个区间范围,如17-35,查询�
 
 为什么平衡二叉树不能作为mysql存取数据的数据结构?
 
-1,搜索效率不足;一般来说,在树结构中,数据所处的深度,决定了搜索时的IO次数（MySql中将每个节点大小设置为一页大小,一次IO读取一页 / 一个节点）;如上图中搜索id = 8的数据,需要进行3次IO;当数据量到达几百万的时候,树的高度就会很恐怖;
+1,搜索效率不足,查询不不稳定;一般来说,在树结构中,数据所处的深度,决定了搜索时的IO次数（MySql中将每个节点大小设置为一页大小,一次IO读取一页 / 一个节点）;如上图中搜索id = 8的数据,需要进行3次IO;当数据量到达几百万的时候,树的高度就会很恐怖;
 
-2,查询不不稳定;如果查询的数据落在根节点,只需要一次IO,如果是叶子节点或者是支节点,会需要多次IO才可以;
-
-3,存储的数据内容太少;没有很好利用操作系统和磁盘数据交换特性,也没有利用好磁盘IO的预读能力;因为操作系统和磁盘之间一次数据交换是以页为单位的,一页大小为4K,即每次IO操作系统会将4K数据加载进内存;但是,在二叉树每个节点的结构只保存一个关键字,一个数据区,两个子节点的引用,并不能够填满4K的内容;幸幸苦苦做了一次的IO操作,却只加载了一个关键字;在树的高度很高,恰好又搜索的关键字位于叶子节点或者支节点的时候,取一个关键字要做很多次的IO;
+2,存储的数据内容太少;
+没有很好利用操作系统和磁盘数据交换特性,也没有利用好磁盘IO的预读能力;因为操作系统和磁盘之间一次数据交换是以页为单位的,一页大小为4K,即每次IO操作系统会将4K数据加载进内存;但是,在二叉树每个节点的结构只保存一个关键字,一个数据区,两个子节点的引用,并不能够填满4K的内容;幸幸苦苦做了一次的IO操作,却只加载了一个关键字;在树的高度很高,恰好又搜索的关键字位于叶子节点或者支节点的时候,取一个关键字要做很多次的IO;
 ---------------------------------------------------
 
 b+tree
@@ -13312,9 +13308,9 @@ mysql 中又定义了一个page目录的概念,大小也是16kb,如果海量数�
 根层是一个page目录的爷爷-->page目录的爸爸--->page层--->数据小单元
 3,层大概可以存30多亿字节
 btree VS b+tree的区别?
-b+非叶子节点不保存数据相关信息,只保存关键字和子节点的引用
-b+叶子节点是顺序排序的,并且相邻节点具有顺序引用的关系
-b+扫描库和表的能力更强,读写磁盘的能力更强,排序能力更强,更加稳定
+1,b+非叶子节点不保存数据相关信息,只保存关键字和子节点的引用
+2,b+叶子节点是顺序排序的,并且相邻节点具有顺序引用的关系
+3,b+扫描库和表的能力更强,读写磁盘的能力更强,排序能力更强,更加稳定
 ++++++++++++++++++++++++++++++++++++++++++++++
 ++++++++++++++++++++++++++++++++++++++++++++++
 oracle
