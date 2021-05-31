@@ -3390,7 +3390,7 @@ public class zhuhanshu{
 -----------------------------------------------------------------------
 NIO(jdk1.4,就有了),BIO,AIO
 
-Java NIO 使您能够进行非阻塞IO。例如，线程可以要求通道将数据读取到缓冲区中。当通道将数据读取到缓冲区时，线程可以做其他事情。将数据写入频道也是如此;
+Java NIO 使您能够进行非阻塞IO。例如,线程可以要求通道将数据读取到缓冲区中。当通道将数据读取到缓冲区时,线程可以做其他事情。将数据写入频道也是如此;
 
 
 传统的Socket中:
@@ -3791,7 +3791,7 @@ notifyAll();唤醒全部等待中的线程
 notify VS notifyAll?
 //Object的notify和notifyAll方法的区别 ,推荐
 https://blog.csdn.net/liuzhixiong_521/article/details/86677057
-每个对象都拥有两个池，分别为锁池(EntrySet)和(WaitSet)等待池,notify和notifyAll都只是唤醒等待池中的线程放入
+每个对象都拥有两个池,分别为锁池(EntrySet)和(WaitSet)等待池,notify和notifyAll都只是唤醒等待池中的线程放入
 锁池;
 
 wait()和sleep()的区别?
@@ -4246,16 +4246,14 @@ public class MyThread extends Thread {
 }
 
 --------------------------------
-synchronized,volatile,final; 
-//这3种可以保证变量的可见性,让值显示可见
 
-(精华中的精华,线程共享变量和这段话密切相关)
+线程共享变量和这段话密切相关
 所有的变量都存储在主内存中;
 每个线程有自己独立的工作内存,里面保存该线程使用到的变量(是主内存中的一份拷贝)
 线程对共享变量的所有操作都必须在自己的工作内存中进行,不能直接从主内存中读写
 不同线程之间无法直接访问其他线程中的内存中的变量,线程之间变量值的传递需要通过主内存来转换
 
-完成需要共享变量可见性.java使用 volatile 或 synchronized 让共享变量具备可见性;
+完成需要共享变量可见性.java使用 synchronized,volatile,final 让共享变量具备可见性;
 
 synchronized 有两个功能: 
 1,原子行 //互斥,一次能有一个线程进来修改(线程原子性可以理解为事务的一致性)
@@ -4265,24 +4263,28 @@ synchronized 使用时的流程;
 2,清空工作区(线程)内存,从主内存拷贝变量到工作内存中
 3,执行代码,将工作内存值刷新到主内存
 4,释放 互斥锁
-
 ----------------------------------
 volatile 和 synchronized 都可以让变量可见,但 volatile 不能保证复合操作的原子性,volatile 执行数度更快
 
-如果给一个变量加上volatile修饰符,就相当于：每一个线程中一旦这个值发生了变化就马上刷新回主存,使得各个线程取出的值相同;被 volatile 修饰的变量,内存模型不会对它进行重排序,会让它的操作不会缓存在寄存器上,总是返回最新值.
+被 volatile 修饰的变量,内存模型不会对它进行重排序,会让它的操作不会缓存在寄存器上,总是返回最新值;
+
+如果给一个变量加上 volatile 修饰符,就相当于：每一个线程中一旦这个值发生了变化就马上刷新回主存,使得各个线程取出的值相同;
 
 重排序:
 重排序是为了提高执行性能,Java内存模型允许编译器对操作指令顺序进行重排序,并将数值缓存在寄存器中;
 
-请在64位或则叫8个字节,数值变量的读取加入volatile:
-
-如 long,double在多线程使用时需要加入volatile,因为jvm将64位的操作允许分为2次操作,如果读和写的操作不是同一个线程
-时可能只读到一般32位的值.volatile 变量的写操作先行发生于后面对这个变量的读操作
 
 java内存模型要求: 变量的读和写入操作必须时原子性的,但对64位就不保证了
 
-举例:
-private volatile int number = 0; //volatile只能可见,不能保证原子性
+请在64位或则占8个字节的数值变量的读取加入 volatile:
+如 long, double 因为jvm将64位的操作允许分为2次操作,如果读和写的操作不是同一个线程
+时可能读到不是最新一次写入的值;但加了 volatile 就不会,因为:
+被 volatile 修饰的变量,Happens-before规定写操作先行发生于后面对这个变量的读操作;
+
+
+
+但 volatile 只能可见,不能保证原子性:
+private volatile int number = 0;
 number ++;//看似只有一步,其实底层大概会有3步
 1,读取number的值
 2,将number值加1;
@@ -4350,7 +4352,7 @@ public class VolatileDemo {
 }
 -----------------------------------------------
 ThreadLocal
-
+//ThreadLocal,文件有源码分析,推荐看源码就一个get,set方法
 https://www.jianshu.com/p/3c5d7f09dfbd
 
 ThreadLocal用来解决多线程环境中资源竞争的问题;它不是通过加锁的方式,而是通过每个线程保存一份资源的副本, 
@@ -4360,7 +4362,7 @@ private static final ThreadLocal<CurrentUser> threadLocal = new ThreadLocal<Curr
 得到当前用户;gsso,ppp项目都是这样得到当前用户的；
 
 ThreadLocal会为每个使用该变量的线程提供独立的变量副本,所以每一个线程都可以独立地改变自己的副本,而不会影响其它线
-程所对应的副本;这样做其实就是以空间换时间的方式,以耗费内存为代价,大大减少了线程同步(如synchronized)
+程所对应的副本;这样做其实就是以空间换时间,以耗费内存为代价,减少了线程同步(如 synchronized)
 所带来性能消耗 和 线程并发控制的复杂度;
 
 
@@ -4368,8 +4370,7 @@ ThreadLocal会为每个使用该变量的线程提供独立的变量副本,所�
 synchronized是利用锁的机制,使变量或代码块在某一时该只能被一个线程访问;而ThreadLocal为每一个线程都提供了变量的副本,
 使得每个线程在某一时间访问到的并不是同一个对象.(线程独立数据)
 
-synchronized关键字是Java利用锁的机制自动实现的,一般有同步方法和同步代码块两种使用方式;Java中所有的对象都自动含有单一的锁
-(也称为监视器),当在对象上调用其任意的synchronized方法时,此对象被加锁(一个任务可以多次获得对象的锁,计数会递增)
+synchronized(也称为监视器),当在对象上调用其任意的synchronized方法时,此对象被加锁(一个任务可以多次获得对象的锁,计数会递增)
 
 举例：
 /**
@@ -4381,22 +4382,22 @@ public class MyThreadLocal {
 	//private static final ThreadLocal<CurrentUser> threadLocal = new ThreadLocal<CurrentUser>();
 	
 	private static final ThreadLocal<Object> threadLocal = new ThreadLocal<Object>() {
-		/**
-		 * ThreadLocal调用get方法时如果是null或调用remove后就会调用此方法;我们可以在这里返回初始值
-		 */
+		
+		//ThreadLocal调用get方法时如果是null或调用remove后就会调用此方法;我们可以在这里返回初始值		
 		@Override
 		protected Object initialValue() {
 			System.out.println("调用get方法时,当前线程共享变量没有设置,调用initialValue获取默认值！");
 			return 5555;
 		}
+		
 	};
+
+
 
 	public static void main(String[] args) {
 		new Thread(new MyIntegerTask("Int1_")).start();
 		new Thread(new MyIntegerTask("Int2_")).start();
-		
 	}
-
 
 	public static class MyIntegerTask implements Runnable {
 		private String name;
@@ -4442,14 +4443,8 @@ public class MyThreadLocal {
 ---------------------------------
 高级多线程
 
-实现Callable,可以得到线程返回值;百度云有源码 线程3-Callable
-//Java线程池 ExecutorService
-http://blog.csdn.net/suifeng3051/article/details/49443835
-
-CAS是compare and swap的缩写,即我们所说的比较交换;cas是一种基于锁的操作,而且是乐观锁;在java中锁分为乐观锁和悲观锁;悲观锁是将资源锁住,等一个之前获得锁的线程释放锁之后,下一个线程才可以访问;而乐观锁采取了一种宽泛的态度,通过某种方式不加锁来处理资源,比如通过给记录加version来获取数据,性能较悲观锁有很大的提高;
----------
-原子操作是指不会被线程调度机制打断的操作；这种操作一旦开始,就一直运行到结束,中间不会有任何一个线程）
 一,
+原子操作是指不会被线程调度机制打断的操作；这种操作一旦开始,就一直运行到结束,中间不会有任何一个线程）
 atomicXXX和volatile的区别?
 atomicInteger 可以保证原子性,底层是CAS方式实现
 
@@ -4457,44 +4452,166 @@ atomicInteger 可以保证原子性,底层是CAS方式实现
 钩子线程?
 jvm关闭的时候先执行该线程钩子
 Runtime.getRuntime().addShutdownHook(shutdownThread);
-三,
-CountDownLatch是一个同步工具类,它允许一个或多个线程一直等待,直到其他线程的操作执行完后再执行;
-CountDownLatch最重要的方法是countDown() 做减的操作 
-await() 只要上面的减减操作没有到0 就会一直等待;
 
-
-五,
-在java5以后,一个可以调度执行的线程单元可以有三种方式定义：
-
-Thread,Runnable,Callable,其中Runnable实现的是void run()方法,Callable实现的是
- V call()方法,并且可以返回执行结果,Callable一般提交给ExecuteService来执行;
-
-简单来说,Executor就是Runnable和Callable的调度容器,Future就是对于具体的调度任务的执行
-结果进行查看,最为关键的是Future可以检查对应的任务是否已经完成,也可以阻塞在get方法上一直等待
-任务返回结果;Runnable和Callable的差别就是Runnable是没有结果可以返回的
-
-有返回值的线程 
+四,
+实现Callable,可以得到线程返回值;百度云有源码 线程3-Callable
+//Java线程池 ExecutorService
+http://blog.csdn.net/suifeng3051/article/details/49443835
 
 为什么需要?
 Future 可用于异步获取子线程执行结果(其实就是自己创建了一个List,把每一个子线程结果装进去了)或取消执行任务的场景;
 
-1,可以通过 ExecutorService pool = Executors.newFixedThreadPool(taskSize); 设置线程个数
-2,Future f = pool.submit(c);  通过这句话启动线程,线程返回值在f变量里面；c是Callable的一个实现类(返回值和Callable相关)
-3,class MyCallable implements Callable<Object> 它就是c；重写call方法（方法体就是线程执行内容）
-4, Future返回值保存在一个list中,这样我们可以马上关系线程,节约资源
+ExecutorService pool = Executors.newFixedThreadPool(taskSize);//设置线程个数
+class MyCallable implements Callable<Object> //它就是c；重写call方法（方法体就是线程执行内容）
+//通过这句话启动线程,线程返回值在f变量里面；c是Callable的一个实现类(返回值和Callable相关)
+Future f = pool.submit(c);//Future返回值保存在一个list中
 
-六,
-newFixedThreadPool创建的线程池corePoolSize和maximumPoolSize值是相等的,它使用的LinkedBlockingQueue；
-newSingleThreadExecutor将corePoolSize和maximumPoolSize都设置为1,也使用的LinkedBlockingQueue；
-newCachedThreadPool将corePoolSize设置为0,将maximumPoolSize设置为Integer.MAX_VALUE,使用的SynchronousQueue,
-也就是说来了任务就创建线程运行,默认当线程空闲超过60秒就销毁;
-newScheduledThreadPool 定时任务的线程池
-七,
-ConcurrentHashMap,如BlockingQueue(生产者消费者更好的实现),Semeaphore, CyclicBarrier, ReentrantLock,Future
+
+五,同步容器类:
+Vecter和Hashtable,这些同步类都是在原有方法上加了同步锁实现
+
+六,同步工具类:
+Queue 队列:通过实现LinkedList来实现Queue,只是关闭了list的随机访问,队列只能从2端或一端依次访问;
+
+队列分为阻塞队列和非阻塞队列:
+//并发队列就是非阻塞队列
+public class ConcurrentLinkedQueue<E> implements Queue<E>
+
+有界队列是一种强大的资源管理工具:它们能防止产生过多的工作项,应用在程序过载的情况下推荐使用;
+
+//图灵学院：Java高并发之BlockingQueue
+https://blog.csdn.net/qq_42135428/article/details/80285737
+
+BlockingQueue 阻塞队列(生产者消费者更好的实现,因为当队列满时,插入被阻塞,当队列为空时,获取被阻塞)
+BlockingQueue有多种实现:
+ LinkedBlockingQueue和ArrayBlockQueue都是FIFO,它们功能和LinkedList和ArrayList类似但有更好的并发功能; LinkedBlockingQueue阻塞队列大小的配置是可选的,如果我们初始化时指定一个大小,它就是有边界的,如果不指定,它就是无边界的。说是无边界,其实是采用了默认大小为Integer.MAX_VALUE的容量 。
+ 
+ PriorityBlockingQueue 是一种按优先级排序的队列,如果几个任务有优先级的区别那么使用它不是直接ok;
+ synchronousQueue:没有存储功能,其它都有;它的内部同时只能够容纳单个元素,主要是防止多生产的情况.因此put和take会一直阻塞,直到另一个线程参与到交互中
+ DelayQueue:延迟队列 一个无界阻塞队列,只有在延迟期满时才能从中提取元素。该队列的头部 是延迟期满后保存时间最长的 Delayed 元素。如果延迟都还没有期满,则队列没有头部,并且 poll 将返回 null。
+继承 BlockingQueue:
+public interface BlockingDeque extends BlockingQueue, Deque 
+
+BlockingDeque类是一个双端队列,在不能够插入元素时,它将阻塞住试图插入元素的线程；在不能够抽取元素时,它将阻塞住试图抽取的线程。
+
+deque(双端队列) 是 "Double Ended Queue" 的缩写。因此,双端队列是一个你可以从任意一端插入或者抽取元素的队列。
+
+
+
+ 
+Semeaphore 信号量:通过发放许可证的获取执行权的方式
+CyclicBarrier 栅栏:可以循环适合反复开始的业务
+CountDownLatch 闭锁:不能再次循环的业务,它让一个或多个线程一直等待,直到其他线程的操作执行完后再执行;
+主要方法:
+	countDown() 做减的操作
+	await() 只要上面的减减操作没有到0 就会一直等待;
+
+七,并发容器:
+并发容器是针对同步容器来的,同步容器都持有一个锁,并发容器是通过CAS来完成的;
+CAS是compare and swap的缩写,即我们所说的比较交换;cas是一种基于锁的操作,而且是乐观锁;在java中锁分为乐观锁和悲观锁;悲观锁是将资源锁住,等一个之前获得锁的线程释放锁之后,下一个线程才可以访问;而乐观锁采取了一种宽泛的态度,通过某种方式不加锁来处理资源,比如通过给记录加version字段然后带version来获取数据,在并发量不是很大的情况,性能比悲观锁有很大的提高;
+
+ConcurrentHashMap :通过一种粒度更细的加锁机制来实现更大程度共享,这种机制称为分段锁;
+CopyOnWriteArrayList:用于遍历为主的操作情况,读操作读原有的,写操作是克隆后修改重新发布;
+ConcurrentLinkedQueue:并发队列,非阻塞队列,没有put和take方法,性能好于BlockingQueue.它是一个基于链接节点的无界线程安全队列。该队列的元素遵循先进先出的原则。头是最先加入的,尾是最近加入的,该队列不允许null元素。
 
 八,java Memory Mode (java 内存模型)
 JMM 描述了java线程共享变量的访问规则,以及JVM中将变量存储到内存和从内存中读取出变量的底层细节;
 
+ABA问题:
+针对CAS的出现的问题,V的值由A变B,在由B变A,如果这时cas在带着a变量(version)去尝试修改时,以为没有被修改过,其实已经不是了;这种情况我们在业务分析考虑,不行就用同步锁
+
+---------------------
+线程池
+
+//【Java并发】并发队列与线程池
+https://www.cnblogs.com/haoworld/p/t004bing-fa-bian-chengbing-fa-dui-lie-yu-xian-chen.html
+
+线程池的好处:
+1,降低资源消耗。通过重复利用已创建的线程降低线程创建和销毁造成的消耗。
+2,提高响应速度。当任务到达时,任务可以不需要等到线程创建就能立即执行。
+3,提高线程的可管理性。线程是稀缺资源,如果无限制地创建,不仅会消耗系统资源,还会降低系统的稳定性,使用线程池可以进行统一分配、调优和监控。但是,要做到合理利用线程池,必须对其实现原理了如指掌。
+
+Executors（jdk1.5,并发包）类提供四种静态方法创建线程池(不推荐)：
+
+Executors.newFixedThreadPool创建的线程池corePoolSize和maximumPoolSize值是相等的,它使用的LinkedBlockingQueue；
+Executors.newSingleThreadExecutor将corePoolSize和maximumPoolSize都设置为1,也使用的LinkedBlockingQueue；
+Executors.newCachedThreadPool将corePoolSize设置为0,将maximumPoolSize设置为Integer.MAX_VALUE,使用的SynchronousQueue,
+也就是说来了任务就创建线程运行,默认当线程空闲超过60秒就销毁;
+Executors.newScheduledThreadPool 定时任务的线程池
+
+源码解读:
+//Executors提供了4种静态方法创建线程池,内部其实都是走的ThreadPoolExecutor的构造器,只是传入参数不同而已
+public class Executors {
+	
+	public static ExecutorService newFixedThreadPool(int nThreads) {
+		return new ThreadPoolExecutor(nThreads, nThreads, 0L, TimeUnit.MILLISECONDS, new LinkedBlockingQueue());
+	}
+}
+
+阿里巴巴规范:
+强制】线程池不允许使用Executors去创建,而是通过ThreadPoolExecutor的方式,
+这样的处理方式更加明确线程池的运行规则,规避资源耗尽的风险。
+
+1,newFixedThreadPool和newSingleThreadExecutor:
+主要问题是堆积的请求处理队列可能会耗费非常大的内存,甚至OOM。
+2,newCachedThreadPool和newScheduledThreadPool:
+主要问题是线程数最大数是Integer.MAX_VALUE,可能会创建数量非常多的线程,甚至OOM。
+
+推荐
+创建线程池的方式ThreadPoolExecutor:
+
+源码:
+public class ThreadPoolExecutor extends AbstractExecutorService {
+    .....
+    public ThreadPoolExecutor(int corePoolSize,int maximumPoolSize,long keepAliveTime,TimeUnit unit,
+            BlockingQueue<Runnable> workQueue);
+ 
+    public ThreadPoolExecutor(int corePoolSize,int maximumPoolSize,long keepAliveTime,TimeUnit unit,
+            BlockingQueue<Runnable> workQueue,ThreadFactory threadFactory);
+ 
+    public ThreadPoolExecutor(int corePoolSize,int maximumPoolSize,long keepAliveTime,TimeUnit unit,
+            BlockingQueue<Runnable> workQueue,RejectedExecutionHandler handler);
+ 
+    public ThreadPoolExecutor(int corePoolSize,int maximumPoolSize,long keepAliveTime,TimeUnit unit,
+        BlockingQueue<Runnable> workQueue,ThreadFactory threadFactory,RejectedExecutionHandler handler);
+    ...
+}
+
+构造器中各个参数的含义：
+
+corePoolSize：核心池的大小,这个参数跟后面讲述的线程池的实现原理有非常大的关系。在创建了线程池后,默认情况下,线程池中并没有任何线程,而是等待有任务到来才创建线程去执行任务,除非调用了prestartAllCoreThreads()或者prestartCoreThread()方法,从这2个方法的名字就可以看出,是预创建线程的意思,即在没有任务到来之前就创建corePoolSize个线程或者一个线程。默认情况下,在创建了线程池后,线程池中的线程数为0,当有任务来之后,就会创建一个线程去执行任务,当线程池中的线程数目达到corePoolSize后,就会把到达的任务放到缓存队列当中；
+
+maximumPoolSize：线程池最大线程数,这个参数也是一个非常重要的参数,它表示在线程池中最多能创建多少个线程；
+
+keepAliveTime：表示线程没有任务执行时最多保持多久时间会终止。默认情况下,只有当线程池中的线程数大于corePoolSize时,keepAliveTime才会起作用,直到线程池中的线程数不大于corePoolSize,即当线程池中的线程数大于corePoolSize时,如果一个线程空闲的时间达到keepAliveTime,则会终止,直到线程池中的线程数不超过corePoolSize。但是如果调用了allowCoreThreadTimeOut(boolean)方法,在线程池中的线程数不大于corePoolSize时,keepAliveTime参数也会起作用,直到线程池中的线程数为0；
+
+unit：参数keepAliveTime的时间单位,有7种取值。TimeUnit.DAYS、TimeUnit.HOURS、TimeUnit.MINUTES、TimeUnit.SECONDS、TimeUnit.MILLISECONDS、TimeUnit.MICROSECONDS、TimeUnit.NANOSECONDS
+
+workQueue：一个阻塞队列,用来存储等待执行的任务,这个参数的选择也很重要,会对线程池的运行过程产生重大影响,一般来说,这里的阻塞队列有以下几种选择：ArrayBlockingQueue、LinkedBlockingQueue、SynchronousQueue。 
+ArrayBlockingQueue和PriorityBlockingQueue使用较少,一般使用LinkedBlockingQueue和Synchronous。线程池的排队策略与BlockingQueue有关。
+
+threadFactory：线程工厂,主要用来创建线程；
+
+handler：表示当拒绝处理任务时的策略,有以下四种取值： 
+ThreadPoolExecutor.AbortPolicy:丢弃任务并抛出RejectedExecutionException异常。 
+ThreadPoolExecutor.DiscardPolicy：也是丢弃任务,但是不抛出异常。 
+ThreadPoolExecutor.DiscardOldestPolicy：丢弃队列最前面的任务,然后重新尝试执行任务（重复此过程） 
+ThreadPoolExecutor.CallerRunsPolicy：由调用线程处理该任务
+
+合理配置线程池:
+	CPU密集型,该任务需要大量的运算,而没有阻塞,CPU一直全速运行,所有你配置太多线程数也是没用的只能和实际物理
+	线程对应。
+	IO密集型,该任务需要大量的IO,即大量的阻塞。
+
+首先得分析任务的特性可以从以下几个角度分析：
+　　1. 任务的性质：CPU密集型任务、IO密集型任务、混合型任务。
+　　2. 任务的优先级：高、中、低。
+　　3. 任务的执行时间：长、中、短。
+　　4. 任务的依赖性：是否依赖其他系统资源,如数据库连接等。
+
+CPU密集型时，任务可以少配置线程数，大概和机器的cpu核数相当，这样可以使得每个线程都在执行任务
+IO密集型时，大部分线程都阻塞，故需要多配置线程数，2*cpu核数
+-------------------------------
 
 javaseend
 +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -4672,57 +4789,7 @@ dbcp tomcat默认在用;c3p0 Hibernate默认使用;开发推荐阿里
 
 +++++++++++++++++++++++++++++++++++++++++++++++++++++
 +++++++++++++++++++++++++++++++++++++++++++++++++++++
-精华
-事务四大特征：原子性,一致性,隔离性和持久性;(简称ACID)
-1,原子性（Atomicity）
-    要么全部执行成功,那么一条都不执行
-2,一致性（Consistency）
-	例如一次转账过程中,从某一账户中扣除的金额与另一账户中存入的金额相等;
-3,隔离性（Isolation）
-	隔离性和隔离级别有关;
-4,持久性（Durability）
-    事务成功结束前必须保存至某种物理存储设备;
--------------------
-	/**
-	 *	需求: Tom 给 Jerry 汇款 500 元.
-	 
-	   注意:
-	   如果多个操作, 每个操作使用的是自己的单独的连接, 则无法保证事务. 
-	   
-	   2. 具体步骤:
-	   1). 事务操作开始前,关闭自动提交,作用执行 多条语句 后再手动提交
-			connection.setAutoCommit(false); 
-	   2). 提交事务
-			connection.commit(); 
-	   3). 回滚事务: 若出现异常, 则在 catch 块中回滚事务:
-	 */
-	  
-	@Test
-	public void testTransaction() {
-
-		Connection connection = null;
-		try {
-			connection = JDBCTools.getConnection();
-			connection.setAutoCommit(false);//开始事务操作前:取消默认提交.	
-			String sql = "UPDATE users SET balance = balance - 500 WHERE id = 1";
-			update(connection, sql);//第一条任务:同一个连接
-			int i = 10 / 0;
-			System.out.println(i);
-			sql = "UPDATE users SET balance = " + "balance + 500 WHERE id = 2";
-			update(connection, sql);//第二条任务:同一个connection
-			// 提交事务
-			connection.commit();
-		} catch (Exception e) {
-			e.printStackTrace();
-			try {
-				connection.rollback();//在异常中回滚事务
-			} catch (SQLException e1) {
-				e1.printStackTrace();
-			}
-		} finally {
-			JDBCTools.releaseDB(null, null, connection);//关闭连接
-		}
-}		
+	
 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
@@ -6602,7 +6669,7 @@ public class EmployeeDao {
 		return employee;
 	}
 }
-----------------------------------------------------
+------------------------------
 事务和锁引发的思考.
 
 事务为保证一个操作的原子性而设置的,一个事务必定包含多个操作,多个操作再逻辑上要保证完整一致,
@@ -6611,16 +6678,73 @@ public class EmployeeDao {
 同步是为了解决多线程使用过程中,使用相同资源导致数据不一致而引入的,使用了同步机制,那么多个线程在访问同一资源时,
 必须等到另一个线程使用完毕,释放了这个资源,其它的线程才有机会使用.
 
-----------
+------------------------------
+	
+精华
 事务四大特征：原子性,一致性,隔离性和持久性;(简称ACID)
-1. 原子性（Atomicity）
+1,原子性（Atomicity）
     要么全部执行成功,那么一条都不执行
-2. 一致性（Consistency）
+2,一致性（Consistency）
 	例如一次转账过程中,从某一账户中扣除的金额与另一账户中存入的金额相等;
-3. 隔离性（Isolation）
+3,隔离性（Isolation）
 	隔离性和隔离级别有关;
-4. 持久性（Durability）
+4,持久性（Durability）
     事务成功结束前必须保存至某种物理存储设备;
+		
+脏读:一个事务处理过程里读取了另一个未提交的事务中的数据,绝对不可以的
+幻读:两个事务都读取了同一个字段的数据,其中一个事务修改了这个值,而另一个事务不知道,还用原来的值
+不可重复读:就是t1事务执行时已经读取了值,这时t2又来修改了该值并提交,而t1不能重新获取最新值
+	
+现在来看看MySQL数据库为我们提供的四种隔离级别：
+
+① Serializable (串行化)：可避免脏读、不可重复读、幻读的发生。
+② Repeatable read (可重复读)：可避免脏读、不可重复读的发生。
+③ Read committed (读已提交)：可避免脏读的发生。
+④ Read uncommitted (读未提交)：最低级别，任何情况都无法保证。
+
+总结:幻读只有串行化可以解决,其它都无法1解决
+-------------------
+	/**
+	 *	需求: Tom 给 Jerry 汇款 500 元.
+	 
+	   注意:
+	   如果多个操作, 每个操作使用的是自己的单独的连接, 则无法保证事务. 
+	   
+	   2. 具体步骤:
+	   1). 事务操作开始前,关闭自动提交,作用执行 多条语句 后再手动提交
+			connection.setAutoCommit(false); 
+	   2). 提交事务
+			connection.commit(); 
+	   3). 回滚事务: 若出现异常, 则在 catch 块中回滚事务:
+	 */
+	  
+	@Test
+	public void testTransaction() {
+
+		Connection connection = null;
+		try {
+			connection = JDBCTools.getConnection();
+			connection.setAutoCommit(false);//开始事务操作前:取消默认提交.	
+			String sql = "UPDATE users SET balance = balance - 500 WHERE id = 1";
+			update(connection, sql);//第一条任务:同一个连接
+			int i = 10 / 0;
+			System.out.println(i);
+			sql = "UPDATE users SET balance = " + "balance + 500 WHERE id = 2";
+			update(connection, sql);//第二条任务:同一个connection
+			// 提交事务
+			connection.commit();
+		} catch (Exception e) {
+			e.printStackTrace();
+			try {
+				connection.rollback();//在异常中回滚事务
+			} catch (SQLException e1) {
+				e1.printStackTrace();
+			}
+		} finally {
+			JDBCTools.releaseDB(null, null, connection);//关闭连接
+		}
+}		
+	
 -----------------------------------------------------
 精华
 基于注解的Transactional的类
@@ -6662,6 +6786,12 @@ public class BookShopServiceImpl implements BookShopService{
 	}
 }
 
+传播行为（propagation behavior）:
+指的就是当前事务方法被另一个事务方法调用时，当前事务方法应该如何进行。
+
+例如：methodA事务方法调用methodB事务方法时，methodB是继续在调用者methodA的事务中运行呢，还是为自己开启一个新事务运行，这就是由methodB的事务传播行为决定的。
+
+注意:这里methodA和methodB都会进行上面的判断
 
 Spring共支持7种传播行为Propagation传播性取值：
 
@@ -6676,6 +6806,8 @@ never:在无事务状态下执行；如果当前有事务也抛出异常IllegalT
 
 nested (嵌套):如果当前存在事务,则在嵌套事务内执行;如果当前没有事务,则创建一个事务
 嵌套事务一个非常重要的概念就是内层事务依赖于外层事务;外层事务失败时,会回滚内层事务所做的动作;而内层事务操作失败并不会引起外层事务的回滚
+
+//【Spring学习34】Spring事务(4)：事务属性之7种传播行为
 https://blog.csdn.net/weixin_39625809/article/details/80707695
 ----------------------------------------
 
@@ -8853,7 +8985,7 @@ $git push -- 推到github上面
 //Git 分支管理
 https://www.runoob.com/git/git-branch.html
 
-使用分支意味着你可以从开发主线上分离开来，然后在不影响主线的同时继续工作。大团队还可以分不同任务不同分支同步开发;有人把 Git 的分支模型称为必杀技特性
+使用分支意味着你可以从开发主线上分离开来,然后在不影响主线的同时继续工作。大团队还可以分不同任务不同分支同步开发;有人把 Git 的分支模型称为必杀技特性
 
 注意:
 我们在创建分支时,分支的内容会自动有当前主分支的内容,但在继续在主分支的操作,分支中是不会自动同步过去的.
@@ -11977,7 +12109,7 @@ Kafka:数度快,超大数据,无限扩展;可靠性要求不是很高的企业;(
 
 
 rabbitMq:
-//Springboot 整合RabbitMq ，用心看完这一篇就够了 ,如果是springboot项目推荐
+//Springboot 整合RabbitMq ,用心看完这一篇就够了 ,如果是springboot项目推荐
 https://blog.csdn.net/qq_35387940/article/details/100514134
 //安装rabbitmq前必须安装Erlang语言,这个链接下载快
 https://erlang.org/download/otp_versions_tree.html
@@ -12022,8 +12154,8 @@ basic_pulish("消息","change-a","*.msg");
 # 用来表示任意数量（零个或多个）单词
 举例:
 队列Q1 绑定键为 *.TT.* ,队列Q2绑定键为  TT.#
-如果消息携带的路由键为 A.TT.B，那么队列Q1将会收到；
-如果消息携带的路由键为TT.AA.BB，那么队列Q2将会收到；
+如果消息携带的路由键为 A.TT.B,那么队列Q1将会收到；
+如果消息携带的路由键为TT.AA.BB,那么队列Q2将会收到；
 
 --------------
 多租户:rabbitmq通过虚拟主机vhost不同进行隔离,在顶层进行隔离
@@ -12090,16 +12222,16 @@ public class RabbitConfig {
 手动确认分为3种:
 basic.ack用于肯定确认 
 basic.nack用于否定确认 
-basic.reject用于否定确认，与basic.nack相比有一个限制:一次只能拒绝单条消息 
+basic.reject用于否定确认,与basic.nack相比有一个限制:一次只能拒绝单条消息 
 关键点说明:
-channel.basicReject(deliveryTag, true);  //拒绝消费当前消息，
-//如果第二参数传入true，该消息将重回队列,服务器不会删除这条消息,但这种可能出现无限循环
+channel.basicReject(deliveryTag, true);  //拒绝消费当前消息,
+//如果第二参数传入true,该消息将重回队列,服务器不会删除这条消息,但这种可能出现无限循环
 //如果设置false,消息被消费服务器会删除这条消息
 ----------------------
 channel.basicNack(deliveryTag, false, true);
 第一个参数依然是当前消息到的数据的唯一id;
-第二个参数是指是否针对多条消息；如果是true，也就是说一次性针对当前通道的消息的tagID小于当前这条消息的，都拒绝确认。
-第三个参数是指是否重新入列，也就是指不确认的消息是否重新丢回到队列里面去
+第二个参数是指是否针对多条消息；如果是true,也就是说一次性针对当前通道的消息的tagID小于当前这条消息的,都拒绝确认。
+第三个参数是指是否重新入列,也就是指不确认的消息是否重新丢回到队列里面去
 
 总结:
 需要实现 ChannelAwareMessageListene,然后得到deliveryTag,这样就是生产者发过来的id,这样返回这个id让生产者知道消费成功
@@ -12120,8 +12252,8 @@ public class MyAckReceiver implements ChannelAwareMessageListener {
             String createTime=msgMap.get("createTime");
             System.out.println("  MyAckReceiver  messageId:"+messageId+"  messageData:"+messageData+"  createTime:"+createTime);
             System.out.println("消费的主题消息来自："+message.getMessageProperties().getConsumerQueue());
-            channel.basicAck(deliveryTag, true); //第二个参数，手动确认可以被批处理，当该参数为 true 时，则可以一次性确认 delivery_tag 小于等于传入值的所有消息
-//	channel.basicReject(deliveryTag,true);//第二个参数，true会重新放回队列，所以需要自己根据业务逻辑判断什么时候使用拒绝
+            channel.basicAck(deliveryTag, true); //第二个参数,手动确认可以被批处理,当该参数为 true 时,则可以一次性确认 delivery_tag 小于等于传入值的所有消息
+//	channel.basicReject(deliveryTag,true);//第二个参数,true会重新放回队列,所以需要自己根据业务逻辑判断什么时候使用拒绝
         } catch (Exception e) {
             channel.basicReject(deliveryTag, false);
             e.printStackTrace();
