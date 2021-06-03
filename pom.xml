@@ -45,7 +45,7 @@
     <!--dependencyManagement不实际依赖,是给子类继承使用的-->
     <dependencyManagement>
         <dependencies>
-            <!-- 动态数据源 -->
+            <!-- 动态数据源,依赖这个包 -->
             <dependency>
                 <groupId>com.baomidou</groupId>
                 <artifactId>dynamic-datasource-spring-boot-starter</artifactId>
