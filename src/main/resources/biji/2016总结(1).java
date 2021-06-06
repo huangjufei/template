@@ -1461,7 +1461,8 @@ void getChare (int srcBegin, int srcEnd, char[] dst, int dstBegin)
 JDK1.5,版本之后出现了StringBuilder
 StringBuffer 线程同步被 synchronized 修饰,StringBuilder 线程不同步但速度快
 
-------------------------------------------------
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 时间
 
 时间相关的类:
@@ -1605,15 +1606,17 @@ public class DateTimeUtils {
 	
 +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-异常体系结构
+Throwable
 
-java.lang.Object
-	|--java.lang.Throwable(所有异常都具有可抛性,抛出不处理,当前线程停止)
-		|--java.lang.Error:错误,jdk本身错误,无需关心
-		|--java.lang.Excption:异常.需要编译前进行处理
-			|--RuntimeException:运行时异常(ArrayIndexOutOfBoundsException数组下标越界 NullPointerException空指针
-									ArithmeticException算法异常 ClassCastException类型转换异常,bean重复)			
+异常体系结构:
+java.lang.Throwable(所有异常都具有可抛性;抛出不处理,到最外层,当前线程停止)
+	|--java.lang.Error: jdk本身错误,无需关心
+	|--java.lang.Excption: 需要编译前进行处理
+		|--RuntimeException: 运行时异常(ArrayIndexOutOfBoundsException数组下标越界 NullPointerException空指针
+								ArithmeticException算法异常 ClassCastException类型转换异常,bean重复)
 
+Excption VS RuntimeException 开发时如何选择?
+根据业务看是否需要编译前就显示处理异常,如果是就选择Exception,如果不是就选RuntimeException							
 
 捕获异常格式:
 try:{
@@ -1626,27 +1629,27 @@ try:{
 
 
 如何自定义异常信息？
-自定义类继承Throwable 或子类即可,将异常信息传给父类;
+自定义类然后 继承 Throwable 或子类即可,将异常信息传给父类;
 因为父类中已经把异常信息的操作都完成了,所以子类只要在构造时将异常传递给父类通过
  super 语句,然后直接通过getMessage方法获得异常信息.
 
 继承原因:
-异常体系有一个特点:都具备可抛性,这是 Throwable 这个体系独有特点.只有这个体系中的类和对象才可以被 throws 和 throw 操作
-throws 和 throw 的区别:
+异常体系有一个特点:都具备可抛性,这是 Throwable 这个体系独有特点.只有这个体系中的类和对象才可以被 throws 和 throw 操作;
+
+throws VS throw:
 throws 使用在的函数上,后面跟的是异常类,多个用逗号隔开.
 throw 使用在函数内,后跟的是异常对象.
-~~~~~~~~~~~~~~~~~~~
 	
 java程序分为javac.exe(编译)和java.exe(运行)两个过程
 
 异常分两种:
 Exception(编译) 和 RuntimeException(运行)
 1,编译时异常必须显示告诉程序如何处理,要么方法上 throw ,要么 try;不然无法编译代码
-如果 throw 的话,该方法上还必须 throws ,调用者必须处理(要么 try 要么继续抛,直到线程执行器,如果还未处理,线程将停止执行);
+如果 throw 的话,该方法上还必须 throws,比如Thread.sleep()方法
  
 2,RuntimeException 以及子类如果在函数内 throw 抛出该异常,方法上可以不用声明,编译一样通过(所以就要看业务是否需要用户显示处理还是运行处理来判断哪种异常)
 如果在方法上 throws 声明了该异常,调用者可以不用 try, catch 处理,
-因为在运行时,出现了无法继续运算的情况,希望停止程序后,由程序员进行修正.
+如在运行时,出现了无法继续运算的情况,希望停止程序后,由程序员进行修正.
 ------------------
 举例:
 //如何自定义异常,继承一个异常超类即可
@@ -1698,14 +1701,13 @@ SpringMvc 统一异常处理有 3 种方式(精华),分别为:
 
 1,spring MVC提供的SimpleMappingExceptionResolver
 2,实现 HandlerExceptionResolver 接口 (这种基于xml配置可以直接跳转的页面;全局搜索有例子)
-3,使用注解 @ControllerAdvice + @ExceptionHandler(方法注解)推荐 (百度网盘springbootHello-3有例子)
+3,使用 类注解@ControllerAdvice + 方法注解@ExceptionHandler推荐 (百度网盘springbootHello-3有例子)
 
 关于异常总结(精华):
 
  java对异常进行了对象封装,jdk中有很多异常对象;但在业务开发时我们有很多业务异常我们希望有自己异常对象这样能更精确更友好提示用户;
 所以出现了自定义异常类;实际开发时我们可能会在service层抛出各种自定义异常,如果我们在controler层对每个异常分别处理的话
 会让我们代码可读性变差,和工作量加大;这时就统一异常处理就排上用场了;统一异常通过上面3种实现;
-
 
 
 异常的好处:
@@ -1720,24 +1722,25 @@ SpringMvc 统一异常处理有 3 种方式(精华),分别为:
 当捕获到异常,本功能处理不了时,可以继续从 catch 中抛出.
 
 在子父类覆盖时:
-1,子类抛出的异常必须是父类的异常的子集或者子类.
+子类抛出的异常必须是父类的异常的子集或者子类.
 +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 包(package)
 作用:对类文件进行分类管理,提供多层命名空间(防止类名一样,出现冲突
 
-有了包后类的全名:包名.类名
+类的全名 = 包名.类名
 
-然后四种修饰public是全部,private只有一个;同包的优先级高于子类
 
-  访问权限   类   同包  子类  不同包
+ 访问权限   类   同包  子类  不同包
   public     ∨   	∨    ∨     ∨
 
-protected    ∨   	∨    ∨     ×
+protected    ∨   	∨    ∨     × (同包的优先级高于子类)
 
-  default    ∨   	∨    ×      ×
+  default    ∨   	∨    ×     ×
 
-  private    ∨   	×    ×      ×
+  private    ∨   	×    ×     ×
+  
+public 是全部,protected 不同包不行, 默认 子类和不同包不行
 +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 正则表达式:
@@ -1856,13 +1859,13 @@ public class Regex {
 +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 集合
 
-分为 Collection 和 Map 两大体系
+分为 Collection (接口)和 Map (接口)两大体系
 
 				List:ArrayList LinkedList Vector
 Collection	
   				Set :HashSet  LinkedHashSet TreeSet
 
-Map	 				  HashMap  LinkedHashMap  TreeMap  Hashtable
+Map	 		HashMap  LinkedHashMap  TreeMap  Hashtable
 
 Collections 工具箱这个类(里面有一些公共方法,子类共享如排序,反转排序,追加,随机排序,数组转list,单词首字母排序)
 ---------------------------------
@@ -1871,17 +1874,17 @@ Collection 接口
 		~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 			|---ArrayList(推荐.底层原理是数组)实现了List还实现了其它接口
 			|---LinkedList(底层是链表,对于大量的插入,删用它)实现类
-			|---vector(古老的,线程安全的,一般不用) 实现类
+			|---vector(古老的,线程安全的,数组+synchronized) 实现类
+			
 	|---Set(**存储**是无序的,不可重复;方法基本和父类Collection一样)
 		~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 			无序指的是存储的位置是无序,底层是按hashCode值存储的
 			不可重复:Set集合存储 首先会判断HashCode值,如果值一样在判断equlas.
-			如果不一样,直接存.这样大大提高了效率.这样Set必需复写好HashCode方法.和 equals 方法 
-			****************
+			如果不一样,直接存,
+			如果一样就覆盖,这样大大提高了查询效率.所以Set必需复写好HashCode方法.和 equals 方法 
 			
 			|---HashSet(推荐,底层其实用是HashMap,key就是该对象,value统一放的是new Object())
-			|---LinkedHashSet:根据元素的hashCode值来决定元素的存储位置,同时使用链表维护元素的次序,
-								(使用效果是有序的,但底层其实无序,因为有链表维护)
+			|---LinkedHashSet:使用链表维护元素的次序,让它成为有序的,但物理存储是无序的					
 			|---TreeSet:可以按照指定属性进行排序
 				1,向TreeSet添加的元素必须是同一个类的.
 				2,基础类型有默认排序;如String.包装类默认从小到大顺序遍历
@@ -1889,8 +1892,7 @@ Collection 接口
 				
 
 
-重点:操作集合大多数  List和 linked我们要复写 equals ; 
-Set和Map 我们要复写HashCode 和 equals ;
+重点:操作集合大多数 List和 linked我们要复写 equals ; Hash 我们要复写HashCode 和 equals ;
 
 
 iterator()方法返回的是一个 Iterator 接口实现类的对象
@@ -1925,7 +1927,7 @@ for(集合中对象 对象变量:需要遍历的集合){
 }
 
 -------------------------------------------
-Iterator和 for each的区别: 
+Iterator VS for each: 
 1,for each 不能删除集合元素 
 2,Iterator 只能使用自身的remove()方法来删除元素,不能用集合的删除操作 
 3,ArrayList里,for循环较快,LinkedList里,使用iterator较快
@@ -1956,10 +1958,10 @@ public static void main(String[] args) {
 		String [] s = {"1","2","1","2"};
 		List<String> l = new ArrayList();
 		
-		l = Arrays.asList(s);//错误方式
+		l = Arrays.asList(s);//错误方式,数组转集合
 		l.remove(0);//报错java.lang.UnsupportedOperationException
 		
-		List<String> l2 = new ArrayList(Arrays.asList(s)); //推荐使用  		
+		List<String> l2 = new ArrayList(Arrays.asList(s)); //推荐使用,通过构造方法	
 		l2.remove(0);   		
 		System.out.println(l2.size());
 		System.out.println(s.length);       
@@ -1993,28 +1995,33 @@ public class MyMap {
 		map.put("c", 3);
 		map.put("d", 3);	
 		
-		//通过entrySet,循环得到(推荐)
-	    for (Map.Entry<String, Integer> m: map.entrySet()) {
-            System.out.println(m.getKey() +"=="+ m.getValue());
-        }
 	
-		//2,通过keySet 返回的是一个Set得到的只是key的值,通过key又可以得到value(不推荐)
+		//通过keySet 返回的是一个Set得到的只是key的值,通过key又可以得到value(不推荐)
 		Set s = map.keySet();
 		for(Object o: s){
 			System.out.println(o+"---"+map.get(o));//o是键,get(o)得到值		
 		}	
 		
-		//3,只能得到value值(可以是增强for ,iterator)不推荐
+		//通过values,只能得到value值(可以是增强for ,iterator)不推荐
 		Collection c = map.values();
 		Iterator i = c.iterator();
 		while(i.hasNext()){
 			System.out.println(i.next());//打印:1,2,3,3			
-		}		
+		}	
+
+
+		//通过entrySet,循环得到(推荐)
+	    for (Map.Entry<String, Integer> m: map.entrySet()) {
+            System.out.println(m.getKey() +"=="+ m.getValue());
+        }
+			
 	}
 
 }
 
 ---------------------------------------------------
+map转化为xml:
+
 了解,这种3方jar包多,直接百度最好
 import com.commontools.xml.XmlTool;
 
@@ -2028,7 +2035,7 @@ Map<String, Object> responseMap = XmlTool.xmlElements(str_result);
 
 +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-比较2个不同对象的值是否相等(目的是为了排序):
+比较2个对象的值是否相等(目的 是为了排序):
 
 实现这两种接口的第一种:comparable 或 comparator(推荐)后类才具有可比较性后,才可能如排序的现实
 
@@ -2114,8 +2121,9 @@ public void test() {
 +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 枚举类(有点像内部类且立即被实例化)
-
+//java枚举常见用法
 https://www.cnblogs.com/singlecodeworld/p/9887926.html
+//为什么要用枚举实现单例模式（避免反射、序列化问题）
 https://www.cnblogs.com/chiclee/p/9097772.html
 
 好处:
@@ -2126,7 +2134,7 @@ https://www.cnblogs.com/chiclee/p/9097772.html
 1,使用menu定义的枚举直接继承了java.long.Enum类,而不是继承Object类.其中java.long.Enum类实现了java.long.Serializable
 2,使用enum定义、非抽象的枚举默认修饰符为final,因此枚举不能派生子类.
 3,枚举的构造器默认为private修饰且只能被它修饰(可以不用手动写)
-4,枚举的所有实例必须在枚举的第一行显示列出(建议大写),否则这个枚举永远都不能生产实例,列出这些实例时系统会自动添加 public static final修饰,无需程序员显式添加
+4,枚举的所有实例必须在枚举的第一行显示列出(建议大写),否则这个枚举永远都不能生产实例,列出这些实例时系统会自动添加 public static final 修饰,无需程序员显式添加
 5,所有的枚举类都提供了一个values方法,该方法可以很方便的遍历所有的枚举值
 6,枚举类对象的属性不能更改,所以要用private final修饰
 
@@ -2309,12 +2317,12 @@ System.out.println(p.toAbsolutePath());
 reflection  反射 
 generic 泛型
 
-****************************************************************
+
 过程:
-class类.java经过编译(javac.exe)以后,得到.class文件也叫字节码文件
+java文件经过编译(javac.exe)以后,得到.class文件也叫字节码文件
 再运行java.exe会运行JVM的 getClassLoader() 类的加载器 把.class文件加载到内存中的缓存区
 .每一个放入缓存区中的.class文件 就是 一个Class的实例! (每一个运行时类只加载一次)
-****************************************************************
+
 
 反射是动态语言的基础.
 类是对象的描述,对象是类的实例(经典呀)
@@ -3069,6 +3077,7 @@ Spring的Resource 接口
 
 目的:
 通过JDK中的File,URL类难以满足各种不同资源加载,Spring中设计的Resource接口提供获取文件资源(文件流,文件内容)
+//spring 中的资源访问和加载 Resource ClassPathResource FileSystemResource ServletContextResource URLResource
 https://blog.csdn.net/xiaoliuliu2050/article/details/81463223
 
 ResourceLoader是对资源加载的统一接口
@@ -3113,9 +3122,12 @@ public static void main(String[] args) throws IOException {
 ++++++++++++++++++++++++++++++++++++++++++++++++++++
 Socket{插座}
 
-socket是对TCP/IP协议的封装,Socket本身并不是协议,而是一个调用接口(API)
+Socket是什么呢？
+Socket是应用层与TCP/IP协议族通信的中间软件抽象层,它是一组接口;在设计模式中,Socket其实就是一个门面模式,它把复杂的TCP/IP协议族隐藏在Socket接口后面,对用户来说,一组简单的接口就是全部,让Socket去组织数据,以符合指定的协议;
+
 java网络通信其实就是Socket间的通信
 *************************************
+
 //TCP/IP,HTTP,Socket和Servlet之间的逻辑关系,系统点
 https://www.pianshen.com/article/5692745826/
 
@@ -3123,41 +3135,30 @@ https://www.pianshen.com/article/5692745826/
 
 1,TCP/IP是个协议组,可分为三个层次:网络层,传输层和应用层;
 
-在网络层有IP协议,ICMP协议,ARP协议,RARP协议和BOOTP协议;
-
-在传输层中有TCP协议与UDP协议;
-
-在应用层有FTP,HTTP,TELNET,SMTP,DNS等协议;
-
-因此,HTTP本身就是一个协议,是从Web服务器传输超文本到本地浏览器的传送协议;
+在网络层有:IP协议,ICMP协议,ARP协议,RARP协议和BOOTP协议;
+在传输层中有:TCP协议与UDP协议;
+在应用层有:FTP,HTTP,TELNET,SMTP,DNS等协议;HTTP只是应用层的协议
 
 2,HTTP协议是建立在请求/响应模型上的;首先由客户建立一条与服务器的TCP链接,并发送一个请求到服务器,请求中包含请求方法,URI,协议版本以及相关的MIME样式的消息;服务器响应一个状态行,包含消息的协议版本,一个成功和失败码以及相关的MIME式样的消息;
 
-HTTP/1.0,为每一次HTTP的请求/响应建立一条新的TCP链接,因此一个包含HTML内容和图片的页面将需要建立多次的短期的TCP链接;一次TCP链接的建立将需要3次握手;
+HTTP/1.0,为每一次HTTP的请求/响应建立一条新的TCP链接,因此一个包含HTML内容和图片的页面将需要建立多次的短期的TCP链接;一次TCP链接的建立将需要3次握手,
+而其并不带有实际有用的数据,只是保证链接的可靠性,因此HTTP/1.1,提出了可持续链接的实现方法;HTTP/1.1,将只建立一次TCP的链接而重复地使用它传输一系列的请求/响应消息.
 
-另外,为了获得适当的传输速度,则需要TCP花费额外的回路链接时间(RTT);每一次链接的建立需要这种经常性的开销,而其并不带有实际有用的数据,只是保证链接的可靠性,因此HTTP/1.1,提出了可持续链接的实现方法;HTTP/1.1,将只建立一次TCP的链接而重复地使用它传输一系列的请求/响应消息,因此减少了链接建立的次数和经常性的链接开销;
-
-3,结论:虽然HTTP本身是一个协议,但其最终还是基于TCP的;不过,目前,有人正在研究基于TCP+UDP混合的HTTP协议;
-
-Socket是什么呢？
-
-Socket是应用层与TCP/IP协议族通信的中间软件抽象层,它是一组接口;在设计模式中,Socket其实就是一个门面模式,它把复杂的TCP/IP协议族隐藏在Socket接口后面,对用户来说,一组简单的接口就是全部,让Socket去组织数据,以符合指定的协议;
+结论:虽然HTTP本身是一个协议,但其最终还是基于TCP的;
 
 
 
 二,socket和TCP/IP之间关系
 
-而我们平时说的最多的socket是什么呢,实际上socket是对TCP/IP协议的封装,Socket本身并不是协议,而是一个调用接口(API);socket则是对TCP/IP协议的封装和应用(程序员层面上);也可以说,TPC/IP协议是传输层协议,主要解决数据如何在网络中传输,而HTTP是应用层协议,主要解决如何包装数据;关于TCP/IP和HTTP协议的关系,网络有一段比较容易理解的介绍:“我们在传输数据时,可以只使用(传输层)TCP/IP协议,但是那样的话,如果没有应用层,便无法识别数据内容;如果想要使传输的数据有意义,则必须使用到应用层协议;
+socket则是对TCP/IP协议的封装和应用(程序员层面上);也可以说,TPC/IP协议是传输层协议,主要解决数据如何在网络中传输,而HTTP是应用层协议,主要解决如何包装数据;关于TCP/IP和HTTP协议的关系,网络有一段比较容易理解的介绍:“我们在传输数据时,可以只使用(传输层)TCP/IP协议,但是那样的话,如果没有应用层,便无法识别数据内容;如果想要使传输的数据有意义,则必须使用到应用层协议;
 
 三,servlet和HTTP之间的关系
 
-Servlet 是 J2EE 最重要的一部分,有了 Servlet 你就是 J2EE 了,J2EE 的其他方面的内容择需采用;而 Servlet 规范你需要掌握的就是 servlet 和 filter 这两项技术;绝大多数框架不是基于 servlet 就是基于 filter,如果它要在 Servlet 容器上运行,就永远也脱离不开这个模型;为什么 Servlet 规范会有两个包,javax.servlet 和 javax.servlet.http ,早先设计该规范的人认为 Servlet 是一种服务模型,不一定是依赖某种网络协议之上,因此就抽象出了一个 javax.servlet ,同时在提供一个基于 HTTP 协议上的接口扩展;但是从实际运行这么多年来看,似乎没有发现有在其他协议上实现的 Servlet 技术;
+Servlet 是 J2EE 最重要的一部分,有了 Servlet 你就是 J2EE 了,J2EE 的其他方面的内容择需采用;而 Servlet 规范你需要掌握的就是 servlet 和 filter 这两项技术;绝大多数框架不是基于 servlet 就是基于 filter,如果它要在 Servlet 容器上运行,就永远也脱离不开这个模型;为什么 Servlet 规范会有两个包,javax.servlet 和 javax.servlet.http ,早先设计该规范的人认为 Servlet 是一种服务模型,不一定是依赖某种网络协议之上,因此就抽象出了一个 javax.servlet ,同时在提供一个基于 HTTP 协议上的接口扩展;但是从实际运行这么多年来看,没有发现有在其他协议上实现的 Servlet 技术;
 
 为什么我这么强调 HttpServletRequest 和 HttpServletResponse 这两个接口,因为 Web 开发是离不开 HTTP 协议的,而 Servlet 规范其实就是对 HTTP 协议做面向对象的封装,HTTP协议中的请求和响应就是对应了 HttpServletRequest 和 HttpServletResponse 这两个接口;
 
 你可以通过 HttpServletRequest 来获取所有请求相关的信息,包括 URI,Cookie,Header,请求参数等等,别无它路;因此当你使用某个框架时,你想获取HTTP请求的相关信息,只要拿到 HttpServletRequest 实例即可;而 HttpServletResponse接口是用来生产 HTTP 回应,包含 Cookie,Header 以及回应的内容等等;
-
-HTTP 协议里是没有关于 Session 会话的定义,Session 是各种编程语言根据 HTTP 协议的无状态这种特点而产生的;其实现无非就是服务器端的一个哈希表,哈希表的Key就是传递给浏览器的名为 jsessionid 的 Cookie 值;
 
 
 //servlet与tomcat的关系
@@ -3233,7 +3234,7 @@ public class TestTcp {
 	public void Service() throws Exception {
 		ServerSocket ss = new ServerSocket(8989);	
 		Socket s = ss.accept();//阻塞式,会一直监听
-		InputStream input = s.getInputStream();	//从Socket中可以得到输入,输出流,后面的又是老套路
+		InputStream input = s.getInputStream();	//从Socket中可以得到输入,输出流
 		byte [] b = new byte[1024];
 		int len;
 		while((len = input.read(b)) != -1){
@@ -3246,8 +3247,8 @@ public class TestTcp {
 	@Test//客服端
 	public void Client() throws Exception {		
 		Socket s = new Socket("127.0.0.1",8989);	
-		OutputStream out = s.getOutputStream();
-		out.write("Tcp我来了!".getBytes());//
+		OutputStream out = s.getOutputStream();//从Socket中可以得到输入,输出流
+		out.write("Tcp我来了!".getBytes());
 		out.close();
 	}
 }
@@ -3395,13 +3396,12 @@ public class zhuhanshu{
 		 new Thread(new Send(new DatagramSocket())).start();
 	}	
 }
++++++++++++++++++++++++++++++++++++++++++++++++++
++++++++++++++++++++++++++++++++++++++++++++++++++
 
------------------------------------------------------------------------
------------------------------------------------------------------------
------------------------------------------------------------------------
 NIO(jdk1.4,就有了),BIO,AIO
 
-Java NIO 使您能够进行非阻塞IO。例如,线程可以要求通道将数据读取到缓冲区中。当通道将数据读取到缓冲区时,线程可以做其他事情。将数据写入频道也是如此;
+Java NIO 使您能够进行非阻塞IO。线程可以要求通道将数据读取到缓冲区中。当通道将数据读取到缓冲区时,线程可以做其他事情。将数据写入频道也是如此;
 
 
 传统的Socket中:
@@ -3409,26 +3409,26 @@ serverSocket.accept();//一直阻塞到有一个连接建立
 input.readLine();//直到一个换行符或回车符被读取
 
 NIO 解决什么问题?
-1,NIO主要就是解决传统中阻塞,只要将数据督导缓冲区就ok了;
+1,NIO主要就是解决传统中阻塞,只要将数据读到缓冲区就ok了;
 2,传统的socket如果要处理并发客户端只能是几个客户端就创建几个线程去处理,一个线程根据系统
-的不同范围在64kb--1,MB
+的不同,大概需要64kb--1,MB内存
 3,就算内存足够线程切换都是很大的问题,导致并发只能在1w样子,而nio可以到15W以上;通过一个线程控制就足够
 
 
 
 github上有2个项目;
 
-//入门(基础概念.精华)
+//Java NIO：NIO概述,入门(基础概念.精华)
 http://www.cnblogs.com/dolphin0520/p/3919162.html
-//基础(精华)
+//Java NIO：浅析I/O模型,基础(精华)
 https://www.cnblogs.com/dolphin0520/p/3916526.html
-//文件搜索等一系列(精华)
+//Java NIO Files,文件搜索等一系列(精华)
 http://tutorials.jenkov.com/java-nio/files.html
-//只看前2个url,关于netty的(封装了nio)
+//Netty入门（一）：零基础“HelloWorld”详细图文步骤,(只看前2个url)关于netty的(封装了nio)
 https://www.cnblogs.com/applerosa/p/7141684.html
 
 
-在网上一些朋友将同步和异步分别与阻塞和非阻塞画上等号,事实上,它们是两组完全不同的概念;
+在网上一些朋友将同步,异步分别与阻塞,非阻塞画上等号,事实上,它们是两组完全不同的概念;
 
 　　同步和异步着重点在于多线程同时执行,一个任务的执行是否会导致整个流程的暂时等待;
 (如果A,B两个线程执行io操作,同步需要排队,A执行完了才能轮到B执行;异步同时执行)
@@ -3476,7 +3476,8 @@ Netty 大大简化了网络程序的开发过程比如 TCP 和 UDP 的 socket �
 
 
 netty 是什么?
-netty 封装简化nio的使用,各种协议切换容易(TCP,UDP,阻塞io和非阻塞io,ctp);通过pipeline管道动态新增和减少各种channeHandler(如: http编解码,http压缩)来完成我们业务的需求新增或删除,这样简化开发维护的难度(队列中添加).
+netty 封装简化nio的使用,各种协议切换容易(TCP,UDP,阻塞io和非阻塞io);通过pipeline管道动态新增和减少各种channeHandler(如: http编解码,http压缩)来完成我们业务的需求新增或删除,这样简化开发维护的难度(队列中添加).
+
 总结:netty 把各部分组件进行了封装,通过接口编程,然后通过接口关联,有点像搭积木;
 
 ***********************************
@@ -3503,25 +3504,20 @@ Tomcat默认参数传输过程使用的编码为ISO-8859-1
 
 从3个方面来解决乱码问题
 
-1,在xxx.jsp页面保证 contentType="text/html;charset=utf-8" 和 pageEncoding="utf-8"
- 
+1,jsp页面保证 contentType="text/html;charset=utf-8" 和 pageEncoding="utf-8"
 两项编码一致,且支持中文,通常建议utf-8,还需保证浏览器的显示字符编码和请求的jsp页面编码一致
-
 
 2,对于post请求:request.getParamenter 前调用request.setCharacterEncoding("utf-8")即可
 
-
-3,对于get 方法上述2种方式搞不定. 因为get默认在传值的时候用的是iso-8859-1, 所以我们可以通过先解码,再改码的方式得到UTF-8,
-//就是需要每一个值都要设置.很麻烦,不可推荐,推荐下面全局的
-String val = new String(value.getBytes("ISO-8859-1"),"utf-8");//使用ios8859解码后,再用utf-8编码
-
+3,对于get 方法上述2种方式搞不定.get默认在传值的时候用的是iso-8859-1,
 
 这个是全局的(只针对get请求有效)我们可以修改tomcat 的 Server.xml属性. (修改端口号哪行)
 <Connector connectionTimeout="20000" port="8989" protocol="HTTP/1.1" redirectPort="8443" useBodyEncodingForURI="true"/>
+
 或//推荐下面设置URI编码
 <Connector connectionTimeout="20000" port="8989" protocol="HTTP/1.1" redirectPort="8443" URIEncoding="UTF-8"/>
 
-另:
+
 对于响应时出现的乱码如何解决::
 response.setcontentType = ("text/html;charset=utf-8");//设置响应的MIME类型和响应编码
 -----------------------------------------------------
@@ -3531,6 +3527,7 @@ String s2 = new String(s.getBytes("GBK"),"UTF-8");
 //打印正常
 +++++++++++++++++++++++++++++++++++++++++++++++++++++++
 +++++++++++++++++++++++++++++++++++++++++++++++++++++++
+递归:
 
 需求:列出指定目录下的所有内容.
 思路:
@@ -3592,7 +3589,6 @@ public class RecurSion {
 +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
-
 多线程
 
 程序:一个软件;如QQ,360等
@@ -3600,11 +3596,14 @@ public class RecurSion {
 线程: 一个进程可以包含多个线程,一个线程相当于一个子程序
 
 java多线程有2种方式:
-1,继承 Thread 类 (1,没指明就不用,因为锁难保证唯一,2,且java是单继承的)
+1,继承 Thread 类 (1,没指明就不用,因为锁难保证唯一,2,且java是单继承的 3,共享变量不好控制)
 2,实现 Runnable接口,共享变量好控制
-对于继承方式想启动两个以上的线程,只能多 new Object 对象在.start()的方式,但这样共享变量不好控制
-
-
+-----------------------------
+Thread VS Runnable 的区别:
+1,Runnable 避免了java单继承的问题;
+2,Runnable 多个Runnbale 实例可以传给一个Thread实例中,这样可以更好的让多线程共享变量.
+继承Thread的会被new多份,而实现Runable只会new一份;不然共享变量需要就加 static
+-----------------------------
 Thread的常用方法:
 start(): 使该线程开始执行;Java 虚拟机调用该线程的 run 方法.
 run(): 子线程要执行的代码放入run()方法体中
@@ -3619,19 +3618,13 @@ sleep(long value): 显示让当前线程睡眠
 setPriority(int newProiority):改变线程的优先级       
 Thread.MAX_PRIORITY 线程可以具有的最高优先级(10级).
 
---------------------------------
+------------------------------
 线程使用最大的问题?
 
 共享资源 错误的增加或减少,
 共享资源一次只能一个线程在使用完成后,修改值后;其他线程才可能使用这个资源,
-且能正确的读到刚才被改变的共享资源值.java使用 volatile, synchronized ,原子类等来处理;
-
---------------------------------
-
-Thread 和 Runnable 的区别:
-1,Runnable 避免了java单继承的问题;
-2,Runnable 多个Runnbale 实例可以传给一个Thread实例中,这样可以更好的让多线程共享变量.
-继承Thread的会被new多份,而实现Runable只会new一份;不然共享变量需要就加 static
+且能正确的读到刚才被改变的共享资源值.
+java使用 volatile, synchronized ,原子类等来处理;
 --------------------------------
 /**
  * 继承方式的Hello World;任何一个线程.yield()就会放弃cpu执行权,但并不是另一个线程就会执行,靠抢;
@@ -3661,7 +3654,7 @@ class TestThread extends Thread {
  * 需求: 模拟三个窗口一起卖100张票,要求不能多买
  * 思路: 3个窗口就是3个线程,都卖100张票相当于就是共享变量,卖票就是线程需要做的事,就是run方法体
 	,内部就是一个-1操作;
-	变量没有stract修饰,一样的可以完成.但要是继承Thread就必须要修饰静态才可以,如果不加锁可能会-1的现象,加锁后正常
+	变量没有stract修饰,一样的可以完成.但要是继承Thread就必须要静态修饰才可以,如果不加锁可能会-1的现象,加锁后正常
  */
 public class TestRunnable {
 
@@ -3783,20 +3776,21 @@ public class MyRunnable implements Runnable {
 死锁: 相互依赖需要的资源(如锁判断资源),就出现卡死.必考题
 
 如何防止死锁:
-1,同步监视器:俗称锁,它会自动释放锁 
-2,任何类都可以充当锁但必须保证所有线程使用同一把锁
-3,同步代码块包含同步函数 或 同步函数包含同步代码块却锁不一样.
+1,使用同步锁:它会自动释放锁 
+2,保证所有线程使用同一把锁(任何类都可以充当锁)
+3,不要在同步代码块包含同步函数 或 同步函数包含同步代码块却锁不一样.
 
 --------------------------------------------
 同步机制:
 
-java使用 wait()和notify()或notifyAll()来实现同步的;
+java使用Object对象中的方法 wait()和notify()或notifyAll()来实现同步的,它们都只能使用在同步块中;
 
 wait():使用一个线程处于等待状态,且释放所持有对象的lock;
 notify();唤醒一个处于等待线程中的线程,其中唤醒谁JVM确定,不是按优先级;
 notifyAll();唤醒全部等待中的线程
-它们都只能使用在同步块中.它们都是属于Object对象中的方法,只有它们3个是;
-为什么这些操作线程的方法要定义Object类中:因为锁可以是任意对象.(了解)
+
+为什么这些操作线程的方法要定义Object类中:
+因为锁可以是任意对象
 只有同一个锁上的被等待wait线程可以被同一个锁上的notify唤醒.等待和唤醒必须是同一个锁.
 
 notify VS notifyAll?
@@ -3988,7 +3982,7 @@ class Consumer implements Runnable {
 精华
 Lock 锁和Condition 知识;
 
-　　synchronized是Java的一个关键字,也就是Java语言内置的特性,如果一个代码块被synchronized修饰了,
+　　synchronized 是Java语言内置的特性,如果一个代码块被synchronized修饰了,
 当一个线程获取了对应的锁,执行代码块时, 其他线程便只能等待;
 
 synchronized 释放锁会有三种情况:
@@ -3997,12 +3991,10 @@ synchronized 释放锁会有三种情况:
 　　3).调用wait方法
 
 Lock的特性:
-　　1).Lock不是Java语言内置的;
-　　2).synchronized是在JVM层面上实现的,如果代码执行出现异常,JVM会自动释放锁,但是Lock不行,要保证锁一定会被释放,
-	就必须将unLock放到finally{}中(手动释放);
-　　3).在资源竞争不是很激烈的情况下,Synchronized的性能要优于ReentrantLock,但是在很激烈的情况下,
+　　1).synchronized是在JVM层面上实现的,如果代码执行出现异常,JVM会自动释放锁,Lock不是Java语言内置的,它是显示锁,要保证锁一定会被释放,就必须将unLock放到finally{}中(手动释放);
+　　2).在资源竞争不是很激烈的情况下,Synchronized的性能要优于ReentrantLock,但是在很激烈的情况下,
 synchronized的性能会下降几十倍;
-　　4).有多种锁:
+　　3).有多种锁:
 　　　　a. void lock(); // 无条件的锁;
 　　　　b. void lockInterruptibly throws InterruptedException;//可中断的锁;
 			可中断的锁解释:
@@ -4015,7 +4007,7 @@ synchronized的性能会下降几十倍;
 			如果没有会等待参数给的时间,在等待的过程中,如果获取锁,则返回true
 			如果等待超时,返回false;
 
-Condition的 同步机制:
+Object VS Condition的 同步机制:
 1,Condition中的await()方法相当于Object的wait()方法,Condition中的signal()方法相当于Object的notify()方法,
 Condition中的signalAll()相当于Object的notifyAll()方法;
 不同的是:
@@ -4129,16 +4121,14 @@ public class Test {
 
 
 ----------------------------------------------------
-并发是指同时有很多事要做(发生),并行是指同时做多件事(执行);
-
-因此并发后 可以并行处理 也可以 串行处理,所以并发和并行是不同的概念;
+并发是指同时有很多事要做(发生),并行是指同时做多件事(执行),并发后 可以并行处理 也可以 串行处理,所以并发和并行是不同的概念;
 ----------------------------------------------------- 
 中断线程:
 
 Java的语言层面上没有提供有保证性的能够安全的终止线程的方法.而是采用了一种协商的方式来对线程进行中断
  
 //使用stop来暂停线程是错误的(它会戛然而止,不会输出下面的结束)
-volatile boolean keepRunning; //保证其他线程能读到该值的变化
+volatile boolean keepRunning; //volatile保证其他线程能读到该值的变化
 public void run(){
 	
 	while(keepRunning){//如果等于false时,前一次的for 循环一样会执行完!
@@ -4150,16 +4140,16 @@ public void run(){
 	System.out.print("结束");
 }
 ---------------
-//中断线程 推荐
+//中断线程, 推荐
 https://www.cnblogs.com/onlywujun/p/3565082.html
 
-使用interrupt()停止线程也是不正确的,
-interrupt()方法是用来唤醒被阻塞的线程的,如:BlockingQueue#put、BlockingQueue#take、Object#wait、Thread#sleep.,它会将中断标识设为 true,默认 false;
+使用interrupt()停止线程是不正确的,
+interrupt()方法是用来唤醒被阻塞的线程的,如:BlockingQueue#put,BlockingQueue#take、Object#wait、Thread#sleep.,它会将中断标识设为 true,默认 false;
 catch的InterruptedException就会接收到这个打断,具体怎么操作还得当前线程自己决定
 
 try {
 	Thread.sleep(2000L);
-} catch (InterruptedException e) { //一旦使用Interrupt(打断),就会抓住这个异常,且当前标识也变为false
+} catch (InterruptedException e) { //一旦使用Interrupt(打断),就会抓住这个异常,且当前标识又变为false
 	//这里可以加入逻辑,不要什么都不做.如果你不知道如何处理最好不要try,直接抛出异常;或则
 	//再次使用interrunpt()恢复中断状态
 }finally {
@@ -4170,16 +4160,16 @@ try {
 线程的方法,通过调用isInterrupted()和interrupted()方法都能来判断该线程是否被中断,它们的区别是:
 
 public void interrupt() //中断目标线程,相当于设置表示位true
-public boolean isInterrupted()//返回目标线程的中断标识值
-public static boolean interrupted()//唯一清除中断标识设置false,返回之前值
+public boolean isInterrupted()//返回之前值
+public static boolean interrupted()//返回之前值,并是唯一清除中断标识(设置为false),
 
 举例:
 public void run() {
     try {
         ...
         /*
-         * 不管循环里是否调用过线程阻塞的方法如sleep、join、wait,这里还是需要加上
-         * !Thread.currentThread().isInterrupted()条件,虽然抛出异常后退出了循环,显
+         * 不管循环里是否调用过线程阻塞的方法如:sleep、join、wait,这里还是需要加上
+         * !Thread.currentThread().isInterrupted()判断,虽然抛出异常后退出了循环,显
          * 得用阻塞的情况下是多余的,但如果调用了阻塞方法但没有阻塞时,这样会更安全、更及时.
          */
         while (!Thread.currentThread().isInterrupted()&& more work to do) {
@@ -4200,8 +4190,8 @@ https://blog.csdn.net/jiadajing267/article/details/80137006
 /**
  * 这个段程序主要目的测试interrupt()方法,来停止线程,结果运行发现for循环永远会输完100,最初觉得
  *在InterruptedException 异常发生后使用 Thread.currentThread().interrupt()后while的判断就该不成立了,但为什么
- * 还是输出了100;后来我才发现,while其实已经不成立了,只是里面的for循环不会因为Thread.currentThread().interrupt()
- * 而退出
+ * 还是输出了100;后来我才发现,只是里面的for循环不会因为Thread.currentThread().interrupt()
+ * 而退出,while上判断其实已经不成立了
  *
  * 最后总结:
  * 1,在while中使用for这种嵌套要注意,while不成立时,for还是会执行完成
@@ -4269,14 +4259,15 @@ public class MyThread extends Thread {
 synchronized 有两个功能: 
 1,原子行 //互斥,一次能有一个线程进来修改(线程原子性可以理解为事务的一致性)
 2,可见性 //值的修改马上被读取到
-synchronized 使用时的流程;
+synchronized 底层执行流程;
 1,获得 互斥锁
 2,清空工作区(线程)内存,从主内存拷贝变量到工作内存中
 3,执行代码,将工作内存值刷新到主内存
 4,释放 互斥锁
 ----------------------------------
-volatile 和 synchronized 都可以让变量可见,但 volatile 不能保证复合操作的原子性,volatile 执行数度更快
+volatile VS synchronized
 
+volatile 和 synchronized 都可以让变量可见,但 volatile 不能保证复合操作的原子性,volatile 执行数度更快
 被 volatile 修饰的变量,内存模型不会对它进行重排序,会让它的操作不会缓存在寄存器上,总是返回最新值;
 
 如果给一个变量加上 volatile 修饰符,就相当于:每一个线程中一旦这个值发生了变化就马上刷新回主存,使得各个线程取出的值相同;
@@ -4291,8 +4282,6 @@ java内存模型要求: 变量的读和写入操作必须时原子性的,但对6
 如 long, double 因为jvm将64位的操作允许分为2次操作,如果读和写的操作不是同一个线程
 时可能读到不是最新一次写入的值;但加了 volatile 就不会,因为:
 被 volatile 修饰的变量,Happens-before规定写操作先行发生于后面对这个变量的读操作;
-
-
 
 但 volatile 只能可见,不能保证原子性:
 private volatile int number = 0;
@@ -4376,8 +4365,8 @@ ThreadLocal会为每个使用该变量的线程提供独立的变量副本,所�
 程所对应的副本;这样做其实就是以空间换时间,以耗费内存为代价,减少了线程同步(如 synchronized)
 所带来性能消耗 和 线程并发控制的复杂度;
 
+ThreadLocal VS synchronized :
 
-虽然ThreadLocal和Synchonized都用于解决多线程并发访问,ThreadLocal与synchronized还是有本质的区别;
 synchronized是利用锁的机制,使变量或代码块在某一时该只能被一个线程访问;而ThreadLocal为每一个线程都提供了变量的副本,
 使得每个线程在某一时间访问到的并不是同一个对象.(线程独立数据)
 
@@ -4456,7 +4445,7 @@ public class MyThreadLocal {
 
 一,
 原子操作是指不会被线程调度机制打断的操作;这种操作一旦开始,就一直运行到结束,中间不会有任何一个线程)
-atomicXXX和volatile的区别?
+atomicXXX VS volatile的区别?
 atomicInteger 可以保证原子性,底层是CAS方式实现
 
 二,
@@ -4473,18 +4462,18 @@ http://blog.csdn.net/suifeng3051/article/details/49443835
 Future 可用于异步获取子线程执行结果(其实就是自己创建了一个List,把每一个子线程结果装进去了)或取消执行任务的场景;
 
 ExecutorService pool = Executors.newFixedThreadPool(taskSize);//设置线程个数
+Future f = pool.submit(c);//Future返回值保存在一个list中
 class MyCallable implements Callable<Object> //它就是c;重写call方法(方法体就是线程执行内容)
 //通过这句话启动线程,线程返回值在f变量里面;c是Callable的一个实现类(返回值和Callable相关)
-Future f = pool.submit(c);//Future返回值保存在一个list中
 
 
 五,同步容器类:
-Vecter和Hashtable,这些同步类都是在原有方法上加了同步锁实现
+Vector和Hashtable,这些同步类都是在原有方法上加了同步锁实现
 
 六,同步工具类:
-Queue 队列:通过实现LinkedList来实现Queue,只是关闭了list的随机访问,队列只能从2端或一端依次访问;
+Queue 队列:通过实现LinkedList来实现Queue,只是关闭了list的随机访问,队列只能从2端或一l端依次访问;
 
-队列分为阻塞队列和非阻塞队列:
+队列分为:阻塞队列和非阻塞队列:
 //并发队列就是非阻塞队列
 public class ConcurrentLinkedQueue<E> implements Queue<E>
 
@@ -4493,23 +4482,18 @@ public class ConcurrentLinkedQueue<E> implements Queue<E>
 //图灵学院:Java高并发之BlockingQueue
 https://blog.csdn.net/qq_42135428/article/details/80285737
 
-BlockingQueue 阻塞队列(生产者消费者更好的实现,因为当队列满时,插入被阻塞,当队列为空时,获取被阻塞)
+BlockingQueue 阻塞队列(当队列满时,插入被阻塞,当队列为空时,获取被阻塞.生产者消费者推荐方式)
 BlockingQueue有多种实现:
  LinkedBlockingQueue和ArrayBlockQueue都是FIFO,它们功能和LinkedList和ArrayList类似但有更好的并发功能; LinkedBlockingQueue阻塞队列大小的配置是可选的,如果我们初始化时指定一个大小,它就是有边界的,如果不指定,它就是无边界的。说是无边界,其实是采用了默认大小为Integer.MAX_VALUE的容量 。
- 
  PriorityBlockingQueue 是一种按优先级排序的队列,如果几个任务有优先级的区别那么使用它不是直接ok;
  synchronousQueue:没有存储功能,其它都有;它的内部同时只能够容纳单个元素,主要是防止多生产的情况.因此put和take会一直阻塞,直到另一个线程参与到交互中
  DelayQueue:延迟队列 一个无界阻塞队列,只有在延迟期满时才能从中提取元素。该队列的头部 是延迟期满后保存时间最长的 Delayed 元素。如果延迟都还没有期满,则队列没有头部,并且 poll 将返回 null。
-继承 BlockingQueue:
-public interface BlockingDeque extends BlockingQueue, Deque 
+BlockingQueue源码:public interface BlockingDeque extends BlockingQueue, Deque 
 
 BlockingDeque类是一个双端队列,在不能够插入元素时,它将阻塞住试图插入元素的线程;在不能够抽取元素时,它将阻塞住试图抽取的线程。
 
 deque(双端队列) 是 "Double Ended Queue" 的缩写。因此,双端队列是一个你可以从任意一端插入或者抽取元素的队列。
 
-
-
- 
 Semeaphore 信号量:通过发放许可证的获取执行权的方式
 CyclicBarrier 栅栏:可以循环适合反复开始的业务
 CountDownLatch 闭锁:不能再次循环的业务,它让一个或多个线程一直等待,直到其他线程的操作执行完后再执行;
@@ -4523,10 +4507,10 @@ CAS是compare and swap的缩写,即我们所说的比较交换;cas是一种基�
 
 ConcurrentHashMap:通过一种粒度更细的加锁机制来实现更大程度共享,这种机制称为分段锁;
 CopyOnWriteArrayList:用于遍历为主的操作情况,读操作读原有的,写操作是克隆后修改重新发布;
-ConcurrentLinkedQueue:并发队列,非阻塞队列,没有put和take方法,性能好于BlockingQueue.它是一个基于链接节点的无界线程安全队列。该队列的元素遵循先进先出的原则。头是最先加入的,尾是最近加入的,该队列不允许null元素。
+ConcurrentLinkedQueue:并发队列,非阻塞队列,没有put和take方法,性能好于BlockingQueue.它是一个基于链接节点的无界线程安全队列。该队列的元素遵循先进先出的原则,该队列不允许null元素。
 
 八,java Memory Mode (java 内存模型)
-JMM 描述了java线程共享变量的访问规则,以及JVM中将变量存储到内存和从内存中读取出变量的底层细节;
+JMM 描述了java线程共享变量的访问规则,以及JVM中将变量存储到主内存和从内存中读取出变量的底层细节;
 
 ABA问题:
 针对CAS的出现的问题,V的值由A变B,在由B变A,如果这时cas在带着a变量(version)去尝试修改时,以为没有被修改过,其实已经不是了;这种情况我们在业务分析考虑,不行就用同步锁
@@ -4564,9 +4548,9 @@ public class Executors {
 这样的处理方式更加明确线程池的运行规则,规避资源耗尽的风险。
 
 1,newFixedThreadPool和newSingleThreadExecutor:
-主要问题是堆积的请求处理队列可能会耗费非常大的内存,甚至OOM。
+固定线程数主要问题是堆积的请求处理队列可能会耗费非常大的内存,甚至OOM。
 2,newCachedThreadPool和newScheduledThreadPool:
-主要问题是线程数最大数是Integer.MAX_VALUE,可能会创建数量非常多的线程,甚至OOM。
+没有固定线程数主要问题是线程数最大数是Integer.MAX_VALUE,可能会创建数量非常多的线程,甚至OOM。
 
 推荐
 创建线程池的方式ThreadPoolExecutor:
@@ -4652,7 +4636,9 @@ DriverManager.getConnection(url, user, password);
 -------------------------------------------------------
 
 现在DriverManager已经过时了,现在使用的是DataSource(前者不持支连接池)
+//JDBC连接数据库的两种方式：DriverManager及DataSource（DBCP,C3P0,druid）
 https://blog.csdn.net/u013905744/article/details/52437597
+//从JDBC到Druid，谈谈datasource的发展与druid使用
 https://blog.csdn.net/a3427603/article/details/86449198
 -------------------------------------------------------
 
@@ -4802,7 +4788,7 @@ dbcp tomcat默认在用;c3p0 Hibernate默认使用;开发推荐阿里
 	
 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 网络结构:
 
 1,c/s 客服端/服务端 clinet/server
@@ -4832,9 +4818,7 @@ TCP/IP 和 Http的区别
 　　TPC/IP协议(传输层协议),主要解决数据如何在网络中传输,而HTTP是应用层协议,主要解决如何拆分/包装数据.
 	~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-　　术语TCP/IP代表 传输控制协议/网际协议, 指的是一系列协议,“IP”代表网际协议,找到另一台计算机
-
-	TCP提供有保证的数据传输,而UDP不保证.
+TCP/IP 传输控制协议/网际协议, 指的是一系列协议,“IP”代表网际协议,找到另一台计算机,TCP提供有保证的数据传输,而UDP不保证.
 
 7	应用层	例如 HTTP,FTP,Telnet,SSH,NFS,SMTP 等
 6	表示层(了解)	例如XDR,ASN.1,SMB,AFP,NCP
@@ -4862,8 +4846,7 @@ HTTP协议的几个重要概念
 HTTP头
 javaweb最重要就是学好 http协议,学不好就等于没学,学好了什么都简单
 
-请求头(主要是带的客户机这边的信息):
-
+请求头(主要是客户机信息):
 Accept:用于告诉服务器,客户机支持的数据类型
 Accept-Charset:用于告诉服务器,客户机采用的编码
 Accept-Encoding:用于告诉服务器,客户机支持的数据压缩格式
@@ -4893,9 +4876,9 @@ Host:re.csdn.net
 Origin:http://so.csdn.net
 Referer:http://so.csdn.net/so/search/s.do?q=http&t=blog
 User-Agent:Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/54.0.2840.71 Safari/537.36
-------------------------------------------
-
+------------------
 响应头(服务器的信息):
+
 响应头其实就可以让客服机的浏览器想怎么办就怎么办.这就是响应头的意义
 Location:这个头配合302状态使用,用于告诉客户机找谁
 Server:服务器通过这个头,告诉浏览器服务器的类型
@@ -4937,16 +4920,14 @@ Q:为什么要三次握手？
 
 客fin(数据发送完成,但可以接受)->服ack(收到数据)->服fin(数据发送完成)->客ack(收到数据)
 
-
 ++++++++++++++++++++++++++++++++++++++++++++
-++++++++++++++++++++++++++++++++++++++++++++
+HTTPS
 
-http效率更高,https安全性更高.
-
-首先谈谈什么是HTTPS:
+什么是HTTPS:
 HTTPS(Secure Hyper Text Transfer Protocol)安全超文本传输协议 它是一个安全通信通道,它基于HTTP开发,
 用于在客户计算机和服务器之间交换信息.它使用安全套接字层(SSL)进行信息交换,简单来说它是HTTP的安全版.
 
+https = http+SSL+(CA)
 
 网络版的https 和开发版的https还不同
 
@@ -4968,7 +4949,6 @@ apache是web服务器,Tomcat是应用(java)服务器,它一个servlet(jsp也翻�
 为什么选择tomcat:
 　Tomcat它是sun公司官方推荐的servlet和jsp容器
 servlet和jsp的最新规范都可以在tomcat的新版本中得到实现.其次,Tomcat是完全免费的软件,
-
 
 Tomcat目录
 tomcat
@@ -4999,14 +4979,14 @@ server.xml主要是服务器设置的,例如端口设置,路径设置.
 	</Service>
 </Server>
 
-详解Tomcat 配置文件server.xml
-文章来源,精华中的精华
+
+//详解Tomcat 配置文件server.xml
 http://www.cnblogs.com/kismetv/p/7228274.html
 
 +++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 +++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
-核心文章web.xml
+//Web.xml详解
 https://blog.csdn.net/believejava/article/details/43229361
 
 SERVLET
@@ -5015,7 +4995,7 @@ SERVLET
 servlet是在服务器上运行的小程序,就是一个Java类,可以处理Http请求
 常见的方法有doGet(),doPost()等
 
-服务器(硬件)上有安装了web容器(软件),免费的如tomcat管理着servlet生命周期,浏览器发送http请求后,
+服务器(硬件)上有安装了web容器(软件),如tomcat,它管理着servlet生命周期,浏览器发送http请求后(没有使用springMvc时),
 servlet.xml的service->connector(多个)->engin->host(多个)->context(多个)->web.xml
 映射着使用哪个servlet,经过servlet处理后的请求返回给浏览器,用户就完成一次和服务器之间的交互;
 
@@ -5091,11 +5071,11 @@ OR
 </servlet-mapping>
 */
 
++++++++++++++++++++++++++++++++++++++++
+ServletContext(大管家,核心中的核心)
 
+servletContext代表当前 WEB 应用:可以认为 SerlvetContext 是当前WEB应用的一个大管家.可以从中获取到当前WEB应用的各个方面的信息.
 
-ServletConfig: 封装了servlet(狭义理解可以读取web.xml配置文件)的配置信息,并且可以获取ServletContext对象
-
-1). 配置 Serlvet 的初始化参数
 	<servlet>
 		<servlet-name>helloServlet</servlet-name>
 		<servlet-class>com.atguigu.javaweb.HelloServlet</servlet-class>	
@@ -5117,17 +5097,12 @@ ServletConfig: 封装了servlet(狭义理解可以读取web.xml配置文件)的�
 	</servlet>
 
 
-ServletContext(大管家)
-1).可以从SerlvetConfig 获取,也可以通过session,request获得
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+如何获取servletContext?
+可以从SerlvetConfig 获取,也可以通过session,request获得
+ServletConfig: 封装了servlet(狭义理解可以读取web.xml配置文件)的配置信息,并且可以获取ServletContext对象
+
 ServletContext servletContext = servletConfig.getServletContext();
 
-2). 该对象代表当前 WEB 应用:可以认为 SerlvetContext 是当前WEB应用的一个大管家.可以从中获取到当前WEB应用的各个方面的信息.
-
-获取当前 WEB 应用的初始化参数
-
-<context-param>设置初始化参数可以为所有的Servlet都可以获取,
-而<init-param>的初始化参数只能是当前Serlvet可以. 
 
 <!-- WEB 应用的初始化参数,这是全局变量-->
 <context-param>
@@ -5143,16 +5118,25 @@ ServletContext servletContext = servletConfig.getServletContext();
 
 
 代码:
-	ServletContext servletContext = servletConfig.getServletContext();		
-	String driver = servletContext.getInitParameter("driver");//获取指定参数名的初始化参数
-	System.out.println("driver:" + driver);
-	
-	Enumeration<String> names2 = servletContext.getInitParameterNames();//获取多个参数名组成的 Enumeration 对象.
-	while(names2.hasMoreElements()){
-		String name = names2.nextElement();
-		System.out.println("-->" + name); 
-	}
+ServletContext servletContext = servletConfig.getServletContext();		
+String driver = servletContext.getInitParameter("driver");//获取指定参数名的初始化参数
+System.out.println("driver:" + driver);
 
+Enumeration<String> names2 = servletContext.getInitParameterNames();//获取多个参数名组成的 Enumeration 对象.
+while(names2.hasMoreElements()){
+	String name = names2.nextElement();
+	System.out.println("-->" + name); 
+}
+
+servletContext 中可以得到:
+
+1,web.xml的全局变量,局部变量
+2,得到项目文件中的绝对路径 
+3,得到项目文件的输入输出流
+4,和attribute相关的方法
+5,得到项目名字//servletContext.getContextPath();//项目名
+
+-------------------------------
 	
 WEB应用的已知一个文件相对项目的相对路径,得到绝对路径
 String realUploadPath = session.getServletContext().getRealPath("/images");//和webApp在同一层有这样一个文件夹
@@ -5197,22 +5181,14 @@ public static String fileUpload(HttpServletRequest request,
 	}
 	return "";
 }
-++++++++++++++++++++++++++++++++++++++++++++++
+
 ++++++++++++++++++++++++++++++++++++++++++++++
 文件下载:
-源码在:FileUpAndLoad20151116中downLoad包中index.jsp
-
-步骤:
-1,设置 contentType 响应头: 设置响应的类型是什么 ? 
-response.setContentType("application/x-msdownload");  //核心参数
-
-2,设置响应头: 通知浏览器不再自行处理(或打开)要下载的文件, 而由用户手工完成
-response.setHeader("Content-Disposition", "attachment;filename=abc.txt");
-
-3,具体的文件: 可以调用 response.getOutputStream 的方式, 以 IO 流的方式发送给客户端.
 
 举例:
-response.setContentType("application/x-msdownload");  //核心参数
+//核心参数,设置 contentType 响应头: 设置响应的类型是什么 ? 
+response.setContentType("application/x-msdownload"); 
+//设置响应头: 通知浏览器不再自行处理(或打开)要下载的文件, 而由用户手工完成 
 response.setHeader("Content-Disposition", "attachment;filename=abc.txt");
 OutputStream out = response.getOutputStream();
 //这个文件名字可能和用户选择下载那个文件有关,或则就是写死的
@@ -5223,8 +5199,9 @@ while((len = in.read(buffer)) != -1){
 	out.write(buffer, 0, len);
 }
 in.close();
-++++++++++++++++++++++++++++++++++++++++++++++
-动态设置contentType
+总结:下载设置2个参数,然后在outputStream回写
+-------------------------------
+动态设置:contentType
 import javax.activation.MimetypesFileTypeMap;
 private static void setContentTypeHeader(HttpResponse response, File file) {
 	//使用mime对象获取文件类型
@@ -5232,18 +5209,76 @@ private static void setContentTypeHeader(HttpResponse response, File file) {
 	response.headers().set(CONTENT_TYPE, mimeTypesMap.getContentType(file.getPath()));
 }
 
-++++++++++++++++++++++++++++++++++++++++++++++
-获取当前 WEB 应用的名称: 
-String contextPath = servletContext.getContextPath();//项目名
+-------------------------------
+springMVC 下载(推荐)
 
-总结servletContext 中可以得到:
-1,web.xml的全局变量,局部变量
-2,得到项目文件中的绝对路径 
-3,得到项目文件的输入输出流
-4,和attribute相关的方法
-5,得到项目名字
-++++++++++++++++++++++++++++++++++++++++++++++
+@RequestMapping("/testResponseEntity")
+public ResponseEntity<byte[]> testResponseEntity(HttpSession session) throws IOException{
+	byte [] body = null;
+	ServletContext servletContext = session.getServletContext();
+	InputStream in = servletContext.getResourceAsStream("/files/abc.txt");
+	body = new byte[in.available()];
+	in.read(body);
+	HttpHeaders headers = new HttpHeaders();
+	//文件内容通过附件方式处理,文件名叫abc.txt
+	headers.add("Content-Disposition", "attachment;filename=abc.txt");	
+	HttpStatus statusCode = HttpStatus.OK;
+	//上面 操作只用为这准备3个参数(2进制数据流,头信息,返回状态值)
+	ResponseEntity<byte[]> response = new ResponseEntity<byte[]>(body, headers, statusCode);
+	return response;
+}
+-------------------------------------------
+文件上传步骤:
+源码在springMVC-crud工程下index.jsp中
 
+1,加入jar包 commons 和io包
+
+2,在springMVC.xml文件中配置CommonsMultipartResolver
+
+<!-- 配置上传文件需要的类  配置 MultipartResolver,不配id 就是不行,搞不懂 -->
+<bean id="multipartResolver"
+	class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+	<property name="defaultEncoding" value="UTF-8"></property>
+	<property name="maxUploadSize" value="1024000"></property>	
+</bean>	
+
+3,页面
+<form action="testFileUpload" method="post" enctype="multipart/form-data">
+	file:<input type="file" name="file"/>
+	desc:<input type="text" name="desc"/><br>	
+	<input type="submit" value="submit"/>
+</form>
+
+//如果只是上传一个文件,则只需要MultipartFile类型接收文件即可,而且无需显式指定@RequestParam注解  
+//如果想上传多个文件,那么这里就要用MultipartFile[]类型来接收文件,并且还要指定@RequestParam注解  
+//并且上传多个文件时,前台表单中的所有<input type="file"/>的name属性都应该是统一的值,
+否则无法获取到所有上传的文件 
+4,目标方法:
+@RequestMapping("/testFileUpload")
+	public String testFileUpload(@RequestParam("desc") String desc,@RequestParam("file") MultipartFile file) throws IllegalStateException, IOException{
+		String sourceFilePath;		
+		if(file != null){
+			//得到原始的文件名__________
+			String fileName = file.getOriginalFilename();				
+			//取得文件名的后缀___________
+			String suffix = fileName.substring(fileName.lastIndexOf(".") + 1, fileName.length());
+			//得到一个唯一值UUID
+			String randomString = DataTool.getUUID();				
+			SimpleDateFormat df = new SimpleDateFormat("yyyy/MM/dd");	
+			String folder = df.format(new Date());						
+			//sourceFilePath  =  年/月/日/ + UUID + 后缀的字符串______________________
+			sourceFilePath = folder+ "/" + randomString + "." + suffix;		
+			String path = StaticValue.FILE_UPLOAD_URL + sourceFilePath; 				
+			File fileFolder = new File(path);//上传的资源保存的最后路径,封装为文件				
+			if(!fileFolder.exists()){//文件或目录是否存在
+				fileFolder.mkdirs();//创建目录,会自动创建没有的父目录
+			} 				
+			file.transferTo(fileFolder);//这句就是上传操作.				
+			return sourceFilePath;//这个返回值 一般就会设置到类的图片指向属性中				
+		}	
+		return "这里提示错误";	
+}	
+------------------------------------
 GET 请求和 POST 请求:
 
 使用GET方式传递参数:
@@ -5339,7 +5374,9 @@ public abstract class GenericServlet implements Servlet, ServletConfig {
 2. HttpServlet:
 
 1). 继承自 GenericServlet. 针对于 HTTP 协议所定制. 
+
 public abstract class GenericServlet implements Servlet, ServletConfig //一共4个,2个接口,1个抽象类,1个类
+
 2). 在 service() 方法中直接把 ServletReuqest 和  ServletResponse 转为 HttpServletRequest 和 HttpServletResponse.
 并调用了重载的 service(HttpServletRequest, HttpServletResponse)
 
@@ -5379,22 +5416,16 @@ public void service(HttpServletRequest request, HttpServletResponse response)
 
 实际开发中, 直接继承 javax.servlet.http.HttpServlet, 并根据请求方式复写 doXxx() 方法即可. 
 好处: 直接由针对性的覆盖 doXxx() 方法; 直接使用 HttpServletRequest 和  HttpServletResponse, 不再需要强转. 
------------------------------------------------------
------------------------------------------------------
-4. 请求的转发和重定向(精华):
-1). 本质区别: 请求的转发只发出了一次请求, 而重定向则发出了多次请求. 
 
+-----------------------------------
+请求的转发 VS 重定向 (精华):
 
-转发: 地址栏是初次发出请求的地址.
-重定向: 地址栏地址会改变. 为最后响应的那个地址  
-   
-转发: 最终request 是同一个对象. 
-重定向: 最终request不是同一个对象.        
+本质区别: 请求的转发只发出了一次请求, 而重定向则发出了多次请求. 
+转发地址栏是初次发出请求的地址;重定向地址栏地址会改变,为最后响应的那个地址     
+转发最终request 是同一个对象;重定向最终request不是同一个对象.        
+转发只能转发给当前 WEB 应用的的资源;重定向可以重定向到任何资源.      
 
-转发: 只能转发给当前 WEB 应用的的资源
-重定向: 可以重定向到任何资源.      
-
-转发: / 代表的是当前 WEB 应用的根目录
+转发:/ 代表的是当前 WEB 应用的根目录
 	注:localhost:8080/day_30/
 重定向: / 代表的是当前 WEB 站点的根目录. 
 	注:localhost:8080/
@@ -5585,8 +5616,8 @@ http://zhidao.baidu.com 就是站点根目录
 1,让表单不能回退或失效(比如银行页面,一般不推荐)
 2,和验证码的思路一样(只是token在隐藏字段中),每次在请求表单页面都带上一个token,
 在提交时需要比对这个token,成功后先删除这token.然后做后面的逻辑; 如果失败什么都不做
-+++++++++++++++++++++++++++++++++++++++++++++++++++++
-+++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+---------------------------------------
 EL表达式 (Expression Language)
 
 
@@ -5596,8 +5627,9 @@ EL 的语法比传统 JSP表达式(<%= ....%>)与
 且在Jsp页面使用无需导入任何包,直接使用
 +++++++++++++++++++++++++++++++++++++++++++++++++++++
 +++++++++++++++++++++++++++++++++++++++++++++++++++++
-	
++++++++++++++++++++++++++++++++++++++++++++++++++++++	
 JSP
+
 jsp页面会通过http将文件内容传到web服务器上的servlet,转为java文件,处理逻辑后通过response输出
 静态的html展示给用户;这样来完成动态的
 
@@ -5713,13 +5745,13 @@ https://www.runoob.com/jsp/jsp-jstl.html
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>//格式化,国际化,时间等
 +++++++++++++++++++++++++++++++++++++++++++++++++++++
 +++++++++++++++++++++++++++++++++++++++++++++++++++++
+FILTER
 
 FILTER 过滤器(一般被springMvc的HandlerInterceptor代替,但不是全部,主要看业务时机点)
 (双向过滤,多个多滤器的路线如:进时1,2,3,回时3,2,1)
 
-过滤器是一个实现了 javax.servlet.Filter 接口的 Java 类(在servlet下)
 
-Filter 接口定义在 javax.servlet 包中,而接口 HandlerInterceptor 定义在org.springframework.web.servlet 包中
+Filter 接口全路径在 javax.servlet 包中,而接口 HandlerInterceptor 定义在org.springframework.web.servlet 包中
 功能基本差不多,HandlerInterceptor更加强大点(fileter 主要用于对所有请求进行统一处理)
 
 多种同时使用执行顺序(过滤器在最外层的2端,这就是它不能被全完代替的原因,比如说权限校验就该放在最外层shiro就是)
@@ -5838,21 +5870,25 @@ Filter 默认情况下,就是只能对一次请求做过滤
 </filter-mapping>
 ++++++++++++++++++++++++++++++++++++++++++++++++++++
 ++++++++++++++++++++++++++++++++++++++++++++++++++++
-WEB 监听器(web组件,适用于Web开发)
+WEB 监听器(核心中的核心)
 支持xml配置和注解的方式配置
 
-按监听类型可分3种:
+WEB 监听器一共8个:最为重要的就是 ServletContextListener
 
-1,作用域的生命周期监听器(创建和销毁,全是接口):
-ServletRequestListener
-HttpSessionListener
-ServletContextListener(系统启动时,只要实现了它的方法就会被调用,spring加载就是靠它);
+生命周期监听器(创建和销毁,全是接口):
+1,ServletRequestListener
+2,HttpSessionListener
+3,ServletContextListener(系统启动时,只要实现了它的方法就会被调用,spring加载就是靠它);
 
-2,作用域属性监听器(添加/删除/替换):
-ServletRequestAttributeListener(接口,统一多了attribute)
-HttpSessionActivationListener(接口)
-ServletContextAttributeListener(接口)
+属性监听器(添加/删除/替换):
+4,ServletRequestAttributeListener(接口,统一多了attribute)
+5,HttpSessionActivationListener(接口)
+6,ServletContextAttributeListener(接口)
 
+7,HttpBindingListener HTTP会话中对象的绑定信息,
+8,ServletAttributeListener 主要实现监听ServletContext属性的增加，删除和修改
+
+总结:一共是8个Listener. 3个,监听创建和销毁的 3个,监听属性,另加Session绑定和还有Session活化钝化	
 servlet 和 Filter 都有局部的初始化参数,而监听器没有,监听器使用全局的的初始化参数
 全局的:
 <context-param>
@@ -5865,12 +5901,18 @@ servlet 和 Filter 都有局部的初始化参数,而监听器没有,监听器�
 	<param-value>root</param-value>
 </init-param>
 
+
 ----------------------------
+ServletContextListener
 核心中的核心,逻辑中的逻辑
 
-ServletContextListener:(最常用,其它2个都不怎么用)
+应用场景:
+可以在WEB应用被加载时对一些资源进行初始化操作
+如:创建数据库连接池,创建 Spring 的IOC容器,读取当前 WEB 应用的初始化参数等
 
-//自定义类实现 ServletContextListener, 然后实现两个方法			
+ServletContextListener:(ServletContext监听器最为常用,其它都不怎么用)
+
+//自定义类实现 ServletContextListener, 然后实现两个方法,当WEB项目被加载时,Servlet容器调用该方法			
 public class HelloListener implements ServletContextListener{
 
 	//当WEB项目被加载时,Servlet容器调用该方法.(spring启动就是重写了这个方法,核心中的核心)
@@ -5889,13 +5931,10 @@ public class HelloListener implements ServletContextListener{
 }
 		
 在 web.xml 文件中配置 Listener
-	<listener>
-		<listener-class>com.atguigu.javaweb.test.HelloListener</listener-class>
-	</listener>
-
-可以在WEB应用被加载时对一些资源进行初始化操作
-如:创建数据库连接池,创建 Spring 的IOC容器,读取当前 WEB 应用的初始化参数等
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+<listener>
+	<listener-class>com.atguigu.javaweb.test.HelloListener</listener-class>
+</listener>
+-----------------
 在spring中如何使用监听器? 或则如何得到spring的上下文和servlet的上下文?
 (现实下面的2个Aware接口,又简单,又实用;面试会问)
 
@@ -5919,13 +5958,13 @@ public class SpringContextUtils implements ServletContextAware,ApplicationContex
 		webServletContext = webServlet;
 	}
 
-	public static ServletContext getServletContext() {
-		return webServletContext;
-	}
-	
 	@Override
 	public void setApplicationContext(ApplicationContext app) throws BeansException {
 		this.applicationContext = app;
+	}
+	
+	public static ServletContext getServletContext() {
+		return webServletContext;
 	}
 
 	public static ApplicationContext getApplicationContext() {
@@ -5933,29 +5972,8 @@ public class SpringContextUtils implements ServletContextAware,ApplicationContex
 	}
 
 }
-------------------------------------------------	
-下面的2个了解:
-7. HttpSessionBindingListener (该监听器较少被使用) 
-监听实现了该接口的 Java 类的对象被绑定到 session 或从 session 中解除绑定的事件.
-//当前对象被绑定到 session 时调用该方法
-public void valueBound(HttpSessionBindingEvent event) 
-//当前对象从 session 中解除绑定调用该方法
-public void valueUnbound(HttpSessionBindingEvent event) 
 
-
-8. HttpSessionActivationListener (该监听器较少被使用) 
-必须配合Serializable使用,不然读不出来
-监听实现了该接口和 Serializable 接口的 Java 类的对象随 session 钝化和活化事件
-	> 活化: 从磁盘中读取 session 对象	
-	> 钝化: 向磁盘中写入 session 对象	
-	> session 对象存储在tomcat 服务器的 work\Catalina\localhost\contextPath 目录下. SESSION.SER	
-//在活化之后被调用. 
-public void sessionDidActivate(HttpSessionEvent se)
-//在钝化之前被调用
-public void sessionWillPassivate(HttpSessionEvent se)
-
-总结:一共是8个Listener. 3个监听创建和销毁的 3个监听属性,另加Session绑定和还有Session活化钝化	
-
+++++++++++++++++++++++++++++++++++++++++++++++
 ++++++++++++++++++++++++++++++++++++++++++++++
 ++++++++++++++++++++++++++++++++++++++++++++++
 AJAX
@@ -6014,7 +6032,7 @@ json 支持下面3种写法:
 	alert(jsonObj.address.tity);
 	jsonObj.mothod();
 </script>
-
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 SPRING
@@ -6044,7 +6062,18 @@ IOC 过程:
 2,Configuration+bean注解
 3,自动扫描包+@AutoWired
 ---------------------------
-核心中的核心
+IoC
+　　首先想说说IoC(Inversion of Control,控制倒转).所谓IoC,
+就是获得依赖对象的过程或方式反转了.由spring来负责控制对象的生命周期和对象间的关系.
+所有的类的创建,销毁都由 spring来控制
+
+IoC动态的向某个对象提供它所需要的其他对象.如何实现的呢？ 
+反射(reflection)
+
+//浅谈IOC--说清楚IOC是什么,推荐
+http://www.cnblogs.com/DebugLZQ/archive/2013/06/05/3107957.html
+如:淘宝中的支付宝,用户和卖家通过支付宝来完成交易
+
 spring 提供ioc容器实现的两种方式:
 
 1,BeanFactory:spring内部使用接口,一般开发人员不使用
@@ -6094,15 +6123,10 @@ public class MyFactory implements FactoryBean<Car> {
 <bean name="factoryBean" class="com.factory.MyFactory">
 	<property name="brand" value="BMW"></property>
 </bean>
-------------------------------------------
 
-精华
-http://www.cnblogs.com/DebugLZQ/archive/2013/06/05/3107957.html
-
-举例:淘宝中的支付宝,用户和卖家通过支付宝来完成交易
-
-
-
+-----------------------------------------
+spring 是如何启动的?
+tomcat 启动时如何和spring,springMvc 关联的?
 
 /**
 
@@ -6126,21 +6150,12 @@ public class ContextLoaderListener extends ContextLoader implements ServletConte
 }
 
 
-//tomcat 启动spring,springMvc 
+//ContextLoaderListener介绍
 https://blog.csdn.net/qq_15037231/article/details/78743765
+//谈谈ContextLoaderListener
 https://cloud.tencent.com/developer/article/1456865
+
 -----------------------------------
-
-如果对这一核心概念还不理解这里找到的浅显易懂的答案:
-IoC与DI
-
-　　首先想说说IoC(Inversion of Control,控制倒转).所谓IoC,
-就是获得依赖对象的过程或方式反转了.由spring来负责控制对象的生命周期和对象间的关系.
-所有的类的创建,销毁都由 spring来控制
-
-IoC动态的向某个对象提供它所需要的其他对象.如何实现的呢？ 
-反射(reflection)
-----------------------------------------
 spring  的　HelloWrold
 
 1,一个普通的java类
@@ -6214,15 +6229,13 @@ public class SpringTest{
 		hello.sayHello();
 	}	
 }
--------------------------------------
-Bean 的创建时机:
-加载spring配置文件时会调用<bean>标签,对应的类的空的构造器函数,并给对应的属性进行赋值
+----------------------------
+Bean 的创建时机?
+加载spring配置文件时会调用<bean>标签,对应的类的空的构造器函数,主要还是看使用的那种IOC容器
 ApplicationContext appContext = new ClassPathXmlApplicationContext("applicationContext.xml");
-所以,每个类中空的构造器必须要有
-
-我们得到一个bean后我们可能需在给类的属性赋值:
-spring 属性 支持3种注入方式:
-	   ~~~~		
+-----------------------------
+spring 属性 设置值方式有3种(了解):
+	
 1,构造器注入(实体类有对应的构造器)
 2,属性注入(使用的setter 方法,推荐)
 3,工厂方法注入(很少使用,不推荐)
@@ -6275,23 +6288,23 @@ public class Appconfig{
 	@Value("${jdbc.password}")
 	private String password;	
 }
----------------------------------------------
-//结合spring源码告诉你bean的初始化过程
-http://www.cnblogs.com/digdeep/p/4518571.html //深入剖析 Spring 框架的 BeanFactory
-https://www.iteye.com/blog/uule-2094609
+---------------------------------------
+//深入剖析 Spring 框架的 BeanFactory
+http://www.cnblogs.com/digdeep/p/4518571.html
+
+https://www.iteye.com/blog/uule-2094609,打不开1次
 精华中的精华,核心中的核心
 
 
 spring容器接管了bean的实例化,通过依赖注入达到了松耦合的效果,同时也提供了各种的扩展接口,
 在bean的生命周期的各个阶段可以插入我们需要的业务逻辑(意思动态时间点让我们扩展功能):
 
-//在github上springboot-template项目中有bean加载流程例子
+在github上springboot-template项目中有bean加载流程例子
 
-1,启动阶段:将xml文件中的每一个<bean />元素分别转换成一个BeanDefinition对象,然后通过BeanDefinitionRegistry将这些bean注册到beanFactory
-时机点调用这个方法
+1,启动阶段:将xml文件中的每一个<bean />元素分别转换成一个BeanDefinition对象,然后通过BeanDefinitionRegistry将这些bean注册到beanFactory时,会调用这个方法
 BeanFactoryPostProcessor.postProcessBeanFactory()(比如替换配置文件的属性值占位符)
 
-2,实例化阶段:通过反射或者CGLIB对bean进行实例化,在这个阶段Spring又给我们暴露了很多的扩展点:
+2,实例化阶段:通过反射动态代理或者CGLIB对bean进行实例化,在这个阶段Spring又给我们暴露了很多的扩展点:
 初始化时各种的Aware接口,比如 BeanFactoryAware,MessageSourceAware,ApplicationContextAware:
 2-1
 
@@ -6315,8 +6328,10 @@ destroy-method属性//xml配置文件bean标签中配置的init-method方法被�
 
 2,各种Aware//在person实体类上实现
 3,BeanPostProcessor的before方法//在xml文件中配置,spring 会自动识别这个接口下的实现
+
 4,InitializingBean//在person实体类上实现
 5,init-method//在xml中配置,在person实体类中写入方法
+
 6,BeanPostProcessor的after的方法
 -----------------------------------------------
 //实现BeanPostProcessor接口,也叫后置Beam
@@ -6361,22 +6376,7 @@ public class MyBeanPostProcessor implements BeanPostProcessor {
 </beans>
 
 ------------------------------------------------
-IOC容器中Bean的生命周期(常用)
 
-spring IOC容器管理Bean的生命周期,spring可以在每个Bean生命周期中执行定制任务
-首先我们要在xml文件设置init 和destroy 
-<bean id="car" class="com.spring.Car" init-method="指定类中的方法名" destroy-method="指定类中的方法名">
-	<property name="brand" value="Audi"/>	
-</bean>
-
-默认生命周期:
-1,最先还是构造函数
-2,然后是对Bean的属性进行赋值,或其他Bean的引用
-//上面2步其实就是加载配置文件时做的
-3,调用Bean的初始化方法.(init),Bean对象可以使用了
-4,当容器调用关闭(close()函数)后,会调用(destroy) 
-------------------------------------------------------------------
-------------------------------------------------------------------
 核心(面试必问):
 
 spring profile
@@ -6396,7 +6396,7 @@ public interface Condition {
     boolean matches(ConditionContext cct, AnnotatedTypeMetadata atm);
 }
 
-//第一个个参数可以得到
+//上面第一个参数可以得到
 public interface ConditionContext {
     BeanDefinitionRegistry getRegistry();
     @Nullable
@@ -6445,7 +6445,7 @@ prototype:原型的.容器初始化时不会创建实例.每次请求时创建�
 request:(一次请求),很少用
 session:(一次会话),很少用
 
------------------------------------
+------------
 @Service("指定Bean的名字") 用于标注服务层
 @Controller("指定Bean的名字") 用于标注控制层
 @Repository("指定Bean的名字") 用于表示Dao层
@@ -6507,6 +6507,8 @@ Aspect Oriented programming 的缩写:面向切面编程,是一种思想,不是�
 
 aop实现分为两种 基于动态代理的aop 和 基于AspectJ的aop,工作中我们使用AspectJ
 
+Spirng默认采用JDK动态代理实现机制,如果不是一个实现类会自动使用CGlib;
+
 aop的好处:
 1,公共逻辑代码统一维护,方便修改
 2,原来功能值关注核心逻辑
@@ -6515,7 +6517,7 @@ aop的好处:
 
 功能效果有点像init或destroy方法.只是我们定义了更细的规则才会执行我们配置的方法.
 
-如何使用,这是最关心的?
+如何使用?
 @Component
 @Aspect//使用 AspectJ,只需在一个普通类上加一个注解即可
 public class LoggingAspect {
@@ -6529,14 +6531,12 @@ public class LoggingAspect {
 //AOP就是这样.已经学完了.已经帮我做到了我们需要的干的事情了
 **********************************************
 Spring Aop VS AspectJ:
+//比较 Spring AOP 和 AspectJ
 https://blog.csdn.net/wangqingjiewa/article/details/78456072
 
 1,spring Aop底层依赖于动态代码,只能作用于方法级别,只能再运行时织入,AspectJ在编译期织入,可以作用于字段和构造器等
 2,springAop只能对spring容器管理的bean进行增强,AspectJ可以对项目中所有对象进行增强
 3,AspectJ速度上快10倍样子
-
-SpringAop 使用的jdk动态代理(需要有接口) 或CGlib实现,Spirng默认采用JDK动态代理实现机制,如果不是一个实现类
-会自动使用CGlib;
 
 -------------------------
 
@@ -6662,9 +6662,10 @@ Aop当中的概念:
 https://www.cnblogs.com/java-spring/p/12742984.html
 执行顺序并不是想象中那样,进链接5分钟看完.有用
 ++++++++++++++++++++++++++++++++++++++++++++++++++++
-实际开发我们怎么使用Template?
-直接做成成员变量,加上自动装配.
-配置文件:
+
+开发我们怎么使用Template?
+配置文件中配置dataSource给JdbcTemplate, 在使用的地方注入即可:
+
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
@@ -6703,31 +6704,7 @@ public class EmployeeDao {
 必须等到另一个线程使用完毕,释放了这个资源,其它的线程才有机会使用.
 
 ------------------------------
-	
-精华
-事务四大特征:原子性,一致性,隔离性和持久性;(简称ACID)
-1,原子性(Atomicity)
-    要么全部执行成功,那么一条都不执行
-2,一致性(Consistency)
-	例如一次转账过程中,从某一账户中扣除的金额与另一账户中存入的金额相等;
-3,隔离性(Isolation)
-	隔离性和隔离级别有关;
-4,持久性(Durability)
-    事务成功结束前必须保存至某种物理存储设备;
-		
-脏读:一个事务处理过程里读取了另一个未提交的事务中的数据,绝对不可以的
-幻读:两个事务都读取了同一个字段的数据,其中一个事务修改了这个值,而另一个事务不知道,还用原来的值
-不可重复读:就是t1事务执行时已经读取了值,这时t2又来修改了该值并提交,而t1不能重新获取最新值
-	
-现在来看看MySQL数据库为我们提供的四种隔离级别:
 
-① Serializable (串行化):可避免脏读、不可重复读、幻读的发生。
-② Repeatable read (可重复读):可避免脏读、不可重复读的发生。
-③ Read committed (读已提交):可避免脏读的发生。
-④ Read uncommitted (读未提交):最低级别,任何情况都无法保证。
-
-总结:幻读只有串行化可以解决,其它都无法1解决
--------------------
 	/**
 	 *	需求: Tom 给 Jerry 汇款 500 元.
 	 
@@ -6793,7 +6770,7 @@ public class BookShopServiceImpl implements BookShopService{
 			readOnly=false,//设置为只读,有些数据设置只读可以提高服务器的效率
 			timeout=2,//指定强制回滚之前事务可以占用的时间
 			rollbackFor=Exception.class,//指定那种异常才回滚
-			noRollbackFor=Exception.class),//默认情况下spring的声明事务对所有的运行异常都会进行回滚;可以设置那种异常不回滚的
+			noRollbackFor=Exception.class),//指定那种异常不回滚
 			)
 	@Override
 	public void bookService(String username, String isbn) {
@@ -6809,6 +6786,8 @@ public class BookShopServiceImpl implements BookShopService{
 		bookShopDao.updateUserAccount(username, price);		
 	}
 }
+
+
 
 传播行为(propagation behavior):
 指的就是当前事务方法被另一个事务方法调用时,当前事务方法应该如何进行。
@@ -6835,16 +6814,38 @@ nested (嵌套):如果当前存在事务,则在嵌套事务内执行;如果当�
 https://blog.csdn.net/weixin_39625809/article/details/80707695
 ----------------------------------------
 
+核心中的核心
+事务四大特征:原子性,一致性,隔离性和持久性;(简称ACID)
+1,原子性(Atomicity)
+    要么全部执行成功,那么一条都不执行
+2,一致性(Consistency)
+	例如一次转账过程中,从某一账户中扣除的金额与另一账户中存入的金额相等;
+3,隔离性(Isolation)
+	隔离性和隔离级别有关;
+4,持久性(Durability)
+    事务成功结束前必须保存至某种物理存储设备;
+		
+脏读:一个事务处理过程里读取了另一个未提交的事务中的数据,绝对不可以的
+幻读:两个事务都读取了同一个字段的数据,其中一个事务修改了这个值,而另一个事务不知道,还用原来的值
+不可重复读:就是t1事务执行时已经读取了值,这时t2又来修改了该值并提交,而t1不能重新获取最新值
+	
+现在来看看MySQL数据库为我们提供的四种隔离级别:
+
+① Serializable (串行化):可避免脏读、不可重复读、幻读的发生。
+② Repeatable read (可重复读):可避免脏读、不可重复读的发生。
+③ Read committed (读已提交):可避免脏读的发生。
+④ Read uncommitted (读未提交):最低级别,任何情况都无法保证。
+
+总结:幻读只有串行化可以解决,其它都无法1解决
+
 isolation 5,种事务隔离级别(和数据库有关系):
-1 ISOLATION_DEFAULT     这是个 PlatfromTransactionManager 默认的隔离级别,使用数据库默认的事务隔离级别;另外四个与 JDBC 的隔离级别相对应;
-2 ISOLATION_READ_UNCOMMITTED(读未提交)    这是事务最低的隔离级别,它充许另外一个事务可以看到这个事务未提交的数据;这种隔离级别会产生脏读,不可重复读和幻像读;
-3 ISOLATION_READ_COMMITTED (读以提交)      保证一个事务修改的数据提交后才能被另外一个事务读取;另外一个事务不能读取该事务未提交的数据;
-4 ISOLATION_REPEATABLE_READ(可重复读)     这种事务隔离级别可以防止脏读,不可重复读;但是可能出现幻像读;mysql默认
-5 ISOLATION_SERIALIZABLE (序列化) 这是花费最高代价但是最可靠的事务隔离级别;事务被处理为顺序执行;
+ISOLATION_DEFAULT     这是个 PlatfromTransactionManager 默认的隔离级别,使用数据库默认的事务隔离级别;另外四个与 JDBC 的隔离级别相对应;
+① Serializable (串行化):可避免脏读、不可重复读、幻读的发生。
+② Repeatable read (可重复读):可避免脏读、不可重复读的发生。
+③ Read committed (读已提交):可避免脏读的发生。
+④ Read uncommitted (读未提交):最低级别,任何情况都无法保证。
 
-
-spring的隔离级别一定是要数据库锁机制支持的,
-比如上面第三点,肯定是使用了数据库的行级排他锁,别人都看不到了;
+spring的隔离级别是需要数据库锁机制支持的
 -----------------------------------------
 spring 中的事务
 基于注解配置方式的transaction 
@@ -6903,7 +6904,7 @@ spring 中的事务
 	
 	<tx:annotation-driven  transaction-manager="transactionManager"/>	
 </beans>
--------------------------------------------------------------------
+-----------------------------------
 
 定时器主要分3种:
 1,jdk的Timer(单线程执行,如果中途异常无法重新开始,不用)
@@ -6913,7 +6914,7 @@ spring 中的事务
 另springboot整合了quartz,使用更加简单,github上的SpringBootHello项目有例子
 -----------------------------------
 
-springboot的schedule和quartz到底怎么选以及如何支持并发和避坑
+//springboot的schedule和quartz到底怎么选以及如何支持并发和避坑
 https://www.jianshu.com/p/61e3abc22fbd
 ---------------------------------
 复杂定时器
@@ -6957,52 +6958,12 @@ cron 表达式
 0 15 10 ? 6L 2016-2017 从2016-2016-2017每月最后一周的周五10点15触发
 
 另:我们可以通过在线cron ,生成各种表达式;
---------------------------------------
-1. Spring 整合 Hibernate 整合什么 ?
-源码spring-4工程下
-1). 有 IOC 容器来管理 Hibernate 的 SessionFactory
-2). 让 Hibernate 使用上 Spring 的声明式事务
-
-2. 整合步骤:
-1). 加入 hibernate
-	①. jar 包
-	②. 添加 hibernate 的配置文件: hibernate.cfg.xml
-	③. 编写了持久化类对应的 .hbm.xml 文件. 
-2). 加入 Spring
-	①. jar 包
-	②. 加入 Spring 的配置文件
-
 ----------------------------------------
-1. Spring 到底如何在 WEB 应用中使用 ?(必须会)
-源码 spring5工程下 index.jsp 
-①. 需要额外加入的 jar 包:
-spring-web-4.0.0.RELEASE.jar
-spring-webmvc-4.0.0.RELEASE.jar
-②. Spring 的配置文件, 和非 WEB 环境没有什么不同
-③. 需要在 web.xml 文件中加入如下配置:
-<!-- 配置 Spring 配置文件的名称和位置 -->
-<context-param>
-	<param-name>contextConfigLocation</param-name>
-	<param-value>classpath:applicationContext.xml</param-value>
-</context-param>
-
-<!-- 启动 IOC 容器的 ServletContextListener -->
-<listener>
-	<listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
-</listener>
-------------------------------------------
-1, src路径下的文件在编译后会放到WEB-INF/clases路径下吧;默认的classpath是在这里;直接放到WEB-INF下的话,是不在classpath下的;用ClassPathXmlApplicationContext当然获取
-2,如果单元测试的话,可以在启动或者运行的选项里指定classpath的路径的;用maven构建项目时候resource目录就是默认的classpath
-3,classPath即为java文件编译之后的class文件的编译目录一般为web-inf/classes,src下的xml在编译时也会复制到classPath下
-//读取classPath下的spring.xml配置文件
-(1)ApplicationContext ctx = new ClassPathXmlApplicationContext("xxxx.xml");
-//读取WEB-INF 下的spring.xml文件.
-(2)ApplicationContext ctx = new FileSystemXmlApplicationContext("WebRoot/WEB-INF/xxxx.xml");
-
-classpath 和 classpath* 区别:
+classpath VS classpath* 区别:
 classpath:只会到你的class路径中查找找文件;
 classpath*:不仅包含class路径,还包括jar文件中(class路径)进行查找.
 
+默认的classpath在WEB-INF/clases;直接放到WEB-INF下的话,是不在classpath下的;
 
 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -7014,7 +6975,7 @@ springMVC 的运行流程(精华):
 
 1,请求url会被DispatcherServlet拦截,因为我们一般都是配置拦截全部url(web.xml配置文件中配置)
 2,handlerMapping 类的@Controller("prefix") + 方法@RequestMapping("/helloworld")
-3,执行方法体,后返回 ModelAndView 会通过视图解析器解析为实际的物理视图InternalResourceViewResolver
+3,找到方法体执行业务逻辑后返回 ModelAndView 会通过视图解析器解析为实际的物理视图InternalResourceViewResolver
 4,根据配置文件prefix + 方法返回字符串 + suffix 去找对应的jsp页面
 
 springMVC的Hello
@@ -7026,8 +6987,7 @@ springMVC的Hello
 	<servlet-name>SpringMVC</servlet-name>
 	
 	<servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
-	<!-- 局部初始化参数,当web容器加载时会加载springMvc的配置文件(spring-servlet.xml) -->
-	
+	<!-- 当web容器加载时会加载springMvc的配置文件(spring-servlet.xml) -->
 	<init-param> 
 		 <param-name>contextConfigLocation</param-name>
 		 <param-value>classpath:spring-servlet.xml</param-value> 
@@ -7039,28 +6999,26 @@ springMVC的Hello
 
 <servlet-mapping>
 	<servlet-name>SpringMVC</servlet-name>
-	<!-- dispatcherServlet是前端控制器,这里配置需要拦截的url
-	被拦截的url会到controller找requestMapping中是否有访问的url匹配   -->
+	<!-- 被拦截的url会到controller找requestMapping中是否有访问的url匹配   -->
 	<url-pattern>/</url-pattern>
 </servlet-mapping>
 
 
-3,springmvc 配置文件主要就是配置视图解析器
+3,springmvc.xml 配置文件主要就是配置视图解析器
+
 <!-- 只配置controller层,其他的排除-->
-<context:component-scan base-package="com.springmvc"/>
+<context:component-scan base-package="com.springmvc.controller"/>
 
 <!-- 配置视图解析器: 如何把handler 方法返回值解析为实际的物理视图 -->
 <bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
-	<!-- 返回视图的前缀 -->
 	<property name="prefix" value="WEB-INF/views/"></property>
-	<!-- 返回视图的后缀 -->
 	<property name="suffix" value=".jsp"></property>
 </bean>
 ------------------------
 精华:
 如果我们有的页面不想经过handler 那么就如下配置
 
-//spring-mvc里的 <mvc:resources> 及静态资源访问
+//spring-mvc里的 <mvc:resources> 及静态资源访问,
 https://www.cnblogs.com/linnuo/p/7699401.html
 
 第1种方式:
@@ -7077,8 +7035,8 @@ https://www.cnblogs.com/linnuo/p/7699401.html
 //location:资源位置相对于webapp  mapping:表示对该资源的请求(由处理器ResourceHttpRequestHandler)
 <mvc:resources location="/image/" mapping="/image/**"/>
 
-+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+++++++++++++++++++++++++++++++++++++
+
 /**
  * Spring MVC 会按请求参数名和形参对象中的 属性名进行自动匹配, 自动为该对象填充属性值.
  * 支持级联属性: 前端页面name 名字需要是.的方式定义name 
@@ -7202,75 +7160,7 @@ function requestJson(){
 }
 
 -------------------------------------
-springMVC 下载(推荐)
 
-@RequestMapping("/testResponseEntity")
-public ResponseEntity<byte[]> testResponseEntity(HttpSession session) throws IOException{
-	byte [] body = null;
-	ServletContext servletContext = session.getServletContext();
-	InputStream in = servletContext.getResourceAsStream("/files/abc.txt");
-	body = new byte[in.available()];
-	in.read(body);
-	HttpHeaders headers = new HttpHeaders();
-	//文件内容通过附件方式处理,文件名叫abc.txt
-	headers.add("Content-Disposition", "attachment;filename=abc.txt");	
-	HttpStatus statusCode = HttpStatus.OK;
-	//上面 操作只用为这准备3个参数(2进制数据流,头信息,返回状态值)
-	ResponseEntity<byte[]> response = new ResponseEntity<byte[]>(body, headers, statusCode);
-	return response;
-}
--------------------------------------------
-文件上传步骤:
-源码在springMVC-crud工程下index.jsp中
-
-1,加入jar包 commons 和io包
-
-2,在springMVC.xml文件中配置CommonsMultipartResolver
-
-<!-- 配置上传文件需要的类  配置 MultipartResolver,不配id 就是不行,搞不懂 -->
-<bean id="multipartResolver"
-	class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
-	<property name="defaultEncoding" value="UTF-8"></property>
-	<property name="maxUploadSize" value="1024000"></property>	
-</bean>	
-
-3,页面
-<form action="testFileUpload" method="post" enctype="multipart/form-data">
-	file:<input type="file" name="file"/>
-	desc:<input type="text" name="desc"/><br>	
-	<input type="submit" value="submit"/>
-</form>
-
-//如果只是上传一个文件,则只需要MultipartFile类型接收文件即可,而且无需显式指定@RequestParam注解  
-//如果想上传多个文件,那么这里就要用MultipartFile[]类型来接收文件,并且还要指定@RequestParam注解  
-//并且上传多个文件时,前台表单中的所有<input type="file"/>的name属性都应该是统一的值,
-否则无法获取到所有上传的文件 
-4,目标方法:
-@RequestMapping("/testFileUpload")
-	public String testFileUpload(@RequestParam("desc") String desc,@RequestParam("file") MultipartFile file) throws IllegalStateException, IOException{
-		String sourceFilePath;		
-		if(file != null){
-			//得到原始的文件名__________
-			String fileName = file.getOriginalFilename();				
-			//取得文件名的后缀___________
-			String suffix = fileName.substring(fileName.lastIndexOf(".") + 1, fileName.length());
-			//得到一个唯一值UUID
-			String randomString = DataTool.getUUID();				
-			SimpleDateFormat df = new SimpleDateFormat("yyyy/MM/dd");	
-			String folder = df.format(new Date());						
-			//sourceFilePath  =  年/月/日/ + UUID + 后缀的字符串______________________
-			sourceFilePath = folder+ "/" + randomString + "." + suffix;		
-			String path = StaticValue.FILE_UPLOAD_URL + sourceFilePath; 				
-			File fileFolder = new File(path);//上传的资源保存的最后路径,封装为文件				
-			if(!fileFolder.exists()){//文件或目录是否存在
-				fileFolder.mkdirs();//创建目录,会自动创建没有的父目录
-			} 				
-			file.transferTo(fileFolder);//这句就是上传操作.				
-			return sourceFilePath;//这个返回值 一般就会设置到类的图片指向属性中				
-		}	
-		return "这里提示错误";	
-}	
-++++++++++++++++++++++++++++++++++++++++++++++++++++++
 关于国际化(了解):
 
 源码在springMVC-crud工程下index.jsp中
@@ -7291,12 +7181,13 @@ public String i18n(Locale locale){
 	return "i18n";
 }
 
-3,配置LocalResolver 和 LocaleChangeInterceptor
-页面
+
+页面:
 <a href="i18n?locale=en_US">英文</a><br>
 <a href="i18n?locale=zh_CN">中文</a><br>
 
-然后在springMVC.xml文件中配置
+
+springMVC.xml文件中配置:
 
 
 <!-- 配置国际化资源文件 -->
@@ -7325,11 +7216,6 @@ public void dateFormatTest(){
 	String str = dateFormat.format(new Date());
 	System.out.println(str); 		
 }
--------------------------------------------------
-也可以通过普通的httpServletRequst 来转换为上传的MultipartHttpServletRequest;
-MultipartHttpServletRequest multipartRequest = (MultipartHttpServletRequest) request;
-MultipartFile file = multipartRequest.getFile("fileName");	
-
 
 -------------------------------------------
 精华
@@ -7398,39 +7284,29 @@ springMVC 拦截器
 </mvc:interceptors>	
 
 
-多个拦截器的执行顺序(这个假设2个):
-
-第一种: 两个拦截器都放行,执行结果:
+多个拦截器的执行顺序:
+第一种: 两个拦截器都放行:
 prefix1
 prefix2
-
 pso2//业务接口
 pso1//业务接口
-
 after2
 after1
-
 说明:prefix 按配置顺序执行, 下面2个逆向执行
 
-第二种: 第一个拦截放行,第二个不放行,执行结果:
+第二种: 第一个拦截放行,第二个不放行:
 prefix1
 prefix2
-
 after1
-
 说明:第二个方法后面的不会执行,第一个Handler没有进入,但会执行after1,结论只要有一个拦截器不放行,就不会返回
 进入handler,不会返回 ModelAndView
 
-
-第三种: 两个拦截器都不放行,执行结果:
+第三种: 两个拦截器都不放行:
 prefix1
-
 说明:只会执行prefix .
 
-小结:根据上面的测试,我们得到的结论是:
-
+结论是:
 比如统一日志拦截器我们应该放在配置拦截器顺序的第一个位置,且 放行,在after中一定会打印日志消息
-
 对于登录验证在日志后面,对于权限验证在登录后面.
 +++++++++++++++++++++++++++++++++++++++++++++++++++++
 +++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -7440,7 +7316,8 @@ prefix1
 /**
  * 功能描述:全局异常处理
  * 思路:不管是service,controller层都向外抛出异常,然后在统一一个类来处理(@ControllerAdvice被它标记的类)
- * 好处:1,代码减少判断减少;2,让代码可读取性变高;流程清晰且;且返回出前端的异常很清晰;3,日志可以在这里统一处理
+ * 好处:1,代码减少判断减少;
+		 2,让代码可读取性变高;流程清晰且;且返回出前端的异常很清晰;
  * 
  */
 @ControllerAdvice
@@ -7518,7 +7395,7 @@ public enum ResultEnum {
 
 }
 -----------------------------------------
-springMVC和Struts2 的区别:
+springMVC VS Struts2 的区别:
 1,springMVC 基于方法的开发,struts2 基于类的开发.
 2 springMVC 将url 和controller方法映射.映射成功后springMVC生成一个Handler 对象 ,
 对象中包含一个Method; 方法执行结束,形参数据销毁.
@@ -7614,7 +7491,15 @@ public String testRequestParam(
 	System.out.println("testRequestParam, username: " + un + ", age: " + age);		
 	return SUCCESS;
 }
---------------------------------------------------------------------------
+
+
+@RequestBody VS @RequestParam
+
+GET请求中，因为没有HttpEntity，所以@RequestBody并不适用。
+
+//POST、GET、@RequestBody和@RequestParam区别,推荐
+https://blog.csdn.net/weixin_38004638/article/details/99655322
+------------------------------------------
 /**
  * 映射请求头信息 @RequestHeader:有时可能需要改变那个值
 	 用法参考 @RequestParam
