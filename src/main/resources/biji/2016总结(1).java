@@ -8272,6 +8272,10 @@ MyBatis 最大的特点就是:程序员可以更加灵活的操作sql语句.不�
 http://www.mybatis.org/spring/zh/index.html //mybatis-spring 结合
 http://www.mybatis.org/mybatis-3/zh/getting-started.html 官网支持中文,超给力
 http://www.cnblogs.com/xdp-gacl/p/4261895.html //这人的博客入门到缓存很易懂
+//mybatis 缓存的使用， 看这篇就够了,只看一级缓存,二级看下面链接
+https://blog.csdn.net/weixin_37139197/article/details/82908377
+//MyBatis 二级缓存全详解
+https://www.cnblogs.com/cxuanBlog/p/11333021.html
 
 首先我们来看看JDBC中操作有什么问题,为什么需要Mybatis.
 1,数据库连接,使用时创建,不使用立即释放,对数据库进行频繁的连接和关闭,造成数据库资源的浪费.
@@ -8289,7 +8293,7 @@ http://www.cnblogs.com/xdp-gacl/p/4261895.html //这人的博客入门到缓存�
 
 SqlSessionFactory:会话工厂,作用:创建SqlSession
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-SqlSession 的作用:使用它来操作数据库的CRUD.但是通过内部Execute(执行器)来完成的
+SqlSession 的作用:使用它,来操作数据库的CRUD.但是通过内部Execute(执行器)来完成的
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 Execute 下面还有一个mapped statement (底层封装对象) 作用: 对操作数据库存储,包括sql语句,输入
 参数,输出结果类型.
