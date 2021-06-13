@@ -3,3 +3,9 @@
 
 项目拉下来后执行sql目录下的sso.sql文件后启动项目,然后访问这个路径可以得到结果
 http://localhost:8081/ssoSystem/list
+
+//aop和多数据源可以看见效果
+http://localhost:8081/user/
+
+需要处理的?
+整理mybatisPlus 到笔记中,主要是分页参数传递,注意事项请参考:SsoSystemController
