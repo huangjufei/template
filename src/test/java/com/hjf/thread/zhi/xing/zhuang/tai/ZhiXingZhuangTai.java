@@ -1,4 +1,4 @@
-package com.hjf.thread;
+package com.hjf.thread.zhi.xing.zhuang.tai;
 
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.LinkedBlockingQueue;

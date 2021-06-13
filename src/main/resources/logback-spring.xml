@@ -172,10 +172,10 @@
 
     <!--开发环境:打印控制台-->
     <springProfile name="dev">
-        <logger name="com.hjf" level="trace" additivity="false"/>
+        <logger name="com.hjf" level="DEBUG_FILE" additivity="false"/>
     </springProfile>
 
-    <root level="info">
+    <root level="DEBUG_FILE">
         <appender-ref ref="CONSOLE" />
         <appender-ref ref="DEBUG_FILE" />
         <appender-ref ref="INFO_FILE" />

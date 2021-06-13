@@ -35,10 +35,10 @@ spring:
           url: jdbc:mysql://localhost:3306/sso?useSSL=false&characterEncoding=utf8
           username: root
           password: hjf,.123
-        # slave_1 从库1 配置
+        # slave_1 从库1 配置,启动会检查是否有这个数据源,请保证正确才能启动
         slave_1:
           driver-class-name: com.mysql.jdbc.Driver
-          url: jdbc:mysql://localhost:3306/sso?useSSL=false&characterEncoding=utf8
+          url: jdbc:mysql://localhost:3306/quellanan?useSSL=false&characterEncoding=utf8
           username: root
           password: hjf,.123
       #dynamic - 公共配置
