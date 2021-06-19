@@ -32,7 +32,7 @@ Cglib执行效率更高但生成代理类效率低
 
 //nacos与eureka注册中心的对比
 https://www.cnblogs.com/draymond/p/12725819.html
-
+-----------------------------
 //RabbitMQ系列（六）如何保证消息的顺序性、消息不丢失、不被重复消费,推荐
 https://blog.csdn.net/weixin_45498465/article/details/105708875
 RabbitMq 分为生产者确认和消费者确认,其中又有交换机确认和队列确认;上面这个链接消息不丢失主要讲的是消费者确认,当然也是最重要的环节,消费者确认等于生产者确认已经完成;
@@ -43,7 +43,7 @@ RabbitMq 代码代码实现主要思路?
 生产者:会处理通过交换机类型来绑定到不同队列上去;可以有*或#;最总导致那些队列会放入消息;
 一个服务中可以同时出现生产者和消费者;也可以只出现一种都是可以的;
 
-
+-----------------------------
 Redis的高并发和快速原因
 1.redis是基于内存的，内存的读写速度非常快；
 2.redis是单线程的，省去了很多上下文切换线程的时间；
@@ -58,3 +58,54 @@ redis有三种集群方式：主从复制，哨兵模式和集群。
 
 //高频面试题：Spring 如何解决循环依赖？
 https://zhuanlan.zhihu.com/p/84267654
+
+
+
+-------------------------
+@RequestBody和@RequestParam区别
+//https://www.cnblogs.com/muxi0407/p/11764140.html
+或参看template项目的TestRequestBodyAndRequestPramController类下
+
+public class TestRequetBody {
+
+    /**
+     * @JsonFormat用于后端传给前端的时间格式转换，
+     * @DateTimeFormat用于前端传给后端的时间格式转换且是通过url?号方式
+     *
+     * 奇怪的是在请求进来的字符串json={"userName":"df","date":"2001-01-02 17:55:22"} 转
+     * 日期对象类型时不加@JsonFormat会报错,这个注解网上一直说后端返回前端使用,但加了这个就不报错
+     *
+     * 第一种方式实体类通过日期类型接受把日期类型统一返回json格式;推荐
+     * 第二种思路就是通过String类型接受和string类型返回,
+     */
+    @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss",timezone="GMT+8")
+    @DateTimeFormat(pattern="yyyy-MM-dd HH:mm:ss")
+    private Date date;
+
+}
+
+
+/**
+ * 目的:postman请求类型为=application/json,方式为get,json={"userName":"df","date":"2001-01-02 17:55:22"}
+ * 是否可以自动映射为对象
+ * 结果:@RequestBody可以获取到请求体的数据,但只能获取到httpEntity的数据,且不能得到url?号方式的数据
+ * 请求和返回时都请通过json格式交换数据
+ */
+@ResponseBody
+@GetMapping("/all4")
+public String findAllUser4(@RequestBody TestRequetBody user) throws Exception {
+    logger.info("传入参数:{},{}",user.getUserName(),user.getDate());
+    user.setDate(new Date());
+    return JacksonUtils.obj2json(user);
+}
+
+最后总结:
+
+@RequestParam 映射的url?上的键值对方式;得不到body体的数据,适合做单个参数的传递而不是对象类型,
+主要特征还是从url上获取值,主要针对content-type=form-urlencode
+
+@RequestBody可以获取到请求体的数据,但只能获取到httpEntity的数据,且不能得到url?号方式的数据
+,json格式传递对象特别方便,content-type=appliction/json
+
+get请求方法体也是可以带数据的;且可以通过requst.getReader()方法获取
+-------------------------------------
