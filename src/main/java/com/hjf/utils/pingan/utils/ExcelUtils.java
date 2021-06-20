@@ -2,9 +2,6 @@ package com.hjf.utils.pingan.utils;
 
 import com.hjf.utils.date.DateUtils;
 import org.apache.poi.ss.usermodel.*;
-import org.springframework.beans.factory.config.ConfigurableBeanFactory;
-import org.springframework.context.annotation.Scope;
-import org.springframework.stereotype.Component;
 
 import java.io.File;
 import java.io.InputStream;
@@ -14,9 +11,9 @@ import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-
-@Component
-@Scope(value = ConfigurableBeanFactory.SCOPE_SINGLETON)
+//使用时在起开注解
+//@Component
+//@Scope(value = ConfigurableBeanFactory.SCOPE_SINGLETON)
 public class ExcelUtils {
 
 	/**
