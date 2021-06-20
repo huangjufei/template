@@ -32,6 +32,45 @@ Cglib执行效率更高但生成代理类效率低
 
 //nacos与eureka注册中心的对比
 https://www.cnblogs.com/draymond/p/12725819.html
+------------------------
+微服务访问流程:
+https://forezp.blog.csdn.net/article/details/115632826
+
+@RestController
+public class ConsumerController {
+
+    @Autowired
+    ProviderClient providerClient;//引入下面接口
+
+    /**
+     * 如果没有对接gateway时,用户直接从这里访问进入,然后通过feign转发到被访问端provider
+     * @return
+     */
+    @GetMapping("/hi-feign")
+    public String hiFeign(){
+        return providerClient.hi("feign");
+    }
+}
+
+
+/**
+ *
+ * @FeignClient注解就相当于httpClient,只是调用方才需要导入jar包,和被调方完全无关
+ *
+ * @FeignClient(value = "provider")
+ * 上面的value值就是被调方的配置文件中的名字 spring.application.name: provider
+ * 如果被调方有多个相同名字的provider,则会自动负载均衡
+ */
+@FeignClient(value = "provider")
+public interface ProviderClient {
+
+    /**
+     * 调用被调的hi接口,参数key =name,不是必传的;注意这里只是相当于一个httpClient转发
+     */
+    @GetMapping("/hi")
+    String hi(@RequestParam(value = "name", required = false) String name);
+}
+
 -----------------------------
 //RabbitMQ系列（六）如何保证消息的顺序性、消息不丢失、不被重复消费,推荐
 https://blog.csdn.net/weixin_45498465/article/details/105708875
