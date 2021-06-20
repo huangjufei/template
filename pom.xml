@@ -33,8 +33,8 @@
         <slf4j.verison>1.7.25</slf4j.verison>
         <logback.verison>1.2.3</logback.verison>
         <testng.verison>6.14.3</testng.verison>
-        <okhttp.version>3.11.0</okhttp.version>
-        <fastjson.version>1.2.51</fastjson.version>
+        <okhttp.version>3.8.1</okhttp.version>
+        <fastjson.version>1.2.54</fastjson.version>
         <commons.codec.verison>1.11</commons.codec.verison>
         <core.version>3.3.0</core.version>
         <mysql.version>5.1.48</mysql.version>
@@ -114,12 +114,6 @@
                 <groupId>ch.qos.logback</groupId>
                 <artifactId>logback-core</artifactId>
                 <version>${logback.verison}</version>
-            </dependency>
-
-            <dependency>
-                <groupId>org.testng</groupId>
-                <artifactId>testng</artifactId>
-                <version>${testng.verison}</version>
             </dependency>
 
             <dependency>
@@ -343,6 +337,27 @@
             <artifactId>spring-boot-devtools</artifactId>
             <optional>true</optional>
         </dependency>
+
+        <!-- poi的两个包 -->
+        <dependency>
+            <groupId>org.apache.poi</groupId>
+            <artifactId>poi</artifactId>
+            <version>3.11</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.apache.poi</groupId>
+            <artifactId>poi-ooxml</artifactId>
+            <version>3.11</version>
+        </dependency>
+
+        <!-- ftp 上传下载包-->
+        <dependency>
+            <groupId>commons-net</groupId>
+            <artifactId>commons-net</artifactId>
+            <version>3.6</version>
+        </dependency>
+
     </dependencies>
 
 

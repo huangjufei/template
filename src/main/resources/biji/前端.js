@@ -180,3 +180,123 @@ $(document).ready(function(){
 +++++++++++++++++++++++++++++++++++++++++++
 +++++++++++++++++++++++++++++++++++++++++++
 +++++++++++++++++++++++++++++++++++++++++++
+Dom 事件
+
+1,事件冒泡：事件最开始由最具体的元素（文档中嵌套层次最深的那个节点）接收，然后逐级向上传播至最不具体的那个节点（文档）。
+
+点一个按钮，浏览器会认为你点按钮的同时，也点击了包含按钮的这个容器，也点击了整个HTML，点了整个document
+click事件会逐级网上冒，一直冒到document
+
+2,事件捕获：不太具体的节点应该更早接收到事件，而最具体的节点最后接收到事件(推荐事件冒泡)
+--------------------
+	使用事件处理程序有：
+1,HTML事件处理程序；
+2,DOM0级事件处理程序：可以添加多个事件处理程序
+3,DOM2级事件处理程序：2级事件定义了两个方法addEventListener()和removeEventListener()，有三个参数：要处理的事件名（不加on）、事件处理程序的函数、布尔值（true表示捕获false表示冒泡）；可以添加多个事件处理程序，按顺序执行多个，删除要指定添加时相同的参数
+---------------------
+	HTML事件处理程序(现在不建议使用了):事件直接加在HTML代码中
+缺点：HTML和js代码高耦合，如果修改，就要修改两个地方--HTML元素内和script函数。
+---------------------
+	DOM0级事件处理程序 （用得比较多）：先把元素取出来，然后为其属性添加一个事件的方法叫DOM0级处理程序。
+DOM0级事件处理程序：
+var y=document.getElementById('btn2');  取得btn2按钮对象。
+btn2.onclick=function(){
+	alert('这是通过DOM0级添加的事件！')
+}
+btn2.onclick=null;    删除onclick属性
+-------------------
+	DOM2级事件定义了两个方法：
+用于处理指定和删除事件程序的操作，addEventListener（）和removeEventListener（）。
+这两个方法都需要接收三个参数：
+	- 要处理的事件名
+	- 作为事件处理程序的函数
+	-  布尔值（true：捕获法，false：冒泡法）。
+------------------
+	IE 事件处理程序:
+	attachEvent() 添加事件
+detachEvent() 删除事件
+接收相同的两个参数：事件处理程序的名称和事件处理程序的函数
+不使用第三参数的原因：IE8 以及更早的浏览器版本只支持事件冒泡！
+--------------------
+	跨浏览器的事件处理程序:
+var eventUtil={
+	//添加句柄
+	addHandler:function(element,type,handler//){
+	if(element.addEventListener){
+	element.addEventListener(type,handler,false);
+}else if(element.attachEvent){
+	element.attachEvent//('on'+type,handler);
+}else{
+	element['on'+type]=handler;//DOM0级事件处理程序判断,注意不能直接写btn2.onclick;
+}
+},
+//删除句柄
+removeHandler:function(element,type,handler){
+	if(element.removeEventListener){
+		element.removeEventListener(type,handler,false);
+	}else if(element.detachEvent){
+		element.detachEvent//('on'+type,handler);
+	}else{
+		element['on'+type]=null;//DOM0级事件处理程序判断,注意不能直接写btn2.onclick
+	}
+}
+}
+eventUtil.addHandler(btn3,'click',showMes);
+eventUtil.removeHandler(btn3,'click',showMes);
+-----------------------
+	事件对象（event）：在触发 DOM 上的事件时都会产生一个对象
+比如说鼠标event就有当前坐标或左右键信息,键盘就有当前按下的是什么键的信息
+DOM 中的事件对象
+type 属性：用于获取事件类型(判断是键盘还是鼠标就可以通过它)
+target 属性：用于获取事件目标
+stopPropagation() 方法，阻止时间冒泡
+preventDefault() 方法，阻止事件的默认行为；比如让链接不再跳转
+举例:
+//在调用这个函数时可以不传这个参数
+	function show(event){
+		alert(event.type);
+	}
+----------------------
+	ie 中的事件对象
+1 type属性用于获取事件类型
+2 srcElement属性 用于获取事件的目标
+3 cancelBubble属性 用于阻止事件冒泡 设置为true表示阻止冒泡 设置为false表示不阻止冒泡
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+	++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+		++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+			Node
+
+Node 算是后端语言,只是和语法和js差不多,所有前端同学一般使用它来模拟和后端交互,
+	也可以当作前端和后端的中间层;
+
+npm:包管理工具，方便管理引用的第三方插件，库，模块等。
+
+初始化：npm init / npm init -y     生成package.json文件
+安装包：npm install xxxx / npm i xxxx
+删除包：npm uninstall xxxx / npm un xxxx
+更新包：npm update xxxx
+npm install（可简写为：npm i）: 将配置文件package.json里面的依赖包都装一遍。
+-----------
+	三大模块
+1,全局模块
+2,系统模块 require引入
+3,自定义模块 module.export 引入
+
+-----------
+//下面常常模拟请求后端java的接口,当然也可以直接当作前端的后端;前端还是通过axjx来和node通信
+	let http=require('http');//http 模块引入
+let fs=require('fs');//读写模块引入
+http.createServer((request,response)=>{
+	console.log(request.url);   //监听请求的路径
+fs.readFile(`./${request.url}`,(err,data)=>{ //读取文件（路径，回调）
+	if(err){
+		response.write(err);
+	}else{
+		response.end(data);
+}
+})
+}).listen(8888)
+---------
+	思路：引入querystring模块，创建数组获取buffer多段数据并用concat拼接，querystring.parse(data)获取json
+let http = require('http')
+let querystring = require('querystring') //引入querystring模块

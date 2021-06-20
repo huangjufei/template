@@ -1,9 +1,12 @@
 package com.hjf.utils.json;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.DeserializationFeature;
+import com.fasterxml.jackson.databind.JavaType;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -25,6 +28,64 @@ public class JacksonUtils {
     public static String obj2json(Object obj) throws Exception {
         return objectMapper.writeValueAsString(obj);
     }
+
+
+    /**
+     * 将对象转换成json字符串。
+     * <p>Title: pojoToJson</p>
+     * <p>Description: </p>
+     *
+     * @param data
+     * @return
+     */
+    public static String objectToJson(Object data) {
+        try {
+            String string = objectMapper.writeValueAsString(data);
+            return string;
+        } catch (JsonProcessingException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    /**
+     * 将json结果集转化为对象
+     *
+     * @param jsonData json数据
+     * @param clazz    对象中的object类型
+     * @return
+     */
+    public static <T> T jsonToPojo(String jsonData, Class<T> beanType) {
+        try {
+            T t = objectMapper.readValue(jsonData, beanType);
+            return t;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    /**
+     * 将json数据转换成pojo对象list
+     * <p>Title: jsonToList</p>
+     * <p>Description: </p>
+     *
+     * @param jsonData
+     * @param beanType
+     * @return
+     */
+    public static <T> List<T> jsonToList(String jsonData, Class<T> beanType) {
+        JavaType javaType = objectMapper.getTypeFactory().constructParametricType(List.class, beanType);
+        try {
+            List<T> list = objectMapper.readValue(jsonData, javaType);
+            return list;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return null;
+    }
+
 
     /**
      * javaBean、列表数组转换为json字符串,忽略空值
@@ -56,15 +117,15 @@ public class JacksonUtils {
     /**
      * json字符串转换为map
 
-    public static <T> Map<String, T> json2map(String jsonString, Class<T> clazz) throws Exception {
-        Map<String, Map<String, Object>> map = objectMapper.readValue(jsonString, new TypeReference<Map<String, T>>() {
-        });
-        Map<String, T> result = new HashMap<String, T>();
-        for (Map.Entry<String, Map<String, Object>> entry : map.entrySet()) {
-            result.put(entry.getKey(), map2pojo(entry.getValue(), clazz));
-        }
-        return result;
-    } */
+     public static <T> Map<String, T> json2map(String jsonString, Class<T> clazz) throws Exception {
+     Map<String, Map<String, Object>> map = objectMapper.readValue(jsonString, new TypeReference<Map<String, T>>() {
+     });
+     Map<String, T> result = new HashMap<String, T>();
+     for (Map.Entry<String, Map<String, Object>> entry : map.entrySet()) {
+     result.put(entry.getKey(), map2pojo(entry.getValue(), clazz));
+     }
+     return result;
+     } */
 
     /**
      * 深度转换json成map
@@ -140,13 +201,13 @@ public class JacksonUtils {
 
     /**
      * 与javaBean json数组字符串转换为列表
-     *
+     */
     public static <T> List<T> json2list(String jsonArrayStr, Class<T> clazz) throws Exception {
 
         JavaType javaType = getCollectionType(ArrayList.class, clazz);
         List<T> lst = (List<T>) objectMapper.readValue(jsonArrayStr, javaType);
         return lst;
-    }/
+    }
 
 
     /**
@@ -154,11 +215,11 @@ public class JacksonUtils {
      *
      * @return JavaType Java类型
      * @since 1.0
-     *
+     * *
+     */
     public static JavaType getCollectionType(Class<?> collectionClass, Class<?>... elementClasses) {
         return objectMapper.getTypeFactory().constructParametricType(collectionClass, elementClasses);
-    }*
-    /
+    }
 
     /**
      * map  转JavaBean
