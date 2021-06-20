@@ -1,4 +1,4 @@
-package com.hjf.utils.httpClient;
+package com.hjf.utils.connect.httpClient;
 
 
 import org.apache.http.HttpEntity;

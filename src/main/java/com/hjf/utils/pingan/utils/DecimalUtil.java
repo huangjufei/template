@@ -3,8 +3,8 @@ package com.hjf.utils.pingan.utils;
 import java.util.regex.Pattern;
 
 /**
- * 
- * @author ZHAOXIAOSONG365
+ *
+ * 字符串去除保留数字,和判断是否是一个数字
  *
  */
 public class DecimalUtil {
@@ -12,6 +12,7 @@ public class DecimalUtil {
 	static final String DECIMALWITHOUTCOMMA = "^[+|-]?(0|[1-9][0-9]*)(\\.\\d*)?$";
 
 	private DecimalUtil() {}
+
 	// 去掉数字表达式中的逗号
 	public static String deletecomma(String decimal) {
 		String decimalNocomma;

@@ -1,4 +1,6 @@
-package com.hjf.utils.pingan.utils;
+package com.hjf.utils.file;
+
+import com.hjf.utils.pingan.utils.Logger;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
@@ -24,9 +26,6 @@ public class FileUtils {
 	/**
 	 * 文件操作
 	 * 从HttpServletRequest中获取文件数据流并封装成ByteArrayOutputStream对象
-	 * @author     ZENGHAIYANG801
-	 * @since      2017年4月7日 下午3:36:16
-	 * 参数格式     request
 	 * 返回值格式   ByteArrayOutputStream
 	 */
 	public static ByteArrayOutputStream readFileFromRequest(InputStream inputStream) {

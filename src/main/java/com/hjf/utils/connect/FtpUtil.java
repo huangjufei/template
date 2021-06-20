@@ -1,4 +1,4 @@
-package com.hjf.utils.util;
+package com.hjf.utils.connect;
 
 import org.apache.commons.net.ftp.FTP;
 import org.apache.commons.net.ftp.FTPClient;

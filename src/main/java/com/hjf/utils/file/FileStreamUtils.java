@@ -1,5 +1,6 @@
-package com.hjf.utils.pingan.utils;
+package com.hjf.utils.file;
 
+import com.hjf.utils.pingan.utils.Logger;
 import org.apache.commons.io.IOUtils;
 
 import java.io.File;
@@ -7,6 +8,8 @@ import java.io.FileOutputStream;
 import java.io.InputStream;
 import java.nio.channels.FileChannel;
 import java.nio.channels.FileLock;
+
+
 
 public class FileStreamUtils {
 

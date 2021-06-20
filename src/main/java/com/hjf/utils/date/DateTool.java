@@ -1,4 +1,4 @@
-package com.hjf.utils.util;
+package com.hjf.utils.date;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
