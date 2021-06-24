@@ -8,7 +8,7 @@
 日志使用门面slf4j引入日志,不要引入logback或Log4j
 推荐占位符方式输出日志:logger.info("传入参数:{},{}",pageNum,pageSize);
 6,properties 参数读取这里使用的@ConfigurationProperties
-7,aop 切面编程;需导入spring-boot-starter-aop,jar包;
+7,aop 切面编程;需导入spring-boot-starter-aop,jar包;访问UserController路径下可以看到效果
 另aop结合注解编程功能更为酷
 8,controller层添加了参数效验,@Valid+BindingResult
 9,controller层添加了统一返回Result类,add方法上
@@ -42,6 +42,8 @@ https://baomidou.oschina.io/mybatis-plus-doc/#/generate-code
 参考:https://www.iteye.com/blog/uule-2094609
 
 17,集成swagger在工具包中
+
+18,集成多数据源,使用baomidou.jar包实现;访问UserServiceImpl下可以看到效果
 
 二,该项目搭建流程
 1, 数据库连接池,mybatis,加分页插件为初始项目时加入,查考的下面链接

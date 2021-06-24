@@ -1,5 +1,6 @@
 package com.hjf.service.impl;
 
+import com.baomidou.dynamic.datasource.annotation.DS;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.hjf.dao.UserDao;
@@ -11,6 +12,7 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 @Service
+@DS("slave_1")//使用第二个数据源
 public class UserServiceImpl implements UserService {
 
     @Autowired
