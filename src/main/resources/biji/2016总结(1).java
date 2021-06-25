@@ -3,6 +3,7 @@
 what(这是什么) when(什么时候使用) how (如何使用)
 //笔记
 https://github.com/huangjufei/template.git
+https://gitee.com/huangjufei/template.git
 
 要求:每个知识点如果你讲不清楚,就一定没掌握;那么就请一个一个知识的去屡屡;
 --------
@@ -2752,10 +2753,25 @@ java动态代理简介:
 //java的动态代理机制详解,具体代码如何写,和细节在这个链接
 http://www.cnblogs.com/xiaoluo501395377/p/3383130.html
 
+---------------------------------------
+CGlib
+
+//Cglib动态代理实现方式
+https://www.cnblogs.com/monkey0307/p/8328821.html
+
+如何使用CGLIB:
+1,需要 implements MethodInterceptor 接口并重写 intercept()方法;
+2,通过Enhancer 增强类来调用
+
+FastClass机制
+ Cglib动态代理执行代理方法效率之所以比JDK的高是因为Cglib采用了FastClass机制，它的原理简单来说就是：为代理类和被代理类各生成一个Class，这个Class会为代理类或被代理类的方法分配一个index(int类型)。
+这个index当做一个入参，FastClass就可以直接定位要调用的方法直接进行调用，这样省去了反射调用，所以调用效率比JDK动态代理通过反射调用高。
+
 jdk和CGlib 动态代理如何选择?
 
 如果有接口我们选Jdk动态代理,没有接口选CGlib动态代理
-
+VS
+Cglib执行效率更高但生成代理类效率低
 ++++++++++++++++++++++++++++++++++++++++++++++++++++
 ++++++++++++++++++++++++++++++++++++++++++++++++++++
 IO(input,output)流
@@ -6160,7 +6176,9 @@ AnnotationConfigWebApplicationContext:从一个或多个java类中加载spring W
 //上面2个差别一个web单词,下面2个都有xml单词
 ClassPathXmlApplicationContext:从类路径下获取上下文(相当路径,包含jar文件);
 FileSystemXmlApplicationContext:从指定路径(系统路径)获取上下文;
-
+---------------------------------------
+//高频面试题：Spring 如何解决循环依赖？
+https://zhuanlan.zhihu.com/p/84267654
 ----------------------------------------
 注意:
 BeanFactory和FactoryBean的区别:
@@ -7646,13 +7664,58 @@ public String testRequestParam(
 	return SUCCESS;
 }
 
-
+------------------------------------
 @RequestBody VS @RequestParam
+//@RequestBody和@RequestParam区别
+https://www.cnblogs.com/muxi0407/p/11764140.html
+或参看template项目的TestRequestBodyAndRequestPramController类下
 
-GET请求中，因为没有HttpEntity，所以@RequestBody并不适用。
+public class TestRequetBody {
 
-//POST、GET、@RequestBody和@RequestParam区别,推荐
-https://blog.csdn.net/weixin_38004638/article/details/99655322
+    /**
+     * @JsonFormat用于后端传给前端的时间格式转换，
+     * @DateTimeFormat用于前端传给后端的时间格式转换且是通过url?号方式
+     *
+     * 奇怪的是在请求进来的字符串json={"userName":"df","date":"2001-01-02 17:55:22"} 转
+     * 日期对象类型时不加@JsonFormat会报错,这个注解网上一直说后端返回前端使用,但加了这个就不报错
+     *
+     * 第一种方式实体类通过日期类型接受把日期类型统一返回json格式;推荐
+     * 第二种思路就是通过String类型接受和string类型返回,
+     */
+    @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss",timezone="GMT+8")
+    @DateTimeFormat(pattern="yyyy-MM-dd HH:mm:ss")
+    private Date date;
+
+}
+
+
+/**
+ * 目的:postman请求类型为=application/json,方式为get,json={"userName":"df","date":"2001-01-02 17:55:22"}
+ * 是否可以自动映射为对象
+ * 结果:@RequestBody可以获取到请求体的数据,但只能获取到httpEntity的数据,且不能得到url?号方式的数据
+ * 请求和返回时都请通过json格式交换数据
+ */
+@ResponseBody
+@GetMapping("/all4")
+public String findAllUser4(@RequestBody TestRequetBody user) throws Exception {
+    logger.info("传入参数:{},{}",user.getUserName(),user.getDate());
+    user.setDate(new Date());
+    return JacksonUtils.obj2json(user);
+}
+
+最后总结:
+
+@RequestParam 映射的url?上的键值对方式;得不到body体的数据,适合做单个参数的传递而不是对象类型,
+主要特征还是从url上获取值,主要针对content-type=form-urlencode
+
+@RequestBody可以获取到请求体的数据,但只能获取到httpEntity的数据,且不能得到url?号方式的数据
+,json格式传递对象特别方便,content-type=appliction/json
+
+get请求方法体也是可以带数据的;且可以通过requst.getReader()方法获取
+-------------------------------------
+
+
+
 ------------------------------------------
 /**
  * 映射请求头信息 @RequestHeader:有时可能需要改变那个值
@@ -7818,15 +7881,15 @@ application.properties或application.yml文件可以放在4个位置:
 ++++++++++++++++++++++++++++++++++++++++++++++
 ++++++++++++++++++++++++++++++++++++++++++++++
 ++++++++++++++++++++++++++++++++++++++++++++++
-SPRINGCOULD
-springCould
+springCloud
+springCloud
 
 
 
 难点:
-springCould 为了简化开发难度,使用了大量注解来完成功能的使用,这样增加功能效果的隐蔽性
+springCloud 为了简化开发难度,使用了大量注解来完成功能的使用,这样增加功能效果的隐蔽性
 如果你不知道某个注解对应具体功能的话,你都不知道有这样一个功能,更不知道需要修改它,所以
-看到不会的注解就需要百度,唯有这样才会使用springcould
+看到不会的注解就需要百度,唯有这样才会使用springCloud
 
 为什么需要微服务?
 1,当今互联网业务复杂性上升
@@ -7861,6 +7924,47 @@ SOA 面向服务的架构?
 安全模式:security(基于令牌的),oauth2,JWT
 日志记录:关联seluth,聚合 sleuth,papertrail,跟踪 zipkin
 打包和部署:打包原本war转为jar将程序和web服务器打包一起消除漂移性问题,部署docker
+
+
+------------------------
+微服务访问流程:
+https://forezp.blog.csdn.net/article/details/115632826
+
+@RestController
+public class ConsumerController {
+
+    @Autowired
+    ProviderClient providerClient;//引入下面接口
+
+    /**
+     * 如果没有对接gateway时,用户直接从这里访问进入,然后通过feign转发到被访问端provider
+     * @return
+     */
+    @GetMapping("/hi-feign")
+    public String hiFeign(){
+        return providerClient.hi("feign");
+    }
+}
+
+
+/**
+ *
+ * @FeignClient注解就相当于httpClient,只是调用方才需要导入jar包,和被调方完全无关
+ *
+ * @FeignClient(value = "provider")
+ * 上面的value值就是被调方的配置文件中的名字 spring.application.name: provider
+ * 如果被调方有多个相同名字的provider,则会自动负载均衡
+ */
+@FeignClient(value = "provider")
+public interface ProviderClient {
+
+    /**
+     * 调用被调的hi接口,参数key =name,不是必传的;注意这里只是相当于一个httpClient转发
+     */
+    @GetMapping("/hi")
+    String hi(@RequestParam(value = "name", required = false) String name);
+}
+
 
 -----------------------------------------
 网关:
@@ -7960,8 +8064,9 @@ threadPoolKey的默认值是groupKey,而groupKey默认值是@HystrixCommand标�
 		}
 
 )
-
-
+------------------
+//nacos与eureka注册中心的对比
+https://www.cnblogs.com/draymond/p/12725819.html
 
 
 +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -8326,6 +8431,22 @@ SqlSession 的作用:使用它,来操作数据库的CRUD.但是通过内部Execu
 Execute 下面还有一个mapped statement (底层封装对象) 作用: 对操作数据库存储,包括sql语句,输入
 参数,输出结果类型.
 ------------------------------------------------------------
+mybaits分页有几种方式?
+1,使用pagehelper
+2,自己写分页逻辑，使用limited
+3,使用mybatis-plus的分页
+
+Mybatis 的原生分页:
+LIMIT #{pageFrom},#{pageSize}
+---------------
+请参考:template.SsoSystemController
+/**
+ * PageHelper 方法使用了静态的 ThreadLocal 参数，分页参数和线程是绑定的。
+ * 只要你可以保证在 PageHelper 方法调用后紧跟 MyBatis 查询方法，这就是安全的。
+ */
+PageHelper.startPage(page.getPageNum(), page.getPageSize());
+List<SsoSystem> list = ssoSystemService.list(queryWrapper);
+------------------------------------------------------------
 普通的模糊查询
 <!-- 查询学生list,like姓名 -->     
 <select id=" getStudentListLikeName " parameterType="StudentEntity" resultMap="studentResultMap">     
@@ -8471,9 +8592,32 @@ separator: 使用什么分割符连接
 		#{ids}      
 	 </foreach>     
 </select>     
----------------------------------------------------------------------------
-Mybatis 的原生分页:
-LIMIT #{pageFrom},#{pageSize}
+
+++++++++++++++++++++++++++++++++++++++++++++++++++++++
+++++++++++++++++++++++++++++++++++++++++++++++++++++++
+++++++++++++++++++++++++++++++++++++++++++++++++++++++
+MybatisPlus
+
+是一个 MyBatis (opens new window)的增强工具，在 MyBatis 的基础上只做增强不做改变，为简化开发、提高效率而生。
+
+//mybatisPlus的crud 请参考官网,且还有很多开源项目
+https://baomidou.com/guide/#%E7%89%B9%E6%80%A7
+
+//mybatisPlus在spring或springboot项目中如何配置,只需配置mapper包路径即可
+https://baomidou.com/guide/config.html
+
+
+mybaitsPlus 包含那些主要功能:
+基础的crud,常用注解,代码生成器,分页,多数据源,idea跳转插件,
+
+
+1,基础crud,只需集成IService
+public interface SsoSystemService extends IService<SsoSystem>
+2,对象 Wrapper 为 条件构造器
+3,mybatisplus的分页
+https://baomidou.com/guide/page.html
+
+
 ++++++++++++++++++++++++++++++++++++++++++++++++++++++
 Hibernate 和 Mybatis的对比
 
@@ -9688,6 +9832,20 @@ appendfsync always //马上持久化
 第三种: 不持久化
 
 建议初次传输使用rdb,平时使用时间间隔大于5秒选择aof
+
+-----------------------------------
+Redis的高并发和快速原因
+1,redis是基于内存的，内存的读写速度非常快；
+2,redis是单线程的，省去了很多上下文切换线程的时间；
+3,redis使用多路复用技术，可以处理并发的连接。非阻塞IO 内部实现采用epoll，采用了epoll+自己实现的简单的事件框架。
+
+IO多路复用技术
+redis 采用网络IO多路复用技术来保证在多连接的时候， 系统的高吞吐量。
+多路-指的是多个socket连接，复用-指的是复用一个线程。多路复用主要有三种技术：select，poll，epoll。epoll是最新的也是目前最好的多路复用技术。
+这里“多路”指的是多个网络连接，“复用”指的是复用同一个线程。采用多路 I/O 复用技术可以让单个线程高效的处理多个连接请求
+
+redis有三种集群方式：主从复制，哨兵模式和集群。
+
 +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 //Redis分布式锁的正确实现方式
@@ -10990,6 +11148,11 @@ AMQP 高级消息队列协议,它必须包含这3部分:交换机,绑定,队列
 ,减少了资源浪费;
 
 
+RabbitMq 代码代码实现主要思路?
+消费者是通过监听队列名称来完成消费的;
+生产者:会处理通过交换机类型来绑定到不同队列上去;可以有*或#;最总导致那些队列会放入消息;
+一个服务中可以同时出现生产者和消费者;也可以只出现一种都是可以的;
+
 交换机有4中模式,但常用的只有前3种:
 1,direct 直接指定
 2,fanout 扇形/广播,全部覆盖
@@ -11146,6 +11309,13 @@ rabitMq持久化:
 1,投递模式设为2
 2,发送到持久化交换机
 3,发送到持久化队列
+
+
+
+-----------------------------
+//RabbitMQ系列（六）如何保证消息的顺序性、消息不丢失、不被重复消费,推荐
+https://blog.csdn.net/weixin_45498465/article/details/105708875
+RabbitMq 分为生产者确认和消费者确认,其中又有交换机确认和队列确认;上面这个链接消息不丢失主要讲的是消费者确认,当然也是最重要的环节,消费者确认等于生产者确认已经完成;
 
 ++++++++++++++++++++++++++++++++++++++++++++++
 ++++++++++++++++++++++++++++++++++++++++++++++
@@ -12292,6 +12462,12 @@ ctrl+alt+shift+上下箭头 查看当前文件那些代码被改动了;previous 
 2,面试官的问题自己扩展回答,防止过早结束;
 3,离职原因一定要准备,不能暴露个人问题离职
 4,可能被拒的理由一定要解释:比如学历问题,通过网络学习的方式,参加统一考试获取的,学信网可查的
+5,根据面试官职业进行分析,面试官的第一考究的是什么,比如项目经理和技术员,hr它们都不同
+6,面试官现场逻辑问题可能不是常见面试题,但这是非常关键的问题,需立即知道面试官到底想让我回答的范围,主要就是考
+的处理突发问题,你有分析和解决问题的能力没.
+7,一般最后一关面试是直接上级面试,需要让面试官知道你是很听话的,面试官可能会激怒你,不要冲动;
+8,电话面试挂电话比面试官慢,现场面试让面试官先坐,走时先走,目送并说面试官辛苦了
+
 
 ++++++++++++++++++++++++++++++++++++++++++++++
 ++++++++++++++++++++++++++++++++++++++++++++++
